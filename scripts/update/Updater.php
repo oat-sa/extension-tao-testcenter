@@ -26,7 +26,6 @@ namespace oat\taoTestCenter\scripts\update;
  *
  * @access public
  * @package taoGroups
-
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -37,7 +36,7 @@ class Updater extends \common_ext_ExtensionUpdater
      */
     public function update($initialVersion)
     {
-        $current = $initialVersion; 
+        $current = $initialVersion;
 
         return $current;
     }

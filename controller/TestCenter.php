@@ -55,8 +55,6 @@ class TestCenter extends \tao_actions_SaSModule
     {
         $clazz = $this->getCurrentClass();
         $testcenter = $this->getCurrentInstance();
-        $user = \common_session_SessionManager::getSession()->getUser();
-        $this->service->isProctor($testcenter->getUri(), $user);
 
         $formContainer = new \tao_actions_form_Instance($clazz, $testcenter);
         $myForm = $formContainer->getForm();
@@ -81,14 +79,11 @@ class TestCenter extends \tao_actions_SaSModule
         $groupForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testcenter, $groupProperty);
         $groupForm->setData('title', __('Select groups belonging to the test center'));
         $this->setData('groupForm', $groupForm->render());
-//        }
-
 
         $proctorProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_PROCTORS_URI);
         $proctorForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testcenter, $proctorProperty);
         $proctorForm->setData('title', __('Select proctors for the test center'));
         $this->setData('proctorForm', $proctorForm->render());
-
 
         $this->setData('formTitle', __('Edit test center'));
         $this->setData('myForm', $myForm->render());
