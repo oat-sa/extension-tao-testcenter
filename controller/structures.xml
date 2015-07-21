@@ -53,9 +53,6 @@
                             group="tree">
                         <icon id="icon-export"/>
                     </action>
-                    <action id="testcenter-lists" name="Lists" url="/tao/Lists/index" context="*" group="tree">
-                        <icon id="icon-ul"/>
-                    </action>
                     <action id="testcenter-duplicate" name="Duplicate" url="/taoTestCenter/TestCenter/cloneInstance"
                             context="instance" group="tree" binding="duplicateNode">
                         <icon id="icon-copy"/>
