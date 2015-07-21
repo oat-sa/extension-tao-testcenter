@@ -81,8 +81,6 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
         $this->assertInstanceOf('core_kernel_classes_Class', $subTestCenter);
         $this->assertEquals($subTestCenterLabel, $subTestCenter->getLabel());
 
-        $this->assertTrue($this->testCenterService->isTestCenterClass($subTestCenter));
-
         return $subTestCenter;
     }
 
@@ -158,7 +156,6 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
     public function testGetTestCenters()
     {
         $testCenterClass = TestCenterService::singleton()->getRootClass();
-        $this->assertTrue($this->testCenterService->isTestCenterClass($testCenterClass));
 
         $subject = $this->subjectsService->createInstance($this->subjectsService->getRootClass(), 'testSubject');
         $oneTC = $testCenterClass->createInstance('testTCInstance');
@@ -182,9 +179,9 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
         $this->assertNotContains($oneTC2->getUri(), $testCenters);
         $this->assertContains($oneTC3->getUri(), $testCenters);
 
-        $this->assertTrue($this->testCenterService->deleteTestCenter($oneTC));
-        $this->assertTrue($this->testCenterService->deleteTestCenter($oneTC2));
-        $this->assertTrue($this->testCenterService->deleteTestCenter($oneTC3));
+        $this->assertTrue($this->testCenterService->deleteResource($oneTC));
+        $this->assertTrue($this->testCenterService->deleteResource($oneTC2));
+        $this->assertTrue($this->testCenterService->deleteResource($oneTC3));
 
         $this->assertTrue($this->testCenterService->deleteClass($subclass));
 
