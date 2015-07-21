@@ -75,9 +75,9 @@ class TestCenter extends \tao_actions_SaSModule
         $memberForm->setData('title', __('Select test takers for the test center'));
         $this->setData('memberForm', $memberForm->render());
 
-        $groupProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_GROUPS_URI);
-        $groupForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testcenter, $groupProperty);
-        $groupForm->setData('title', __('Select groups belonging to the test center'));
+        $groupProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_DELIVERY_URI);
+        $groupForm = \tao_helpers_form_GenerisTreeForm::buildTree($testcenter, $groupProperty);
+        $groupForm->setData('title', __('Select deliveries available at the test center'));
         $this->setData('groupForm', $groupForm->render());
 
         $proctorProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_PROCTORS_URI);

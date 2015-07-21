@@ -24,11 +24,13 @@ return array(
     'label' => 'Test Center',
     'description' => '',
     'license' => 'GPL-2.0',
-    'version' => '0.0.1',
+    'version' => '0.1.0',
     'author' => 'Open Assessment Technologies SA',
-    'requires' => array('tao' => '>=2.8.0', 'taoGroups' => '>=2.6.0', 'taoTestTaker' => '>=2.6.0'),
-    // for compatibility
-    'dependencies' => array('tao', 'taoGroups', 'taoTestTaker'),
+    'requires' => array(
+        'tao' => '>=2.8.0',
+        'taoDelivery' => '>=2.7.0',
+        'taoTestTaker' => '>=2.6.0'
+    ),
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager', array('ext' => 'taoTestCenter')),
@@ -40,11 +42,6 @@ return array(
     ),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
     'uninstall' => array(),
-    'autoload' => array(
-        'psr-4' => array(
-            'oat\\taoTestCenter\\' => dirname(__FILE__) . DIRECTORY_SEPARATOR
-        )
-    ),
     'routes' => array(
         '/taoTestCenter' => 'oat\\taoTestCenter\\controller'
     ),
