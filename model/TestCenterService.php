@@ -39,7 +39,7 @@ class TestCenterService
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
     const PROPERTY_MEMBERS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member';
     const PROPERTY_PROCTORS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor';
-    const PROPERTY_GROUPS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#contains';
+    const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers';
 
 
     /**
@@ -51,36 +51,6 @@ class TestCenterService
     public function getRootClass()
     {
         return new core_kernel_classes_Class(self::CLASS_URI);
-    }
-
-    /**
-     * delete a test center instance
-     *
-     * @access public
-     * @param  Resource $testcenter
-     * @return boolean
-     */
-    public function deleteTestCenter(core_kernel_classes_Resource $testcenter)
-    {
-        $returnValue = (bool)false;
-
-        if (!is_null($testcenter)) {
-            $returnValue = $testcenter->delete();
-        }
-
-        return (bool)$returnValue;
-    }
-
-    /**
-     * Check if the Class in parameter is a subclass of the Test Center Class
-     *
-     * @access public
-     * @param  Class clazz
-     * @return boolean
-     */
-    public function isTestCenterClass(core_kernel_classes_Class $clazz)
-    {
-        return $clazz->equals($this->getRootClass()) || $clazz->isSubClassOf($this->getRootClass());
     }
 
     /**

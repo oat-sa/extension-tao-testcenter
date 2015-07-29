@@ -22,6 +22,7 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
 /**
  *
  * @access public
@@ -37,6 +38,11 @@ class Updater extends \common_ext_ExtensionUpdater
     public function update($initialVersion)
     {
         $current = $initialVersion;
+        
+        if ($current == '0.0.1') {
+            OntologyUpdater::syncModels();
+            $current = '0.1.0';
+        }
 
         return $current;
     }

@@ -37,12 +37,12 @@
   </rdf:Description>
 
   <!-- A test center contains different groups -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#contains">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers">
     <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#member"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Content]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[test center contains group]]></rdfs:comment>
+    <rdfs:comment xml:lang="en-US"><![CDATA[test center administers delivery]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOGroup.rdf#Group"/>
-    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOGroup.rdf#Group"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery"/>
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   </rdf:Description>
