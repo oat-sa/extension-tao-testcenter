@@ -24,7 +24,7 @@ return array(
     'label' => 'Test Center',
     'description' => '',
     'license' => 'GPL-2.0',
-    'version' => '0.1.0',
+    'version' => '0.1.1',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=2.8.0',
