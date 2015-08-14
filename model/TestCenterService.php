@@ -107,7 +107,7 @@ class TestCenterService
     
     /**
      *
-     * @param User $user
+     * @param string $testcenterUri
      * @return \taoDelivery_models_classes_DeliveryRdf[]
      */
     public function getDeliveries($testcenterUri)
