@@ -160,15 +160,15 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
         $subject = $this->subjectsService->createInstance($this->subjectsService->getRootClass(), 'testSubject');
         $oneTC = $testCenterClass->createInstance('testTCInstance');
 
-        $this->testCenterService->addUser($subject->getUri(), $oneTC);
+        $this->testCenterService->addTestTaker($subject->getUri(), $oneTC);
         $oneTC2 = $testCenterClass->createInstance('testTCInstance2');
 
         $subclass = $testCenterClass->createSubClass('testTCSubclass');
         $oneTC3 = $subclass->createInstance('testSubTCInstance');
-        $this->testCenterService->addUser($subject->getUri(), $oneTC3);
+        $this->testCenterService->addTestTaker($subject->getUri(), $oneTC3);
 
         $generisUser = new \core_kernel_users_GenerisUser($subject);
-        $testCenters = $this->testCenterService->getTestCenters($generisUser);
+        $testCenters = $this->testCenterService->getTestCentersByTestTaker($generisUser);
 
         $this->assertTrue(is_array($testCenters));
         $this->assertTrue(count($testCenters) == 2);
