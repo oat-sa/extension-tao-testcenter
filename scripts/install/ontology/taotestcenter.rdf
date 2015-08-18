@@ -17,7 +17,7 @@
   <!-- A test taker is a member of a test center (part of)-->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member">
   	<rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#member"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Member]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Test Center]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Member of the test center]]></rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject"/>
     <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter"/>

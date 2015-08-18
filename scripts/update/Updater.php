@@ -39,9 +39,9 @@ class Updater extends \common_ext_ExtensionUpdater
     {
         $current = $initialVersion;
         
-        if ($current == '0.0.1') {
+        if ($current == '0.0.1' || $current == '0.1.0') {
             OntologyUpdater::syncModels();
-            $current = '0.1.0';
+            $current = '0.1.1';
         }
 
         return $current;
