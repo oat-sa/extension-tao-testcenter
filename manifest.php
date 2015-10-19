@@ -29,7 +29,8 @@ return array(
     'requires' => array(
         'tao' => '>=2.8.0',
         'taoDelivery' => '>=2.7.0',
-        'taoTestTaker' => '>=2.6.0'
+        'taoTestTaker' => '>=2.6.0',
+        'taoProctoring' => '>=0.2'
     ),
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager',
     'acl' => array(
