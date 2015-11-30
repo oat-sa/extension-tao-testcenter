@@ -21,26 +21,16 @@
 
 return array(
     'name' => 'taoTestCenter',
-    'label' => 'Test Center',
-    'description' => '',
+    'label' => 'Test Center (deprecated)',
+    'description' => 'Now part of the taoProctoring',
     'license' => 'GPL-2.0',
-    'version' => '0.1.2',
+    'version' => '0.2',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'tao' => '>=2.8.0',
-        'taoDelivery' => '>=2.7.0',
-        'taoTestTaker' => '>=2.6.0',
         'taoProctoring' => '>=0.2'
     ),
-    'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager',
-    'acl' => array(
-        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager', array('ext' => 'taoTestCenter')),
-    ),
-    'install' => array(
-        'rdf' => array(
-            dirname(__FILE__) . '/scripts/install/ontology/taotestcenter.rdf'
-        )
-    ),
+    'acl' => array(),
+    'install' => array(),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
     'uninstall' => array(),
     'routes' => array(
@@ -53,8 +43,5 @@ return array(
         'BASE_URL' => ROOT_URL . 'taoTestCenter/',
         #BASE WWW required by JS
         'BASE_WWW' => ROOT_URL . 'taoTestCenter/views/'
-    ),
-    'extra' => array(
-        'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
     )
 );

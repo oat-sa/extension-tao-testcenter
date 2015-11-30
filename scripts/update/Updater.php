@@ -44,6 +44,20 @@ class Updater extends \common_ext_ExtensionUpdater
             $current = '0.1.2';
         }
 
+        if ($current == '0.1.2') {
+            OntologyUpdater::syncModels();
+
+            $accessService = \funcAcl_models_classes_AccessService::singleton();
+            $roleService = \tao_models_classes_RoleService::singleton();
+
+            $testCenterManager = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager');
+            //revoke access right to test center manager
+            $accessService->revokeExtensionAccess($testCenterManager, 'taoTestCenter');
+            $roleService->removeRole($testCenterManager);
+
+            $current = '0.2';
+        }
+
         return $current;
     }
 }
