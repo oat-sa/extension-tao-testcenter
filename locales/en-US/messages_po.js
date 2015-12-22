@@ -1,5 +1,1 @@
-{
-    "Select test takers for the test center"
-:
-    "Select test-takers for the test center"
-}
+{"Manage test takers":"Manage test-takers","Record and manage test takers.":"Record and manage test-takers.","Test takers library":"Test-takers library"}
