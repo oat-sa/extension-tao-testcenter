@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.1.0-sprint03\n"
-"PO-Revision-Date: 2015-07-15T11:59:49\n"
+"Project-Id-Version: TAO 3.1.0-sprint04\n"
+"PO-Revision-Date: 2015-12-22T13:41:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -14,10 +14,73 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #, tao-public
-msgid "Test Centers"
+msgid "Delete"
 msgstr ""
 
 #, tao-public
-msgid "Template"
+msgid "Duplicate"
+msgstr ""
+
+msgid "Edit test center"
+msgstr ""
+
+#, tao-public
+msgid "Export"
+msgstr ""
+
+#, tao-public
+msgid "Filter"
+msgstr ""
+
+#, tao-public
+msgid "Import"
+msgstr ""
+
+#, tao-public
+msgid "Manage Test Center"
+msgstr ""
+
+#, tao-public
+msgid "Move"
+msgstr ""
+
+#, tao-public
+msgid "New class"
+msgstr ""
+
+#, tao-public
+msgid "New Test Center"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr ""
+
+#, tao-public
+msgid "Search"
+msgstr ""
+
+msgid "Select deliveries available at the test center"
+msgstr ""
+
+msgid "Select proctors for the test center"
+msgstr ""
+
+msgid "Select test takers for the test center"
+msgstr ""
+
+#, tao-public
+msgid "Test center contains test taker and groups and are administer by a proctor"
+msgstr ""
+
+#, tao-public
+msgid "Test Center List"
+msgstr ""
+
+msgid "Test center saved"
+msgstr ""
+
+#, tao-public
+msgid "Test Centers"
 msgstr ""
 
