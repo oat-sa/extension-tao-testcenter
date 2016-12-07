@@ -98,7 +98,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $this->setData('formTitle', $this->convert('Edit test center'));
         $this->setData('testCenter', $testCenter->getUri());
         $this->setData('myForm', $myForm->render());
-        $this->setView('form_test_center.tpl');
+        $this->setView('TestCenterManager/editCenter.tpl');
     }
 
     /**

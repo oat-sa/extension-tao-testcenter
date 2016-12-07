@@ -21,9 +21,9 @@ define([
     'i18n',
     'layout/loading-bar',
     'ui/feedback',
-    'taoProctoring/component/eligibilityEditor',
-    'taoProctoring/component/eligibilityTable',
-    'taoProctoring/provider/eligibility'
+    'taoTestCenter/component/eligibilityEditor',
+    'taoTestCenter/component/eligibilityTable',
+    'taoTestCenter/provider/eligibility'
 ], function( $, _, __, loadingBar, feedback, eligibilityEditorFactory, eligibilityTableFactory, eligibilityProvider ){
 'use strict';
 
