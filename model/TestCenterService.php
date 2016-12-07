@@ -18,7 +18,6 @@
  *
  *
  */
-
 namespace oat\taoTestCenter\model;
 
 use core_kernel_classes_Class;
@@ -26,25 +25,26 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\user\User;
 use oat\taoTestTaker\models\TestTakerService;
+use tao_models_classes_ClassService;
 
 /**
- * Service methods to manage the test center business models using the RDF API.
- *
- * @access public
- * @package taoTestCenter
+ * TestCenter Service for proctoring
+ * 
  */
-class TestCenterService
-    extends \tao_models_classes_ClassService
+class TestCenterService extends tao_models_classes_ClassService
 {
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
-    
-    const PROPERTY_MEMBERS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member';
-    
-    const PROPERTY_PROCTORS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor';
-    
-    const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers';
 
+    const PROPERTY_MEMBERS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member';//deprecated
 
+    const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers';//deprecated
+
+    const PROPERTY_CHILDREN_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children';
+
+    const PROPERTY_ADMINISTRATOR_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator';
+
+    const PROPERTY_AUTHORIZED_PROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor';
+    
     /**
      * return the test center top level class
      *
@@ -57,20 +57,108 @@ class TestCenterService
     }
     
     /**
+     * (non-PHPdoc)
+     * @see tao_models_classes_ClassService::deleteResource()
+     */
+    public function deleteResource(core_kernel_classes_Resource $resource)
+    {
+        $success = parent::deleteResource($resource);
+        if ($success) {
+            $userClass = new \core_kernel_classes_Class(CLASS_TAO_USER);
+            // cleanup proctors
+            $users = $userClass->searchInstances(
+                array(
+                    ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI => $resource->getUri()
+                ),
+                array(
+                    'recursive' => true,
+                    'like' => false
+                )
+            );
+            foreach ($users as $user) {
+                $user->removePropertyValue(
+                    new core_kernel_classes_Property(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI),
+                    $resource
+                );
+            }
+            // cleanup admins
+            $users = $userClass->searchInstances(
+                array(
+                    ProctorManagementService::PROPERTY_ADMINISTRATOR_URI => $resource->getUri()
+                ),
+                array(
+                    'recursive' => true,
+                    'like' => false
+                )
+            );
+            foreach ($users as $user) {
+                $user->removePropertyValue(
+                    new core_kernel_classes_Property(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI),
+                    $resource
+                );
+            }
+            // @todo cleanup eligibilities
+        }
+
+        return $success;
+    }
+
+    /**
+     * Merge several list of resources URIs into one array
+     * @param array $uris
+     * @param array ...
+     * @return array
+     */
+    protected function mergeActualResources($uris)
+    {
+        $resources = array();
+        foreach (func_get_args() as $uris) {
+            if (!is_array($uris)) {
+                $uris = [$uris];
+            }
+            foreach ($uris as $uri) {
+                $resource = new core_kernel_classes_Resource($uri);
+                if ($resource->exists()) {
+                    $resources[$uri] = $resource;
+                }
+            }
+        }
+
+        return $resources;
+    }
+
+    /**
      * Get test centers administered by a proctor
-     * 
+     *
      * @param User $user
      * @return core_kernel_classes_Resource[]
+     * @throws \common_exception_Error
      */
     public function getTestCentersByProctor(User $user)
     {
-        $testcenters = array();
-        foreach ($user->getPropertyValues(self::PROPERTY_PROCTORS_URI) as $id) {
-            $testcenters[] = new core_kernel_classes_Resource($id);
+        $testCenters = array();
+        $testCenters = array_merge($testCenters, $user->getPropertyValues(self::PROPERTY_AUTHORIZED_PROCTOR_URI));
+        foreach($user->getPropertyValues(self::PROPERTY_AUTHORIZED_PROCTOR_URI) as $testCenter){
+            $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
         }
-        return $testcenters;
+        $testCenters = array_merge($testCenters, $user->getPropertyValues(self::PROPERTY_ADMINISTRATOR_URI));
+        foreach($user->getPropertyValues(self::PROPERTY_ADMINISTRATOR_URI) as $testCenter){
+            $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
+        }
+        $testCenters = $this->mergeActualResources($testCenters);
+
+        return $testCenters;
     }
-    
+
+    public function getSubTestCenters($testCenter)
+    {
+        if(! $testCenter instanceof core_kernel_classes_Resource){
+            $testCenter = new core_kernel_classes_Resource($testCenter);
+        }
+        $childrenProperty = new core_kernel_classes_Property(self::PROPERTY_CHILDREN_URI);
+        return $testCenter->getPropertyValues($childrenProperty);
+
+    }
 
     /**
      * Get test centers a test-taker is assigned to
@@ -81,89 +169,110 @@ class TestCenterService
      */
     public function getTestCentersByTestTaker(User $user)
     {
-        $testcenters = $user->getPropertyValues(self::PROPERTY_MEMBERS_URI);
-        array_walk($testcenters, function (&$testcenter) {
-            $testcenter = new core_kernel_classes_Resource($testcenter);
-        });
-
-        return $testcenters;
+        return $this->mergeActualResources(
+            $user->getPropertyValues(self::PROPERTY_MEMBERS_URI)
+        );
     }
-    
+
     /**
      * Get test centers a delivery can be taken from
      *
      * @access public
-     * @param  string $deliveryId
+     * @param  string $deliveryUri
      * @return array resources of testcenter
      */
-    public function getTestCentersByDelivery($deliveryId)
+    public function getTestCentersByDelivery($deliveryUri)
     {
-        return $this->getRootClass()->searchInstances(array(
-            self::PROPERTY_DELIVERY_URI => $deliveryId
-        ), array(
-            'recursive' => true, 'like' => false
-        ));
+        return $this->getRootClass()->searchInstances(
+            array(
+                self::PROPERTY_DELIVERY_URI => $deliveryUri
+            ),
+            array(
+                'recursive' => true,
+                'like' => false
+            )
+        );
     }
-    
+
+    /**
+     * Gets test center
+     *
+     * @param string $testCenterUri
+     * @return core_kernel_classes_Resource
+     */
+    public function getTestCenter($testCenterUri)
+    {
+        return new core_kernel_classes_Resource($testCenterUri);
+    }
+
     /**
      *
-     * @param string $testcenterUri
-     * @return \taoDelivery_models_classes_DeliveryRdf[]
+     * @param string $testCenterUri
+     * @return \core_kernel_classes_Resource[]
      */
-    public function getDeliveries($testcenterUri)
+    public function getDeliveries($testCenterUri)
     {
-        $testcenter = new core_kernel_classes_Resource($testcenterUri);
+        $testCenter = new core_kernel_classes_Resource($testCenterUri);
         $deliveryProp = new core_kernel_classes_Property(self::PROPERTY_DELIVERY_URI);
-        
+
         $deliveries = array();
-        foreach ($testcenter->getPropertyValues($deliveryProp) as $delResource) {
-            $deliveries[] = new \taoDelivery_models_classes_DeliveryRdf($delResource);
+        foreach ($testCenter->getPropertyValues($deliveryProp) as $deliveryUri) {
+            $delivery = new \core_kernel_classes_Resource($deliveryUri);
+            if ($delivery->exists()) {
+                $deliveries[] = $delivery;
+            }
         }
+
         return $deliveries;
     }
 
     /**
      * gets the users of a test center
      *
-     * @param string $testcenterUri
+     * @param string $testCenterUri
      * @return array resources of users
      */
-    public function getTestTakers($testcenterUri)
+    public function getTestTakers($testCenterUri)
     {
         $userClass = TestTakerService::singleton()->getRootClass();
-        $users = $userClass->searchInstances(array(
-            self::PROPERTY_MEMBERS_URI => $testcenterUri
-        ), array(
-            'recursive' => true,
-            'like' => false
-        ));
+        $users = $userClass->searchInstances(
+            array(
+                self::PROPERTY_MEMBERS_URI => $testCenterUri
+            ),
+            array(
+                'recursive' => true,
+                'like' => false
+            )
+        );
 
         return $users;
     }
-    
+
     /**
      * Add a test-taker to a test center
-     * 
+     *
      * @param string $userUri
-     * @param core_kernel_classes_Resource $testcenter
+     * @param core_kernel_classes_Resource $testCenter
      * @return boolean
      */
-    public function addTestTaker($userUri, core_kernel_classes_Resource $testcenter)
+    public function addTestTaker($userUri, core_kernel_classes_Resource $testCenter)
     {
-        $user = new \core_kernel_classes_Resource($userUri);
-        return $user->setPropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testcenter);
+        $user = new core_kernel_classes_Resource($userUri);
+
+        return $user->setPropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testCenter);
     }
-    
+
     /**
      * Remove a test-taker from a test center
-     * 
+     *
      * @param string $userUri
-     * @param core_kernel_classes_Resource $testcenter
+     * @param core_kernel_classes_Resource $testCenter
      * @return boolean
      */
-    public function removeTestTaker($userUri, core_kernel_classes_Resource $testcenter)
+    public function removeTestTaker($userUri, core_kernel_classes_Resource $testCenter)
     {
-        $user = new \core_kernel_classes_Resource($userUri);
-        return $user->removePropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testcenter);
+        $user = new core_kernel_classes_Resource($userUri);
+
+        return $user->removePropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testCenter);
     }
 }

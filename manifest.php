@@ -21,15 +21,17 @@
 
 return array(
     'name' => 'taoTestCenter',
-    'label' => 'Test Center (deprecated)',
-    'description' => 'Now part of the taoProctoring',
+    'label' => 'Test Center',
+    'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
     'version' => '0.3.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring' => '>=0.2'
     ),
-    'acl' => array(),
+    'acl' => array(
+        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager', array('ext' => 'taoTestCenter', 'mod'=>'TestCenterManager')),
+    ),
     'install' => array(),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
     'uninstall' => array(),
@@ -43,5 +45,8 @@ return array(
         'BASE_URL' => ROOT_URL . 'taoTestCenter/',
         #BASE WWW required by JS
         'BASE_WWW' => ROOT_URL . 'taoTestCenter/views/'
+    ),
+    'extra' => array(
+        'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
     )
 );
