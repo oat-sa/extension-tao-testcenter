@@ -18,6 +18,11 @@
  *
  *
  */
+use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
+use oat\taoTestCenter\controller\TestCenterManager;
+use oat\taoTestCenter\controller\TestCenter;
+use oat\taoTestCenter\scripts\install\RegisterEligibilityService;
+use oat\taoTestCenter\scripts\install\RegisterAssignmentService;
 
 return array(
     'name' => 'taoTestCenter',
@@ -30,11 +35,22 @@ return array(
         'taoProctoring' => '>=0.2'
     ),
     'acl' => array(
-        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager', array('ext' => 'taoTestCenter', 'mod'=>'TestCenterManager')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager', array('controller' => TestCenterManager::class)),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole', array('controller' => TestCenter::class)),
     ),
-    'install' => array(),
-    'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
+    'install' => array(
+        'php' => array(
+            RegisterTestCenterEntryPoint::class,
+            RegisterEligibilityService::class,
+            RegisterAssignmentService::class
+        ),
+        'rdf' => array(
+            __DIR__.'/scripts/install/ontology/taotestcenter.rdf',
+            __DIR__.'/scripts/install/ontology/eligibility.rdf',
+        )
+    ),
     'uninstall' => array(),
+    'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
     'routes' => array(
         '/taoTestCenter' => 'oat\\taoTestCenter\\controller'
     ),
