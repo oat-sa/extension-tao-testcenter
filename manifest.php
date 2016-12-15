@@ -23,6 +23,7 @@ use oat\taoTestCenter\controller\TestCenterManager;
 use oat\taoTestCenter\controller\TestCenter;
 use oat\taoTestCenter\scripts\install\RegisterEligibilityService;
 use oat\taoTestCenter\scripts\install\RegisterAssignmentService;
+use oat\taoTestCenter\controller\ProctorManager;
 
 return array(
     'name' => 'taoTestCenter',
@@ -36,6 +37,7 @@ return array(
     ),
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager', array('controller' => TestCenterManager::class)),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole', array('controller' => ProctorManager::class)),
         array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole', array('controller' => TestCenter::class)),
     ),
     'install' => array(

@@ -1,4 +1,9 @@
 define({
+	'ProctorManager' : {
+        'actions' : {
+            'index' : 'controller/ProctorManager/index'
+        }
+    },
     'TestCenterManager' : {
         'actions' : {
             'editCenter' : 'controller/TestCenterManager/editCenter'
