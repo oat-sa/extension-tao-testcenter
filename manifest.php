@@ -24,6 +24,9 @@ use oat\taoTestCenter\controller\TestCenter;
 use oat\taoTestCenter\scripts\install\RegisterEligibilityService;
 use oat\taoTestCenter\scripts\install\RegisterAssignmentService;
 use oat\taoTestCenter\controller\ProctorManager;
+use oat\taoTestCenter\scripts\install\CreateDiagnosticTable;
+use oat\taoTestCenter\controller\DiagnosticChecker;
+use oat\taoTestCenter\controller\Diagnostic;
 
 return array(
     'name' => 'taoTestCenter',
@@ -33,18 +36,23 @@ return array(
     'version' => '0.3.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring' => '>=0.2'
+        'taoProctoring' => '>=3.15.0',
+        'taoClientDiagnostic' => '>=1.11.0'
     ),
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager', array('controller' => TestCenterManager::class)),
         array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole', array('controller' => ProctorManager::class)),
         array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole', array('controller' => TestCenter::class)),
+        array('grant', 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole', array('controller' => Diagnostic::class)),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#taoClientDiagnosticManager', array('controller' => DiagnosticChecker::class)),
+        array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole', array('controller' => DiagnosticChecker::class)),
     ),
     'install' => array(
         'php' => array(
             RegisterTestCenterEntryPoint::class,
             RegisterEligibilityService::class,
-            RegisterAssignmentService::class
+            RegisterAssignmentService::class,
+            CreateDiagnosticTable::class
         ),
         'rdf' => array(
             __DIR__.'/scripts/install/ontology/taotestcenter.rdf',

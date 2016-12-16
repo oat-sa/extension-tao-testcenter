@@ -24,7 +24,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoClientDiagnostic\model\storage\Storage;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
-use oat\taoProctoring\model\DiagnosticStorage;
+use oat\taoTestCenter\model\DiagnosticStorage;
 use oat\taoProctoring\model\TestCenterService;
 use core_kernel_classes_Resource;
 use DateTime;
