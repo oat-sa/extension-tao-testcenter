@@ -91,11 +91,11 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
   </rdf:Description>
 
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOGroup.rdf#TestCenters">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment">
       <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-      <rdfs:label xml:lang="en-US"><![CDATA[Test Centers]]></rdfs:label>
-      <rdfs:comment xml:lang="en-US"><![CDATA[Test Centers of the group]]></rdfs:comment>
-      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOGroup.rdf#Group"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[Assignment]]></rdfs:label>
+      <rdfs:comment xml:lang="en-US"><![CDATA[Eligibilities of the Test-Taker]]></rdfs:comment>
+      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject"/>
       <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter"/>
       <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False" />
       <tao:TAOGUIOrder><![CDATA[20]]></tao:TAOGUIOrder>
@@ -110,7 +110,7 @@
   </rdf:Description>
 
   <!-- Management Role -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterManager">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole"/>
     <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Test Centers Manager]]></rdfs:label>

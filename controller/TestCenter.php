@@ -21,7 +21,7 @@
 
 namespace oat\taoTestCenter\controller;
 
-use oat\taoProctoring\helpers\BreadcrumbsHelper;
+use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoProctoring\controller\SimplePageModule;
@@ -57,8 +57,10 @@ class TestCenter extends SimplePageModule
                 'testcenters-index',
                 $data,
                 array(
-                    BreadcrumbsHelper::testCenters()
-                )
+                    //BreadcrumbsHelper::testCenters()
+                ),
+                'pages/index.tpl',
+                'taoProctoring'
             );
         }
     }
@@ -83,9 +85,11 @@ class TestCenter extends SimplePageModule
                 'testcenters-testcenter',
                 $data,
                 array(
-                    BreadcrumbsHelper::testCenters(),
-                    BreadcrumbsHelper::testCenter($testCenter, $testCenters)
-                )
+                    //BreadcrumbsHelper::testCenters(),
+                    //BreadcrumbsHelper::testCenter($testCenter, $testCenters)
+                ),
+                'pages/index.tpl',
+                'taoProctoring'
             );
         }
     }

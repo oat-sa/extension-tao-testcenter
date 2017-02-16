@@ -30,7 +30,7 @@ define([
     'ui/bulkActionPopup',
     'ui/datalist',
     'taoProctoring/component/breadcrumbs',
-    'taoProctoring/component/proctorForm',
+    'taoTestCenter/component/proctorForm',
     'taoProctoring/helper/textConverter',
     'tpl!taoProctoring/templates/proctorManager/counters',
     'tpl!taoProctoring/templates/proctorManager/status',
@@ -45,9 +45,9 @@ define([
     var cssScope = '.proctorManager-index';
     
     //service urls:
-    var proctorsDataUrl = helpers._url('proctorAuthorizations', 'ProctorManager', 'taoProctoring');
-    var authorizeUrl = helpers._url('authorize', 'ProctorManager', 'taoProctoring');
-    var unauthorizeUrl = helpers._url('unauthorize', 'ProctorManager', 'taoProctoring');
+    var proctorsDataUrl = helpers._url('proctorAuthorizations', 'ProctorManager', 'taoTestCenter');
+    var authorizeUrl = helpers._url('authorize', 'ProctorManager', 'taoTestCenter');
+    var unauthorizeUrl = helpers._url('unauthorize', 'ProctorManager', 'taoTestCenter');
 
     // page modes
     var _modes = {

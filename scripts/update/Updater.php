@@ -37,29 +37,8 @@ class Updater extends \common_ext_ExtensionUpdater
      */
     public function update($initialVersion)
     {
-        $current = $initialVersion;
-        
-        if ($current == '0.0.1' || $current == '0.1.0' || $current == '0.1.1') {
-            OntologyUpdater::syncModels();
-            $current = '0.1.2';
+        if ($this->isBetween('0.0.1', '0.3.0')) {
+            throw new \common_Exception('Upgrade unavailable');
         }
-
-        if ($current == '0.1.2') {
-            OntologyUpdater::syncModels();
-
-            $accessService = \funcAcl_models_classes_AccessService::singleton();
-            $roleService = \tao_models_classes_RoleService::singleton();
-
-            $testCenterManager = new \core_kernel_classes_Resource('http://www.tao.lu/Ontologies/generis.rdf#TestCenterManager');
-            //revoke access right to test center manager
-            $accessService->revokeExtensionAccess($testCenterManager, 'taoTestCenter');
-            $roleService->removeRole($testCenterManager);
-
-            $current = '0.2';
-        }
-
-        $this->setVersion($current);
-
-        $this->skip('0.2', '0.3.0');
     }
 }

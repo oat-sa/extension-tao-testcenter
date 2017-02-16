@@ -24,9 +24,9 @@ use oat\taoProctoring\helpers\DataTableHelper;
 use \tao_helpers_Uri;
 use \tao_helpers_Request;
 use common_session_SessionManager as SessionManager;
-use oat\taoProctoring\helpers\BreadcrumbsHelper;
-use oat\taoProctoring\controller\form\AddProctor;
-use oat\taoProctoring\model\ProctorManagementService;
+use oat\taoTestCenter\helper\BreadcrumbsHelper;
+use oat\taoTestCenter\controller\form\AddProctor;
+use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\controller\SimplePageModule;
@@ -76,10 +76,8 @@ class ProctorManager extends SimplePageModule
                 'proctorManager-index',
                 $data,
                 array(
-                    BreadcrumbsHelper::testCenters(),
-                    BreadcrumbsHelper::proctorManager()
                 ),
-                'pages/proctorManager.tpl'
+                'ProctorManager/index.tpl'
             );
         }
     }

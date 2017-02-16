@@ -22,6 +22,7 @@ namespace oat\taoTestCenter\model;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\taoGroups\models\GroupsService;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * @access public
@@ -30,41 +31,107 @@ use oat\taoGroups\models\GroupsService;
  */
 class TestCenterAssignment extends GroupAssignment
 {
+    use OntologyAwareTrait;
+
+    const PROPERTY_TESTTAKER_ASSIGNED = 'http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment';
+
     /**
      * @inheritdoc
      */
     public function getDeliveryIdsByUser(User $user)
     {
         $deliveryUris = array();
-        // check if really available
-        foreach (GroupsService::singleton()->getGroups($user) as $group) {
-            foreach ($group->getPropertyValues(new \core_kernel_classes_Property(PROPERTY_GROUP_DELVIERY)) as $deliveryUri) {
-                $candidate = new \core_kernel_classes_Resource($deliveryUri);
-                if (!$this->isUserExcluded($candidate, $user) && $candidate->exists() && $this->isEligible($candidate, $user)) {
-                    $deliveryUris[] = $candidate->getUri();
-                }
+        foreach ($this->getTestCenterAssignments($user) as $assignment) {
+            $delivery = $assignment->getOnePropertyValue($this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI));
+            if (!is_null($delivery) && $delivery->exists()) {
+                $deliveryUris[] = $delivery->getUri();
             }
         }
         return array_unique($deliveryUris);
     }
 
-    public function isDeliveryExecutionAllowed($deliveryIdentifier, User $user)
+    /**
+     * Assign a user to an assignment, allowing him/her to
+     * take the delivery in question
+     *
+     * @param array $testTakerIds
+     * @param \core_kernel_classes_Resource $assignment
+     */
+    public function assign($testTakerIds, $assignment)
     {
-        $delivery = new \core_kernel_classes_Resource($deliveryIdentifier);
-        return $this->verifyUserAssigned($delivery, $user)
-        && $this->verifyTime($delivery)
-        && $this->verifyToken($delivery, $user)
-        && $this->isEligible($delivery, $user);
+        $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
+        foreach($testTakerIds as $testTakerId) {
+            $this->getResource($testTakerId)->setPropertyValue($property, $assignment);
+        }
     }
 
     /**
-     * @param \core_kernel_classes_Resource $delivery
-     * @param User $user
-     * @return bool
+     * Unassign a user from an assignment, preventing him/her to
+     * take the delivery in question
+     *
+     * @param array $testTakerIds
+     * @param \core_kernel_classes_Resource $assignment
      */
-    protected function isEligible(\core_kernel_classes_Resource $delivery, User $user)
+    public function unassign($testTakerIds, $assignment)
     {
-        $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
-        return $eligibilityService->isDeliveryEligible($delivery, $user);
+        $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
+        foreach($testTakerIds as $testTakerId) {
+            $this->getResource($testTakerId)->removePropertyValue($property, $assignment);
+        }
     }
+
+    /**
+     * Unassign all users from an assignment, cleanup triggered on
+     * assigment deletion
+     *
+     * @param \core_kernel_classes_Resource $assignment
+     */
+    public function unassignAll($assignment)
+    {
+        $instances = $this->getClass(TAO_SUBJECT_CLASS)->searchInstances(
+            [
+              self::PROPERTY_TESTTAKER_ASSIGNED => $assignment->getUri()
+            ],['recursive' => true, 'like' => false]
+        );
+        foreach($instances as $testTaker) {
+            $testTaker->removePropertyValue($this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED), $assignment);
+        }
+    }
+
+    /**
+     * Assignments are only valid if user is also eligible
+     * (non-PHPdoc)
+     * @see \oat\taoDeliveryRdf\model\GroupAssignment::verifyUserAssigned()
+     */
+    protected function verifyUserAssigned(\core_kernel_classes_Resource $delivery, User $user)
+    {
+        $deliveryProp = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
+        $eligibilities = [];
+        foreach ($user->getPropertyValues(self::PROPERTY_TESTTAKER_ASSIGNED) as $eligibilityId) {
+            $eligibility = $this->getResource($eligibilityId);
+            $eligibilityDelivery = $eligibility->getOnePropertyValue($deliveryProp);
+            if ($delivery->equals($eligibilityDelivery) && $delivery->exists()) {
+                $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
+                if ($eligibilityService->isDeliveryEligible($delivery, $user)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns all Assignments a User is assigned to (not just eligible)
+     * @param User $user
+     * @return \core_kernel_classes_Resource[]
+     */
+    protected function getTestCenterAssignments(User $user)
+    {
+        $assignments = [];
+        foreach ($user->getPropertyValues(self::PROPERTY_TESTTAKER_ASSIGNED) as $assignmentId) {
+            $assignments[] = $this->getResource($assignmentId);
+        }
+        return $assignments;
+    }
+
 }

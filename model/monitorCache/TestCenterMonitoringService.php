@@ -18,27 +18,16 @@
  *
  *
  */
+namespace oat\taoTestCenter\model\monitorCache;
 
-namespace oat\taoTestCenter\scripts\install;
-
-use oat\oatbox\extension\InstallAction;
-use oat\oatbox\service\ServiceManager;
-use oat\taoProctoring\model\EligibilityService;
-
+use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 /**
- * Class RegisterEligibilityService
- * @package oat\taoProctoring\scripts\install
+ * Add testcenters to monitoring data
+ *
+ * @package oat\taoProctoring\model
+ * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-class RegisterEligibilityService extends InstallAction
+interface TestCenterMonitoringService extends DeliveryMonitoringService
 {
-    /**
-     * @param $params
-     */
-    public function __invoke($params)
-    {
-        $this->registerService(EligibilityService::SERVICE_ID, new EligibilityService([
-            EligibilityService::OPTION_MANAGEABLE => true
-        ]));
-    }
+    const TEST_CENTER_ID = 'test_center_id';
 }
-

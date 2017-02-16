@@ -25,7 +25,6 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoClientDiagnostic\model\storage\Storage;
 use oat\taoDelivery\models\classes\execution\DeliveryExecution;
 use oat\taoTestCenter\model\DiagnosticStorage;
-use oat\taoProctoring\model\TestCenterService;
 use core_kernel_classes_Resource;
 use DateTime;
 use tao_helpers_Date as DateHelper;
@@ -36,7 +35,9 @@ use oat\taoProctoring\model\EligibilityService;
 use oat\taoProctoring\model\DeliveryExecutionStateService;
 use oat\taoProctoring\model\PaginatedStorage;
 use oat\taoProctoring\model\deliveryLog\DeliveryLog;
-use oat\taoProctoring\helpers\BreadcrumbsHelper;
+use oat\taoTestCenter\helper\BreadcrumbsHelper;
+use oat\taoTestCenter\model\TestCenterService;
+use oat\taoProctoring\helpers\DataTableHelper;
 
 /**
  * This temporary helpers is a temporary way to return data to the controller.
@@ -110,13 +111,13 @@ class TestCenterHelper
                 'label' => __('Sessions'),
                 'content' => __('Monitor and manage sessions for the test site'),
                 'text' => __('Go')
-            ),
+            )/*,
             array(
                 'url' => $actionDiagnostics['url'],
                 'label' => __('Readiness Check'),
                 'content' => __('Check the compatibility of the current workstation and see the results'),
                 'text' => __('Go')
-            ),
+            ),*/
         );
 
         return $actions;

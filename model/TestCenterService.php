@@ -35,15 +35,19 @@ class TestCenterService extends tao_models_classes_ClassService
 {
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
 
-    const PROPERTY_MEMBERS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member';//deprecated
-
-    const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers';//deprecated
-
     const PROPERTY_CHILDREN_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children';
 
-    const PROPERTY_ADMINISTRATOR_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator';
+    /**
+     * URI of the testcenter manager, who can create, modify and delete testcenters
+     * @var string
+     */
+    const ROLE_TESTCENTER_MANAGER = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager';
 
-    const PROPERTY_AUTHORIZED_PROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor';
+    /**
+     * URI of the testcenter admin, who can create and assign Proctors to TestCenters
+     * @var string
+     */
+    const ROLE_TESTCENTER_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole';
     
     /**
      * return the test center top level class
@@ -137,12 +141,12 @@ class TestCenterService extends tao_models_classes_ClassService
     public function getTestCentersByProctor(User $user)
     {
         $testCenters = array();
-        $testCenters = array_merge($testCenters, $user->getPropertyValues(self::PROPERTY_AUTHORIZED_PROCTOR_URI));
-        foreach($user->getPropertyValues(self::PROPERTY_AUTHORIZED_PROCTOR_URI) as $testCenter){
+        $testCenters = array_merge($testCenters, $user->getPropertyValues(ProctorManagementService::PROPERTY_AUTHORIZED_PROCTOR_URI));
+        foreach($user->getPropertyValues(ProctorManagementService::PROPERTY_AUTHORIZED_PROCTOR_URI) as $testCenter){
             $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
         }
-        $testCenters = array_merge($testCenters, $user->getPropertyValues(self::PROPERTY_ADMINISTRATOR_URI));
-        foreach($user->getPropertyValues(self::PROPERTY_ADMINISTRATOR_URI) as $testCenter){
+        $testCenters = array_merge($testCenters, $user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI));
+        foreach($user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI) as $testCenter){
             $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
         }
         $testCenters = $this->mergeActualResources($testCenters);
@@ -175,26 +179,6 @@ class TestCenterService extends tao_models_classes_ClassService
     }
 
     /**
-     * Get test centers a delivery can be taken from
-     *
-     * @access public
-     * @param  string $deliveryUri
-     * @return array resources of testcenter
-     */
-    public function getTestCentersByDelivery($deliveryUri)
-    {
-        return $this->getRootClass()->searchInstances(
-            array(
-                self::PROPERTY_DELIVERY_URI => $deliveryUri
-            ),
-            array(
-                'recursive' => true,
-                'like' => false
-            )
-        );
-    }
-
-    /**
      * Gets test center
      *
      * @param string $testCenterUri
@@ -203,27 +187,6 @@ class TestCenterService extends tao_models_classes_ClassService
     public function getTestCenter($testCenterUri)
     {
         return new core_kernel_classes_Resource($testCenterUri);
-    }
-
-    /**
-     *
-     * @param string $testCenterUri
-     * @return \core_kernel_classes_Resource[]
-     */
-    public function getDeliveries($testCenterUri)
-    {
-        $testCenter = new core_kernel_classes_Resource($testCenterUri);
-        $deliveryProp = new core_kernel_classes_Property(self::PROPERTY_DELIVERY_URI);
-
-        $deliveries = array();
-        foreach ($testCenter->getPropertyValues($deliveryProp) as $deliveryUri) {
-            $delivery = new \core_kernel_classes_Resource($deliveryUri);
-            if ($delivery->exists()) {
-                $deliveries[] = $delivery;
-            }
-        }
-
-        return $deliveries;
     }
 
     /**

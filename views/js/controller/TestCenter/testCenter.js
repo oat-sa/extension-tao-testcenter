@@ -62,7 +62,7 @@ define([
                 width: 12
             });
             var bc = breadcrumbsFactory($container, crumbs);
-            var serviceUrl = helpers._url('testCenter', 'TestCenter', 'taoProctoring');
+            var serviceUrl = helpers._url('testCenter', 'TestCenter', 'taoTestCenter');
 
             // update the index from a JSON array
             var update = function(boxes) {
