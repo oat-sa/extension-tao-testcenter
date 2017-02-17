@@ -21,7 +21,7 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\ltiDeliveryProvider\model\LTIDeliveryTool;
-use oat\taoProctoring\helpers\BreadcrumbsHelper;
+use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\implementation\DeliveryService;
 use oat\taoProctoring\controller\SimplePageModule;

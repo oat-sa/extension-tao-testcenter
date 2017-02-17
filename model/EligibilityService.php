@@ -31,9 +31,10 @@ use oat\taoProctoring\model\implementation\DeliveryService;
 use tao_models_classes_ClassService;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
-use oat\taoTestCenter\model\monitorCache\TestCenterMonitoringService;
+use oat\taoTestCenter\model\proctoring\TestCenterMonitoringService;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoDelivery\model\AssignmentService;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 
 /**
  * Service to manage eligible deliveries
@@ -348,6 +349,17 @@ class EligibilityService extends ConfigurableService
         return $this->hasOption(self::OPTION_MANAGEABLE) && $this->getOption(self::OPTION_MANAGEABLE) === true;
     }
     
+    public function deliveryExecutionCreated(DeliveryExecutionCreated $event)
+    {
+        $monitoringService = $this->getServiceLocator()->get(DeliveryMonitoringService::SERVICE_ID);
+        $testCenter = $this->getTestCenter($event->getDeliveryExecution()->getDelivery(), $event->getUser());
+        if (!empty($testCenter)) {
+            $deliverMonitoringData = $monitoringService->getData($event->getDeliveryExecution());
+            $deliverMonitoringData->update(TestCenterMonitoringService::TEST_CENTER_ID, $testCenter->getUri());
+            $monitoringService->save($deliverMonitoringData);
+        }
+    }
+
     public function eligiblityChange(EligiblityChanged $event)
     {
         /** @var DeliveryMonitoringService $monitoringService */

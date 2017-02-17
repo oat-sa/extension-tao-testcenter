@@ -24,6 +24,7 @@ namespace oat\taoTestCenter\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 
 /**
  * Class RegisterSessionStateListener
@@ -38,5 +39,6 @@ class RegisterTestCenterEvents extends InstallAction
     public function __invoke($params)
     {
         $this->registerEvent(EligiblityChanged::EVENT_NAME, [EligibilityService::SERVICE_ID, 'eligiblityChange']);
+        $this->registerEvent(DeliveryExecutionCreated::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deliveryExecutionCreated']);
     }
 }

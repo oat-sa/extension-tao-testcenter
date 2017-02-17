@@ -18,7 +18,7 @@
  *
  *
  */
-namespace oat\taoTestCenter\model\monitorCache;
+namespace oat\taoTestCenter\model\proctoring;
 
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 /**

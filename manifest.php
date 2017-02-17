@@ -21,11 +21,8 @@
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
 use oat\taoTestCenter\controller\TestCenterManager;
 use oat\taoTestCenter\controller\TestCenter;
-use oat\taoTestCenter\scripts\install\RegisterEligibilityService;
-use oat\taoTestCenter\scripts\install\RegisterAssignmentService;
+use oat\taoTestCenter\scripts\install\TestCenterOverrideServices;
 use oat\taoTestCenter\controller\ProctorManager;
-use oat\taoTestCenter\scripts\install\CreateDiagnosticTable;
-use oat\taoTestCenter\controller\DiagnosticChecker;
 use oat\taoTestCenter\controller\Diagnostic;
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEvents;
 use oat\taoProctoring\model\ProctorService;
@@ -53,7 +50,7 @@ return array(
     'install' => array(
         'php' => array(
             RegisterTestCenterEntryPoint::class,
-            RegisterAssignmentService::class,
+            TestCenterOverrideServices::class,
             RegisterTestCenterEvents::class
         ),
         'rdf' => array(

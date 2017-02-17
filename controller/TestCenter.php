@@ -70,7 +70,7 @@ class TestCenter extends SimplePageModule
      */
     public function testCenter()
     {
-        $testCenters = TestCenterHelper::getTestCenters();
+        //$testCenters = TestCenterHelper::getTestCenters();
         $testCenter  = $this->getCurrentTestCenter();
         $data = array(
             'testCenter' => $testCenter->getUri(),

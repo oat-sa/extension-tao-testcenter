@@ -24,13 +24,15 @@ namespace oat\taoTestCenter\scripts\install;
 use oat\oatbox\service\ServiceManager;
 use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
+use oat\taoProctoring\model\ProctorService;
+use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 
 /**
- * Class RegisterAssignmentService
+ * Class TestCenterOverrideServices
  * @package oat\taoProctoring\scripts\install
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class RegisterAssignmentService extends \common_ext_action_InstallAction
+class TestCenterOverrideServices extends \common_ext_action_InstallAction
 {
     /**
      * @param $params
@@ -38,6 +40,7 @@ class RegisterAssignmentService extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
+        $this->registerService(ProctorService::SERVICE_ID, new TestCenterProctorService());
     }
 }
 
