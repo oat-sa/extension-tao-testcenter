@@ -62,10 +62,10 @@ class TestCenterProctorService extends ProctorService
             throw new \common_Exception('No testcenter specified in '.__FUNCTION__);
         }
         $criteria = [
-            TestCenterMonitoringService::TEST_CENTER_ID => $context
+            [TestCenterMonitoringService::TEST_CENTER_ID => $context]
         ];
         if ($delivery !== null) {
-            $criteria[DeliveryMonitoringService::DELIVERY_ID] = $delivery->getUri();
+            $criteria[] = [DeliveryMonitoringService::DELIVERY_ID => $delivery->getUri()];
         }
         if (isset($options['filters'])) {
             $criteria[] = $options['filters'];
