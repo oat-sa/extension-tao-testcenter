@@ -24,7 +24,6 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\user\User;
-use oat\taoTestTaker\models\TestTakerService;
 use tao_models_classes_ClassService;
 
 /**
@@ -127,7 +126,6 @@ class TestCenterService extends tao_models_classes_ClassService
                 }
             }
         }
-
         return $resources;
     }
 
@@ -154,6 +152,12 @@ class TestCenterService extends tao_models_classes_ClassService
         return $testCenters;
     }
 
+    /**
+     * Returns testcenters that are sub-testcenters of a given testcenter
+     *
+     * @param core_kernel_classes_Resource $testCenter
+     * @return core_kernel_classes_Resource[] sub testcenters
+     */
     public function getSubTestCenters($testCenter)
     {
         if(! $testCenter instanceof core_kernel_classes_Resource){
@@ -165,20 +169,6 @@ class TestCenterService extends tao_models_classes_ClassService
     }
 
     /**
-     * Get test centers a test-taker is assigned to
-     *
-     * @access public
-     * @param  User $user
-     * @return array resources of testcenter
-     */
-    public function getTestCentersByTestTaker(User $user)
-    {
-        return $this->mergeActualResources(
-            $user->getPropertyValues(self::PROPERTY_MEMBERS_URI)
-        );
-    }
-
-    /**
      * Gets test center
      *
      * @param string $testCenterUri
@@ -187,55 +177,5 @@ class TestCenterService extends tao_models_classes_ClassService
     public function getTestCenter($testCenterUri)
     {
         return new core_kernel_classes_Resource($testCenterUri);
-    }
-
-    /**
-     * gets the users of a test center
-     *
-     * @param string $testCenterUri
-     * @return array resources of users
-     */
-    public function getTestTakers($testCenterUri)
-    {
-        $userClass = TestTakerService::singleton()->getRootClass();
-        $users = $userClass->searchInstances(
-            array(
-                self::PROPERTY_MEMBERS_URI => $testCenterUri
-            ),
-            array(
-                'recursive' => true,
-                'like' => false
-            )
-        );
-
-        return $users;
-    }
-
-    /**
-     * Add a test-taker to a test center
-     *
-     * @param string $userUri
-     * @param core_kernel_classes_Resource $testCenter
-     * @return boolean
-     */
-    public function addTestTaker($userUri, core_kernel_classes_Resource $testCenter)
-    {
-        $user = new core_kernel_classes_Resource($userUri);
-
-        return $user->setPropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testCenter);
-    }
-
-    /**
-     * Remove a test-taker from a test center
-     *
-     * @param string $userUri
-     * @param core_kernel_classes_Resource $testCenter
-     * @return boolean
-     */
-    public function removeTestTaker($userUri, core_kernel_classes_Resource $testCenter)
-    {
-        $user = new core_kernel_classes_Resource($userUri);
-
-        return $user->removePropertyValue(new core_kernel_classes_Property(self::PROPERTY_MEMBERS_URI), $testCenter);
     }
 }
