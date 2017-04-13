@@ -56,9 +56,6 @@ class TestCenter extends SimplePageModule
             $this->composeView(
                 'testcenters-index',
                 $data,
-                array(
-                    //BreadcrumbsHelper::testCenters()
-                ),
                 'pages/index.tpl',
                 'taoProctoring'
             );
@@ -84,10 +81,6 @@ class TestCenter extends SimplePageModule
             $this->composeView(
                 'testcenters-testcenter',
                 $data,
-                array(
-                    //BreadcrumbsHelper::testCenters(),
-                    //BreadcrumbsHelper::testCenter($testCenter, $testCenters)
-                ),
                 'pages/index.tpl',
                 'taoProctoring'
             );

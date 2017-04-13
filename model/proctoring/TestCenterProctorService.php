@@ -43,7 +43,7 @@ class TestCenterProctorService extends ProctorService
     public function getProctorableDeliveries(User $proctor, $context = null)
     {
         if (empty($context)) {
-            throw new \common_Exception('No testcenter specified in '.__FUNCTION__);
+            throw new \common_exception_Error('No testcenter specified in '.__FUNCTION__);
         }
         $testCenter = $this->getResource($context);
         $elibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
