@@ -31,7 +31,7 @@ use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
  * Proctoring Test Center controllers for test center screens
  *
  * @author Open Assessment Technologies SA
- * @package taoProctoring
+ * @package oat\taoTestCenter\controller
  * @license GPL-2.0
  *
  */

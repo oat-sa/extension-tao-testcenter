@@ -8,9 +8,10 @@ module.exports = function(grunt) {
 
     sass.taotestcenter = { };
     sass.taotestcenter.files = { };
+    sass.taotestcenter.files[root + 'css/testcenter.css'] = root + 'scss/testcenter.scss';
     sass.taotestcenter.files[root + 'css/eligibilityEditor.css'] = root + 'scss/eligibilityEditor.scss';
     sass.taotestcenter.files[root + 'css/eligibilityTable.css']  = root + 'scss/eligibilityTable.scss';
-    
+
     watch.taotestcentersass = {
         files : [root + 'scss/*.scss'],
         tasks : ['sass:taotestcenter', 'notify:taotestcentersass'],

@@ -25,8 +25,8 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\taoTestCenter\model\entrypoint\TestCenterEntryPoint;
 
 /**
- * Class RegisterAssignmentService
- * @package oat\taoProctoring\scripts\install
+ * Class RegisterTestCenterEntryPoint
+ * @package oat\taoTestCenter\scripts\install
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class RegisterTestCenterEntryPoint extends \common_ext_action_InstallAction

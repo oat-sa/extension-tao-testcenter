@@ -133,7 +133,7 @@ class TestCenterHelper
     {
         $config = \common_ext_ExtensionsManager::singleton()->getExtensionById('taoClientDiagnostic')->getConfig('clientDiag');
 
-        $config['extension'] = 'taoProctoring';
+        $config['extension'] = 'taoTestCenter';
         $config['controller'] = 'DiagnosticChecker';
         $config['storeParams'] = ['testCenter' => $testCenter->getUri()];
 

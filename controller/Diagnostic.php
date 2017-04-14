@@ -21,10 +21,8 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\ltiDeliveryProvider\model\LTIDeliveryTool;
-use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\implementation\DeliveryService;
-use oat\taoProctoring\controller\SimplePageModule;
 
 require_once __DIR__.'/../../tao/lib/oauth/OAuth.php';
 
@@ -32,7 +30,7 @@ require_once __DIR__.'/../../tao/lib/oauth/OAuth.php';
  * Proctoring Diagnostic controller for the readiness check screen
  *
  * @author Open Assessment Technologies SA
- * @package taoProctoring
+ * @package oat\taoTestCenter\controller
  * @license GPL-2.0
  *
  */
@@ -55,16 +53,8 @@ class Diagnostic extends SimplePageModule
                 'config' => TestCenterHelper::getDiagnosticConfig($testCenter),
                 'installedextension' => \common_ext_ExtensionsManager::singleton()->isInstalled('ltiDeliveryProvider'),
             ),
-            array(
-                BreadcrumbsHelper::testCenters(),
-                BreadcrumbsHelper::testCenter($testCenter, TestCenterHelper::getTestCenters()),
-                BreadcrumbsHelper::diagnostics(
-                    $testCenter,
-                    array(
-                        BreadcrumbsHelper::deliveries($testCenter),
-                    )
-                )
-            )
+            'pages/index.tpl',
+            'taoTestCenter'
         );
     }
 
@@ -143,37 +133,12 @@ class Diagnostic extends SimplePageModule
         }
 
         $this->setData('title', __('Available Deliveries'));
-
-        if (\tao_helpers_Request::isAjax()) {
-            $this->returnJson(array('list' => $deliveryData));
-        } else {
-            try{
-                $testCenter = $this->getCurrentTestCenter();
-                $this->composeView(
-                    'diagnostic-deliveries',
-                    array('list' => $deliveryData),
-                    array(
-                        BreadcrumbsHelper::testCenters(),
-                        BreadcrumbsHelper::testCenter($testCenter, TestCenterHelper::getTestCenters()),
-                        BreadcrumbsHelper::diagnostics(
-                            $testCenter,
-                            array(
-                                BreadcrumbsHelper::deliveries($testCenter),
-                            )
-                        ),
-                        BreadcrumbsHelper::deliveriesByProctor($testCenter)
-                    )
-                );
-            } catch(\common_Exception $e){
-                $this->composeView(
-                    'diagnostic-deliveries',
-                    array('list' => $deliveryData),
-                    array(
-                        BreadcrumbsHelper::testCenters(),
-                    )
-                );
-            }
-        }
+        $this->composeView(
+            'diagnostic-deliveries',
+            array('list' => $deliveryData),
+            'pages/index.tpl',
+            'taoTestCenter'
+        );
     }
     /**
      * Display the diagnostic runner
@@ -189,16 +154,8 @@ class Diagnostic extends SimplePageModule
                 'testCenter' => $testCenter->getUri(),
                 'config' => TestCenterHelper::getDiagnosticConfig($testCenter),
             ),
-            array(
-                BreadcrumbsHelper::testCenters(),
-                BreadcrumbsHelper::testCenter($testCenter, TestCenterHelper::getTestCenters()),
-                BreadcrumbsHelper::diagnostics(
-                    $testCenter,
-                    array(
-                        BreadcrumbsHelper::deliveries($testCenter),
-                    )
-                )
-            )
+            'pages/index.tpl',
+            'taoTestCenter'
         );
     }
 

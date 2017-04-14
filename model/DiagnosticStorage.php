@@ -23,8 +23,8 @@ namespace oat\taoTestCenter\model;
 
 use oat\taoClientDiagnostic\model\storage\PaginatedStorage;
 /**
- * Class DiagnosticStorage
- * @package oat\taoProctoring\model
+ * Interface DiagnosticStorage
+ * @package oat\taoTestCenter\model
  */
 interface DiagnosticStorage extends PaginatedStorage
 {

@@ -29,7 +29,7 @@ use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 
 /**
  * Class TestCenterOverrideServices
- * @package oat\taoProctoring\scripts\install
+ * @package oat\taoTestCenter\scripts\install
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class TestCenterOverrideServices extends \common_ext_action_InstallAction

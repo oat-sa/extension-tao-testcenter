@@ -29,21 +29,20 @@ define([
     'ui/dialog/confirm',
     'ui/bulkActionPopup',
     'ui/datalist',
-    'taoProctoring/component/breadcrumbs',
     'taoTestCenter/component/proctorForm',
     'taoProctoring/helper/textConverter',
-    'tpl!taoProctoring/templates/proctorManager/counters',
-    'tpl!taoProctoring/templates/proctorManager/status',
+    'tpl!taoTestCenter/templates/proctorManager/counters',
+    'tpl!taoTestCenter/templates/proctorManager/status',
     'ui/datatable'
-], function (_, $, __, helpers, loadingBar, encode, feedback, dialogConfirm, bulkActionPopup, datalist, breadcrumbsFactory, proctorForm, textConverter, counterTpl, statusTpl) {
+], function (_, $, __, helpers, loadingBar, encode, feedback, dialogConfirm, bulkActionPopup, datalist, proctorForm, textConverter, counterTpl, statusTpl) {
     'use strict';
-    
+
     /**
      * The CSS scope
      * @type {String}
      */
     var cssScope = '.proctorManager-index';
-    
+
     //service urls:
     var proctorsDataUrl = helpers._url('proctorAuthorizations', 'ProctorManager', 'taoTestCenter');
     var authorizeUrl = helpers._url('authorize', 'ProctorManager', 'taoTestCenter');
@@ -64,7 +63,7 @@ define([
      *
      * @type {Object}
      */
-    var taoProctoringCtlr = {
+    return {
         /**
          * Entry point of the page
          */
@@ -77,9 +76,7 @@ define([
                 var $containerForm = $('.proctor-create');
                 var $noSelection = $('.proctor-default');
                 var testCenters = $container.data('list');
-                var crumbs = $container.data('breadcrumbs');
                 var pageMode = _modes.EMPTY;
-                var bc = breadcrumbsFactory($container, crumbs);
                 var list = datalist({
                     renderTo: $panelSelection,
                     textNumber:  __('Test sites'),
@@ -301,6 +298,4 @@ define([
             });
         }
     };
-
-    return taoProctoringCtlr;
 });

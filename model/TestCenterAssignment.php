@@ -25,9 +25,10 @@ use oat\taoGroups\models\GroupsService;
 use oat\generis\model\OntologyAwareTrait;
 
 /**
+ * Class TestCenterAssignment
  * @access public
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
- * @package taoProctoring
+ * @package oat\taoTestCenter\model
  */
 class TestCenterAssignment extends GroupAssignment
 {

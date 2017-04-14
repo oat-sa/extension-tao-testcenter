@@ -24,10 +24,9 @@ define([
     'helpers',
     'layout/loading-bar',
     'ui/listbox',
-    'taoProctoring/component/breadcrumbs',
     'taoProctoring/helper/textConverter',
-    'tpl!taoProctoring/templates/testSiteAdmin/adminLink'
-], function ($, __, helpers, loadingBar, listBox, breadcrumbsFactory, textConverter, adminLinkTpl) {
+    'tpl!taoTestCenter/templates/testSiteAdmin/adminLink'
+], function ($, __, helpers, loadingBar, listBox, textConverter, adminLinkTpl) {
     'use strict';
 
     /**
@@ -40,11 +39,11 @@ define([
     loadingBar.start();
 
     /**
-     * Controls the taoProctoring index page
+     * Controls the taoTestCenter index page
      *
      * @type {Object}
      */
-    var taoProctoringIndexCtlr = {
+    return {
         /**
          * Entry point of the page
          */
@@ -55,7 +54,6 @@ define([
                 var $container = $(cssScope);
                 var admin = $container.data('administrator');
                 var boxes = $container.data('list');
-                var crumbs = $container.data('breadcrumbs');
                 var list = listBox({
                     title: __("My Test sites"),
                     textEmpty: __("No test site available"),
@@ -64,7 +62,6 @@ define([
                     renderTo: $container.find('.content'),
                     replace: true
                 });
-                var bc = breadcrumbsFactory($container, crumbs);
                 var serviceUrl = helpers._url('index', 'TestCenter', 'taoTestCenter');
                 var adminUrl = helpers._url('index', 'ProctorManager', 'taoTestCenter');
 
@@ -108,6 +105,4 @@ define([
             });
         }
     };
-
-    return taoProctoringIndexCtlr;
 });

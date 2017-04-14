@@ -23,9 +23,8 @@ define([
     'i18n',
     'helpers',
     'layout/loading-bar',
-    'ui/listbox',
-    'taoProctoring/component/breadcrumbs'
-], function ($, __, helpers, loadingBar, listBox, breadcrumbsFactory) {
+    'ui/listbox'
+], function ($, __, helpers, loadingBar, listBox) {
     'use strict';
 
     /**
@@ -38,18 +37,17 @@ define([
     loadingBar.start();
 
     /**
-     * Controls the taoProctoring test site page
+     * Controls the taoTestCenter test site page
      *
      * @type {Object}
      */
-    var taoProctoringTestSiteCtlr = {
+    return {
         /**
          * Entry point of the page
          */
         start : function start() {
             var $container = $(cssScope);
             var boxes = $container.data('list');
-            var crumbs = $container.data('breadcrumbs');
             var id = $container.data('id');
             var title = $container.data('title');
             var list = listBox({
@@ -61,7 +59,6 @@ define([
                 replace: true,
                 width: 12
             });
-            var bc = breadcrumbsFactory($container, crumbs);
             var serviceUrl = helpers._url('testCenter', 'TestCenter', 'taoTestCenter');
 
             // update the index from a JSON array
@@ -93,6 +90,4 @@ define([
             }
         }
     };
-
-    return taoProctoringTestSiteCtlr;
 });

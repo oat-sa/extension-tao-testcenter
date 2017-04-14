@@ -27,8 +27,8 @@ use oat\taoTestCenter\model\EligibilityService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 
 /**
- * Class RegisterSessionStateListener
- * @package oat\taoProctoring\scripts\install
+ * Class RegisterTestCenterEvents
+ * @package oat\taoTestCenter\scripts\install
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class RegisterTestCenterEvents extends InstallAction

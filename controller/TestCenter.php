@@ -21,16 +21,14 @@
 
 namespace oat\taoTestCenter\controller;
 
-use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
-use oat\taoProctoring\controller\SimplePageModule;
 
 /**
  * Proctoring Test Center controllers for test center screens
  *
  * @author Open Assessment Technologies SA
- * @package taoProctoring
+ * @package oat\taoTestCenter\controller
  * @license GPL-2.0
  *
  */
@@ -57,7 +55,7 @@ class TestCenter extends SimplePageModule
                 'testcenters-index',
                 $data,
                 'pages/index.tpl',
-                'taoProctoring'
+                'taoTestCenter'
             );
         }
     }
@@ -82,7 +80,7 @@ class TestCenter extends SimplePageModule
                 'testcenters-testcenter',
                 $data,
                 'pages/index.tpl',
-                'taoProctoring'
+                'taoTestCenter'
             );
         }
     }

@@ -24,18 +24,16 @@ use oat\taoProctoring\helpers\DataTableHelper;
 use \tao_helpers_Uri;
 use \tao_helpers_Request;
 use common_session_SessionManager as SessionManager;
-use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\controller\form\AddProctor;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoTestCenter\helper\TestCenterHelper;
-use oat\taoProctoring\controller\SimplePageModule;
 
 /**
  * Proctor manager controller
  *
  * @author Open Assessment Technologies SA
- * @package taoProctoring
+ * @package oat\taoTestCenter\controller
  * @license GPL-2.0
  *
  */
@@ -75,9 +73,8 @@ class ProctorManager extends SimplePageModule
             $this->composeView(
                 'proctorManager-index',
                 $data,
-                array(
-                ),
-                'ProctorManager/index.tpl'
+                'pages/index.tpl',
+                'taoTestCenter'
             );
         }
     }
