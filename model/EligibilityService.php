@@ -335,6 +335,30 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
+     * Whenever or not a proctor bypass exists
+     *
+     * @param string $deliveryId
+     * @param User $user
+     * @return boolean
+     */
+    public function proctorBypassExists($deliveryId, User $user)
+    {
+        $bypassExists = false;
+        $class = new \core_kernel_classes_Class(EligibilityService::CLASS_URI);
+        $eligibilities = $class->searchInstances([
+            EligibilityService::PROPERTY_TESTTAKER_URI => $user->getIdentifier(),
+            EligibilityService::PROPERTY_DELIVERY_URI => $deliveryId,
+        ]);
+        foreach ($eligibilities as $eligibility) {
+            if ($this->canByPassProctor($eligibility)) {
+                $bypassExists = true;
+                break;
+            }
+        }
+        return $bypassExists;
+    }
+
+    /**
      * Set whether this Eligibility can by-pass the proctor authorization
      * @param Resource $eligibility
      * @param boolean $bypass true if the elligility can by-pass the proctor authorization

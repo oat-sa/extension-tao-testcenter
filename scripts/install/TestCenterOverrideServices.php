@@ -26,6 +26,8 @@ use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
+use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
+use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 
 /**
  * Class TestCenterOverrideServices
@@ -41,6 +43,7 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
         $this->registerService(ProctorService::SERVICE_ID, new TestCenterProctorService());
+        $this->registerService(TestTakerAuthorizationService::SERVICE_ID, new TestCenterAuthorizationService());
     }
 }
 
