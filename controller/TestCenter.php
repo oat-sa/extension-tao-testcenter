@@ -21,74 +21,95 @@
 
 namespace oat\taoTestCenter\controller;
 
-use oat\taoTestCenter\model\TestCenterService;
+use oat\taoTestCenter\helper\TestCenterHelper;
+use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 
 /**
+ * Proctoring Test Center controllers for test center screens
  *
  * @author Open Assessment Technologies SA
- * @package taoTestCenter
+ * @package oat\taoTestCenter\controller
  * @license GPL-2.0
  *
  */
-class TestCenter extends \tao_actions_SaSModule
+class TestCenter extends SimplePageModule
 {
+    use ProctoringTextConverterTrait;
 
     /**
-     * Initialize the service and the default data
+     * Displays the index page of the extension: list all available deliveries.
      */
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
-        $this->service = $this->getClassService();
-    }
+        $testCenters = TestCenterHelper::getTestCenters();
+        
+        $data = array(
+            'list' => $testCenters,
+            'administrator' => $this->hasAccess(ProctorManager::class, 'index') //check if the current user is a test site administrator or not
+        );
 
-    protected function getClassService()
-    {
-        return TestCenterService::singleton();
-    }
-
-    /**
-     * Edit a Test Center instance
-     * @return void
-     */
-    public function editCenter()
-    {
-        $clazz = $this->getCurrentClass();
-        $testcenter = $this->getCurrentInstance();
-
-        $formContainer = new \tao_actions_form_Instance($clazz, $testcenter);
-        $myForm = $formContainer->getForm();
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
-
-                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testcenter);
-                $testcenter = $binder->bind($myForm->getValues());
-
-                $this->setData("selectNode", \tao_helpers_Uri::encode($testcenter->getUri()));
-                $this->setData('message', __('Test center saved'));
-                $this->setData('reload', true);
-            }
+        if (\tao_helpers_Request::isAjax()) {
+            $this->returnJson($data);
+        } else {
+            $this->composeView(
+                'testcenters-index',
+                $data,
+                'pages/index.tpl',
+                'taoTestCenter'
+            );
         }
-
-        $memberProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_MEMBERS_URI);
-        $memberForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testcenter, $memberProperty);
-        $memberForm->setData('title', __('Select test takers for the test center'));
-        $this->setData('memberForm', $memberForm->render());
-
-        $groupProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_DELIVERY_URI);
-        $groupForm = \tao_helpers_form_GenerisTreeForm::buildTree($testcenter, $groupProperty);
-        $groupForm->setData('title', __('Select deliveries available at the test center'));
-        $this->setData('groupForm', $groupForm->render());
-
-        $proctorProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_PROCTORS_URI);
-        $proctorForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testcenter, $proctorProperty);
-        $proctorForm->setData('title', __('Select proctors for the test center'));
-        $this->setData('proctorForm', $proctorForm->render());
-
-        $this->setData('formTitle', __('Edit test center'));
-        $this->setData('myForm', $myForm->render());
-        $this->setView('form_test_center.tpl');
     }
 
+    /**
+     * Displays the three action box for the test center
+     */
+    public function testCenter()
+    {
+        //$testCenters = TestCenterHelper::getTestCenters();
+        $testCenter  = $this->getCurrentTestCenter();
+        $data = array(
+            'testCenter' => $testCenter->getUri(),
+            'title' => sprintf($this->convert('Test site %s'), $testCenter->getLabel()),
+            'list' => TestCenterHelper::getTestCenterActions($testCenter)
+        );
 
+        if (\tao_helpers_Request::isAjax()) {
+            $this->returnJson($data);
+        } else {
+            $this->composeView(
+                'testcenters-testcenter',
+                $data,
+                'pages/index.tpl',
+                'taoTestCenter'
+            );
+        }
+    }
+    
+    private function getTestCenterData()
+    {
+        $testCenterService = TestCenterService::singleton();
+        $currentUser = \common_session_SessionManager::getSession()->getUser();
+        $testCenters = $testCenterService->getTestCentersByProctor($currentUser, $options);
+        
+    }
+    
+    /**
+     * Get the requested test center resource
+     * Use this to identify which test center is currently being selected buy the proctor
+     *
+     * @return core_kernel_classes_Resource
+     * @throws \common_Exception
+     */
+    protected function getCurrentTestCenter()
+    {
+        if($this->hasRequestParameter('testCenter')){
+
+            //get test center resource from its uri
+            $testCenterUri           = $this->getRequestParameter('testCenter');
+            return TestCenterHelper::getTestCenter($testCenterUri);
+        }else{
+            //@todo use a better exception
+            throw new \common_Exception('no current test center');
+        }
+    }
 }

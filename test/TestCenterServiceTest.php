@@ -149,43 +149,4 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
     {
         $this->assertTrue($subTestCenter->delete());
     }
-
-    /**
-     *
-     */
-    public function testGetTestCenters()
-    {
-        $testCenterClass = TestCenterService::singleton()->getRootClass();
-
-        $subject = $this->subjectsService->createInstance($this->subjectsService->getRootClass(), 'testSubject');
-        $oneTC = $testCenterClass->createInstance('testTCInstance');
-
-        $this->testCenterService->addTestTaker($subject->getUri(), $oneTC);
-        $oneTC2 = $testCenterClass->createInstance('testTCInstance2');
-
-        $subclass = $testCenterClass->createSubClass('testTCSubclass');
-        $oneTC3 = $subclass->createInstance('testSubTCInstance');
-        $this->testCenterService->addTestTaker($subject->getUri(), $oneTC3);
-
-        $generisUser = new \core_kernel_users_GenerisUser($subject);
-        $testCenters = $this->testCenterService->getTestCentersByTestTaker($generisUser);
-
-        $this->assertTrue(is_array($testCenters));
-        $this->assertTrue(count($testCenters) == 2);
-        array_walk($testCenters, function (&$testCenter) {
-            $testCenter = $testCenter->getUri();
-        });
-        $this->assertContains($oneTC->getUri(), $testCenters);
-        $this->assertNotContains($oneTC2->getUri(), $testCenters);
-        $this->assertContains($oneTC3->getUri(), $testCenters);
-
-        $this->assertTrue($this->testCenterService->deleteResource($oneTC));
-        $this->assertTrue($this->testCenterService->deleteResource($oneTC2));
-        $this->assertTrue($this->testCenterService->deleteResource($oneTC3));
-
-        $this->assertTrue($this->testCenterService->deleteClass($subclass));
-
-        $subject->delete();
-    }
-
 }

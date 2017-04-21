@@ -18,21 +18,48 @@
  *
  *
  */
+use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
+use oat\taoTestCenter\controller\TestCenterManager;
+use oat\taoTestCenter\controller\TestCenter;
+use oat\taoTestCenter\scripts\install\TestCenterOverrideServices;
+use oat\taoTestCenter\controller\ProctorManager;
+use oat\taoTestCenter\controller\Diagnostic;
+use oat\taoTestCenter\scripts\install\RegisterTestCenterEvents;
+use oat\taoProctoring\model\ProctorService;
+use oat\tao\model\user\TaoRoles;
+use oat\taoTestCenter\model\TestCenterService;
 
 return array(
     'name' => 'taoTestCenter',
-    'label' => 'Test Center (deprecated)',
-    'description' => 'Now part of the taoProctoring',
+    'label' => 'Test Center',
+    'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '0.3.0',
+    'version' => '1.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring' => '>=0.2'
+        'taoProctoring' => '>=4.4.2'
     ),
-    'acl' => array(),
-    'install' => array(),
+    'managementRole' => TestCenterService::ROLE_TESTCENTER_MANAGER,
+    'acl' => array(
+        array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, TestCenterManager::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, ProctorManager::class),
+        array('grant', ProctorService::ROLE_PROCTOR, TestCenter::class),
+        array('grant', ProctorService::ROLE_PROCTOR, Diagnostic::class),
+        //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
+    ),
+    'install' => array(
+        'php' => array(
+            RegisterTestCenterEntryPoint::class,
+            TestCenterOverrideServices::class,
+            RegisterTestCenterEvents::class
+        ),
+        'rdf' => array(
+            __DIR__.'/scripts/install/ontology/taotestcenter.rdf',
+            __DIR__.'/scripts/install/ontology/eligibility.rdf',
+        )
+    ),
+//    'uninstall' => array(),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
-    'uninstall' => array(),
     'routes' => array(
         '/taoTestCenter' => 'oat\\taoTestCenter\\controller'
     ),
@@ -43,5 +70,8 @@ return array(
         'BASE_URL' => ROOT_URL . 'taoTestCenter/',
         #BASE WWW required by JS
         'BASE_WWW' => ROOT_URL . 'taoTestCenter/views/'
+    ),
+    'extra' => array(
+        'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
     )
 );
