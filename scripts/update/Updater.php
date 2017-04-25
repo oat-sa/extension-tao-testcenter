@@ -40,5 +40,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isBetween('0.0.1', '0.3.0')) {
             throw new \common_Exception('Upgrade unavailable');
         }
+
+        $this->skip('0', '2.0.0');
     }
 }

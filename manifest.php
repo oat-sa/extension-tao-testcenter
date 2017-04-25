@@ -34,7 +34,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '1.0.0',
+    'version' => '2.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring' => '>=4.4.2'
@@ -68,8 +68,6 @@ return array(
         "DIR_VIEWS" => dirname(__FILE__) . DIRECTORY_SEPARATOR . "views" . DIRECTORY_SEPARATOR,
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL . 'taoTestCenter/',
-        #BASE WWW required by JS
-        'BASE_WWW' => ROOT_URL . 'taoTestCenter/views/'
     ),
     'extra' => array(
         'structures' => dirname(__FILE__) . DIRECTORY_SEPARATOR . 'controller' . DIRECTORY_SEPARATOR . 'structures.xml',
