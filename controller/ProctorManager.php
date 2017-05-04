@@ -73,7 +73,7 @@ class ProctorManager extends SimplePageModule
             $this->composeView(
                 'proctorManager-index',
                 $data,
-                'pages/index.tpl',
+                'ProctorManager/index.tpl',
                 'taoTestCenter'
             );
         }
