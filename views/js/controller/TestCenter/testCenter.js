@@ -21,10 +21,10 @@
 define([
     'jquery',
     'i18n',
-    'helpers',
+    'util/url',
     'layout/loading-bar',
     'ui/listbox'
-], function ($, __, helpers, loadingBar, listBox) {
+], function ($, __, urlHelper, loadingBar, listBox) {
     'use strict';
 
     /**
@@ -59,7 +59,7 @@ define([
                 replace: true,
                 width: 12
             });
-            var serviceUrl = helpers._url('testCenter', 'TestCenter', 'taoTestCenter');
+            var serviceUrl = urlHelper.route('testCenter', 'TestCenter', 'taoTestCenter');
 
             // update the index from a JSON array
             var update = function(boxes) {

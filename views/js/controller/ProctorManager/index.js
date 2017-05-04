@@ -22,19 +22,20 @@ define([
     'lodash',
     'jquery',
     'i18n',
-    'helpers',
     'layout/loading-bar',
+    'util/url',
     'util/encode',
     'ui/feedback',
     'ui/dialog/confirm',
     'ui/bulkActionPopup',
     'ui/datalist',
+    'ui/button',
     'taoTestCenter/component/proctorForm',
     'taoProctoring/helper/textConverter',
     'tpl!taoTestCenter/templates/proctorManager/counters',
     'tpl!taoTestCenter/templates/proctorManager/status',
     'ui/datatable'
-], function (_, $, __, helpers, loadingBar, encode, feedback, dialogConfirm, bulkActionPopup, datalist, proctorForm, textConverter, counterTpl, statusTpl) {
+], function (_, $, __, loadingBar, urlHelper, encode, feedback, dialogConfirm, bulkActionPopup, datalist, buttonFactory, proctorForm, textConverter, counterTpl, statusTpl) {
     'use strict';
 
     /**
@@ -44,9 +45,10 @@ define([
     var cssScope = '.proctorManager-index';
 
     //service urls:
-    var proctorsDataUrl = helpers._url('proctorAuthorizations', 'ProctorManager', 'taoTestCenter');
-    var authorizeUrl = helpers._url('authorize', 'ProctorManager', 'taoTestCenter');
-    var unauthorizeUrl = helpers._url('unauthorize', 'ProctorManager', 'taoTestCenter');
+    var indexUrl = urlHelper.route('index', 'TestCenter', 'taoTestCenter');
+    var proctorsDataUrl = urlHelper.route('proctorAuthorizations', 'ProctorManager', 'taoTestCenter');
+    var authorizeUrl = urlHelper.route('authorize', 'ProctorManager', 'taoTestCenter');
+    var unauthorizeUrl = urlHelper.route('unauthorize', 'ProctorManager', 'taoTestCenter');
 
     // page modes
     var _modes = {
@@ -71,7 +73,6 @@ define([
             textConverter().then(function(labels) {
                 var $container = $(cssScope);
                 var $panelSelection = $('.test-center-panel');
-                var $panelData = $('.proctor-panel');
                 var $containerList = $('.proctor-list');
                 var $containerForm = $('.proctor-create');
                 var $noSelection = $('.proctor-default');
@@ -161,6 +162,16 @@ define([
                     $containerList.toggleClass('hidden', _modes.LIST !== pageMode);
                     $containerForm.toggleClass('hidden', _modes.FORM !== pageMode);
                 }
+
+                buttonFactory({
+                    id: 'back',
+                    type: 'info',
+                    label: __('Back to index'),
+                    cls: 'back-button',
+                    renderTo: $container.find('.header')
+                }).on('click', function () {
+                    window.location.href = indexUrl;
+                });
 
                 list.on('select', function(selection) {
                     processMode(selection);
