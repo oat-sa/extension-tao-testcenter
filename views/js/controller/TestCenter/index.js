@@ -24,9 +24,9 @@ define([
     'helpers',
     'layout/loading-bar',
     'ui/listbox',
-    'taoProctoring/helper/textConverter',
-    'tpl!taoTestCenter/templates/testSiteAdmin/adminLink'
-], function ($, __, helpers, loadingBar, listBox, textConverter, adminLinkTpl) {
+    'ui/button',
+    'taoProctoring/helper/textConverter'
+], function ($, __, helpers, loadingBar, listBox, buttonFactory, textConverter) {
     'use strict';
 
     /**
@@ -95,10 +95,16 @@ define([
 
                 if(admin){
                     //add test center admin link
-                    $container.find('.header').append(adminLinkTpl({
-                        href : adminUrl,
-                        manageProctorMenu : labels.get('Manage Proctors')
-                    }));
+                    buttonFactory({
+                        id: 'manage-proctors',
+                        type: 'info',
+                        icon: 'users',
+                        cls: 'manage-button',
+                        label: labels.get('Manage Proctors'),
+                        renderTo: $container.find('.header')
+                    }).on('click', function () {
+                        window.location.href = adminUrl;
+                    });
                 }
             }).catch(function (err) {
                 console.log(err);

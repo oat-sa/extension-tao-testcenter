@@ -91,6 +91,16 @@
         }
     }
 
+    .header{
+        position:relative
+    }
+
+    .manage-button {
+        position: absolute;
+        right: 20px;
+        top: 5px;
+    }
+
     .panel {
         @include flex-container();
         .back-button, .daterange {
@@ -136,25 +146,6 @@
 
     .delivery-testtakers .list{
         background-color: whiten($canvas, .1);
-    }
-
-    .testcenters-index {
-        .header{
-            position:relative
-        }
-        .admin-link{
-            position: absolute;
-            right: 26px;
-            top: 5px;
-            color: white;
-            opacity : .9;
-            span{
-                margin-right:8px;
-            }
-            &:hover{
-                opacity : 1;
-            }
-        }
     }
 
     .delivery-index{
