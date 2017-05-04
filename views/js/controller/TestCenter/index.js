@@ -21,12 +21,12 @@
 define([
     'jquery',
     'i18n',
-    'helpers',
+    'util/url',
     'layout/loading-bar',
     'ui/listbox',
-    'taoProctoring/helper/textConverter',
-    'tpl!taoTestCenter/templates/testSiteAdmin/adminLink'
-], function ($, __, helpers, loadingBar, listBox, textConverter, adminLinkTpl) {
+    'ui/button',
+    'taoProctoring/helper/textConverter'
+], function ($, __, urlHelper, loadingBar, listBox, buttonFactory, textConverter) {
     'use strict';
 
     /**
@@ -62,8 +62,8 @@ define([
                     renderTo: $container.find('.content'),
                     replace: true
                 });
-                var serviceUrl = helpers._url('index', 'TestCenter', 'taoTestCenter');
-                var adminUrl = helpers._url('index', 'ProctorManager', 'taoTestCenter');
+                var serviceUrl = urlHelper.route('index', 'TestCenter', 'taoTestCenter');
+                var adminUrl = urlHelper.route('index', 'ProctorManager', 'taoTestCenter');
 
                 // update the index from a JSON array
                 var update = function(boxes) {
@@ -95,10 +95,16 @@ define([
 
                 if(admin){
                     //add test center admin link
-                    $container.find('.header').append(adminLinkTpl({
-                        href : adminUrl,
-                        manageProctorMenu : labels.get('Manage Proctors')
-                    }));
+                    buttonFactory({
+                        id: 'manage-proctors',
+                        type: 'info',
+                        icon: 'users',
+                        cls: 'manage-button',
+                        label: labels.get('Manage Proctors'),
+                        renderTo: $container.find('.header')
+                    }).on('click', function () {
+                        window.location.href = adminUrl;
+                    });
                 }
             }).catch(function (err) {
                 console.log(err);

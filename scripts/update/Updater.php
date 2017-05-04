@@ -40,6 +40,6 @@ class Updater extends \common_ext_ExtensionUpdater
             throw new \common_Exception('Upgrade unavailable');
         }
 
-        $this->skip('0.3.0', '2.0.0');
+        $this->skip('0.3.0', '2.0.1');
     }
 }
