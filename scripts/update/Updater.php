@@ -22,6 +22,10 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\taoProctoring\model\ProctorService;
+use oat\taoProctoring\model\ProctorServiceRoute;
+use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
+
 /**
  *
  * @access public
@@ -41,5 +45,26 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('0.3.0', '2.0.1');
+
+        if ($this->isVersion('2.0.1')) {
+            // to avoid configuration overwrite
+            if (!$this->getServiceManager()->has(ProctorService::SERVICE_ID)
+                || !is_a($this->getServiceManager()->get(ProctorService::SERVICE_ID), ProctorServiceRoute::class)
+                ) {
+
+                $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute());
+            }
+
+            $proctorService = $this->getServiceManager()->get(ProctorService::SERVICE_ID);
+            $config = $proctorService->getOptions();
+            if (!isset($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES])) {
+                $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = [];
+            }
+            $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES][] = TestCenterProctorService::class;
+            $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = array_unique($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES]);
+            $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute($config));
+
+            $this->setVersion('2.1.0');
+        }
     }
 }

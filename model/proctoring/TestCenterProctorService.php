@@ -74,4 +74,9 @@ class TestCenterProctorService extends ProctorService
         return $criteria;
     }
 
+    public function isSuitable()
+    {
+        $proctor = \common_session_SessionManager::getSession()->getUser();
+        return is_a($proctor, \core_kernel_users_GenerisUser::class);
+    }
 }

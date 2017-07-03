@@ -21,11 +21,11 @@
 
 namespace oat\taoTestCenter\scripts\install;
 
-use oat\oatbox\service\ServiceManager;
+use oat\taoProctoring\model\ProctorServiceRoute;
+use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoProctoring\model\ProctorService;
-use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 
@@ -42,8 +42,27 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
-        $this->registerService(ProctorService::SERVICE_ID, new TestCenterProctorService());
         $this->registerService(TestTakerAuthorizationService::SERVICE_ID, new TestCenterAuthorizationService());
+        $this->registerProctorService();
+    }
+
+    private function registerProctorService()
+    {
+        // to avoid configuration overwrite
+        if (!$this->getServiceManager()->has(ProctorService::SERVICE_ID)
+            || !is_a($this->getServiceManager()->get(ProctorService::SERVICE_ID), ProctorServiceRoute::class)
+        ) {
+
+            $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute());
+        }
+
+        $proctorService = $this->getServiceManager()->get(ProctorService::SERVICE_ID);
+        $config = $proctorService->getOptions();
+        if (!isset($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES])) {
+            $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = [];
+        }
+        $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES][] = TestCenterProctorService::class;
+        $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = array_unique($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES]);
+        $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute($config));
     }
 }
-
