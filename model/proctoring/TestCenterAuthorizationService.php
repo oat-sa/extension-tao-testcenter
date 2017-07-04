@@ -19,6 +19,7 @@
  */
 namespace oat\taoTestCenter\model\proctoring;
 
+use oat\taoDeliveryRdf\model\guest\GuestTestUser;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\EligibilityService;
@@ -36,7 +37,6 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService
     public function isProctored($deliveryId, User $user)
     {
         $eligibitlityService = $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
-        return parent::isProctored($deliveryId, $user)
-            && !$eligibitlityService->proctorBypassExists($deliveryId, $user);
+        return !($user instanceof GuestTestUser) && !$eligibitlityService->proctorBypassExists($deliveryId, $user);
     }
 }
