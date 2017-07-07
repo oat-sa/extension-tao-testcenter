@@ -42,17 +42,6 @@
     <rdfs:comment xml:lang="en-US">The proctor authorization is not required if this property is true</rdfs:comment>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility"/>
   </rdf:Property>
-  
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible">
-    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Accessible by Proctor]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Accessible by Proctor]]></rdfs:comment>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox"/>
-    <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
-    <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery"/>
-    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode"/>
-    <tao:TAOGUIOrder><![CDATA[90]]></tao:TAOGUIOrder>
-  </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode">
     <rdfs:label xml:lang="en-US"><![CDATA[Check Enable]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Check Enable]]></rdfs:comment>

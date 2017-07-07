@@ -22,6 +22,8 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\tao\scripts\update\OntologyUpdater;
+
 /**
  *
  * @access public
@@ -40,6 +42,11 @@ class Updater extends \common_ext_ExtensionUpdater
             throw new \common_Exception('Upgrade unavailable');
         }
 
-        $this->skip('0.3.0', '2.0.1');
+        $this->skip('0.3.0', '2.0.2');
+
+        if ($this->isVersion('2.0.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('2.0.3');
+        }
     }
 }
