@@ -53,21 +53,17 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         if ($this->isVersion('2.0.1')) {
-            // to avoid configuration overwrite
-            if (!$this->getServiceManager()->has(ProctorService::SERVICE_ID)
-                || !is_a($this->getServiceManager()->get(ProctorService::SERVICE_ID), ProctorServiceDelegator::class)
-                ) {
-
-                $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceDelegator());
-            }
-
             $proctorService = $this->getServiceManager()->get(ProctorService::SERVICE_ID);
             $config = $proctorService->getOptions();
             if (!isset($config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS])) {
                 $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = [];
             }
-            $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS][] = TestCenterProctorService::class;
-            $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = array_unique($config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS]);
+
+            if (!in_array(TestCenterProctorService::class, $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS])) {
+                $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = array_merge([TestCenterProctorService::class],
+                    $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS]);
+            }
+
             $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceDelegator($config));
 
             $this->setVersion('2.1.0');
