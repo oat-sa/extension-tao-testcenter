@@ -23,8 +23,9 @@
 namespace oat\taoTestCenter\scripts\update;
 
 use oat\taoProctoring\model\ProctorService;
-use oat\taoProctoring\model\ProctorServiceRoute;
+use oat\taoProctoring\model\ProctorServiceDelegator;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
+use oat\tao\scripts\update\OntologyUpdater;
 
 /**
  *
@@ -44,25 +45,30 @@ class Updater extends \common_ext_ExtensionUpdater
             throw new \common_Exception('Upgrade unavailable');
         }
 
-        $this->skip('0.3.0', '2.0.1');
+        $this->skip('0.3.0', '2.0.2');
+
+        if ($this->isVersion('2.0.2')) {
+            OntologyUpdater::syncModels();
+            $this->setVersion('2.0.3');
+        }
 
         if ($this->isVersion('2.0.1')) {
             // to avoid configuration overwrite
             if (!$this->getServiceManager()->has(ProctorService::SERVICE_ID)
-                || !is_a($this->getServiceManager()->get(ProctorService::SERVICE_ID), ProctorServiceRoute::class)
+                || !is_a($this->getServiceManager()->get(ProctorService::SERVICE_ID), ProctorServiceDelegator::class)
                 ) {
 
-                $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute());
+                $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceDelegator());
             }
 
             $proctorService = $this->getServiceManager()->get(ProctorService::SERVICE_ID);
             $config = $proctorService->getOptions();
-            if (!isset($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES])) {
-                $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = [];
+            if (!isset($config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS])) {
+                $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = [];
             }
-            $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES][] = TestCenterProctorService::class;
-            $config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES] = array_unique($config[ProctorServiceRoute::PROCTOR_SERVICE_ROUTES]);
-            $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceRoute($config));
+            $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS][] = TestCenterProctorService::class;
+            $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = array_unique($config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS]);
+            $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceDelegator($config));
 
             $this->setVersion('2.1.0');
         }
