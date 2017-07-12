@@ -22,8 +22,7 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
-use oat\taoProctoring\model\ProctorService;
-use oat\taoProctoring\model\ProctorServiceDelegator;
+use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
 
@@ -53,19 +52,9 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         if ($this->isVersion('2.0.1')) {
-            $proctorService = $this->getServiceManager()->get(ProctorService::SERVICE_ID);
-            $config = $proctorService->getOptions();
-            if (!isset($config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS])) {
-                $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = [];
-            }
-
-            if (!in_array(TestCenterProctorService::class, $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS])) {
-                $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS] = array_merge([TestCenterProctorService::class],
-                    $config[ProctorServiceDelegator::PROCTOR_SERVICE_HANDLERS]);
-            }
-
-            $this->getServiceManager()->register(ProctorService::SERVICE_ID, new ProctorServiceDelegator($config));
-
+            $delegator = $this->getServiceManager()->get(ProctorServiceInterface::SERVICE_ID);
+            $delegator->registerHandler(new TestCenterProctorService([ProctorServiceInterface::PROCTORED_BY_DEFAULT => false]));
+            $this->getServiceManager()->register(ProctorServiceInterface::SERVICE_ID, $delegator);
             $this->setVersion('2.1.0');
         }
     }
