@@ -34,10 +34,10 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '2.0.3',
+    'version' => '2.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring' => '>=4.4.2'
+        'taoProctoring' => '>=5.18.1'
     ),
     'managementRole' => TestCenterService::ROLE_TESTCENTER_MANAGER,
     'acl' => array(

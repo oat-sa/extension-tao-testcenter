@@ -23,7 +23,7 @@ namespace oat\taoTestCenter\helper;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\taoClientDiagnostic\model\storage\Storage;
-use oat\taoDelivery\models\classes\execution\DeliveryExecution;
+use oat\taoDelivery\model\execution\DeliveryExecution;
 use oat\taoTestCenter\model\DiagnosticStorage;
 use core_kernel_classes_Resource;
 use DateTime;
@@ -35,7 +35,6 @@ use oat\taoProctoring\model\EligibilityService;
 use oat\taoProctoring\model\DeliveryExecutionStateService;
 use oat\taoProctoring\model\PaginatedStorage;
 use oat\taoProctoring\model\deliveryLog\DeliveryLog;
-use oat\taoTestCenter\helper\BreadcrumbsHelper;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoProctoring\helpers\DataTableHelper;
 
