@@ -21,7 +21,6 @@
 
 namespace oat\taoTestCenter\scripts\install;
 
-use oat\taoProctoring\model\ProctorService;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\TestCenterAssignment;
@@ -52,7 +51,7 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
     private function registerProctorService()
     {
         $delegator = $this->getServiceManager()->get(ProctorServiceInterface::SERVICE_ID);
-        $delegator->registerHandler(new TestCenterProctorService([ProctorService::PROCTORED_BY_DEFAULT => false]));
+        $delegator->registerHandler(new TestCenterProctorService());
         $this->getServiceManager()->register(ProctorServiceInterface::SERVICE_ID, $delegator);
     }
 }

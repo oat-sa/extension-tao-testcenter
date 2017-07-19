@@ -37,7 +37,7 @@ return array(
     'version' => '2.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring' => '>=5.18.0'
+        'taoProctoring' => '>=6.0.0'
     ),
     'managementRole' => TestCenterService::ROLE_TESTCENTER_MANAGER,
     'acl' => array(
