@@ -25,6 +25,7 @@ use core_kernel_classes_Class;
 use \core_kernel_classes_Property as Property;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoProctoring\helpers\DeliveryHelper;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
 use oat\taoProctoring\model\implementation\DeliveryService;
@@ -405,7 +406,7 @@ class EligibilityService extends ConfigurableService
 
         //might be we would like to remove newly uneliglbe executions later
         foreach ($newTestTakers as $testTakerUri) {
-            $executions = \taoDelivery_models_classes_execution_ServiceProxy::singleton()->getUserExecutions($delivery, $testTakerUri);
+            $executions = ServiceProxy::singleton()->getUserExecutions($delivery, $testTakerUri);
             foreach ($executions as $execution) {
                 $deliverMonitoringData = $monitoringService->getData($execution);
                 $deliverMonitoringData->update(TestCenterMonitoringService::TEST_CENTER_ID, $testCenter->getUri());

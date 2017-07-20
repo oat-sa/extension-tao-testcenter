@@ -51,7 +51,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('2.0.3');
         }
 
-        if ($this->isVersion('2.0.3')) {
+        $this->skip('2.0.3', '2.0.4');
+
+        if ($this->isVersion('2.0.4')) {
             $delegator = $this->getServiceManager()->get(ProctorServiceInterface::SERVICE_ID);
             $delegator->registerHandler(new TestCenterProctorService());
             $this->getServiceManager()->register(ProctorServiceInterface::SERVICE_ID, $delegator);
