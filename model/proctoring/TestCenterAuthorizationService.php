@@ -23,14 +23,14 @@ use oat\taoDeliveryRdf\model\guest\GuestTestUser;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 use oat\oatbox\user\User;
-use oat\taoProctoring\model\DelegatorServiceHandler;
+use oat\taoProctoring\model\DelegatedServiceHandler;
 use oat\taoTestCenter\model\EligibilityService;
 
 /**
  * Manage the Testtaker delivery authorization.
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TestCenterAuthorizationService extends TestTakerAuthorizationService implements DelegatorServiceHandler
+class TestCenterAuthorizationService extends TestTakerAuthorizationService implements DelegatedServiceHandler
 {
     /**
      * (non-PHPdoc)
