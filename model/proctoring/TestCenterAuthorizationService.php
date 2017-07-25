@@ -20,15 +20,17 @@
 namespace oat\taoTestCenter\model\proctoring;
 
 use oat\taoDeliveryRdf\model\guest\GuestTestUser;
+use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 use oat\oatbox\user\User;
+use oat\taoProctoring\model\DelegatorServiceHandler;
 use oat\taoTestCenter\model\EligibilityService;
 
 /**
  * Manage the Testtaker delivery authorization.
  * @author Joel Bout, <joel@taotesting.com>
  */
-class TestCenterAuthorizationService extends TestTakerAuthorizationService
+class TestCenterAuthorizationService extends TestTakerAuthorizationService implements DelegatorServiceHandler
 {
     /**
      * (non-PHPdoc)
@@ -38,5 +40,10 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService
     {
         $eligibitlityService = $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
         return !($user instanceof GuestTestUser) && !$eligibitlityService->proctorBypassExists($deliveryId, $user);
+    }
+
+    public function isSuitable()
+    {
+        return \Context::getInstance()->getRequest()->hasParameter('context');
     }
 }

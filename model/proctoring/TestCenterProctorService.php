@@ -76,7 +76,6 @@ class TestCenterProctorService extends ProctorService
 
     public function isSuitable()
     {
-        $proctor = \common_session_SessionManager::getSession()->getUser();
-        return is_a($proctor, \core_kernel_users_GenerisUser::class);
+        return \Context::getInstance()->getRequest()->hasParameter('context');
     }
 }
