@@ -20,7 +20,7 @@
 namespace oat\taoTestCenter\model\proctoring;
 
 use oat\taoDeliveryRdf\model\guest\GuestTestUser;
-use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
+use oat\taoProctoring\helpers\DeliveryHelper;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 use oat\oatbox\user\User;
 use oat\taoProctoring\model\DelegatedServiceHandler;
@@ -44,6 +44,20 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
 
     public function isSuitable()
     {
-        return \Context::getInstance()->getRequest()->hasParameter('context');
+        $isSuitable = false;
+        $user = \common_session_SessionManager::getSession()->getUser();
+        /** @var EligibilityService $eligibilityService */
+        $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
+        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', $user->getRoles())) {
+            // get delivery and with that test taker we could find test center
+            if (\Context::getInstance()->getRequest()->hasParameter('deliveryExecution')) {
+                $deliveryExecution = DeliveryHelper::getDeliveryExecutionById(\Context::getInstance()->getRequest()->getParameter('deliveryExecution'));
+                $delivery = $deliveryExecution->getDelivery();
+                if ($delivery)
+                $testCenter = $eligibilityService->getTestCenter($delivery, $user);
+            }
+        }
+
+        return $isSuitable;
     }
 }
