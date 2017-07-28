@@ -53,8 +53,10 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
             if (\Context::getInstance()->getRequest()->hasParameter('deliveryExecution')) {
                 $deliveryExecution = DeliveryHelper::getDeliveryExecutionById(\Context::getInstance()->getRequest()->getParameter('deliveryExecution'));
                 $delivery = $deliveryExecution->getDelivery();
-                if ($delivery)
-                $testCenter = $eligibilityService->getTestCenter($delivery, $user);
+                if ($delivery->exists()) {
+                    $testCenter = $eligibilityService->getTestCenter($delivery, $user);
+                    $isSuitable = $testCenter->exists();
+                }
             }
         }
 
