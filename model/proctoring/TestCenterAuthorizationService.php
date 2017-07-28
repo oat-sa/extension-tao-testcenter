@@ -50,13 +50,20 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
         $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
         if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', $user->getRoles())) {
             // get delivery and with that test taker we could find test center
+
+            $delivery = false;
             if (\Context::getInstance()->getRequest()->hasParameter('deliveryExecution')) {
+                // has been run before
                 $deliveryExecution = DeliveryHelper::getDeliveryExecutionById(\Context::getInstance()->getRequest()->getParameter('deliveryExecution'));
                 $delivery = $deliveryExecution->getDelivery();
-                if ($delivery->exists()) {
-                    $testCenter = $eligibilityService->getTestCenter($delivery, $user);
-                    $isSuitable = $testCenter->exists();
-                }
+            } elseif (\Context::getInstance()->getRequest()->hasParameter('uri')) {
+                // hasn't been run, have delivery
+                $delivery = $this->getResource(\Context::getInstance()->getRequest()->getParameter('uri'));
+            }
+
+            if ($delivery && $delivery->exists()) {
+                $testCenter = $eligibilityService->getTestCenter($delivery, $user);
+                $isSuitable = $testCenter->exists();
             }
         }
 
