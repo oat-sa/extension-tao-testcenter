@@ -63,7 +63,7 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
 
             if ($delivery && $delivery->exists()) {
                 $testCenter = $eligibilityService->getTestCenter($delivery, $user);
-                $isSuitable = $testCenter->exists();
+                $isSuitable = isset($testCenter) && $testCenter->exists();
             }
         }
 
