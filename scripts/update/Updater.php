@@ -22,7 +22,9 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
+use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
 
@@ -58,6 +60,14 @@ class Updater extends \common_ext_ExtensionUpdater
             $delegator->registerHandler(new TestCenterProctorService());
             $this->getServiceManager()->register(ProctorServiceInterface::SERVICE_ID, $delegator);
             $this->setVersion('2.1.0');
+        }
+
+        if ($this->isVersion('2.1.0')) {
+            $delegator = $this->getServiceManager()->get(TestTakerAuthorizationInterface::SERVICE_ID);
+            $delegator->registerHandler(new TestCenterAuthorizationService());
+            $this->getServiceManager()->register(TestTakerAuthorizationInterface::SERVICE_ID, $delegator);
+
+            $this->setVersion('3.0.0');
         }
     }
 }

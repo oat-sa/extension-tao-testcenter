@@ -21,12 +21,12 @@
 
 namespace oat\taoTestCenter\scripts\install;
 
+use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
-use oat\taoProctoring\model\authorization\TestTakerAuthorizationService;
 
 /**
  * Class TestCenterOverrideServices
@@ -41,8 +41,15 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
-        $this->registerService(TestTakerAuthorizationService::SERVICE_ID, new TestCenterAuthorizationService());
+        $this->registerTestTakerAuthorizationService();
         $this->registerProctorService();
+    }
+
+    private function registerTestTakerAuthorizationService()
+    {
+        $delegator = $this->getServiceManager()->get(TestTakerAuthorizationInterface::SERVICE_ID);
+        $delegator->registerHandler(new TestCenterAuthorizationService());
+        $this->getServiceManager()->register(TestTakerAuthorizationInterface::SERVICE_ID, $delegator);
     }
 
     /**

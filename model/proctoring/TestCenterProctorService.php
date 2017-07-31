@@ -20,10 +20,7 @@
  */
 namespace oat\taoTestCenter\model\proctoring;
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\User;
-use oat\oatbox\service\ConfigurableService;
-use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\EligibilityService;
@@ -74,9 +71,9 @@ class TestCenterProctorService extends ProctorService
         return $criteria;
     }
 
-    public function isSuitable()
+    public function isSuitable(User $user, $deliveryId = null)
     {
-        $proctor = \common_session_SessionManager::getSession()->getUser();
-        return is_a($proctor, \core_kernel_users_GenerisUser::class);
+        return in_array(ProctorService::ROLE_PROCTOR, $user->getRoles())
+            && is_a($user, \core_kernel_users_GenerisUser::class);
     }
 }
