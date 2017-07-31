@@ -67,7 +67,7 @@ class Updater extends \common_ext_ExtensionUpdater
             $delegator->registerHandler(new TestCenterAuthorizationService());
             $this->getServiceManager()->register(TestTakerAuthorizationInterface::SERVICE_ID, $delegator);
 
-            $this->setVersion('2.2.0');
+            $this->setVersion('3.0.0');
         }
     }
 }
