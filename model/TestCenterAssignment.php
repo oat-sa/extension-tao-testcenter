@@ -107,7 +107,12 @@ class TestCenterAssignment extends GroupAssignment
     protected function verifyUserAssigned(\core_kernel_classes_Resource $delivery, User $user)
     {
         $deliveryProp = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
-        $eligibilities = [];
+
+        //check for guest access mode
+        if($this->isDeliveryGuestUser($user) && $this->hasDeliveryGuestAccess($delivery)){
+            return true;
+        }
+
         foreach ($user->getPropertyValues(self::PROPERTY_TESTTAKER_ASSIGNED) as $eligibilityId) {
             $eligibility = $this->getResource($eligibilityId);
             $eligibilityDelivery = $eligibility->getOnePropertyValue($deliveryProp);
@@ -118,6 +123,7 @@ class TestCenterAssignment extends GroupAssignment
                 }
             }
         }
+
         return false;
     }
 
