@@ -42,24 +42,13 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
         return !($user instanceof GuestTestUser) && !$eligibitlityService->proctorBypassExists($deliveryId, $user);
     }
 
-    public function isSuitable()
+    public function isSuitable($deliveryId = null, User $user)
     {
         $isSuitable = false;
-        $user = \common_session_SessionManager::getSession()->getUser();
-        /** @var EligibilityService $eligibilityService */
-        $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
-        if (in_array('http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', $user->getRoles())) {
-            // get delivery and with that test taker we could find test center
-
-            $delivery = false;
-            if (\Context::getInstance()->getRequest()->hasParameter('deliveryExecution')) {
-                // has been run before
-                $deliveryExecution = DeliveryHelper::getDeliveryExecutionById(\Context::getInstance()->getRequest()->getParameter('deliveryExecution'));
-                $delivery = $deliveryExecution->getDelivery();
-            } elseif (\Context::getInstance()->getRequest()->hasParameter('uri')) {
-                // hasn't been run, have delivery
-                $delivery = $this->getResource(\Context::getInstance()->getRequest()->getParameter('uri'));
-            }
+        if ($deliveryId && in_array('http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', $user->getRoles())) {
+            /** @var EligibilityService $eligibilityService */
+            $eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
+            $delivery = $this->getResource($deliveryId);
 
             if ($delivery && $delivery->exists()) {
                 $testCenter = $eligibilityService->getTestCenter($delivery, $user);
