@@ -42,7 +42,7 @@ class TestCenterAuthorizationService extends TestTakerAuthorizationService imple
         return !($user instanceof GuestTestUser) && !$eligibitlityService->proctorBypassExists($deliveryId, $user);
     }
 
-    public function isSuitable($deliveryId = null, User $user)
+    public function isSuitable(User $user, $deliveryId = null)
     {
         $isSuitable = false;
         if ($deliveryId && in_array('http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole', $user->getRoles())) {
