@@ -74,6 +74,6 @@ class TestCenterProctorService extends ProctorService
     public function isSuitable(User $user, $deliveryId = null)
     {
         return in_array(ProctorService::ROLE_PROCTOR, $user->getRoles())
-            && !is_a($user, '\\taoLti_models_classes_LtiUser');
+            && is_a($user, \core_kernel_users_GenerisUser::class);
     }
 }
