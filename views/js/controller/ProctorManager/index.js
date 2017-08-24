@@ -109,7 +109,15 @@ define([
                                 }
                                 $containerList.datatable('refresh');
                             } else {
-                                feedback().error(__('Something went wrong ...') + '<br>' + encode.html(response.error), {encodeHtml: false});
+                                var errorMessage = __('Something went wrong ...');
+                                if(response.proctors){
+                                    errorMessage = __("Unable to revoke all proctors : <ul>");
+                                    response.proctors.forEach(function(proctor){
+                                        errorMessage += "<li>"+proctor+"</li>";
+                                    });
+                                    errorMessage += "</ul>";
+                                }
+                                feedback().error(errorMessage, {encodeHtml: false});
                             }
                         });
                     }
