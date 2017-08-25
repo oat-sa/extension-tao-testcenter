@@ -63,19 +63,21 @@ class ProctorManagementService extends \tao_models_classes_GenerisService
      * Allow test center administrator to remove authorization to multiple proctors
      * @param $proctorsUri
      * @param $testCenters
-     * @return bool
+     * @return array list of unrevokable proctors
      */
     public function unauthorizeProctors($proctorsUri, $testCenters){
         $return = true;
+        $unrevokableProctors = [];
         foreach($proctorsUri as $proctorUri){
             $proctor = new core_kernel_classes_Resource($proctorUri);
             foreach($testCenters as $testCenter){
-                $return &= $proctor->removePropertyValue(new core_kernel_classes_Property(self::PROPERTY_AUTHORIZED_PROCTOR_URI), $testCenter);
-
+                if(!$proctor->removePropertyValue(new core_kernel_classes_Property(self::PROPERTY_AUTHORIZED_PROCTOR_URI), $testCenter)){
+                    $unrevokableProctors[] = $proctor->getLabel();
+                }
             }
         }
 
-        return (bool) $return;
+        return $unrevokableProctors;
     }
 
     /**
