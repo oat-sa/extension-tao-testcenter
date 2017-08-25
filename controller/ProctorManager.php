@@ -195,12 +195,10 @@ class ProctorManager extends SimplePageModule
         $proctors = $this->getRequestProctors();
         $testCenters = $this->getRequestTestCenters();
 
-        $success = ProctorManagementService::singleton()->unauthorizeProctors($proctors, $testCenters);
+        $unrevokableProctors = ProctorManagementService::singleton()->unauthorizeProctors($proctors, $testCenters);
 
         //return data
-        $this->returnJson(array(
-            'success' => $success
-        ));
+        $this->returnJson(array('success' => empty($unrevokableProctors), 'proctors' => $unrevokableProctors));
     }
 
     /**

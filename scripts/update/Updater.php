@@ -74,8 +74,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('3.0.0');
         }
 
+        $this->skip('3.0.0', '3.0.1');
 
-        if ($this->isVersion('3.0.0')) {
+        if ($this->isVersion('3.0.1')) {
 
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(UserRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
