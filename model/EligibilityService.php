@@ -25,10 +25,12 @@ use core_kernel_classes_Class;
 use \core_kernel_classes_Property as Property;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\event\UserRemovedEvent;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoProctoring\helpers\DeliveryHelper;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
 use oat\taoProctoring\model\implementation\DeliveryService;
+use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use tao_models_classes_ClassService;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
@@ -414,5 +416,49 @@ class EligibilityService extends ConfigurableService
             }
         }
 
+    }
+
+    /**
+     * @param string $testTakerUri
+     * @return \core_kernel_classes_Resource[]
+     */
+    public function getEligibilityByTestTaker($testTakerUri)
+    {
+        $instances = $this->getRootClass()->searchInstances(
+            [self::PROPERTY_TESTTAKER_URI => $testTakerUri]
+        );
+
+        return $instances;
+    }
+
+    public function deletedTestTaker($event)
+    {
+        $userUri = null;
+        if($event instanceof TestTakerRemovedEvent){
+            $user = $event->jsonSerialize();
+            $userUri = $user['testTakerUri'];
+        }
+
+        if($event instanceof UserRemovedEvent){
+            $user = $event->jsonSerialize();
+            $userUri = $user['uri'];
+        }
+        
+        $eligibilities = $this->getEligibilityByTestTaker($userUri);
+
+        foreach ($eligibilities as $eligibility){
+            $previousTestTakerCollection = $eligibility->getPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI));
+            $newTestTakerIds = [];
+            foreach ($previousTestTakerCollection as $previousTestTaker){
+                if($userUri !== $previousTestTaker){
+                    $newTestTakerIds[] = $previousTestTaker;
+                }
+            }
+
+            $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $newTestTakerIds);
+
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $newTestTakerIds));
+        }
     }
 }
