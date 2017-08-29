@@ -64,7 +64,7 @@ class TestCenterProctorService extends ProctorService
         if ($delivery !== null) {
             $criteria[] = [DeliveryMonitoringService::DELIVERY_ID => $delivery->getUri()];
         }
-        if (isset($options['filters'])) {
+        if (!empty($options['filters'])) {
             $criteria[] = $options['filters'];
         }
 
