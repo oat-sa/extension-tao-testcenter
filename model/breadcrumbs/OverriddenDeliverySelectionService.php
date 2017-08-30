@@ -21,33 +21,14 @@
 namespace oat\taoTestCenter\model\breadcrumbs;
 
 use oat\taoProctoring\model\breadcrumbs\DeliverySelectionService;
+use oat\taoTestCenter\model\TestCenterService;
 
 /**
  * Provides breadcrumbs for the DeliverySelection controller.
- * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
+ * @author Vilmos Kovacs <vilmos@taotesting.com>
  */
 class OverriddenDeliverySelectionService extends DeliverySelectionService
 {
-    /**
-     * Builds breadcrumbs for a particular route.
-     * @param string $route - The route URL
-     * @param array $parsedRoute - The parsed URL (@see parse_url), augmented with extension, controller and action
-     * @return array|null - The breadcrumb related to the route, or `null` if none. Must contains:
-     * - id: the route id
-     * - url: the route url
-     * - label: the label displayed for the breadcrumb
-     * - entries: a list of related links, using the same format as above
-     */
-    public function breadcrumbs($route, $parsedRoute)
-    {
-        if (isset($parsedRoute['action'])) {
-            switch($parsedRoute['action']) {
-                case 'index':
-                    return $this->breadcrumbsIndex($route, $parsedRoute);
-            }
-        }
-        return null;
-    }
 
     /**
      * Gets the breadcrumbs for the index page
@@ -73,15 +54,34 @@ class OverriddenDeliverySelectionService extends DeliverySelectionService
             'label' => __('Test centers'),
         ];
 
-        // Adding the current testcenter.
+         //Adding the current testcenter.
         if (!empty($parsedRoute['params']['context'])) {
-            $testCenter = new \core_kernel_classes_Class($parsedRoute['params']['context']);
-            $breadCrumbs[] = [
-                'id' => 'testCenter',
-                'url' => _url('testCenter', 'TestCenter', 'taoTestCenter', ['link-type' => 'direct', 'testCenter' => $testCenter->getUri()]),
-                'label' => $testCenter->getLabel(),
-            ];
+
+            $testCenters = TestCenterService::singleton()->getTestCentersByProctor(\common_session_SessionManager::getSession()->getUser());
+            $entries = array();
+            $main = null;
+            foreach ($testCenters as $testCenter) {
+                $testCenterId = $testCenter->getUri();
+                $crumb = [
+                    'id' => $testCenterId,
+                    'url' => _url('testCenter', 'TestCenter', 'taoTestCenter', ['testCenter' => $testCenter->getUri(), 'link-type' => 'direct']),
+                    'label' => $testCenter->getLabel(),
+                ];
+
+                if ($testCenterId == $parsedRoute['params']['context']) {
+                    $main = $crumb;
+                } else {
+//                    $entries[] = $crumb;
+                }
+            }
+
+            if ($main) {
+                $main['entries'] = $entries;
+            }
+
+            $breadCrumbs[] = $main;
         }
+
 
         // Adding the original breadcrumb.
         $breadCrumbs[] = parent::breadcrumbsIndex($route, $parsedRoute);
