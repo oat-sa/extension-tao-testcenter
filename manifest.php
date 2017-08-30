@@ -28,18 +28,19 @@ use oat\taoTestCenter\scripts\install\RegisterTestCenterEvents;
 use oat\taoProctoring\model\ProctorService;
 use oat\tao\model\user\TaoRoles;
 use oat\taoTestCenter\model\TestCenterService;
+use oat\taoTestCenter\scripts\install\OverrideBreadcrumbsServices;
 
 return array(
     'name' => 'taoTestCenter',
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '3.1.2',
+    'version' => '3.2.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring' => '>=7.0.0',
+        'taoProctoring' => '>=7.1.0',
         'taoDelivery' => '>=7.0.0',
-        'tao' => '>=12.13.1',
+        'tao' => '>=12.14.0',
         'taoTestTaker' => '>=3.0.2',
     ),
     'managementRole' => TestCenterService::ROLE_TESTCENTER_MANAGER,
@@ -54,7 +55,8 @@ return array(
         'php' => array(
             RegisterTestCenterEntryPoint::class,
             TestCenterOverrideServices::class,
-            RegisterTestCenterEvents::class
+            RegisterTestCenterEvents::class,
+            OverrideBreadcrumbsServices::class,
         ),
         'rdf' => array(
             __DIR__.'/scripts/install/ontology/taotestcenter.rdf',

@@ -26,6 +26,9 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
+use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
+use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
+use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
@@ -87,5 +90,14 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('3.1.0', '3.1.2');
+
+        if ($this->isVersion('3.1.2')) {
+            $this->getServiceManager()->register(
+                OverriddenDeliverySelectionService::SERVICE_ID,
+                new OverriddenDeliverySelectionService()
+            );
+
+            $this->setVersion('3.2.0');
+        }
     }
 }
