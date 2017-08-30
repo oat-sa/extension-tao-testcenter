@@ -37,7 +37,7 @@ class TestCenter extends SimplePageModule
     use ProctoringTextConverterTrait;
 
     /**
-     * Displays the index page of the extension: list all available deliveries.
+     * Displays the index page of the extension: list all available test centers.
      */
     public function index()
     {
