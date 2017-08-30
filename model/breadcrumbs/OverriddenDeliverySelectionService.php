@@ -71,7 +71,7 @@ class OverriddenDeliverySelectionService extends DeliverySelectionService
                 if ($testCenterId == $parsedRoute['params']['context']) {
                     $main = $crumb;
                 } else {
-//                    $entries[] = $crumb;
+                    $entries[] = $crumb;
                 }
             }
 
