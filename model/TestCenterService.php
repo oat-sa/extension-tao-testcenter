@@ -107,29 +107,6 @@ class TestCenterService extends tao_models_classes_ClassService
     }
 
     /**
-     * Merge several list of resources URIs into one array
-     * @param array $uris
-     * @param array ...
-     * @return array
-     */
-    protected function mergeActualResources($uris)
-    {
-        $resources = array();
-        foreach (func_get_args() as $uris) {
-            if (!is_array($uris)) {
-                $uris = [$uris];
-            }
-            foreach ($uris as $uri) {
-                $resource = new core_kernel_classes_Resource($uri);
-                if ($resource->exists()) {
-                    $resources[$uri] = $resource;
-                }
-            }
-        }
-        return $resources;
-    }
-
-    /**
      * Get test centers administered by a proctor
      *
      * @param User $user
@@ -138,18 +115,35 @@ class TestCenterService extends tao_models_classes_ClassService
      */
     public function getTestCentersByProctor(User $user)
     {
-        $testCenters = array();
-        $testCenters = array_merge($testCenters, $user->getPropertyValues(ProctorManagementService::PROPERTY_AUTHORIZED_PROCTOR_URI));
-        foreach($user->getPropertyValues(ProctorManagementService::PROPERTY_AUTHORIZED_PROCTOR_URI) as $testCenter){
-            $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
+        // Regular Proctoring.
+        $testCenters = array_intersect(
+            $user->getPropertyValues(ProctorManagementService::PROPERTY_AUTHORIZED_PROCTOR_URI),
+            $user->getPropertyValues(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI)
+        );
+        $subCenters = [];
+        
+        foreach($testCenters as $testCenter){
+            $subCenters = array_merge($subCenters, $this->getSubTestCenters($testCenter));
         }
-        $testCenters = array_merge($testCenters, $user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI));
-        foreach($user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI) as $testCenter){
-            $testCenters = array_merge($testCenters, $this->getSubTestCenters($testCenter));
+        
+        // Administrator Proctoring.
+        $adminTestCenters = $user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI);
+        $adminSubCenters = [];
+        
+        foreach($adminTestCenters as $testCenter){
+            $adminSubCenters = array_merge($adminSubCenters, $this->getSubTestCenters($testCenter));
         }
-        $testCenters = $this->mergeActualResources($testCenters);
+        
+        $testCenters = array_merge(
+            $testCenters,
+            $subCenters,
+            $adminTestCenters,
+            $adminSubCenters
+        );
 
-        return $testCenters;
+        return array_map(function($uri) {
+            return new core_kernel_classes_Resource($uri);
+        }, $testCenters);
     }
 
     /**

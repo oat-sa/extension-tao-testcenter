@@ -22,9 +22,11 @@
 namespace oat\taoTestCenter\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
+use oat\tao\model\event\UserRemovedEvent;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
+use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 
 /**
  * Class RegisterTestCenterEvents
@@ -40,5 +42,7 @@ class RegisterTestCenterEvents extends InstallAction
     {
         $this->registerEvent(EligiblityChanged::EVENT_NAME, [EligibilityService::SERVICE_ID, 'eligiblityChange']);
         $this->registerEvent(DeliveryExecutionCreated::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deliveryExecutionCreated']);
+        $this->registerEvent(UserRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
+        $this->registerEvent(TestTakerRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
     }
 }
