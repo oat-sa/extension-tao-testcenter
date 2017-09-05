@@ -299,7 +299,7 @@ class EligibilityService extends ConfigurableService
         $eligibilities = $class->searchInstances([
             EligibilityService::PROPERTY_TESTTAKER_URI => $user->getIdentifier(),
             EligibilityService::PROPERTY_DELIVERY_URI => $delivery->getUri(),
-        ]);
+        ], ['like' => false]);
 
         foreach ($eligibilities as $eligibility) {
             /* @var \core_kernel_classes_Resource $eligibility*/
@@ -351,7 +351,7 @@ class EligibilityService extends ConfigurableService
         $eligibilities = $class->searchInstances([
             EligibilityService::PROPERTY_TESTTAKER_URI => $user->getIdentifier(),
             EligibilityService::PROPERTY_DELIVERY_URI => $deliveryId,
-        ]);
+        ], ['like' => false]);
         foreach ($eligibilities as $eligibility) {
             if ($this->canByPassProctor($eligibility)) {
                 $bypassExists = true;
@@ -426,6 +426,7 @@ class EligibilityService extends ConfigurableService
     {
         $instances = $this->getRootClass()->searchInstances(
             [self::PROPERTY_TESTTAKER_URI => $testTakerUri]
+            ,['like' => false]
         );
 
         return $instances;
