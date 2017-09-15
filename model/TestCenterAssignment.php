@@ -19,6 +19,7 @@
  */
 namespace oat\taoTestCenter\model;
 
+use oat\tao\model\TaoOntology;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\taoGroups\models\GroupsService;
@@ -89,7 +90,7 @@ class TestCenterAssignment extends GroupAssignment
      */
     public function unassignAll($assignment)
     {
-        $instances = $this->getClass(TAO_SUBJECT_CLASS)->searchInstances(
+        $instances = $this->getClass(TaoOntology::SUBJECT_CLASS)->searchInstances(
             [
               self::PROPERTY_TESTTAKER_ASSIGNED => $assignment->getUri()
             ],['recursive' => true, 'like' => false]
