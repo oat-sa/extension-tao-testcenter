@@ -90,7 +90,7 @@ class TestCenterAssignment extends GroupAssignment
      */
     public function unassignAll($assignment)
     {
-        $instances = $this->getClass(TaoOntology::SUBJECT_CLASS)->searchInstances(
+        $instances = $this->getClass(TaoOntology::SUBJECT_CLASS_URI)->searchInstances(
             [
               self::PROPERTY_TESTTAKER_ASSIGNED => $assignment->getUri()
             ],['recursive' => true, 'like' => false]

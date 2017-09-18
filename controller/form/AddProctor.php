@@ -30,7 +30,7 @@ class AddProctor extends tao_actions_form_Users
 
     public function __construct()
     {
-        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER), null, true);
+        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), null, true);
     }
 
     protected function initForm()

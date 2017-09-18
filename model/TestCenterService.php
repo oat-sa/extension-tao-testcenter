@@ -68,7 +68,7 @@ class TestCenterService extends tao_models_classes_ClassService
     {
         $success = parent::deleteResource($resource);
         if ($success) {
-            $userClass = new \core_kernel_classes_Class(TaoOntology::CLASS_TAO_USER);
+            $userClass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
             // cleanup proctors
             $users = $userClass->searchInstances(
                 array(
