@@ -111,7 +111,8 @@ define([
                             } else {
                                 var errorMessage = __('Something went wrong ...');
                                 if(response.proctors){
-                                    errorMessage = __("Unable to revoke all proctors : <ul>");
+                                    errorMessage = __("No authorization to revoke for these proctors :");
+                                    errorMessage += "</ul>";
                                     response.proctors.forEach(function(proctor){
                                         errorMessage += "<li>"+proctor+"</li>";
                                     });
