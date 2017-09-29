@@ -1,7 +1,14 @@
 {
-"version": 3,
-"mappings": "AAqBI,kCAAa,CACT,UAAU,CAAE,MAAM,CAEtB,8BAAU,CACN,UAAU,CAAE,MAAM,CAClB,KAAK,CAAE,IAAI,CAEX,mCAAS,CCuMT,SAAS,CAAE,IAAc,CACzB,SAAS,CAAE,MAAoB,CDtM3B,cAAc,CAAE,MAAM",
-"sources": ["../scss/eligibilityTable.scss","../../../tao/views/scss/inc/_functions.scss"],
-"names": [],
-"file": "eligibilityTable.css"
+	"version": 3,
+	"file": "eligibilityTable.css",
+	"sources": [
+		"../scss/eligibilityTable.scss",
+		"../../../tao/views/scss/inc/_bootstrap.scss",
+		"../../../tao/views/scss/inc/_variables.scss",
+		"../../../tao/views/scss/inc/_functions.scss",
+		"../../../tao/views/scss/inc/_colors.scss",
+		"../../../tao/views/scss/inc/fonts/_tao-icon-vars.scss"
+	],
+	"names": [],
+	"mappings": "AAoBA,AACI,oBADgB,CAChB,EAAE,AAAA,WAAW,AAAA,CACT,UAAU,CAAE,MAAM,CACrB,AAHL,AAII,oBAJgB,CAIhB,EAAE,AAAA,OAAO,AAAC,CACN,UAAU,CAAE,MAAM,CAClB,KAAK,CAAE,IAAI,CAMd,AAZL,AAQY,oBARQ,CAIhB,EAAE,AAAA,OAAO,CAID,IAAI,AAAC,CGuMT,SAAS,CAAE,IAAc,CACzB,SAAS,CAAE,MAAoB,CHtM3B,cAAc,CAAE,MAAM,CACzB"
 }
