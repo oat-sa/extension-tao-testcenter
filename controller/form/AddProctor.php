@@ -19,6 +19,7 @@
  */
 namespace oat\taoTestCenter\controller\form;
 
+use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use \tao_actions_form_Users;
@@ -30,7 +31,7 @@ class AddProctor extends tao_actions_form_Users
 
     public function __construct()
     {
-        parent::__construct(new \core_kernel_classes_Class(CLASS_TAO_USER), null, true);
+        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), null, true);
     }
 
     protected function initForm()

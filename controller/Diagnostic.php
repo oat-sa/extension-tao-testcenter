@@ -22,6 +22,7 @@ namespace oat\taoTestCenter\controller;
 
 use oat\generis\model\OntologyRdfs;
 use oat\ltiDeliveryProvider\model\LTIDeliveryTool;
+use oat\tao\model\TaoOntology;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\implementation\DeliveryService;
 
@@ -79,8 +80,8 @@ class Diagnostic extends SimplePageModule
                     \taoLti_models_classes_ConsumerService::singleton()->getRootClass()->createInstanceWithProperties(
                         array(
                             OntologyRdfs::RDFS_LABEL => 'proctoring',
-                            PROPERTY_OAUTH_KEY => 'proctoring_key',
-                            PROPERTY_OAUTH_SECRET => $secret
+							TaoOntology::PROPERTY_OAUTH_KEY => 'proctoring_key',
+							TaoOntology::PROPERTY_OAUTH_SECRET => $secret
                         )
                     );
 
