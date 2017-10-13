@@ -21,8 +21,9 @@ namespace oat\taoTestCenter\model;
 
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
-use oat\taoGroups\models\GroupsService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoProctoring\model\execution\DeliveryExecution as ProctoredDeliveryExecution;
 
 /**
  * Class TestCenterAssignment
@@ -141,4 +142,27 @@ class TestCenterAssignment extends GroupAssignment
         return $assignments;
     }
 
+    /**
+     * @param \core_kernel_classes_Resource $delivery
+     * @param User $user
+     * @throws
+     * @return bool
+     */
+    protected function verifyToken(\core_kernel_classes_Resource $delivery, User $user)
+    {
+        $propMaxExec = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP));
+        $maxExec = is_null($propMaxExec) ? 0 : $propMaxExec->literal;
+
+        //check Tokens
+        $executions = ServiceProxy::singleton()->getUserExecutions($delivery, $user->getIdentifier());
+        $executions = array_filter($executions, function($execution) {
+            return $execution->getState()->getUri() !== ProctoredDeliveryExecution::STATE_CANCELED;
+        });
+        $usedTokens = count($executions);
+        if (($maxExec != 0) && ($usedTokens >= $maxExec)) {
+            \common_Logger::d("Attempt to start the compiled delivery ".$delivery->getUri(). "without tokens");
+            return false;
+        }
+        return true;
+    }
 }
