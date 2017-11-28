@@ -34,8 +34,11 @@ class TestCenterProctorService extends ProctorService
 {
     /**
      * Gets all deliveries available for a proctor
+     *
      * @param User $proctor
+     * @param null $context
      * @return array
+     * @throws \common_exception_Error
      */
     public function getProctorableDeliveries(User $proctor, $context = null)
     {
@@ -46,12 +49,13 @@ class TestCenterProctorService extends ProctorService
         $elibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
         return $elibilityService->getEligibleDeliveries($testCenter, false);
     }
-    
+
     /**
      * @param null $delivery
      * @param null $context
      * @param array $options
      * @return array
+     * @throws \common_Exception
      */
     protected function getCriteria($delivery = null, $context = null, $options = [])
     {
@@ -61,6 +65,7 @@ class TestCenterProctorService extends ProctorService
         $criteria = [
             [TestCenterMonitoringService::TEST_CENTER_ID => $context]
         ];
+
         if ($delivery !== null) {
             $criteria[] = [DeliveryMonitoringService::DELIVERY_ID => $delivery->getUri()];
         }
@@ -71,9 +76,38 @@ class TestCenterProctorService extends ProctorService
         return $criteria;
     }
 
+    /**
+     * Get the data to display the 'all sessions' entry point
+     *
+     * @param User $proctor
+     * @param null $context
+     * @return array|mixed
+     * @throws \common_exception_Error
+     */
+    public function getAllSessionsEntry(User $proctor, $context = null)
+    {
+        if (empty($context)) {
+            throw new \common_exception_Error('No testcenter specified in '.__FUNCTION__);
+        }
+        $testCenter = $this->getResource($context);
+
+        return array(
+            'id' => 'all',
+            'url' => _url('index', 'Monitor', null, array('context' => $testCenter->getUri())),
+            'label' => __('All Sessions'),
+            'cls' => 'dark',
+            'stats' => array(
+                'awaitingApproval' => 0,
+                'inProgress' => 0,
+                'paused' => 0
+            )
+        );
+    }
+
     public function isSuitable(User $user, $deliveryId = null)
     {
         return in_array(ProctorService::ROLE_PROCTOR, $user->getRoles())
             && is_a($user, \core_kernel_users_GenerisUser::class);
     }
+
 }

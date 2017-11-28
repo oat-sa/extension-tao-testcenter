@@ -82,7 +82,6 @@ class OverriddenDeliverySelectionService extends DeliverySelectionService
             $breadCrumbs[] = $main;
         }
 
-
         // Adding the original breadcrumb.
         $breadCrumbs[] = parent::breadcrumbsIndex($route, $parsedRoute);
 
