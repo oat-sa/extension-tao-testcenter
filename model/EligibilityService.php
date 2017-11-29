@@ -28,6 +28,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\taoDelivery\model\execution\ServiceProxy;
 use oat\taoProctoring\helpers\DeliveryHelper;
+use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
 use oat\taoProctoring\model\implementation\DeliveryService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
@@ -100,6 +101,16 @@ class EligibilityService extends ConfigurableService
             self::PROPERTY_TESTCENTER_URI => $testCenter,
             self::PROPERTY_DELIVERY_URI => $delivery
         ));
+
+        //Checking if proctoring was enabled for delivery, if not - we must bypass it in established eligibility
+        $isProctoringEnabled = $delivery->getOnePropertyValue(new Property(ProctorService::ACCESSIBLE_PROCTOR));
+        $mustBeProctoredByDefault = ($isProctoringEnabled instanceof Resource && $isProctoringEnabled->getUri() === ProctorService::ACCESSIBLE_PROCTOR_DISABLED)
+            ? false
+            : true;
+        if (!$mustBeProctoredByDefault) {
+            $this->setByPassProctor($eligibilty, true);
+        }
+
         return true;
     }
 
