@@ -20,6 +20,7 @@ define([
     'jquery',
     'lodash',
     'i18n',
+    'module',
     'helpers',
     'uri',
     'ui/component',
@@ -28,7 +29,7 @@ define([
     'ui/feedback',
     'ui/modal',
     'css!taoTestCenterCss/eligibilityEditor'
-], function($, _, __, helpers, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
+], function($, _, __, module, helpers, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
     'use strict';
 
     var _ns = '.eligibility-editor';
@@ -38,8 +39,12 @@ define([
     };
 
     var config = {
-        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao')
+        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
+        deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
+        deliveriesOrderdir : 'asc',
     };
+
+    config = _.defaults({}, module.config(), config);
 
     /**
      * Create an eligibility editor into a $container
@@ -101,7 +106,9 @@ define([
                 checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
                 serverParameters : {
                     openParentNodes : selected, //generis tree uses normal if to open nodes...
-                    rootNode : 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery'
+                    rootNode : 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery',
+                    order : config.deliveriesOrder,
+                    orderdir : config.deliveriesOrderdir
                 },
                 paginate : 10
             });
