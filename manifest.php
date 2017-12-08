@@ -58,6 +58,7 @@ return array(
             TestCenterOverrideServices::class,
             RegisterTestCenterEvents::class,
             OverrideBreadcrumbsServices::class,
+            \oat\taoTestCenter\scripts\install\RegisterClientLibConfig::class,
         ),
         'rdf' => array(
             __DIR__.'/scripts/install/ontology/taotestcenter.rdf',
