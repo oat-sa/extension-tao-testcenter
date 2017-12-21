@@ -181,7 +181,8 @@ class TestCenterManager extends \tao_actions_SaSModule
             }
         }
 
-        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        // Trigger ResourceUpdated event for updating updatedAt field for resource
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new ResourceUpdated($testCenter));
 
         return $this->returnJson(array(
@@ -199,7 +200,8 @@ class TestCenterManager extends \tao_actions_SaSModule
             foreach($eligibility['deliveries'] as $delivery){
                 $success = $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
             }
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            // Trigger ResourceUpdated event for updating updatedAt field for resource
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new ResourceUpdated($testCenter));
         }else{
             //nothing to save, so consider it done
@@ -221,7 +223,8 @@ class TestCenterManager extends \tao_actions_SaSModule
         foreach($eligibility['deliveries'] as $delivery){
             $success = $this->eligibilityService->removeEligibility($testCenter, $delivery);
         }
-        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        // Trigger ResourceUpdated event for updating updatedAt field for resource
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new ResourceUpdated($testCenter));
         return $this->returnJson(array(
             'success' => $success
