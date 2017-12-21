@@ -21,6 +21,9 @@
 
 namespace oat\taoTestCenter\controller;
 
+use oat\generis\model\data\event\ResourceUpdated;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\resources\ResourceWatcher;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\EligibilityService;
@@ -94,7 +97,8 @@ class TestCenterManager extends \tao_actions_SaSModule
         $proctorForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testCenter, $proctorProperty);
         $proctorForm->setData('title', $this->convert('Assign proctors'));
         $this->setData('proctorForm', $proctorForm->render());
-
+        $updatedAt = $this->getServiceManager()->get(ResourceWatcher::SERVICE_ID)->getUpdatedAt($testCenter);
+        $this->setData('updatedAt', $updatedAt);
         $this->setData('formTitle', $this->convert('Edit test center'));
         $this->setData('testCenter', $testCenter->getUri());
         $this->setData('myForm', $myForm->render());
@@ -177,6 +181,10 @@ class TestCenterManager extends \tao_actions_SaSModule
             }
         }
 
+        // Trigger ResourceUpdated event for updating updatedAt field for resource
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+        $eventManager->trigger(new ResourceUpdated($testCenter));
+
         return $this->returnJson(array(
             'success' => $success,
             'failed' => $failures
@@ -192,6 +200,9 @@ class TestCenterManager extends \tao_actions_SaSModule
             foreach($eligibility['deliveries'] as $delivery){
                 $success = $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
             }
+            // Trigger ResourceUpdated event for updating updatedAt field for resource
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+            $eventManager->trigger(new ResourceUpdated($testCenter));
         }else{
             //nothing to save, so consider it done
             $success = true;
@@ -212,6 +223,9 @@ class TestCenterManager extends \tao_actions_SaSModule
         foreach($eligibility['deliveries'] as $delivery){
             $success = $this->eligibilityService->removeEligibility($testCenter, $delivery);
         }
+        // Trigger ResourceUpdated event for updating updatedAt field for resource
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+        $eventManager->trigger(new ResourceUpdated($testCenter));
         return $this->returnJson(array(
             'success' => $success
         ));
