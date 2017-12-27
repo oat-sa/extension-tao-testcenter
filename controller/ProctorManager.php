@@ -19,6 +19,7 @@
  */
 namespace oat\taoTestCenter\controller;
 
+use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\UserHelper;
 use oat\taoProctoring\helpers\DataTableHelper;
 use \tao_helpers_Uri;
@@ -128,7 +129,7 @@ class ProctorManager extends SimplePageModule
                 $user = UserHelper::getUser($proctor);
                 $lastName = UserHelper::getUserLastName($user);
                 $firstName = UserHelper::getUserFirstName($user, empty($lastName));
-                $login = UserHelper::getUserStringProp($user, PROPERTY_USER_LOGIN);
+                $login = UserHelper::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LOGIN);
                 $authorizedLabel = array();
 
                 if (isset($testCentersByProctors[$userId])) {
@@ -216,12 +217,12 @@ class ProctorManager extends SimplePageModule
             $valid = $myForm->isValid();
             if ($valid) {
                 $values = $myForm->getValues();
-                $values[PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
                 unset($values['password1']);
                 unset($values['password2']);
 
                 //force the new user role to be proctorRole
-                $values[PROPERTY_USER_ROLES] = array('http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole');//@todo use a constant instead
+                $values[GenerisRdf::PROPERTY_USER_ROLES] = array('http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole');//@todo use a constant instead
                 $proctor = $myFormContainer->getUser();
                 $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($proctor);
                 $created = $binder->bind($values);
@@ -244,7 +245,7 @@ class ProctorManager extends SimplePageModule
             'form' => $form,
             'valid' => $valid,
             'created' => $created,
-            'loginId'=> tao_helpers_Uri::encode(PROPERTY_USER_LOGIN),
+            'loginId'=> tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN),
             'debug' => array('values' => $myForm->getValues())
         ));
     }
