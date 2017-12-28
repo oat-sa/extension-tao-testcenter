@@ -25,8 +25,10 @@ use oat\ltiDeliveryProvider\model\LTIDeliveryTool;
 use oat\tao\model\TaoOntology;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\implementation\DeliveryService;
-
-require_once __DIR__.'/../../tao/lib/oauth/OAuth.php';
+use IMSGlobal\LTI\OAuth\OAuthConsumer;
+use IMSGlobal\LTI\OAuth\OAuthToken;
+use IMSGlobal\LTI\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use IMSGlobal\LTI\OAuth\OAuthRequest;
 
 /**
  * Proctoring Diagnostic controller for the readiness check screen
@@ -85,7 +87,7 @@ class Diagnostic extends SimplePageModule
                         )
                     );
 
-                    $test_consumer = new \OAuthConsumer('proctoring_key', $secret);
+                    $test_consumer = new OAuthConsumer('proctoring_key', $secret);
                 }
                 $session = \common_session_SessionManager::getSession();
 
@@ -113,14 +115,14 @@ class Diagnostic extends SimplePageModule
 
 
 
-                $hmac_method = new \OAuthSignatureMethod_HMAC_SHA1();
+                $hmac_method = new OAuthSignatureMethod_HMAC_SHA1();
 
-                $test_token = new \OAuthToken($test_consumer, '');
+                $test_token = new OAuthToken($test_consumer, '');
 
 
                 foreach($deliveries as $delivery){
                     $launchUrl =  LTIDeliveryTool::singleton()->getLaunchUrl(array('delivery' => $delivery->getUri()));
-                    $acc_req = \OAuthRequest::from_consumer_and_token($test_consumer, $test_token, 'GET', $launchUrl, $ltiData);
+                    $acc_req = OAuthRequest::from_consumer_and_token($test_consumer, $test_token, 'GET', $launchUrl, $ltiData);
                     $acc_req->sign_request($hmac_method, $test_consumer, $test_token);
 
                     $deliveryData[] = array(
