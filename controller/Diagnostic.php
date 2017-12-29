@@ -26,8 +26,6 @@ use oat\tao\model\TaoOntology;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use oat\taoProctoring\model\implementation\DeliveryService;
 
-require_once __DIR__.'/../../tao/lib/oauth/OAuth.php';
-
 /**
  * Proctoring Diagnostic controller for the readiness check screen
  *
@@ -60,88 +58,6 @@ class Diagnostic extends SimplePageModule
         );
     }
 
-
-    public function deliveriesByProctor()
-    {
-        $deliveryData = array();
-        if(\common_ext_ExtensionsManager::singleton()->isInstalled('ltiDeliveryProvider')){
-            /** @var DeliveryService $service */
-            $service = $this->getServiceManager()->get(DeliveryService::CONFIG_ID);
-            $deliveries = $service->getAccessibleDeliveries();
-
-
-            if(!empty($deliveries)){
-
-                try{
-                    $dataStore = new \tao_models_classes_oauth_DataStore();
-                    $test_consumer = $dataStore->lookup_consumer('proctoring_key');
-                } catch(\tao_models_classes_oauth_Exception $e){
-                    $secret = uniqid('proctoring_');
-                    \taoLti_models_classes_ConsumerService::singleton()->getRootClass()->createInstanceWithProperties(
-                        array(
-                            OntologyRdfs::RDFS_LABEL => 'proctoring',
-							TaoOntology::PROPERTY_OAUTH_KEY => 'proctoring_key',
-							TaoOntology::PROPERTY_OAUTH_SECRET => $secret
-                        )
-                    );
-
-                    $test_consumer = new \OAuthConsumer('proctoring_key', $secret);
-                }
-                $session = \common_session_SessionManager::getSession();
-
-                $ltiData = array(
-                    'lti_message_type' => 'basic-lti-launch-request',
-                    'lti_version' => 'LTI-1p0',
-
-                    'resource_link_id' => rand(0, 9999999),
-                    'resource_link_title' => 'Launch Title',
-                    'resource_link_label' => 'Launch label',
-
-                    'context_title' => 'Launch Title',
-                    'context_label' => 'Launch label',
-
-                    'user_id' => $session->getUserUri(),
-                    'roles' => 'Learner',
-                    'lis_person_name_full' => $session->getUserLabel(),
-
-                    'tool_consumer_info_product_family_code' => PRODUCT_NAME,
-                    'tool_consumer_info_version' => TAO_VERSION,
-
-                    'custom_skip_thankyou' => 'true',
-                    'launch_presentation_return_url' => _url('logout', 'Main', 'tao')
-                );
-
-
-
-                $hmac_method = new \OAuthSignatureMethod_HMAC_SHA1();
-
-                $test_token = new \OAuthToken($test_consumer, '');
-
-
-                foreach($deliveries as $delivery){
-                    $launchUrl =  LTIDeliveryTool::singleton()->getLaunchUrl(array('delivery' => $delivery->getUri()));
-                    $acc_req = \OAuthRequest::from_consumer_and_token($test_consumer, $test_token, 'GET', $launchUrl, $ltiData);
-                    $acc_req->sign_request($hmac_method, $test_consumer, $test_token);
-
-                    $deliveryData[] = array(
-                        'id' => $delivery->getUri(),
-                        'label' => $delivery->getLabel(),
-                        'url' => $acc_req->to_url(),
-                        'text' => __('Test')
-                    );
-                }
-            }
-
-        }
-
-        $this->setData('title', __('Available Deliveries'));
-        $this->composeView(
-            'diagnostic-deliveries',
-            array('list' => $deliveryData),
-            'pages/index.tpl',
-            'taoTestCenter'
-        );
-    }
     /**
      * Display the diagnostic runner
      */
