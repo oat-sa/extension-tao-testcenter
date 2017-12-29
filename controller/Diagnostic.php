@@ -20,11 +20,7 @@
 
 namespace oat\taoTestCenter\controller;
 
-use oat\generis\model\OntologyRdfs;
-use oat\ltiDeliveryProvider\model\LTIDeliveryTool;
-use oat\tao\model\TaoOntology;
 use oat\taoTestCenter\helper\TestCenterHelper;
-use oat\taoProctoring\model\implementation\DeliveryService;
 
 /**
  * Proctoring Diagnostic controller for the readiness check screen
