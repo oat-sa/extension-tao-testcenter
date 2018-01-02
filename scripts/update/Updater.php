@@ -34,6 +34,7 @@ use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
+use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  *
@@ -100,5 +101,16 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('3.2.0');
         }
         $this->skip('3.2.0', '3.2.3');
+
+        if ($this->isVersion('3.2.3')) {
+            ClientLibConfigRegistry::getRegistry()->register('taoTestCenter/component/eligibilityEditor', [
+                'deliveriesOrder' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                'deliveriesOrderdir' => 'asc',
+            ]);
+
+            $this->setVersion('3.3.0');
+        }
+
+        $this->skip('3.3.0', '3.6.1');
     }
 }
