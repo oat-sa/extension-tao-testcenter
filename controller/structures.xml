@@ -26,19 +26,15 @@
                             group="content" context="instance">
                         <icon id="icon-edit"/>
                     </action>
-                    <action id="testcenter-filter" name="Filter" context="*" group="search" binding="filter">
-                        <icon id="icon-filter"/>
-                    </action>
-                    <action id="testcenter-search" name="Search" url="/taoTestCenter/TestCenterManager/search" context="*"
-                            group="search" binding="launchFinder">
-                        <icon id="icon-find"/>
-                    </action>
                     <action id="testcenter-class-new" name="New class" url="/taoTestCenter/TestCenterManager/addSubClass"
                             context="resource" group="tree" binding="subClass">
                         <icon id="icon-folder-open"/>
                     </action>
                     <action id="testcenter-delete" name="Delete" url="/taoTestCenter/TestCenterManager/delete"
                             context="resource" group="tree" binding="removeNode">
+                        <icon id="icon-bin"/>
+                    </action>
+                    <action id="testcenter-delete-all" name="Delete" url="/taoTestCenter/TestCenterManager/deleteAll" multiple="true" context="resource" group="tree" binding="removeNodes">
                         <icon id="icon-bin"/>
                     </action>
                     <action id="testcenter-move" name="Move" url="/taoTestCenter/TestCenterManager/moveInstance"
