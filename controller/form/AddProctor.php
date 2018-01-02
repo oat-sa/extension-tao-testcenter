@@ -19,6 +19,8 @@
  */
 namespace oat\taoTestCenter\controller\form;
 
+use oat\tao\model\TaoOntology;
+use oat\generis\model\GenerisRdf;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use \tao_actions_form_Users;
 use \tao_helpers_form_FormFactory;
@@ -29,7 +31,7 @@ class AddProctor extends tao_actions_form_Users
 
     public function __construct()
     {
-        parent::__construct(new \core_kernel_classes_Class(CLASS_TAO_USER), null, true);
+        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), null, true);
     }
 
     protected function initForm()
@@ -71,6 +73,6 @@ class AddProctor extends tao_actions_form_Users
         $title->setValue('<h2>' . $this->convert('Create and authorize a proctor to the selected test sites') . '</h2>');
         $this->form->addElement($title);
         parent::initElements();
-        $this->form->removeElement(\tao_helpers_Uri::encode(PROPERTY_USER_ROLES));
+        $this->form->removeElement(\tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_ROLES));
     }
 }

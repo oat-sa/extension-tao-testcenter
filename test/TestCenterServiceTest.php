@@ -26,6 +26,7 @@ namespace oat\taotestCenter\test;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdfs;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\TestTakerService;
@@ -110,8 +111,7 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
         $subTCInstanceLabel = 'subTC instance';
         $subTCInstance = $this->testCenterService->createInstance($subTestCenterClass);
 
-        $this->assertTrue(defined('RDFS_LABEL'));
-        $subTCInstance->removePropertyValues(new core_kernel_classes_Property(RDFS_LABEL));
+        $subTCInstance->removePropertyValues(new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL));
         $subTCInstance->setLabel($subTCInstanceLabel);
         $this->assertInstanceOf('core_kernel_classes_Resource', $subTCInstance);
         $this->assertEquals($subTCInstanceLabel, $subTCInstance->getLabel());
