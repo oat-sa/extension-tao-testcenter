@@ -202,7 +202,8 @@ define([
                     subjectTreeId : testTakerTreeId,
                     deliveryTreeId : deliveryTreeId,
                 })
-                .render($container);
+                .render($container)
+                .resize();
 
             },
 
@@ -254,7 +255,20 @@ define([
                     deliveryTreeId : deliveryTreeId,
                     deliveryName : deliveryName
                 })
-                .render($container);
+                .render($container)
+                .resize();
+            },
+
+            /**
+             * Changes eligibilityEditor modal height and adds scroll for the modal to fit the screen height
+             *
+             * @returns {eligibilityEditor} chains the component
+             */
+            resize: function resize() {
+                eligibilityEditor.getElement().css('top', '40px');
+                eligibilityEditor.getElement().css('max-height', ($(window).height() - 80) + 'px');
+                eligibilityEditor.getElement().css('overflow-y', 'scroll');
+                return this;
             }
         };
 
