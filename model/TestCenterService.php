@@ -24,6 +24,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\user\User;
+use oat\tao\model\TaoOntology;
 use tao_models_classes_ClassService;
 
 /**
@@ -67,7 +68,7 @@ class TestCenterService extends tao_models_classes_ClassService
     {
         $success = parent::deleteResource($resource);
         if ($success) {
-            $userClass = new \core_kernel_classes_Class(CLASS_TAO_USER);
+            $userClass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
             // cleanup proctors
             $users = $userClass->searchInstances(
                 array(
