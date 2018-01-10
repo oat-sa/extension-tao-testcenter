@@ -271,17 +271,7 @@ define([
                     'top': '40px',
                     'overflow-y': 'auto'
                 });
-                eligibilityEditor.getElement().css(
-                    'max-height',
-                    (
-                        $(window).height()
-                        -
-                        (
-                            parseInt(eligibilityEditor.getElement().css('top'), 10)
-                            *
-                            2
-                        )
-                    ) + 'px');
+                eligibilityEditor.getElement().css('max-height', ($(window).height() - (parseInt(eligibilityEditor.getElement().css('top'), 10) * 2)) + 'px');
                 return this;
             }
         };
