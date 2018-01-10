@@ -41,7 +41,7 @@ return array(
         'taoProctoring' => '>=7.1.0',
         'taoDelivery' => '>=7.0.0',
         'generis' => '>=5.9.0',
-        'tao' => '>=15.0.0',
+        'tao' => '>=15.2.2',
         'taoTestTaker' => '>=3.0.2',
         'taoDeliveryRdf' => '>=3.18.0',
     ),
