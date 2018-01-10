@@ -265,9 +265,23 @@ define([
              * @returns {eligibilityEditor} chains the component
              */
             resize: function resize() {
-                eligibilityEditor.getElement().css('top', '40px');
-                eligibilityEditor.getElement().css('max-height', ($(window).height() - 80) + 'px');
-                eligibilityEditor.getElement().css('overflow-y', 'scroll');
+                //40px is the default model top offset
+                //it is set there to prevent situations in which it was already replaced by container scrollOffset value
+                eligibilityEditor.getElement().css({
+                    'top': '40px',
+                    'overflow-y': 'auto'
+                });
+                eligibilityEditor.getElement().css(
+                    'max-height',
+                    (
+                        $(window).height()
+                        -
+                        (
+                            parseInt(eligibilityEditor.getElement().css('top'), 10)
+                            *
+                            2
+                        )
+                    ) + 'px');
                 return this;
             }
         };
