@@ -20,6 +20,7 @@
 namespace oat\taoTestCenter\model;
 
 use oat\tao\model\TaoOntology;
+use oat\taoDeliveryRdf\model\DeliveryContainerService;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
@@ -151,7 +152,7 @@ class TestCenterAssignment extends GroupAssignment
      */
     protected function verifyToken(\core_kernel_classes_Resource $delivery, User $user)
     {
-        $propMaxExec = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(TAO_DELIVERY_MAXEXEC_PROP));
+        $propMaxExec = $delivery->getOnePropertyValue(new \core_kernel_classes_Property(DeliveryContainerService::PROPERTY_MAX_EXEC));
         $maxExec = is_null($propMaxExec) ? 0 : $propMaxExec->literal;
 
         //check Tokens
