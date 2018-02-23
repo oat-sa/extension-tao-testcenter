@@ -18,9 +18,11 @@
                             />
                 </trees>
                 <actions>
-                    <action id="testcenter-class-properties" name="Properties" url="/tao/PropertiesAuthoring/index"
-                            group="content" context="class">
+                    <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class">
                         <icon id="icon-edit"/>
+                    </action>
+                    <action id="testcenter-class-schema" name="Manage Schema" url="/tao/PropertiesAuthoring/index" group="content" context="class">
+                        <icon id="icon-property-add"/>
                     </action>
                     <action id="testcenter-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editCenter"
                             group="content" context="instance">
