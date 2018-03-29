@@ -61,7 +61,6 @@ return array(
             RegisterTestCenterEvents::class,
             OverrideBreadcrumbsServices::class,
             RegisterClientLibConfig::class,
-            SetupTestCenterAdminCsvImporter::class,
         ),
         'rdf' => array(
             __DIR__.'/scripts/install/ontology/taotestcenter.rdf',
