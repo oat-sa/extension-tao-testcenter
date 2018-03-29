@@ -28,7 +28,6 @@ use oat\taoTestCenter\scripts\install\RegisterTestCenterEvents;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\scripts\install\OverrideBreadcrumbsServices;
-use oat\taoTestCenter\scripts\install\SetupTestCenterAdminCsvImporter;
 use oat\taoTestCenter\scripts\install\RegisterClientLibConfig;
 
 return array(
