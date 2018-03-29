@@ -38,7 +38,7 @@ $report = $importer->import($filePath);
 `
 sudo -u www-data php index.php 'oat\tao\scripts\tools\import\ImportUsersCsv' -t test-center-admin -f tao/test/user/import/example.csv
 `
- * @package oat\taoTestTaker\models
+ *
  */
 class TestCenterAdminCsvImporter extends RdsUserImportService
 {
