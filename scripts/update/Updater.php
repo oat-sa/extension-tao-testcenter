@@ -24,12 +24,14 @@ namespace oat\taoTestCenter\scripts\update;
 
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -112,5 +114,18 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('3.3.0', '3.8.0');
+
+        if ($this->isVersion('3.8.0')) {
+            /** @var UserCsvImporterFactory $importerFactory */
+            $importerFactory = $this->getServiceManager()->get(UserCsvImporterFactory::SERVICE_ID);
+            $typeOptions = $importerFactory->getOption(UserCsvImporterFactory::OPTION_MAPPERS);
+            $typeOptions[TestCenterAdminCsvImporter::USER_IMPORTER_TYPE] = array(
+                UserCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new TestCenterAdminCsvImporter()
+            );
+            $importerFactory->setOption(UserCsvImporterFactory::OPTION_MAPPERS, $typeOptions);
+            $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $importerFactory);
+
+            $this->setVersion('3.9.0');
+        }
     }
 }
