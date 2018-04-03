@@ -21,8 +21,10 @@
 
 namespace oat\taoTestCenter\scripts\install;
 
+use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
+use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
@@ -43,6 +45,7 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
         $this->registerTestTakerAuthorizationService();
         $this->registerProctorService();
+        $this->registerTestCenterAdminCsvImporter();
     }
 
     private function registerTestTakerAuthorizationService()
@@ -60,5 +63,17 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
         $delegator = $this->getServiceManager()->get(ProctorServiceInterface::SERVICE_ID);
         $delegator->registerHandler(new TestCenterProctorService());
         $this->getServiceManager()->register(ProctorServiceInterface::SERVICE_ID, $delegator);
+    }
+
+    private function registerTestCenterAdminCsvImporter()
+    {
+        $importerFactory = $this->getServiceLocator()->get(UserCsvImporterFactory::SERVICE_ID);
+        $typeOptions = $importerFactory->getOption(UserCsvImporterFactory::OPTION_MAPPERS);
+        $typeOptions[TestCenterAdminCsvImporter::USER_IMPORTER_TYPE] = array(
+            UserCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new TestCenterAdminCsvImporter()
+        );
+        $importerFactory->setOption(UserCsvImporterFactory::OPTION_MAPPERS, $typeOptions);
+        $this->registerService(UserCsvImporterFactory::SERVICE_ID, $importerFactory);
+        return \common_report_Report::createSuccess('TestCenterAdmin csv importer successfully registered.');
     }
 }
