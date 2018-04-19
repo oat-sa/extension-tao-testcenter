@@ -51,6 +51,10 @@
                             context="resource" group="tree" binding="instanciate">
                         <icon id="icon-users"/>
                     </action>
+                    <action id="testcenter-import" name="Import" url="/taoTestCenter/Import/index"
+                            context="resource" group="tree">
+                        <icon id="icon-import"/>
+                    </action>
                 </actions>
             </section>
         </sections>
