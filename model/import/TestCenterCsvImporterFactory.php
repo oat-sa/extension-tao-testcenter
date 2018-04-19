@@ -22,24 +22,18 @@ namespace oat\taoTestCenter\model\import;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\user\import\ImporterFactory;
 
-class TestCenterCsvImporterFactory extends ConfigurableService
+class TestCenterCsvImporterFactory extends ConfigurableService implements ImporterFactory
 {
-    const SERVICE_ID = 'tao/testCenterCsvImporterFactory';
-
-    const OPTION_DEFAULT_SCHEMA = 'default-schema';
-    const OPTION_MAPPERS = 'mappers';
-    const OPTION_MAPPERS_IMPORTER = 'importer';
-    const OPTION_MAPPERS_MAPPER = 'mapper';
-
-
+    const SERVICE_ID = 'taoTestCenter/testCenterCsvImporterFactory';
     /**
      * Create an importer
      *
      * User type is defined in a config mapper and is associated to a role
      *
      * @param $type
-     * @return mixed
+     * @return TestCenterImportServiceInterface
      * @throws \common_exception_NotFound
      * @throws InvalidService
      * @throws InvalidServiceManagerException
@@ -50,11 +44,16 @@ class TestCenterCsvImporterFactory extends ConfigurableService
         if (isset($typeOptions[$type])) {
             $typeOption = $typeOptions[$type];
             if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
-                $importer = $this->buildService($typeOption[self::OPTION_MAPPERS_IMPORTER], TestCenterImportServiceInterface::class);
+                $importer = $this->buildService(
+                    $typeOption[self::OPTION_MAPPERS_IMPORTER],
+                    TestCenterImportServiceInterface::class
+                );
                 if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
                     $mapper = $this->buildService($typeOption[self::OPTION_MAPPERS_MAPPER]);
                 } else {
-//                    $mapper = new OntologyUserMapper([UserMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)]);
+                    $mapper = new OntologyTestCenterMapper([
+                        TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+                    ]);
                 }
                 $importer->setMapper($mapper);
                 return $importer;

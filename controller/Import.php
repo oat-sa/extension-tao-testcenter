@@ -19,6 +19,10 @@
  */
 
 namespace oat\taoTestCenter\controller;
+use oat\generis\model\OntologyRdf;
+use oat\tao\model\upload\UploadService;
+use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
+use tao_actions_form_Import;
 
 /**
  * Extends the common Import class to exchange the generic
@@ -28,6 +32,50 @@ namespace oat\taoTestCenter\controller;
  */
 class Import extends \tao_actions_Import
 {
+    /**
+     * @throws \common_Exception
+     * @throws \common_exception_NotFound
+     * @throws \oat\oatbox\service\exception\InvalidService
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    public function index(){
+
+        $importer = $this->getCurrentImporter();
+        $formContainer = new tao_actions_form_Import(
+            $importer,
+            $this->getAvailableImportHandlers(),
+            $this->getCurrentClass()
+        );
+        $myForm = $formContainer->getForm();
+
+        //if the form is submited and valid
+        if($myForm->isSubmited()){
+            if($myForm->isValid()){
+                /** @var TestCenterCsvImporterFactory $testCenterImport */
+                $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
+                $importerService = $testCenterImport->getImporter('default');
+
+                $options = $myForm->getValues();
+
+                /** @var UploadService $uploadService */
+                $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
+                $filePath = $uploadService->getUploadedFile($options['importFile']);
+
+                $report = $importerService->import($filePath,[
+                    OntologyRdf::RDF_TYPE => $options['classUri']
+                ], [
+                    'delimiter' => $options['field_delimiter'],
+                    'enclosure' => $options['field_encloser'],
+                ]);
+
+                return $this->returnReport($report);
+            }
+        }
+
+        $this->setData('myForm', $myForm->render());
+        $this->setData('formTitle', __('Import '));
+        $this->setView('form/import.tpl', 'tao');
+    }
 
     /**
      * (non-PHPdoc)

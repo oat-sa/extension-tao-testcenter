@@ -19,8 +19,20 @@
 
 namespace oat\taoTestCenter\model\import;
 
-use oat\tao\model\user\import\ImportServiceInterface;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\user\import\AbstractOntologyMapper;
 
-interface TestCenterImportServiceInterface extends ImportServiceInterface
+class OntologyTestCenterMapper extends AbstractOntologyMapper implements TestCenterMapper
 {
+    use OntologyAwareTrait;
+
+    /**
+     * @param $property
+     * @param $value
+     * @return mixed
+     */
+    protected function formatValue($property, $value)
+    {
+        return $value;
+    }
 }

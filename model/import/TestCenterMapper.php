@@ -19,41 +19,6 @@
 
 namespace oat\taoTestCenter\model\import;
 
-interface TestCenterMapper
-{
-    const OPTION_SCHEMA = 'schema';
-    const OPTION_SCHEMA_MANDATORY = 'mandatory';
-    const OPTION_SCHEMA_OPTIONAL = 'optional';
+use oat\tao\model\user\import\ImportMapper;
 
-    /**
-     * Map CSV column to TestCenter properties
-     *
-     * @param array $data
-     * @throws \Exception
-     * @return TestCenterMapper
-     */
-    public function map(array $data = []);
-
-    /**
-     * Merge some $extraProperties to already mapped properties
-     *
-     * @param array $extraProperties
-     * @return TestCenterMapper
-     */
-    public function combine(array $extraProperties);
-
-    /**
-     * Check is current mapper achieve to extract data
-     *
-     * @return bool
-     */
-    public function isEmpty();
-
-
-    /**
-     * Get mapped properties
-     *
-     * @return array
-     */
-    public function getProperties();
-}
+interface TestCenterMapper extends ImportMapper{}
