@@ -22,10 +22,12 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\user\import\ImportMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
@@ -34,7 +36,9 @@ use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\import\RdsTestCenterImportService;
 use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
+use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -53,6 +57,7 @@ class Updater extends \common_ext_ExtensionUpdater
     /**
      * (non-PHPdoc)
      * @see common_ext_ExtensionUpdater::update()
+     * @throws \common_Exception
      */
     public function update($initialVersion)
     {
@@ -138,5 +143,24 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('3.10.0');
         }
 
+        if ($this->isVersion('3.10.0')) {
+            $service = new TestCenterCsvImporterFactory(array(
+                TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
+                    ImportMapper::OPTION_SCHEMA_MANDATORY => [
+                        'label' => OntologyRdfs::RDFS_LABEL,
+                    ],
+                    ImportMapper::OPTION_SCHEMA_OPTIONAL => []
+                )
+            ));
+            $typeOptions = $service->getOption(TestCenterCsvImporterFactory::OPTION_MAPPERS);
+            $typeOptions['default'] = array(
+                TestCenterCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new RdsTestCenterImportService()
+            );
+            $service->setOption(TestCenterCsvImporterFactory::OPTION_MAPPERS, $typeOptions);
+
+            $this->getServiceManager()->register(TestCenterCsvImporterFactory::SERVICE_ID, $service);
+
+            $this->setVersion('3.11.0');
+        }
     }
 }
