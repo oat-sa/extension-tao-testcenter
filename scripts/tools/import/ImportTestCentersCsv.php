@@ -20,7 +20,6 @@
 namespace oat\taoTestCenter\scripts\tools\import;
 
 use oat\oatbox\extension\script\ScriptAction;
-use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 
 /**

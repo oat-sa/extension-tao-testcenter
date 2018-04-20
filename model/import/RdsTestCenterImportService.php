@@ -21,8 +21,8 @@ namespace oat\taoTestCenter\model\import;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
-use oat\tao\model\user\import\AbstractImportService;
-use oat\tao\model\user\import\ImportMapper;
+use oat\tao\model\import\service\AbstractImportService;
+use oat\tao\model\import\service\ImportMapper;
 use oat\taoTestCenter\model\TestCenterService;
 
 class RdsTestCenterImportService extends AbstractImportService implements TestCenterImportServiceInterface

@@ -27,7 +27,7 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\event\UserRemovedEvent;
-use oat\tao\model\user\import\ImportMapper;
+use oat\tao\model\import\service\ImportMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;

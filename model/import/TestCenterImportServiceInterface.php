@@ -19,7 +19,7 @@
 
 namespace oat\taoTestCenter\model\import;
 
-use oat\tao\model\user\import\ImportServiceInterface;
+use oat\tao\model\import\service\ImportServiceInterface;
 
 interface TestCenterImportServiceInterface extends ImportServiceInterface
 {

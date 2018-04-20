@@ -22,7 +22,7 @@ namespace oat\taoTestCenter\model\import;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\tao\model\user\import\ImporterFactory;
+use oat\tao\model\import\service\ImporterFactory;
 
 class TestCenterCsvImporterFactory extends ConfigurableService implements ImporterFactory
 {
