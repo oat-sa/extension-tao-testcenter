@@ -51,15 +51,15 @@ class Import extends \tao_actions_Import
         //if the form is submited and valid
         if($myForm->isSubmited()){
             if($myForm->isValid()){
-                /** @var TestCenterCsvImporterFactory $testCenterImport */
-                $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-                $importerService = $testCenterImport->getImporter('default');
-
                 $options = $myForm->getValues();
 
                 /** @var UploadService $uploadService */
                 $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
                 $filePath = $uploadService->getUploadedFile($options['importFile']);
+
+                /** @var TestCenterCsvImporterFactory $testCenterImport */
+                $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
+                $importerService = $testCenterImport->getImporter('default');
 
                 $report = $importerService->import($filePath,[
                     OntologyRdf::RDF_TYPE => $options['classUri']
