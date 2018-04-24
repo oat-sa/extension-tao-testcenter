@@ -44,12 +44,12 @@ class TestCenterCsvImporterFactory extends ConfigurableService implements Import
         if (isset($typeOptions[$type])) {
             $typeOption = $typeOptions[$type];
             if (isset($typeOption[self::OPTION_MAPPERS_IMPORTER])) {
-                $importer = $this->getSubService(
+                $importer = $this->buildService(
                     $typeOption[self::OPTION_MAPPERS_IMPORTER],
                     TestCenterImportServiceInterface::class
                 );
                 if (isset($typeOption[self::OPTION_MAPPERS_MAPPER])) {
-                    $mapper = $this->getSubService($typeOption[self::OPTION_MAPPERS_MAPPER]);
+                    $mapper = $this->buildService($typeOption[self::OPTION_MAPPERS_MAPPER]);
                 } else {
                     $mapper = new OntologyTestCenterMapper([
                         TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
