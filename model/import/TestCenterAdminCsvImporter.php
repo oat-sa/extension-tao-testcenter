@@ -47,16 +47,16 @@ class TestCenterAdminCsvImporter extends RdsUserImportService
     /**
      * Add test taker role to user to import
      *
-     * @param $filePath
+     * @param $file
      * @param array $extraProperties
      * @param array $options
      * @return \common_report_Report
      * @throws \Exception
      * @throws \common_exception_Error
      */
-    public function import($filePath, $extraProperties = [], $options = [])
+    public function import($file, $extraProperties = [], $options = [])
     {
         $extraProperties[UserRdf::PROPERTY_ROLES] = TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR;
-        return parent::import($filePath, $extraProperties, $options);
+        return parent::import($file, $extraProperties, $options);
     }
 }

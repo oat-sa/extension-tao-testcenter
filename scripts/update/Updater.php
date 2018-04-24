@@ -140,10 +140,7 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('3.9.0')) {
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_MANAGER, Import::class));
             AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class));
-            $this->setVersion('3.10.0');
-        }
 
-        if ($this->isVersion('3.10.0')) {
             $service = new TestCenterCsvImporterFactory(array(
                 TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
                     ImportMapper::OPTION_SCHEMA_MANDATORY => [
@@ -160,7 +157,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(TestCenterCsvImporterFactory::SERVICE_ID, $service);
 
-            $this->setVersion('3.11.0');
+            $this->setVersion('3.10.0');
         }
     }
 }

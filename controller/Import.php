@@ -55,13 +55,13 @@ class Import extends \tao_actions_Import
 
                 /** @var UploadService $uploadService */
                 $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
-                $filePath = $uploadService->getUploadedFile($options['importFile']);
+                $file = $uploadService->getUploadedFlyFile($options['importFile']);
 
                 /** @var TestCenterCsvImporterFactory $testCenterImport */
                 $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
                 $importerService = $testCenterImport->getImporter('default');
 
-                $report = $importerService->import($filePath,[
+                $report = $importerService->import($file,[
                     OntologyRdf::RDF_TYPE => $options['classUri']
                 ], [
                     'delimiter' => $options['field_delimiter'],
