@@ -21,6 +21,7 @@
 namespace oat\taoTestCenter\controller;
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\upload\UploadService;
+use oat\taoTestCenter\controller\form\CsvImporter;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use tao_actions_form_Import;
 
@@ -84,7 +85,7 @@ class Import extends \tao_actions_Import
     public function getAvailableImportHandlers()
     {
         $returnValue = [
-            new \tao_models_classes_import_CsvImporter()
+            new CsvImporter()
         ];
 
         return $returnValue;
