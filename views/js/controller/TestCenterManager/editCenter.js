@@ -23,8 +23,9 @@ define([
     'ui/feedback',
     'taoTestCenter/component/eligibilityEditor',
     'taoTestCenter/component/eligibilityTable',
+    'taoTestCenter/component/eligibilityImport',
     'taoTestCenter/provider/eligibility'
-], function( $, _, __, loadingBar, feedback, eligibilityEditorFactory, eligibilityTableFactory, eligibilityProvider ){
+], function( $, _, __, loadingBar, feedback, eligibilityEditorFactory, eligibilityTableFactory, eligibilityImportFactory, eligibilityProvider){
 'use strict';
 
     /**
@@ -48,6 +49,7 @@ define([
             var $container = $(cssScope);
             var $tableContainer = $('.eligibility-table-container', $container);
             var $editorContainer = $('.eligibility-editor-container', $container);
+            var $editorImportContainer = $('.eligibility-import-container', $container);
 
             //get the test center id from the DOM
             var testCenterId = $container.data('testcenter');
@@ -170,6 +172,11 @@ define([
                             success(__('Eligibility don\'t need proctor authorization any more.'));
                         })
                         .catch(handleError);
+                })
+
+                .on('import', function handleImport() {
+                    eligibilityImportFactory(this,testCenterId)
+                        .add($editorImportContainer);
                 })
                 .init({})
                 .render($tableContainer);

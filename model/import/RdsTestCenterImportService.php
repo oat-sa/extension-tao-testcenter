@@ -23,6 +23,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\import\service\AbstractImportService;
 use oat\tao\model\import\service\ImportMapper;
+use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\TestCenterService;
 
 class RdsTestCenterImportService extends AbstractImportService implements TestCenterImportServiceInterface
@@ -52,7 +53,38 @@ class RdsTestCenterImportService extends AbstractImportService implements TestCe
 
         $properties = $mapper->getProperties();
         $class = $this->getTestCenterClass($properties);
-        $resource = $class->createInstanceWithProperties($properties);
+
+        $results = $class->searchInstances($properties);
+
+        if (count($results) === 0){
+            $resource = $class->createInstanceWithProperties($properties);
+        }else{
+            $resource = current($results);
+        }
+
+        if (isset($properties[ProctorManagementService::PROPERTY_ADMINISTRATOR_URI])){
+            $adminProctors = $properties[ProctorManagementService::PROPERTY_ADMINISTRATOR_URI];
+            $propertiesValues = array(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI => [$resource]);
+            /** @var \core_kernel_classes_Resource $adminProctor */
+            foreach($adminProctors as $adminProctor){
+                $adminProctor->setPropertiesValues($propertiesValues);
+            }
+        }
+
+        if (isset($properties[ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI])){
+            $adminProctors = $properties[ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI];
+            $propertiesValues = array(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI => [$resource]);
+            /** @var \core_kernel_classes_Resource $adminProctor */
+            foreach($adminProctors as $adminProctor){
+                $adminProctor->setPropertiesValues($propertiesValues);
+            }
+        }
+
+        if (isset($properties[TestCenterService::PROPERTY_CHILDREN_URI])){
+            $subCenters = $properties[TestCenterService::PROPERTY_CHILDREN_URI];
+            $propertiesValues = array(TestCenterService::PROPERTY_CHILDREN_URI => $subCenters);
+            $resource->setPropertiesValues($propertiesValues);
+        }
 
         return $resource;
     }

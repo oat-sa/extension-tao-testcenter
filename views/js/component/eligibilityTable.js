@@ -110,6 +110,19 @@ define([
                                  */
                                 self.trigger('add', eligibilities);
                             }
+                        },{
+                            id : 'import',
+                            icon : 'import',
+                            title : __('Import'),
+                            label : __('Import'),
+                            action : function(){
+                                /**
+                                 * Add action
+                                 * @event eligibilityTable#add
+                                 * @param {Object} eligibilities
+                                 */
+                                self.trigger('import', eligibilities);
+                            }
                         }],
                         model : [{
                             id : 'status',

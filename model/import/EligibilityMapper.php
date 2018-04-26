@@ -19,30 +19,8 @@
 
 namespace oat\taoTestCenter\model\import;
 
-use oat\tao\model\import\service\AbstractImporterFactory;
 use oat\tao\model\import\service\ImportMapper;
 
-class TestCenterCsvImporterFactory extends AbstractImporterFactory
+interface EligibilityMapper extends ImportMapper
 {
-    const SERVICE_ID = 'taoTestCenter/testCenterCsvImporterFactory';
-
-    /**
-     * @return string
-     */
-    protected function getImportServiceInterface()
-    {
-        return TestCenterImportServiceInterface::class;
-    }
-
-    /**
-     * @return ImportMapper
-     */
-    protected function getDefaultMapper()
-    {
-        $mapper = new OntologyTestCenterMapper([
-            TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
-        ]);
-
-        return $mapper;
-    }
 }

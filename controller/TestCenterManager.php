@@ -24,6 +24,7 @@ namespace oat\taoTestCenter\controller;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\EligibilityService;
@@ -40,6 +41,7 @@ use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
  */
 class TestCenterManager extends \tao_actions_SaSModule
 {
+
     use ProctoringTextConverterTrait;
 
     protected $eligibilityService;
@@ -106,7 +108,28 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * Get eligiblities formated in a way that is compatible 
+     * @throws \Exception
+     */
+    public function import()
+    {
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            throw new \Exception('Only post method allowed');
+        }
+        $files = $_FILES;
+
+        /** @var EligibilityCsvImporterFactory $service */
+        $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        foreach ($files as $file){
+            $report = $service->getImporter('default')->import($file['tmp_name']);
+        }
+
+        $data['report'] = $report;
+        $this->returnJson($data);
+    }
+
+    /**
+     * Get eligiblities formated in a way that is compatible
      * with the eligibilityTable component
      *
      * @return array

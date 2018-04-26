@@ -30,6 +30,7 @@ Template::inc('form_context.tpl', 'tao');
     <div class="eligible-deliveries clear" data-testcenter="<?=get_data('testCenter')?>">
         <div class="eligibility-table-container"></div>
         <div class="eligibility-editor-container no-scroll-offset"></div>
+        <div class="eligibility-import-container no-scroll-offset"></div>
     </div>
 
 </div>

@@ -16,22 +16,21 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
-
 namespace oat\taoTestCenter\model\import;
 
 use oat\tao\model\import\service\AbstractImporterFactory;
 use oat\tao\model\import\service\ImportMapper;
 
-class TestCenterCsvImporterFactory extends AbstractImporterFactory
+class EligibilityCsvImporterFactory extends AbstractImporterFactory
 {
-    const SERVICE_ID = 'taoTestCenter/testCenterCsvImporterFactory';
+    const SERVICE_ID = 'taoTestCenter/EligibilityCsvImporterFactory';
 
     /**
      * @return string
      */
     protected function getImportServiceInterface()
     {
-        return TestCenterImportServiceInterface::class;
+        return EligibilityImportServiceInterface::class;
     }
 
     /**
@@ -39,8 +38,8 @@ class TestCenterCsvImporterFactory extends AbstractImporterFactory
      */
     protected function getDefaultMapper()
     {
-        $mapper = new OntologyTestCenterMapper([
-            TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+        $mapper = new OntologyEligibilityMapper([
+            EligibilityMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
         ]);
 
         return $mapper;
