@@ -156,7 +156,7 @@ class Updater extends \common_ext_ExtensionUpdater
                     ImportMapper::OPTION_SCHEMA_OPTIONAL => []
                 )
             ));
-            $typeOptions = $service->getOption(TestCenterCsvImporterFactory::OPTION_MAPPERS);
+            $typeOptions = [];
             $typeOptions['default'] = array(
                 TestCenterCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new RdsTestCenterImportService()
             );
