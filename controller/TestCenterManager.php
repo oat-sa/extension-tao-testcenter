@@ -23,6 +23,8 @@ namespace oat\taoTestCenter\controller;
 
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
@@ -118,10 +120,14 @@ class TestCenterManager extends \tao_actions_SaSModule
         }
         $files = $_FILES;
 
+        $testCenter = $this->getCurrentInstance();
         /** @var EligibilityCsvImporterFactory $service */
         $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        $propertyKey = $this->getImportMapperTestCenterProperty();
         foreach ($files as $file){
-            $report = $service->getImporter('default')->import($file['tmp_name']);
+            $report = $service->getImporter('default')->import($file['tmp_name'],[
+                $propertyKey => $testCenter
+            ]);
         }
 
         $data['report'] = $report;
@@ -309,5 +315,39 @@ class TestCenterManager extends \tao_actions_SaSModule
             'filter' => $filter
         );
 
+    }
+
+    /**
+     * @throws \common_exception_NotFound
+     * @throws \oat\oatbox\service\exception\InvalidService
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     */
+    protected function getImportMapperTestCenterProperty()
+    {
+        /** @var EligibilityCsvImporterFactory $service */
+        $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        $mapper  = $service->getImporter('default')->getMapper();
+
+        $schema = $mapper->getOption(ImportMapper::OPTION_SCHEMA);
+        if(isset($schema[ImportMapper::OPTION_SCHEMA_MANDATORY])){
+            return null;
+        }
+
+        $mandatoryFields = $schema[ImportMapper::OPTION_SCHEMA_MANDATORY];
+        foreach ($mandatoryFields as $key => $propertyKey) {
+            $class = null;
+            if (is_array($propertyKey) && count($propertyKey) === 1){
+                $valueMapper = reset($propertyKey);
+                if ($valueMapper instanceof RdsValidatorValueMapper){
+                    $class = $valueMapper->getOption(RdsValidatorValueMapper::OPTION_CLASS);
+                }
+            } else {
+                $class = $propertyKey;
+            }
+
+            if (TestCenterService::CLASS_URI === $class){
+                return $key;
+            }
+        }
     }
 }

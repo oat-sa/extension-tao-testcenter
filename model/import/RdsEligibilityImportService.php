@@ -92,13 +92,7 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new ResourceUpdated($testCenter));
 
-        if ($created){
-            $message = 'Eligibility imported with success.'. 'Delivery: '. $delivery->getUri(). ' test center: '. $testCenter->getUri();
-        }else{
-            $message = 'Eligibility updated with success.' . 'Delivery: '. $delivery->getUri(). ' test center: '. $testCenter->getUri();
-        }
-
-        return $message;
+        return $eligibility;
     }
 
     /**
