@@ -22,19 +22,27 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\tao\model\import\service\ImportMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
+use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\import\RdsTestCenterImportService;
 use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
+use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
 
@@ -49,6 +57,7 @@ class Updater extends \common_ext_ExtensionUpdater
     /**
      * (non-PHPdoc)
      * @see common_ext_ExtensionUpdater::update()
+     * @throws \common_Exception
      */
     public function update($initialVersion)
     {
@@ -126,6 +135,29 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->getServiceManager()->register(UserCsvImporterFactory::SERVICE_ID, $importerFactory);
 
             $this->setVersion('3.9.0');
+        }
+
+        if ($this->isVersion('3.9.0')) {
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_MANAGER, Import::class));
+            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class));
+
+            $service = new TestCenterCsvImporterFactory(array(
+                TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
+                    ImportMapper::OPTION_SCHEMA_MANDATORY => [
+                        'label' => OntologyRdfs::RDFS_LABEL,
+                    ],
+                    ImportMapper::OPTION_SCHEMA_OPTIONAL => []
+                )
+            ));
+            $typeOptions = [];
+            $typeOptions['default'] = array(
+                TestCenterCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new RdsTestCenterImportService()
+            );
+            $service->setOption(TestCenterCsvImporterFactory::OPTION_MAPPERS, $typeOptions);
+
+            $this->getServiceManager()->register(TestCenterCsvImporterFactory::SERVICE_ID, $service);
+
+            $this->setVersion('3.10.0');
         }
     }
 }
