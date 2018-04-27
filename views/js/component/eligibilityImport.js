@@ -27,14 +27,17 @@ define([
     'tpl!taoTestCenter/component/eligibilityImport/layout',
     'ui/feedback',
     'ui/report',
+    'layout/loading-bar',
+    'async',
     'ui/modal',
     'css!taoTestCenterCss/eligibilityEditor',
     'ui/uploader'
-], function($, _, __, module, helpers, uri, component, layoutTpl, feedback, reportFactory){
+], function($, _, __, module, helpers, uri, component, layoutTpl, feedback, reportFactory,loadingBar, async){
     'use strict';
 
     var _ns = '.eligibility-import';
-
+    var _fileTypeFilters = ['text/csv'];
+    var _fileExtFilter = /.+\.(csv)$/;
     var _modalDefaults = {
         width : 600
     };
@@ -48,7 +51,7 @@ define([
     var eligibilityImportFactory = function eligibilityImportFactory(datatable, testCenterId) {
 
         var config = {
-            uploadUrl :  helpers._url('import', 'TestCenterManager', 'taoTestCenter', {uri:testCenterId}),
+            uploadUrl :  helpers._url('import', 'TestCenterManager', 'taoTestCenter', {uri:testCenterId})
         };
 
         if(_.isEmpty(testCenterId)){
@@ -70,9 +73,6 @@ define([
             }
         };
 
-        /**
-         * Initialize logo upload
-         */
         function initUpload() {
             // file uploader
             var errors = [];
@@ -102,7 +102,23 @@ define([
 
             $uploader.uploader({
                 upload: true,
-                uploadUrl: config.uploadUrl
+                uploadUrl: config.uploadUrl,
+                fileSelect : function fileSelect(files, done){
+                    var givenLength = files.length;
+
+                    //check the mime-type
+                    files = _.filter(files, function(file){
+                        // for some weird reasons some browsers have quotes around the file type
+                        var checkType = file.type.replace(/("|')/g, '');
+                        return _.contains(_fileTypeFilters, checkType) || (checkType === '' && _fileExtFilter.test(file.name));
+                    });
+
+                    if(files.length !== givenLength){
+                        feedback().error('Invalid files have been removed');
+                    }
+
+                    async.filter(files, function(file, cb){cb(true);},done);
+                },
             });
         }
         /**
@@ -168,7 +184,7 @@ define([
                     this.trigger('open');
                 })
                 .init({
-                    title :  __('Import Eligibilities'),
+                    title :  __('Import Eligibilities from csv file.'),
                     editingMode : false
                 })
                 .render($container)
