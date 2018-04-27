@@ -239,7 +239,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(EligibilityCsvImporterFactory::SERVICE_ID, $service);
 
-            $this->setVersion('3.11.0');
+            $this->setVersion('3.12.0');
         }
     }
 }
