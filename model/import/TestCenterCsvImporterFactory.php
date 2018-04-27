@@ -39,10 +39,8 @@ class TestCenterCsvImporterFactory extends AbstractImporterFactory
      */
     protected function getDefaultMapper()
     {
-        $mapper = new OntologyTestCenterMapper([
+        return new OntologyTestCenterMapper([
             TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
         ]);
-
-        return $mapper;
     }
 }

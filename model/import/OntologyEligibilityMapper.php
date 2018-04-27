@@ -23,7 +23,6 @@ use oat\tao\model\import\service\AbstractOntologyMapper;
 
 class OntologyEligibilityMapper extends AbstractOntologyMapper implements EligibilityMapper
 {
-
     /**
      * @param $property
      * @param $value

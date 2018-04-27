@@ -80,12 +80,11 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
         foreach ($testTakers as $testTaker){
             $testTakersIds[] = $testTaker->getUri();
         }
+
         $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
 
         if (isset($properties[EligibilityService::PROPERTY_BYPASSPROCTOR_URI])) {
-
             $byPass = !boolval($properties[EligibilityService::PROPERTY_BYPASSPROCTOR_URI]);
-
             $this->getEligibilityService()->setByPassProctor($eligibility, $byPass);
         }
 

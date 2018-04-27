@@ -38,10 +38,8 @@ class EligibilityCsvImporterFactory extends AbstractImporterFactory
      */
     protected function getDefaultMapper()
     {
-        $mapper = new OntologyEligibilityMapper([
+        return new OntologyEligibilityMapper([
             EligibilityMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
         ]);
-
-        return $mapper;
     }
 }
