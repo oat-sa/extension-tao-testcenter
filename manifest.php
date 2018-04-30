@@ -18,6 +18,7 @@
  *
  *
  */
+use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
 use oat\taoTestCenter\controller\TestCenterManager;
 use oat\taoTestCenter\controller\TestCenter;
@@ -35,13 +36,13 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '3.9.1',
+    'version' => '3.10.1',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring' => '>=7.1.0',
         'taoDelivery' => '>=7.0.0',
         'generis' => '>=5.9.0',
-        'tao' => '>=17.4.0',
+        'tao' => '>=18.4.0',
         'taoTestTaker' => '>=3.0.2',
         'taoDeliveryRdf' => '>=3.18.0',
     ),
@@ -49,6 +50,8 @@ return array(
     'acl' => array(
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, TestCenterManager::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, ProctorManager::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, Import::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class),
         array('grant', ProctorService::ROLE_PROCTOR, TestCenter::class),
         array('grant', ProctorService::ROLE_PROCTOR, Diagnostic::class),
         //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
