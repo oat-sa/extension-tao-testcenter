@@ -118,12 +118,17 @@ class TestCenterManager extends \tao_actions_SaSModule
         if (!$request->isPost()) {
             throw new \Exception('Only post method allowed');
         }
-        $files = $_FILES;
+        $files = (array) $_FILES;
 
         $testCenter = $this->getCurrentInstance();
         /** @var EligibilityCsvImporterFactory $service */
         $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
         $propertyKey = $this->getImportMapperTestCenterProperty();
+
+        if (empty($files)){
+            throw new \Exception('No files selected.');
+        }
+
         foreach ($files as $file){
             $report = $service->getImporter('default')->import($file['tmp_name'],[
                 $propertyKey => $testCenter
