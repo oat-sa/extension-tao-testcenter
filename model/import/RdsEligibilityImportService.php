@@ -32,9 +32,7 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
     protected $eligibilityService;
 
     /**
-     * @param ImportMapperInterface $mapper
-     * @return mixed
-     * @throws \Exception
+     * @inheritdoc
      */
     protected function persist(ImportMapperInterface $mapper)
     {
@@ -47,20 +45,19 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
         /** @var core_kernel_classes_Resource $delivery */
         $delivery = $properties[EligibilityService::PROPERTY_DELIVERY_URI];
 
-        $eligibility = $this->getEligibilityService()->getRootClass()->searchInstances(array(
+        $eligibilities = $this->getEligibilityService()->getRootClass()->searchInstances(array(
             EligibilityService::PROPERTY_TESTCENTER_URI => $testCenter,
             EligibilityService::PROPERTY_DELIVERY_URI => $delivery
         ));
-        $created = false;
 
-        if (count($eligibility) === 0) {
-            $created = $this->getEligibilityService()->createEligibility($testCenter, $delivery);
-            $eligibility = $this->getEligibilityService()->getRootClass()->searchInstances(array(
+        if (count($eligibilities) === 0) {
+            $this->getEligibilityService()->createEligibility($testCenter, $delivery);
+            $eligibilities = $this->getEligibilityService()->getRootClass()->searchInstances(array(
                 EligibilityService::PROPERTY_TESTCENTER_URI => $testCenter,
                 EligibilityService::PROPERTY_DELIVERY_URI => $delivery
             ));
         }
-        $eligibility = current($eligibility);
+        $eligibility = $eligibilities[0];
 
         $testTakers = $properties[EligibilityService::PROPERTY_TESTTAKER_URI];
         $testTakersIds = [];
