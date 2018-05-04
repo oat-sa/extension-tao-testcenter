@@ -167,9 +167,9 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('3.10.0');
         }
 
-        $this->skip('3.10.0', '3.10.1');
+        $this->skip('3.10.0', '3.11.0');
 
-        if ($this->isVersion('3.10.1')) {
+        if ($this->isVersion('3.11.0')) {
             /** @var TestCenterCsvImporterFactory $serviceTestCenterImporter */
             $serviceTestCenterImporter = $this->getServiceManager()->get(TestCenterCsvImporterFactory::SERVICE_ID);
             $schema = $serviceTestCenterImporter->getOption(TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA);
@@ -241,7 +241,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->getServiceManager()->register(EligibilityCsvImporterFactory::SERVICE_ID, $service);
 
-            $this->setVersion('3.11.0');
+            $this->setVersion('3.12.0');
         }
     }
 }
