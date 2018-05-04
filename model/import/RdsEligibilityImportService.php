@@ -57,7 +57,7 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
                 EligibilityService::PROPERTY_DELIVERY_URI => $delivery
             ));
         }
-        $eligibility = $eligibilities[0];
+        $eligibility = reset($eligibilities);
 
         $testTakers = $properties[EligibilityService::PROPERTY_TESTTAKER_URI];
         $testTakersIds = [];
