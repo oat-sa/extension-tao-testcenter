@@ -326,6 +326,8 @@ class TestCenterManager extends \tao_actions_SaSModule
      * @throws \common_exception_NotFound
      * @throws \oat\oatbox\service\exception\InvalidService
      * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     * @return string
+     * @throws \Exception
      */
     protected function getImportMapperTestCenterProperty()
     {
@@ -334,7 +336,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $mapper  = $service->getImporter('default')->getMapper();
 
         $schema = $mapper->getOption(ImportMapper::OPTION_SCHEMA);
-        if(isset($schema[ImportMapper::OPTION_SCHEMA_MANDATORY])){
+        if(!isset($schema[ImportMapper::OPTION_SCHEMA_MANDATORY])){
             return null;
         }
 
@@ -354,5 +356,7 @@ class TestCenterManager extends \tao_actions_SaSModule
                 return $key;
             }
         }
+
+        throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI .' is not defined in the import mapper config.');
     }
 }
