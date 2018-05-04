@@ -32,18 +32,6 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
     protected $eligibilityService;
 
     /**
-     * Format the $data with $extraProperties
-     *
-     * @param array $data
-     * @param array $extraProperties
-     * @return array
-     */
-    protected function formatData(array $data, array $extraProperties)
-    {
-        return $data;
-    }
-
-    /**
      * @param ImportMapperInterface $mapper
      * @return mixed
      * @throws \Exception
@@ -65,7 +53,7 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
         ));
         $created = false;
 
-        if (count($eligibility) === 0){
+        if (count($eligibility) === 0) {
             $created = $this->getEligibilityService()->createEligibility($testCenter, $delivery);
             $eligibility = $this->getEligibilityService()->getRootClass()->searchInstances(array(
                 EligibilityService::PROPERTY_TESTCENTER_URI => $testCenter,
@@ -77,7 +65,7 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
         $testTakers = $properties[EligibilityService::PROPERTY_TESTTAKER_URI];
         $testTakersIds = [];
         /** @var core_kernel_classes_Resource $testTaker */
-        foreach ($testTakers as $testTaker){
+        foreach ($testTakers as $testTaker) {
             $testTakersIds[] = $testTaker->getUri();
         }
 
@@ -100,20 +88,10 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
      */
     protected function getEligibilityService()
     {
-        if (is_null($this->eligibilityService)){
+        if (is_null($this->eligibilityService)) {
             $this->eligibilityService = $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
         }
 
         return $this->eligibilityService;
-    }
-
-    /**
-     * @param array $data
-     * @param array $csvControls
-     * @param string $delimiter
-     * @throws \Exception
-     */
-    protected function applyCsvImportRules(array $data, array $csvControls, $delimiter)
-    {
     }
 }

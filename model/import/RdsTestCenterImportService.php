@@ -31,16 +31,6 @@ class RdsTestCenterImportService extends AbstractImportService implements TestCe
     use OntologyAwareTrait;
 
     /**
-     * @param array $data
-     * @param array $extraProperties
-     * @return array
-     */
-    protected function formatData(array $data, array $extraProperties)
-    {
-        return $data;
-    }
-
-    /**
      * @param ImportMapperInterface $mapper
      * @return \core_kernel_classes_Resource
      * @throws \Exception
@@ -104,13 +94,5 @@ class RdsTestCenterImportService extends AbstractImportService implements TestCe
         }
         return $class;
 
-    }
-    /**
-     * @param array $data
-     * @param array$csvControls
-     * @param string $delimiter
-     */
-    protected function applyCsvImportRules(array $data, array $csvControls, $delimiter)
-    {
     }
 }
