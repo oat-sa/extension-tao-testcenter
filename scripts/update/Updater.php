@@ -29,7 +29,7 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\import\service\ArrayImportValueMapper;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
@@ -150,10 +150,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $service = new TestCenterCsvImporterFactory(array(
                 TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
-                    ImportMapper::OPTION_SCHEMA_MANDATORY => [
+                    ImportMapperInterface::OPTION_SCHEMA_MANDATORY => [
                         'label' => OntologyRdfs::RDFS_LABEL,
                     ],
-                    ImportMapper::OPTION_SCHEMA_OPTIONAL => []
+                    ImportMapperInterface::OPTION_SCHEMA_OPTIONAL => []
                 )
             ));
             $typeOptions = [];
@@ -207,7 +207,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $service = new EligibilityCsvImporterFactory([
                 EligibilityCsvImporterFactory::OPTION_DEFAULT_SCHEMA => [
-                    ImportMapper::OPTION_SCHEMA_MANDATORY => [
+                    ImportMapperInterface::OPTION_SCHEMA_MANDATORY => [
                         'test center' => [
                             EligibilityService::PROPERTY_TESTCENTER_URI => new RdsValidatorValueMapper([
                                 RdsValidatorValueMapper::OPTION_CLASS  => TestCenterService::CLASS_URI,
@@ -228,7 +228,7 @@ class Updater extends \common_ext_ExtensionUpdater
                             ])
                         ],
                     ],
-                    ImportMapper::OPTION_SCHEMA_OPTIONAL => [
+                    ImportMapperInterface::OPTION_SCHEMA_OPTIONAL => [
                         'is proctored' => EligibilityService::PROPERTY_BYPASSPROCTOR_URI
                     ]
                 ],

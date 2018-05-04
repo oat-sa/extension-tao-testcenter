@@ -22,7 +22,7 @@ namespace oat\taoTestCenter\model\import;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\AbstractImportService;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 use oat\taoTestCenter\model\EligibilityService;
 use core_kernel_classes_Resource;
 
@@ -44,13 +44,13 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
     }
 
     /**
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return mixed
      * @throws \Exception
      */
-    protected function persist(ImportMapper $mapper)
+    protected function persist(ImportMapperInterface $mapper)
     {
-        if (!$mapper instanceof EligibilityMapper) {
+        if (!$mapper instanceof EligibilityMapperInterface) {
             throw new \Exception('Mapper should be a EligibilityMapper');
         }
         $properties = $mapper->getProperties();

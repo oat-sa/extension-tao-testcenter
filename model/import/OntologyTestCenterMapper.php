@@ -22,7 +22,7 @@ namespace oat\taoTestCenter\model\import;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\import\service\AbstractOntologyMapper;
 
-class OntologyTestCenterMapper extends AbstractOntologyMapper implements TestCenterMapper
+class OntologyTestCenterMapper extends AbstractOntologyMapper implements TestCenterMapperInterface
 {
     use OntologyAwareTrait;
 

@@ -19,7 +19,7 @@
 namespace oat\taoTestCenter\model\import;
 
 use oat\tao\model\import\service\AbstractImporterFactory;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 
 class EligibilityCsvImporterFactory extends AbstractImporterFactory
 {
@@ -34,12 +34,12 @@ class EligibilityCsvImporterFactory extends AbstractImporterFactory
     }
 
     /**
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     protected function getDefaultMapper()
     {
         return new OntologyEligibilityMapper([
-            EligibilityMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+            EligibilityMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
         ]);
     }
 }

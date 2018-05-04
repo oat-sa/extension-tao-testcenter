@@ -20,7 +20,7 @@
 namespace oat\taoTestCenter\model\import;
 
 use oat\tao\model\import\service\AbstractImporterFactory;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 
 class TestCenterCsvImporterFactory extends AbstractImporterFactory
 {
@@ -35,12 +35,12 @@ class TestCenterCsvImporterFactory extends AbstractImporterFactory
     }
 
     /**
-     * @return ImportMapper
+     * @return ImportMapperInterface
      */
     protected function getDefaultMapper()
     {
         return new OntologyTestCenterMapper([
-            TestCenterMapper::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
+            TestCenterMapperInterface::OPTION_SCHEMA => $this->getOption(self::OPTION_DEFAULT_SCHEMA)
         ]);
     }
 }

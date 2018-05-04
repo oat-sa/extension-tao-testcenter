@@ -21,7 +21,7 @@ namespace oat\taoTestCenter\model\import;
 
 use oat\tao\model\import\service\AbstractOntologyMapper;
 
-class OntologyEligibilityMapper extends AbstractOntologyMapper implements EligibilityMapper
+class OntologyEligibilityMapper extends AbstractOntologyMapper implements EligibilityMapperInterface
 {
     /**
      * @param $property

@@ -56,6 +56,6 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(TestCenterImportServiceInterface::class, $service->getImporter('default'));
+        $this->assertInstanceOf(TestCenterImportServiceInterface::class, $service->create('default'));
     }
 }

@@ -22,7 +22,7 @@ namespace oat\taoTestCenter\model\import;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\import\service\AbstractImportService;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\TestCenterService;
 
@@ -41,13 +41,13 @@ class RdsTestCenterImportService extends AbstractImportService implements TestCe
     }
 
     /**
-     * @param ImportMapper $mapper
+     * @param ImportMapperInterface $mapper
      * @return \core_kernel_classes_Resource
      * @throws \Exception
      */
-    protected function persist(ImportMapper $mapper)
+    protected function persist(ImportMapperInterface $mapper)
     {
-        if (!$mapper instanceof TestCenterMapper) {
+        if (!$mapper instanceof TestCenterMapperInterface) {
             throw new \Exception('Mapper should be a TestCenterMapper');
         }
 

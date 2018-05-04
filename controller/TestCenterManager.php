@@ -23,7 +23,7 @@ namespace oat\taoTestCenter\controller;
 
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
@@ -130,7 +130,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         }
 
         foreach ($files as $file){
-            $report = $service->getImporter('default')->import($file['tmp_name'],[
+            $report = $service->create('default')->import($file['tmp_name'],[
                 $propertyKey => $testCenter
             ]);
         }
@@ -333,14 +333,14 @@ class TestCenterManager extends \tao_actions_SaSModule
     {
         /** @var EligibilityCsvImporterFactory $service */
         $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
-        $mapper  = $service->getImporter('default')->getMapper();
+        $mapper  = $service->create('default')->getMapper();
 
-        $schema = $mapper->getOption(ImportMapper::OPTION_SCHEMA);
-        if(!isset($schema[ImportMapper::OPTION_SCHEMA_MANDATORY])){
+        $schema = $mapper->getOption(ImportMapperInterface::OPTION_SCHEMA);
+        if(!isset($schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY])){
             return null;
         }
 
-        $mandatoryFields = $schema[ImportMapper::OPTION_SCHEMA_MANDATORY];
+        $mandatoryFields = $schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY];
         foreach ($mandatoryFields as $key => $propertyKey) {
             $class = null;
             if (is_array($propertyKey) && count($propertyKey) === 1){

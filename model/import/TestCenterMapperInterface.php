@@ -19,6 +19,6 @@
 
 namespace oat\taoTestCenter\model\import;
 
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
 
-interface TestCenterMapper extends ImportMapper{}
+interface TestCenterMapperInterface extends ImportMapperInterface{}

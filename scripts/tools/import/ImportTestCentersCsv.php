@@ -54,7 +54,7 @@ class ImportTestCentersCsv extends ScriptAction
     {
         /** @var TestCenterCsvImporterFactory $testCenterImport */
         $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-        $importer = $testCenterImport->getImporter('default');
+        $importer = $testCenterImport->create('default');
 
         return $importer->import($this->getOption('file-path'), []);
     }

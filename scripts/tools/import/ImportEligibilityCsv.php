@@ -56,7 +56,7 @@ class ImportEligibilityCsv extends ScriptAction
     {
         /** @var EligibilityCsvImporterFactory $eligImport */
         $eligImport = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
-        $importer = $eligImport->getImporter('default');
+        $importer = $eligImport->create('default');
 
         return $importer->import($this->getOption('file-path'), []);
     }
