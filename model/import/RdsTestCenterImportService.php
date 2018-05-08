@@ -26,7 +26,7 @@ use oat\tao\model\import\service\ImportMapperInterface;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\TestCenterService;
 
-class RdsTestCenterImportService extends AbstractImportService implements TestCenterImportServiceInterface
+class RdsTestCenterImportService extends AbstractImportService
 {
     use OntologyAwareTrait;
 

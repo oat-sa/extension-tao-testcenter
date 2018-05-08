@@ -26,7 +26,7 @@ use oat\tao\model\import\service\ImportMapperInterface;
 use oat\taoTestCenter\model\EligibilityService;
 use core_kernel_classes_Resource;
 
-class RdsEligibilityImportService extends AbstractImportService implements EligibilityImportServiceInterface
+class RdsEligibilityImportService extends AbstractImportService
 {
     /** @var EligibilityService */
     protected $eligibilityService;
