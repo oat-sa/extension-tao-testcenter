@@ -37,10 +37,6 @@ class RdsTestCenterImportService extends AbstractImportService implements TestCe
      */
     protected function persist(ImportMapperInterface $mapper)
     {
-        if (!$mapper instanceof TestCenterMapperInterface) {
-            throw new \Exception('Mapper should be a TestCenterMapper');
-        }
-
         $properties = $mapper->getProperties();
         $class = $this->getTestCenterClass($properties);
 

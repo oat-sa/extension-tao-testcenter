@@ -36,9 +36,6 @@ class RdsEligibilityImportService extends AbstractImportService implements Eligi
      */
     protected function persist(ImportMapperInterface $mapper)
     {
-        if (!$mapper instanceof EligibilityMapperInterface) {
-            throw new \Exception('Mapper should be a EligibilityMapper');
-        }
         $properties = $mapper->getProperties();
         /** @var core_kernel_classes_Resource $testCenter */
         $testCenter = $properties[EligibilityService::PROPERTY_TESTCENTER_URI];
