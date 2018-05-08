@@ -18,9 +18,9 @@
  */
 namespace oat\taoTestCenter\model\import;
 
-use oat\tao\model\import\service\AbstractImporterFactory;
+use oat\tao\model\import\service\ImporterFactory;
 
-class EligibilityCsvImporterFactory extends AbstractImporterFactory
+class EligibilityCsvImporterFactory extends ImporterFactory
 {
     const SERVICE_ID = 'taoTestCenter/EligibilityCsvImporterFactory';
 }
