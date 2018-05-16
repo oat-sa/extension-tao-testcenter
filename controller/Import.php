@@ -60,7 +60,7 @@ class Import extends \tao_actions_Import
 
                 /** @var TestCenterCsvImporterFactory $testCenterImport */
                 $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-                $importerService = $testCenterImport->getImporter('default');
+                $importerService = $testCenterImport->create('default');
 
                 $report = $importerService->import($file,[
                     OntologyRdf::RDF_TYPE => $options['classUri']

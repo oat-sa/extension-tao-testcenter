@@ -23,12 +23,16 @@
 namespace oat\taoTestCenter\scripts\update;
 
 use oat\generis\model\OntologyRdfs;
+use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\event\UserRemovedEvent;
-use oat\tao\model\import\service\ImportMapper;
+use oat\tao\model\import\service\ArrayImportValueMapper;
+use oat\tao\model\import\service\ImportMapperInterface;
+use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
+use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\controller\Import;
@@ -36,12 +40,15 @@ use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
+use oat\taoTestCenter\model\import\RdsEligibilityImportService;
 use oat\taoTestCenter\model\import\RdsTestCenterImportService;
 use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -143,10 +150,10 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $service = new TestCenterCsvImporterFactory(array(
                 TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
-                    ImportMapper::OPTION_SCHEMA_MANDATORY => [
+                    ImportMapperInterface::OPTION_SCHEMA_MANDATORY => [
                         'label' => OntologyRdfs::RDFS_LABEL,
                     ],
-                    ImportMapper::OPTION_SCHEMA_OPTIONAL => []
+                    ImportMapperInterface::OPTION_SCHEMA_OPTIONAL => []
                 )
             ));
             $typeOptions = [];
@@ -161,5 +168,80 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('3.10.0', '3.11.0');
+
+        if ($this->isVersion('3.11.0')) {
+            /** @var TestCenterCsvImporterFactory $serviceTestCenterImporter */
+            $serviceTestCenterImporter = $this->getServiceManager()->get(TestCenterCsvImporterFactory::SERVICE_ID);
+            $schema = $serviceTestCenterImporter->getOption(TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA);
+            $schema['optional'] = [
+                'administrators' =>[
+                    ProctorManagementService::PROPERTY_ADMINISTRATOR_URI => new ArrayImportValueMapper([
+                        'delimiter' => '|',
+                        'valueMapper' => new RdsValidatorValueMapper([
+                            'class' => UserRdf::CLASS_URI,
+                            'property' => UserRdf::PROPERTY_LOGIN
+                        ])
+                    ])
+                ],
+                'proctors' =>[
+                    ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI => new ArrayImportValueMapper([
+                        'delimiter' => '|',
+                        'valueMapper' => new RdsValidatorValueMapper([
+                            'class' => UserRdf::CLASS_URI,
+                            'property' => UserRdf::PROPERTY_LOGIN
+                        ])
+                    ])
+                ],
+                'sub centers' => [
+                    TestCenterService::PROPERTY_CHILDREN_URI => new ArrayImportValueMapper([
+                        'delimiter' => '|',
+                        'valueMapper' => new RdsValidatorValueMapper([
+                            'class' => TestCenterService::CLASS_URI,
+                            'property' => OntologyRdfs::RDFS_LABEL
+                        ])
+                    ])
+                ]
+            ];
+            $serviceTestCenterImporter->setOption(TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA, $schema);
+            $this->getServiceManager()->register(TestCenterCsvImporterFactory::SERVICE_ID, $serviceTestCenterImporter);
+
+            $service = new EligibilityCsvImporterFactory([
+                EligibilityCsvImporterFactory::OPTION_DEFAULT_SCHEMA => [
+                    ImportMapperInterface::OPTION_SCHEMA_MANDATORY => [
+                        'test center' => [
+                            EligibilityService::PROPERTY_TESTCENTER_URI => new RdsValidatorValueMapper([
+                                RdsValidatorValueMapper::OPTION_CLASS  => TestCenterService::CLASS_URI,
+                            ])
+                        ],
+                        'delivery' => [
+                            EligibilityService::PROPERTY_DELIVERY_URI => new RdsValidatorValueMapper([
+                                RdsValidatorValueMapper::OPTION_CLASS => DeliveryAssemblyService::CLASS_URI,
+                            ])
+                        ],
+                        'test takers' => [
+                            EligibilityService::PROPERTY_TESTTAKER_URI => new ArrayImportValueMapper([
+                                ArrayImportValueMapper::OPTION_DELIMITER => '|',
+                                ArrayImportValueMapper::OPTION_VALUE_MAPPER => new RdsValidatorValueMapper([
+                                    RdsValidatorValueMapper::OPTION_CLASS => UserRdf::CLASS_URI,
+                                    RdsValidatorValueMapper::OPTION_PROPERTY  => UserRdf::PROPERTY_LOGIN
+                                ])
+                            ])
+                        ],
+                    ],
+                    ImportMapperInterface::OPTION_SCHEMA_OPTIONAL => [
+                        'is proctored' => EligibilityService::PROPERTY_BYPASSPROCTOR_URI
+                    ]
+                ],
+                EligibilityCsvImporterFactory::OPTION_MAPPERS => [
+                    'default' => [
+                        EligibilityCsvImporterFactory::OPTION_MAPPERS_IMPORTER => new RdsEligibilityImportService()
+                    ]
+                ]
+            ]);
+
+            $this->getServiceManager()->register(EligibilityCsvImporterFactory::SERVICE_ID, $service);
+
+            $this->setVersion('3.12.0');
+        }
     }
 }
