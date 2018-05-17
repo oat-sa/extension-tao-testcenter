@@ -20,6 +20,7 @@
  */
 namespace oat\taoTestCenter\model\proctoring;
 
+use oat\generis\model\kernel\users\UserInternalInterface;
 use oat\oatbox\user\User;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoProctoring\model\ProctorService;
@@ -74,6 +75,6 @@ class TestCenterProctorService extends ProctorService
     public function isSuitable(User $user, $deliveryId = null)
     {
         return in_array(ProctorService::ROLE_PROCTOR, $user->getRoles())
-            && !is_a($user, '\oat\taoLti\models\classes\user\LtiUser');
+            && is_a($user, UserInternalInterface::class);
     }
 }
