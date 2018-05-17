@@ -23,7 +23,10 @@ namespace oat\taoTestCenter\controller;
 
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\import\service\ImportMapperInterface;
+use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\EligibilityService;
@@ -40,6 +43,7 @@ use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
  */
 class TestCenterManager extends \tao_actions_SaSModule
 {
+
     use ProctoringTextConverterTrait;
 
     protected $eligibilityService;
@@ -106,7 +110,37 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * Get eligiblities formated in a way that is compatible 
+     * @throws \Exception
+     */
+    public function import()
+    {
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            throw new \Exception('Only post method allowed');
+        }
+        $files = (array) $_FILES;
+
+        $testCenter = $this->getCurrentInstance();
+        /** @var EligibilityCsvImporterFactory $service */
+        $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        $propertyKey = $this->getImportMapperTestCenterProperty();
+
+        if (empty($files)){
+            throw new \Exception('No files selected.');
+        }
+
+        foreach ($files as $file){
+            $report = $service->create('default')->import($file['tmp_name'],[
+                $propertyKey => $testCenter
+            ]);
+        }
+
+        $data['report'] = $report;
+        $this->returnJson($data);
+    }
+
+    /**
+     * Get eligiblities formated in a way that is compatible
      * with the eligibilityTable component
      *
      * @return array
@@ -286,5 +320,43 @@ class TestCenterManager extends \tao_actions_SaSModule
             'filter' => $filter
         );
 
+    }
+
+    /**
+     * @throws \common_exception_NotFound
+     * @throws \oat\oatbox\service\exception\InvalidService
+     * @throws \oat\oatbox\service\exception\InvalidServiceManagerException
+     * @return string
+     * @throws \Exception
+     */
+    protected function getImportMapperTestCenterProperty()
+    {
+        /** @var EligibilityCsvImporterFactory $service */
+        $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        $mapper  = $service->create('default')->getMapper();
+
+        $schema = $mapper->getOption(ImportMapperInterface::OPTION_SCHEMA);
+        if(!isset($schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY])){
+            return null;
+        }
+
+        $mandatoryFields = $schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY];
+        foreach ($mandatoryFields as $key => $propertyKey) {
+            $class = null;
+            if (is_array($propertyKey) && count($propertyKey) === 1){
+                $valueMapper = reset($propertyKey);
+                if ($valueMapper instanceof RdsValidatorValueMapper){
+                    $class = $valueMapper->getOption(RdsValidatorValueMapper::OPTION_CLASS);
+                }
+            } else {
+                $class = $propertyKey;
+            }
+
+            if (TestCenterService::CLASS_URI === $class){
+                return $key;
+            }
+        }
+
+        throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI .' is not defined in the import mapper config.');
     }
 }

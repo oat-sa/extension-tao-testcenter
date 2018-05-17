@@ -57,6 +57,8 @@ class TestCenterAdminCsvImporter extends RdsUserImportService
     public function import($file, $extraProperties = [], $options = [])
     {
         $extraProperties[UserRdf::PROPERTY_ROLES] = TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR;
+        $extraProperties['roles'] = TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR;;
+
         return parent::import($file, $extraProperties, $options);
     }
 }

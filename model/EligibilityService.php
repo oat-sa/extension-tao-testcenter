@@ -129,7 +129,7 @@ class EligibilityService extends ConfigurableService
         foreach ($eligibles as $eligible) {
             $delivery = $eligible->getOnePropertyValue($deliveryProperty);
             if ($delivery->exists()) {
-                $deliveries[] = $delivery;
+                $deliveries[$delivery->getUri()] = $delivery;
             }
         }
 

@@ -20,12 +20,13 @@
 namespace oat\taoTestCenter\scripts\tools\import;
 
 use oat\oatbox\extension\script\ScriptAction;
+use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 
 /**
- * sudo -u www-data php index.php 'oat\taoTestCenter\scripts\tools\import\ImportTestCentersCsv' -f /txt.csv
+ * sudo -u www-data php index.php 'oat\taoTestCenter\scripts\tools\import\ImportEligibilityCsv' -f /txt.csv
  */
-class ImportTestCentersCsv extends ScriptAction
+class ImportEligibilityCsv extends ScriptAction
 {
     protected function provideOptions()
     {
@@ -36,12 +37,13 @@ class ImportTestCentersCsv extends ScriptAction
                 'required' => true,
                 'description' => 'File path location.',
             ],
+
         ];
     }
 
     protected function provideDescription()
     {
-        return 'Import Test Centers.';
+        return 'Import Eligibilities.';
     }
 
     /**
@@ -52,9 +54,9 @@ class ImportTestCentersCsv extends ScriptAction
      */
     protected function run()
     {
-        /** @var TestCenterCsvImporterFactory $testCenterImport */
-        $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-        $importer = $testCenterImport->create('default');
+        /** @var EligibilityCsvImporterFactory $eligImport */
+        $eligImport = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+        $importer = $eligImport->create('default');
 
         return $importer->import($this->getOption('file-path'), []);
     }

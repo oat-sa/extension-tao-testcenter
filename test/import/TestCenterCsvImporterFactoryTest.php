@@ -19,8 +19,8 @@
 
 namespace oat\taoTestCenter\test\import;
 
+use oat\tao\model\import\service\ImportServiceInterface;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
-use oat\taoTestCenter\model\import\TestCenterImportServiceInterface;
 
 class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
 
         $service
             ->method('buildService')
-            ->willReturn($this->getMockForAbstractClass(TestCenterImportServiceInterface::class));
+            ->willReturn($this->getMockForAbstractClass(ImportServiceInterface::class));
 
         $service->expects($this->any())
             ->method('getOption')
@@ -40,7 +40,7 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
                     case 'mappers':
                         return array(
                             'default' => array(
-                                'importer' => $this->getMockForAbstractClass(TestCenterImportServiceInterface::class)
+                                'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
                             ),
                         );
                         break;
@@ -56,6 +56,6 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
             }));
 
 
-        $this->assertInstanceOf(TestCenterImportServiceInterface::class, $service->getImporter('default'));
+        $this->assertInstanceOf(ImportServiceInterface::class, $service->create('default'));
     }
 }
