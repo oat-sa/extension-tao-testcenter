@@ -108,14 +108,11 @@ define([
 
                     //check the mime-type
                     files = _.filter(files, function(file){
-                        console.log(file);
                         // for some weird reasons some browsers have quotes around the file type
                         var checkType = file.type.replace(/("|')/g, '');
-                        console.log(file);
                         return _.contains(_fileTypeFilters, checkType) || (checkType === '' && _fileExtFilter.test(file.name));
                     });
 
-                    console.log(files);
                     if(files.length !== givenLength){
                         feedback().error('Invalid files have been removed');
                     }
