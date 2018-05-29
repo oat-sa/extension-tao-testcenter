@@ -36,7 +36,7 @@ define([
     'use strict';
 
     var _ns = '.eligibility-import';
-    var _fileTypeFilters = ['text/csv'];
+    var _fileTypeFilters = ['text/csv', 'application/vnd.ms-excel'];
     var _fileExtFilter = /.+\.(csv)$/;
     var _modalDefaults = {
         width : 600
