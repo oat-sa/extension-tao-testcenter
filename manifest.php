@@ -18,6 +18,8 @@
  *
  *
  */
+
+use oat\taoProctoring\controller\MonitorProctorAdministrator;
 use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
 use oat\taoTestCenter\controller\TestCenterManager;
@@ -36,7 +38,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '3.13.1',
+    'version' => '3.14.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring' => '>=8.9.0',
@@ -54,6 +56,7 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class),
         array('grant', ProctorService::ROLE_PROCTOR, TestCenter::class),
         array('grant', ProctorService::ROLE_PROCTOR, Diagnostic::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class),
         //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
     ),
     'install' => array(

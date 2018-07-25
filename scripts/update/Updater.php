@@ -33,6 +33,7 @@ use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
+use oat\taoProctoring\controller\MonitorProctorAdministrator;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\controller\Import;
@@ -245,5 +246,11 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('3.12.0', '3.13.1');
+
+        if ($this->isVersion('3.13.1')) {
+            AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
+
+            $this->setVersion('3.14.0');
+        }
     }
 }
