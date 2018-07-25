@@ -248,7 +248,6 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('3.12.0', '3.13.1');
 
         if ($this->isVersion('3.13.1')) {
-            OntologyUpdater::syncModels();
             AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
 
             $this->setVersion('3.14.0');
