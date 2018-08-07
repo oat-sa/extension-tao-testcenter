@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\taoTestCenter\test\import;
+namespace oat\taoTestCenter\test\unit\import;
 
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
