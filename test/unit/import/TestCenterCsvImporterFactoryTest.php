@@ -55,7 +55,7 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-
+        // @todo fix "Argument 1 passed to oat\oatbox\service\ConfigurableService::setServiceLocator() must implement interface Zend\ServiceManager\ServiceLocatorInterface, null given"
         $this->assertInstanceOf(ImportServiceInterface::class, $service->create('default'));
     }
 }
