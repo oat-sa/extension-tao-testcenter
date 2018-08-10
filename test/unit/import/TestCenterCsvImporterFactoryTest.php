@@ -17,7 +17,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\taoTestCenter\test\import;
+namespace oat\taoTestCenter\test\unit\import;
 
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
@@ -55,7 +55,7 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-
+        // @todo fix "Argument 1 passed to oat\oatbox\service\ConfigurableService::setServiceLocator() must implement interface Zend\ServiceManager\ServiceLocatorInterface, null given"
         $this->assertInstanceOf(ImportServiceInterface::class, $service->create('default'));
     }
 }
