@@ -21,11 +21,9 @@ Template::inc('form_context.tpl', 'tao');
 
 <div class="data-container-wrapper flex-container-remainder">
 
-    <?=get_data('administratorForm')?>
-
-    <?=get_data('proctorForm')?>
-
-    <?=get_data('childrenForm')?>
+    <?php foreach (get_data('forms') as $form): ?>
+        <?= $form; ?>
+    <?php endforeach; ?>
 
     <div class="eligible-deliveries clear" data-testcenter="<?=get_data('testCenter')?>">
         <div class="eligibility-table-container"></div>

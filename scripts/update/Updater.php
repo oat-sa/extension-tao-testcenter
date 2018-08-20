@@ -41,6 +41,9 @@ use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
+use oat\taoTestCenter\model\gui\form\formFactory\SubTestCenterFormFactory;
+use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\import\RdsEligibilityImportService;
 use oat\taoTestCenter\model\import\RdsTestCenterImportService;
@@ -251,6 +254,29 @@ class Updater extends \common_ext_ExtensionUpdater
             AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
 
             $this->setVersion('3.14.1');
+        }
+
+        if ($this->isVersion('3.14.1')) {
+            $this->getServiceManager()->register(TreeFormFactory::SERVICE_ID, new TreeFormFactory(array(
+                TreeFormFactory::OPTION_FORM_FACTORIES => array(
+                    new FormFactory(array(
+                        'property' => ProctorManagementService::PROPERTY_ADMINISTRATOR_URI,
+                        'title' => 'Assign administrators',
+                        'isReversed' => true,
+                    )),
+                    new FormFactory(array(
+                        'property' => ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI,
+                        'title' => 'Assign proctors',
+                        'isReversed' => true,
+                    )),
+                    new SubTestCenterFormFactory(array(
+                        'property' => TestCenterService::PROPERTY_CHILDREN_URI,
+                        'title' => 'Define sub-centers',
+                        'isReversed' => false,
+                    )),
+                )
+            )));
+            $this->setVersion('3.15.0');
         }
     }
 }

@@ -14,8 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -26,9 +25,9 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
-use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoProctoring\helpers\DataTableHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
@@ -43,10 +42,7 @@ use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
  */
 class TestCenterManager extends \tao_actions_SaSModule
 {
-
     use ProctoringTextConverterTrait;
-
-    protected $eligibilityService;
 
     /**
      * Initialize the service and the default data
@@ -55,17 +51,13 @@ class TestCenterManager extends \tao_actions_SaSModule
     {
         parent::__construct();
         $this->service = $this->getClassService();
-        $this->eligibilityService = $this->getServiceManager()->get(EligibilityService::SERVICE_ID);
-    }
-
-    protected function getClassService()
-    {
-        return TestCenterService::singleton();
     }
 
     /**
      * Edit a Test Center instance
-     * @return void
+     *
+     * @throws \tao_models_classes_MissingRequestParameterException
+     * @throws \tao_models_classes_dataBinding_GenerisFormDataBindingException
      */
     public function editCenter()
     {
@@ -79,29 +71,17 @@ class TestCenterManager extends \tao_actions_SaSModule
 
                 $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
                 $testCenter = $binder->bind($myForm->getValues());
-
+                
                 $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
                 $this->setData('message', $this->convert('Test center saved'));
                 $this->setData('reload', true);
             }
         }
 
-        $childrenProperty = new \core_kernel_classes_Property(TestCenterService::PROPERTY_CHILDREN_URI);
-        $childrenForm = \tao_helpers_form_GenerisTreeForm::buildTree($testCenter, $childrenProperty);
-        $childrenForm->setHiddenNodes(array($testCenter->getUri()));
-        $childrenForm->setTitle($this->convert('Define sub-centers'));
-        $this->setData('childrenForm', $childrenForm->render());
+        $forms = $this->getServiceLocator()->get(TreeFormFactory::SERVICE_ID)->renderForms($testCenter);
+        $this->setData('forms', $forms);
 
-        $administratorProperty = new \core_kernel_classes_Property(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI);
-        $administratorForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testCenter, $administratorProperty);
-        $administratorForm->setData('title', $this->convert('Assign administrator'));
-        $this->setData('administratorForm', $administratorForm->render());
-
-        $proctorProperty = new \core_kernel_classes_Property(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI);
-        $proctorForm = \tao_helpers_form_GenerisTreeForm::buildReverseTree($testCenter, $proctorProperty);
-        $proctorForm->setData('title', $this->convert('Assign proctors'));
-        $this->setData('proctorForm', $proctorForm->render());
-        $updatedAt = $this->getServiceManager()->get(ResourceWatcher::SERVICE_ID)->getUpdatedAt($testCenter);
+        $updatedAt = $this->getServiceLocator()->get(ResourceWatcher::SERVICE_ID)->getUpdatedAt($testCenter);
         $this->setData('updatedAt', $updatedAt);
         $this->setData('formTitle', $this->convert('Edit test center'));
         $this->setData('testCenter', $testCenter->getUri());
@@ -140,10 +120,11 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * Get eligiblities formated in a way that is compatible
+     * Get eligibilities formatted in a way that is compatible
      * with the eligibilityTable component
      *
      * @return array
+     * @throws \tao_models_classes_MissingRequestParameterException
      */
     private function _getEligibilities(){
 
@@ -152,7 +133,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $data = array_map(function($eligibility) {
             $eligibility['id'] = $eligibility['uri'];
             return $eligibility;
-        }, $this->eligibilityService->getEligibilities($testCenter, [ 'sort' => true ]));
+        }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
 
         return DataTableHelper::paginate($data, $this->getRequestOptions());
     }
@@ -205,9 +186,9 @@ class TestCenterManager extends \tao_actions_SaSModule
             if($delivery->isClass()){
                 continue;//prevent assigning eligibility to a class for now
             }
-            if($this->eligibilityService->createEligibility($testCenter, $delivery)){
+            if($this->getEligibilityService()->createEligibility($testCenter, $delivery)){
                 if(isset($eligibility['testTakers'])){
-                    $success &= $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
+                    $success &= $this->getEligibilityService()->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
                 }
             }else{
                 $success = false;
@@ -232,7 +213,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $eligibility = $this->_getRequestEligibility();
         if(isset($eligibility['testTakers'])){
             foreach($eligibility['deliveries'] as $delivery){
-                $success = $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
+                $success = $this->getEligibilityService()>setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
             }
             // Trigger ResourceUpdated event for updating updatedAt field for resource
             $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
@@ -254,8 +235,9 @@ class TestCenterManager extends \tao_actions_SaSModule
     {
         $testCenter = $this->getCurrentInstance();
         $eligibility = $this->_getRequestEligibility();
-        foreach($eligibility['deliveries'] as $delivery){
-            $success = $this->eligibilityService->removeEligibility($testCenter, $delivery);
+        $success = true;
+        foreach ($eligibility['deliveries'] as $delivery) {
+            $success = $success && $this->getEligibilityService()->removeEligibility($testCenter, $delivery);
         }
         // Trigger ResourceUpdated event for updating updatedAt field for resource
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
@@ -276,7 +258,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         }
         $eligibilityUri = $this->getRequestParameter('eligibility');
 
-        $this->eligibilityService->setByPassProctor(new \core_kernel_classes_Resource($eligibilityUri), false);
+        $this->getEligibilityService()->setByPassProctor(new \core_kernel_classes_Resource($eligibilityUri), false);
         return $this->returnJson(array(
             'success' => true
         ));
@@ -293,7 +275,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         }
         $eligibilityUri = $this->getRequestParameter('eligibility');
 
-        $this->eligibilityService->setByPassProctor(new \core_kernel_classes_Resource($eligibilityUri), true);
+        $this->getEligibilityService()->setByPassProctor(new \core_kernel_classes_Resource($eligibilityUri), true);
         return $this->returnJson(array(
             'success' => true
         ));
@@ -358,5 +340,18 @@ class TestCenterManager extends \tao_actions_SaSModule
         }
 
         throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI .' is not defined in the import mapper config.');
+    }
+
+    protected function getClassService()
+    {
+        return TestCenterService::singleton();
+    }
+
+    /**
+     * @return EligibilityService
+     */
+    protected function getEligibilityService()
+    {
+        return $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
     }
 }
