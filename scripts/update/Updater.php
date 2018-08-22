@@ -250,7 +250,9 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('3.13.1')) {
             AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
 
-            $this->setVersion('3.14.1');
+            $this->setVersion('3.14.0');
         }
+
+        $this->skip('3.14.0', '3.14.2');
     }
 }
