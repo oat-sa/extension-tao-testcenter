@@ -253,10 +253,12 @@ class Updater extends \common_ext_ExtensionUpdater
         if ($this->isVersion('3.13.1')) {
             AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
 
-            $this->setVersion('3.14.1');
+            $this->setVersion('3.14.0');
         }
 
-        if ($this->isVersion('3.14.1')) {
+        $this->skip('3.14.0', '3.14.2');
+
+        if ($this->isVersion('3.14.2')) {
             $this->getServiceManager()->register(TreeFormFactory::SERVICE_ID, new TreeFormFactory(array(
                 TreeFormFactory::OPTION_FORM_FACTORIES => array(
                     new FormFactory(array(
