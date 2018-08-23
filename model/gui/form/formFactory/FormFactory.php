@@ -57,11 +57,19 @@ class FormFactory extends ConfigurableService implements FormFactoryInterface
      */
     protected function generateForm()
     {
-        $form = $this->isReversed
-            ? \tao_helpers_form_GenerisTreeForm::buildReverseTree($this->testCenter, $this->property)
-            : \tao_helpers_form_GenerisTreeForm::buildTree($this->testCenter, $this->property);
+        $form = $this->buildGenerisForm();
         $form->setData('title', $this->convert($this->title));
         return $form;
+    }
+
+    /**
+     * @return \tao_helpers_form_GenerisTreeForm
+     */
+    protected function buildGenerisForm()
+    {
+        return $this->isReversed
+            ? \tao_helpers_form_GenerisTreeForm::buildReverseTree($this->testCenter, $this->property)
+            : \tao_helpers_form_GenerisTreeForm::buildTree($this->testCenter, $this->property);
     }
 
     /**
