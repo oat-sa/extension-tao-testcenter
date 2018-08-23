@@ -71,7 +71,7 @@ class TestCenterManager extends \tao_actions_SaSModule
 
                 $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
                 $testCenter = $binder->bind($myForm->getValues());
-                
+
                 $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
                 $this->setData('message', $this->convert('Test center saved'));
                 $this->setData('reload', true);
@@ -213,7 +213,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $eligibility = $this->_getRequestEligibility();
         if(isset($eligibility['testTakers'])){
             foreach($eligibility['deliveries'] as $delivery){
-                $success = $this->getEligibilityService()>setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
+                $success = $this->getEligibilityService()->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
             }
             // Trigger ResourceUpdated event for updating updatedAt field for resource
             $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);

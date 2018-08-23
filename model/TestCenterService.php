@@ -29,13 +29,18 @@ use tao_models_classes_ClassService;
 
 /**
  * TestCenter Service for proctoring
- * 
+ *
  */
 class TestCenterService extends tao_models_classes_ClassService
 {
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
 
     const PROPERTY_CHILDREN_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children';
+
+    /**
+     * The property for all members of testcenter
+     */
+    const PROPERTY_MEMBER = 'http://www.w3.org/2000/01/rdf-schema#member';
 
     /**
      * URI of the testcenter manager, who can create, modify and delete testcenters
@@ -48,7 +53,7 @@ class TestCenterService extends tao_models_classes_ClassService
      * @var string
      */
     const ROLE_TESTCENTER_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole';
-    
+
     /**
      * return the test center top level class
      *
@@ -59,7 +64,7 @@ class TestCenterService extends tao_models_classes_ClassService
     {
         return new core_kernel_classes_Class(self::CLASS_URI);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_ClassService::deleteResource()
@@ -122,19 +127,19 @@ class TestCenterService extends tao_models_classes_ClassService
             $user->getPropertyValues(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI)
         );
         $subCenters = [];
-        
+
         foreach($testCenters as $testCenter){
             $subCenters = array_merge($subCenters, $this->getSubTestCenters($testCenter));
         }
-        
+
         // Administrator Proctoring.
         $adminTestCenters = $user->getPropertyValues(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI);
         $adminSubCenters = [];
-        
+
         foreach($adminTestCenters as $testCenter){
             $adminSubCenters = array_merge($adminSubCenters, $this->getSubTestCenters($testCenter));
         }
-        
+
         $testCenters = array_merge(
             $testCenters,
             $subCenters,
