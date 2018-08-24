@@ -27,11 +27,18 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetImporter()
     {
         /** @var TestCenterCsvImporterFactory $service */
-        $service = $this->getMockBuilder(TestCenterCsvImporterFactory::class)->disableOriginalConstructor()->setMethods(['buildService', 'getOption'])->getMock();
+        $service = $this->getMockBuilder(TestCenterCsvImporterFactory::class)->disableOriginalConstructor()
+            ->setMethods(['buildService', 'getOption', 'propagate'])->getMock();
 
         $service
             ->method('buildService')
             ->willReturn($this->getMockForAbstractClass(ImportServiceInterface::class));
+
+        $service
+            ->method('propagate')
+            ->will($this->returnCallback(function ($prop) {
+                return $prop;
+            }));
 
         $service->expects($this->any())
             ->method('getOption')
@@ -55,7 +62,6 @@ class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-        // @todo fix "Argument 1 passed to oat\oatbox\service\ConfigurableService::setServiceLocator() must implement interface Zend\ServiceManager\ServiceLocatorInterface, null given"
         $this->assertInstanceOf(ImportServiceInterface::class, $service->create('default'));
     }
 }
