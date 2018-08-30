@@ -109,7 +109,7 @@ class TestCenterService extends tao_models_classes_ClassService
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
             $deliveries = $eligibilityService->getEligibleDeliveries($resource);
             foreach ($deliveries as $delivery) {
-                //$eligibilityService->removeEligibility($resource, $delivery);
+                $eligibilityService->removeEligibility($resource, $delivery);
             }
         }
 
