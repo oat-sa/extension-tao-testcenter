@@ -56,6 +56,8 @@ use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
+use common_report_Report as Report;
+use oat\taoTestCenter\scripts\tools\CleanupEligibility;
 
 /**
  *
@@ -279,6 +281,14 @@ class Updater extends \common_ext_ExtensionUpdater
                 )
             )));
             $this->setVersion('3.15.0');
+        }
+
+        if ($this->isVersion('3.15.0')) {
+            $this->addReport(new Report(
+                Report::TYPE_WARNING,
+                __('Please run %s script to clean up orphan eligibilities', CleanupEligibility::class)
+            ));
+            $this->setVersion('3.16.0');
         }
     }
 }
