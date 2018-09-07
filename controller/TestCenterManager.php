@@ -228,6 +228,18 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
+     * delete an instance or a class
+     * called via ajax
+     */
+    public function delete()
+    {
+        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance());
+        return $this->returnJson(array(
+            'deleted' => $deleted
+        ));
+    }
+
+    /**
      * Remove the eligibility in parameter
      * @throws \common_Exception without an eligibility
      */
@@ -342,6 +354,9 @@ class TestCenterManager extends \tao_actions_SaSModule
         throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI .' is not defined in the import mapper config.');
     }
 
+    /**
+     * @return TestCenterService
+     */
     protected function getClassService()
     {
         return TestCenterService::singleton();

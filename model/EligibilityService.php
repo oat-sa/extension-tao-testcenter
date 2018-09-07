@@ -207,7 +207,7 @@ class EligibilityService extends ConfigurableService
         if (is_null($eligibility)) {
             throw new IneligibileException('Delivery '.$delivery->getUri().' ineligible to test center '.$testCenter->getUri());
         }
-        $deletion = $eligibility->delete();
+        $deletion = $eligibility->delete(true);
         if($deletion){
             $this->getAssignmentService()->unassignAll($eligibility);
         }
