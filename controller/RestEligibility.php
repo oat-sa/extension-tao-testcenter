@@ -70,6 +70,10 @@ class RestEligibility extends \tao_actions_RestController
      *                     type="string",
      *                     description="Created eligibility URI",
      *                 ),
+     *                 example={
+     *                     "success": true,
+     *                     "uri": "http://sample/first.rdf#i1536680377163171"
+     *                 }
      *             ),
      *         ),
      *     ),
@@ -100,7 +104,17 @@ class RestEligibility extends \tao_actions_RestController
      *         description="Created eligibility URI",
      *         @OA\MediaType(
      *             mediaType="application/json",
-     *             @OA\Schema(ref="#/components/schemas/Eligibility")
+     *             @OA\Schema(
+     *                 ref="#/components/schemas/Eligibility",
+     *                 example={
+     *                     "delivery": "http://sample/first.rdf#i1536680377163170",
+     *                     "testCenter": "http://sample/first.rdf#i1536680377163171",
+     *                     "testTakers": {
+     *                         "http://sample/first.rdf#i1536680377163172",
+     *                         "http://sample/first.rdf#i1536680377163173"
+     *                     }
+     *                 }
+     *             )
      *         ),
      *     ),
      *     @OA\Response(response=400, description="Invalid eligibility Uri"),

@@ -28,7 +28,7 @@ namespace oat\taoTestCenter\model\eligibility;
  *     required={"delivery","testCenter"}
  * )
  */
-class Eligibility extends \core_kernel_classes_Resource implements \JsonSerializable
+class Eligibility implements \JsonSerializable
 {
     /**
      * Eligibility deliveries
@@ -49,7 +49,7 @@ class Eligibility extends \core_kernel_classes_Resource implements \JsonSerializ
      *     ),
      * )
      */
-    private $testTakers;
+    private $testTakers = [];
 
     /**
      * Eligibility test-center
@@ -61,9 +61,51 @@ class Eligibility extends \core_kernel_classes_Resource implements \JsonSerializ
     private $testCenter;
 
     /**
+     * Eligibility constructor.
+     * @param string $delivery delivery Uri
+     * @param string $testCenter delivery Uri
+     * @param array $testTakers
+     */
+    public function __construct($delivery, $testCenter, array $testTakers = [])
+    {
+        $this->delivery = $delivery;
+        $this->testCenter = $testCenter;
+        $this->testTakers = $testTakers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelivery()
+    {
+        return $this->delivery;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTestCenter()
+    {
+        return $this->testCenter;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTestTakers()
+    {
+        return $this->testTakers;
+    }
+
+    /**
      * @return string
      */
     public function jsonSerialize()
     {
+        return json_encode([
+            'delivery' => $this->getDelivery(),
+            'testCenter' => $this->getTestCenter(),
+            'testTakers' => $this->getTestTakers(),
+        ]);
     }
 }
