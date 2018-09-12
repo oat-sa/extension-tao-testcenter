@@ -30,19 +30,16 @@ class RestEligibility extends \tao_actions_RestController
      *     path="/taoTestCenter/api/eligibility",
      *     tags={"eligibility"},
      *     summary="Create new eligibility",
-     *     description="Create new test center eligibility by test center uri and list of delivery uris",
+     *     description="Create new test center eligibility by test center uri and delivery",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 type="object",
      *                 @OA\Property(
-     *                     property="deliveries",
-     *                     type="array",
-     *                     description="Array of delivery URIs",
-     *                     @OA\Items(
-     *                         type="string",
-     *                     ),
+     *                     property="delivery",
+     *                     type="string",
+     *                     description="delivery URI",
      *                 ),
      *                 @OA\Property(
      *                     property="testTakers",
@@ -52,7 +49,7 @@ class RestEligibility extends \tao_actions_RestController
      *                         type="string",
      *                     ),
      *                 ),
-     *                 required={"deliveries"}
+     *                 required={"delivery"}
      *             )
      *         )
      *     ),
@@ -82,7 +79,6 @@ class RestEligibility extends \tao_actions_RestController
     public function post()
     {
     }
-
 
     /**
      * @OA\Get(

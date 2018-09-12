@@ -25,22 +25,19 @@ namespace oat\taoTestCenter\model\eligibility;
  * @package oat\taoTestCenter\model\eligibility
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  * @OA\Schema(
- *     required={"deliveries","testCenter"}
+ *     required={"delivery","testCenter"}
  * )
  */
-class Eligibility extends \core_kernel_classes_Resource
+class Eligibility extends \core_kernel_classes_Resource implements \JsonSerializable
 {
     /**
      * Eligibility deliveries
-     * @var array
+     * @var string
      * @OA\Property(
-     *     description="Array of delivery URIs",
-     *     @OA\Items(
-     *         type="string",
-     *     ),
+     *     description="delivery URI",
      * )
      */
-    private $deliveries;
+    private $delivery;
 
     /**
      * Eligibility test-takers
@@ -62,4 +59,11 @@ class Eligibility extends \core_kernel_classes_Resource
      * )
      */
     private $testCenter;
+
+    /**
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+    }
 }
