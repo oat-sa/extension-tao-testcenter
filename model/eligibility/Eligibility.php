@@ -20,6 +20,12 @@
 
 namespace oat\taoTestCenter\model\eligibility;
 
+use \core_kernel_classes_Resource as Resource;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\taoTestCenter\model\EligibilityService;
+use oat\generis\model\OntologyAwareTrait;
+
 /**
  * Class Eligibility
  * @package oat\taoTestCenter\model\eligibility
@@ -28,20 +34,24 @@ namespace oat\taoTestCenter\model\eligibility;
  *     required={"delivery","testCenter"}
  * )
  */
-class Eligibility implements \JsonSerializable
+class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+    use OntologyAwareTrait;
+
     /**
      * Eligibility deliveries
-     * @var string
+     * @var Resource
      * @OA\Property(
      *     description="delivery URI",
+     *     type="string",
      * )
      */
     private $delivery;
 
     /**
      * Eligibility test-takers
-     * @var array
+     * @var Resource[]
      * @OA\Property(
      *     description="Array of test-taker URIs",
      *     @OA\Items(
@@ -49,63 +59,103 @@ class Eligibility implements \JsonSerializable
      *     ),
      * )
      */
-    private $testTakers = [];
+    private $testTakers = null;
 
     /**
      * Eligibility test-center
-     * @var string
+     * @var Resource
      * @OA\Property(
      *     description="Test center URI",
+     *     type="string",
      * )
      */
     private $testCenter;
 
     /**
-     * Eligibility constructor.
-     * @param string $delivery delivery Uri
-     * @param string $testCenter delivery Uri
-     * @param array $testTakers
+     * Eligibility identifier
+     * @var string
+     * @OA\Property(
+     *     description="Eligibility identifier",
+     *     type="string",
+     * )
      */
-    public function __construct($delivery, $testCenter, array $testTakers = [])
+    private $id;
+
+    /**
+     * Eligibility constructor.
+     * @param string $id eligibility identifier
+     */
+    public function __construct($id)
     {
-        $this->delivery = $delivery;
-        $this->testCenter = $testCenter;
-        $this->testTakers = $testTakers;
+        $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return Resource
+     * @throws \core_kernel_persistence_Exception
      */
     public function getDelivery()
     {
+        if ($this->delivery === null) {
+            $this->delivery = $this->getService()->getDelivery($this->getResource($this->id));
+        }
         return $this->delivery;
     }
 
     /**
-     * @return string
+     * @return Resource
+     * @throws \core_kernel_persistence_Exception
      */
     public function getTestCenter()
     {
+        if ($this->testCenter === null) {
+            $this->testCenter = $this->getService()->getTestCenterByEligibility($this->getResource($this->id));
+        }
         return $this->testCenter;
     }
 
     /**
-     * @return array
+     * @return Resource[]
+     * @throws \core_kernel_persistence_Exception
      */
     public function getTestTakers()
     {
+        if ($this->testTakers === null) {
+            $this->testTakers = $this->getService()->getEligibleTestTakers(
+                $this->getTestCenter(),
+                $this->getDelivery()
+            );
+        }
         return $this->testTakers;
     }
 
     /**
      * @return string
      */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return array
+     * @throws \core_kernel_persistence_Exception
+     */
     public function jsonSerialize()
     {
-        return json_encode([
-            'delivery' => $this->getDelivery(),
-            'testCenter' => $this->getTestCenter(),
+        return [
+            'delivery' => $this->getDelivery()->getUri(),
+            'testCenter' => $this->getTestCenter()->getUri(),
             'testTakers' => $this->getTestTakers(),
-        ]);
+            'id' => $this->getId(),
+        ];
+    }
+
+    /**
+     * @return EligibilityService
+     */
+    private function getService()
+    {
+        return $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
     }
 }
