@@ -32,6 +32,7 @@ class RestEligibility extends \tao_actions_RestController
 {
 
     const PARAMETER_DELIVERY_ID = 'delivery';
+    const PARAMETER_ELIGIBILITY_ID = 'eligibility';
     const PARAMETER_TEST_CENTER_ID = 'testCenter';
     const PARAMETER_TEST_TAKER_IDS = 'testTakers';
 
@@ -152,14 +153,14 @@ class RestEligibility extends \tao_actions_RestController
     /**
      * @throws \common_exception_NotImplemented
      * @OA\Put(
-     *     path="/taoTestCenter/api/eligibility/{eligibilityUri}",
+     *     path="/taoTestCenter/api/eligibility",
      *     tags={"eligibility"},
      *     summary="Update eligibility test-takers",
      *     description="Update eligibility test-takers list",
      *     @OA\Parameter(
-     *         name="eligibilityUri",
-     *         in="path",
-     *         description="Eligibility Uri",
+     *         name="eligibility",
+     *         in="query",
+     *         description="Eligibility Uri (Url encoded)",
      *         required=true,
      *         @OA\Schema(
      *             type="string",
@@ -259,14 +260,14 @@ class RestEligibility extends \tao_actions_RestController
 
     /**
      * @OA\Get(
-     *     path="/taoTestCenter/api/eligibility/{eligibilityUri}",
+     *     path="/taoTestCenter/api/eligibility",
      *     tags={"eligibility"},
      *     summary="Get eligibility data",
      *     description="Get eligibility data",
      *     @OA\Parameter(
-     *         name="eligibilityUri",
-     *         in="path",
-     *         description="Eligibility Uri",
+     *         name="eligibility",
+     *         in="query",
+     *         description="Eligibility Uri (Url encoded)",
      *         required=true,
      *         @OA\Schema(
      *             type="string",
@@ -317,14 +318,15 @@ class RestEligibility extends \tao_actions_RestController
     }
 
     /**
+     * Get eligibility instance from request
      * @return Eligibility
+     * @throws \common_exception_MissingParameter
      * @throws \common_exception_NotFound
      */
     private function getEligibilityFromRequest()
     {
-        $requestParts = explode('/', $this->getRequest()->getRequestURI());
-        $id = end($requestParts);
-        $resource = $this->getAndCheckResource(LOCAL_NAMESPACE . '#' . $id);
+        $eligibility = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
+        $resource = $this->getAndCheckResource($eligibility, EligibilityService::CLASS_URI);
         $eligibility = $this->propagate(new Eligibility($resource->getUri()));
         return $eligibility;
     }
@@ -384,6 +386,7 @@ class RestEligibility extends \tao_actions_RestController
     private function getParameterFromRequest($parameterName)
     {
         parse_str(file_get_contents("php://input"), $params);
+        $params = array_merge($params, $this->getRequestParameters());
         if (!isset($params[$parameterName])) {
             throw new \common_exception_MissingParameter(__('Missed `%s` parameter', $parameterName));
         }
