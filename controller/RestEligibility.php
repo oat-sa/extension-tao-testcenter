@@ -275,7 +275,7 @@ class RestEligibility extends \tao_actions_RestController
      *     ),
      *     @OA\Response(
      *         response="200",
-     *         description="Created eligibility URI",
+     *         description="Eligibility data",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
