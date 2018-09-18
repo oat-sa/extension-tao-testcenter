@@ -20,9 +20,6 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\taoTestCenter\model\TestCenterService;
-use oat\tao\model\TaoOntology;
-use oat\generis\model\OntologyRdfs;
-use oat\generis\model\OntologyRdf;
 
 /**
  * Class RestTestCenter
@@ -31,6 +28,9 @@ use oat\generis\model\OntologyRdf;
  */
 class RestTestCenter extends AbstractRestController
 {
+
+    const PARAMETER_TEST_CENTER_CLASS = 'class';
+    const PARAMETER_TEST_CENTER_LABEL = 'label';
 
     /**
      * @OA\Post(
@@ -100,6 +100,16 @@ class RestTestCenter extends AbstractRestController
      */
     public function post()
     {
+        try {
+            $class = $this->getClassFromRequest($this->getService()->getRootClass());
+            $resource = $class->createInstance($this->getLabelFromRequest());
+            $this->returnJson([
+                'success' => true,
+                'uri' => $resource->getUri(),
+            ]);
+        } catch (\Exception $e) {
+            return $this->returnFailure($e);
+        }
     }
 
     /**
@@ -161,16 +171,51 @@ class RestTestCenter extends AbstractRestController
     {
         try {
             $tc = $this->getTCFromRequest();
-            $values = $tc->getTypes();
-            var_dump($values);
-            exit();
+            $class = current($tc->getTypes());
             $this->returnJson([
-                'label' => $values[OntologyRdfs::RDFS_LABEL]->get,
-                'class' => $tc->getClass()->getUri(),
+                'label' => $tc->getLabel(),
+                'class' => $class->getUri(),
             ]);
-
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
+    }
+
+    /**
+     * Get test center class from request
+     * @param \core_kernel_classes_Class $rootClass
+     * @return \core_kernel_classes_Class|null
+     * @throws \common_exception_NotFound
+     */
+    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass)
+    {
+        try {
+            $classUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_CLASS);
+        } catch (\common_exception_MissingParameter $e) {
+            return $rootClass;
+        }
+        $class = $this->getClass($classUri);
+        if (!$class->exists() || !$class->isSubClassOf($this->getService()->getRootClass())) {
+            throw new \common_exception_NotFound(__('Class with `%s` uri not found', $classUri));
+        }
+        return $class;
+    }
+
+    /**
+     * Get delivery resource from request parameters
+     * @return \core_kernel_classes_Resource
+     * @throws \common_exception_MissingParameter
+     */
+    private function getLabelFromRequest()
+    {
+        return $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_LABEL);
+    }
+
+    /**
+     * @return TestCenterService
+     */
+    private function getService()
+    {
+        return TestCenterService::singleton();
     }
 }
