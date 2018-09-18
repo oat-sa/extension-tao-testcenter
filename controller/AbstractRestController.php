@@ -20,7 +20,6 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\taoTestCenter\model\TestCenterService;
-use oat\tao\model\TaoOntology;
 
 /**
  * Class AbstractRestController
@@ -73,7 +72,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
     protected function getAndCheckResource($uri, $class = null)
     {
         $resource = $this->getResource($uri);
-        if (!$resource->exists() || ($class !== null && !$resource->hasType($this->getClass($class)))) {
+        if (!$resource->exists() || ($class !== null && !$resource->isInstanceOf($this->getClass($class)))) {
             throw new \common_exception_NotFound(__('Resource with `%s` uri not found', $uri));
         }
         return $resource;

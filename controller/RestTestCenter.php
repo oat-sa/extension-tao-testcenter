@@ -21,15 +21,18 @@ namespace oat\taoTestCenter\controller;
 
 use oat\taoTestCenter\model\TestCenterService;
 use oat\tao\model\TaoOntology;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\OntologyRdf;
 
 /**
- * @OA\Info(title="TAO Test Center API", version="0.1")
+ * Class RestTestCenter
+ * @package oat\taoTestCenter\controller
+ * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
 class RestTestCenter extends AbstractRestController
 {
 
     /**
-     * @throws \common_exception_NotImplemented
      * @OA\Post(
      *     path="/taoTestCenter/api/testCenter",
      *     tags={"testCenter"},
@@ -43,7 +46,7 @@ class RestTestCenter extends AbstractRestController
      *                 @OA\Property(
      *                     property="class",
      *                     type="string",
-     *                     description="class URI",
+     *                     description="Class URI. Root class will be used if parameter was not given",
      *                 ),
      *                 @OA\Property(
      *                     property="label",
@@ -156,47 +159,18 @@ class RestTestCenter extends AbstractRestController
      */
     public function get()
     {
-    }
+        try {
+            $tc = $this->getTCFromRequest();
+            $values = $tc->getTypes();
+            var_dump($values);
+            exit();
+            $this->returnJson([
+                'label' => $values[OntologyRdfs::RDFS_LABEL]->get,
+                'class' => $tc->getClass()->getUri(),
+            ]);
 
-    /**
-     * Get test center resource from request parameters
-     * @return \core_kernel_classes_Resource
-     * @throws \common_exception_MissingParameter
-     * @throws \common_exception_NotFound
-     */
-    private function getTCFromRequest()
-    {
-        $testCenterUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_ID);
-        return $this->getAndCheckResource($testCenterUri, TestCenterService::CLASS_URI);
-    }
-
-    /**
-     * @param $parameterName
-     * @return array|bool|mixed|null|string
-     * @throws \common_exception_MissingParameter
-     */
-    private function getParameterFromRequest($parameterName)
-    {
-        parse_str(file_get_contents("php://input"), $params);
-        $params = array_merge($params, $this->getRequestParameters());
-        if (!isset($params[$parameterName])) {
-            throw new \common_exception_MissingParameter(__('Missed `%s` parameter', $parameterName));
+        } catch (\Exception $e) {
+            return $this->returnFailure($e);
         }
-        return $params[$parameterName];
-    }
-
-    /**
-     * @param $uri
-     * @param null $class
-     * @return \core_kernel_classes_Resource
-     * @throws \common_exception_NotFound
-     */
-    private function getAndCheckResource($uri, $class = null)
-    {
-        $resource = $this->getResource($uri);
-        if (!$resource->exists() || ($class !== null && !$resource->hasType($this->getClass($class)))) {
-            throw new \common_exception_NotFound(__('Resource with `%s` uri not found', $uri));
-        }
-        return $resource;
     }
 }
