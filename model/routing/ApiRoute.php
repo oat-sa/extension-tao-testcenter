@@ -20,74 +20,21 @@
 
 namespace oat\taoTestCenter\model\routing;
 
-use oat\tao\model\routing\Route;
+use oat\tao\model\routing\AbstractApiRoute;
 
 /**
  * Route for RestApi controllers
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class ApiRoute extends Route
+class ApiRoute extends AbstractApiRoute
 {
     const REST_CONTROLLER_PREFIX = 'oat\\taoTestCenter\\controller\\Rest';
 
     /**
-     * @param $relativeUrl
-     * @return string
+     * @inheritdoc
      */
-    public function resolve($relativeUrl)
+    protected function getControllerPrefix()
     {
-        try {
-            return $this->getController($relativeUrl).'@'.$this->getAction();
-        } catch (\common_exception_BadRequest $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @param $relativeUrl
-     * @return string
-     * @throws \common_exception_BadRequest
-     */
-    protected function getController($relativeUrl)
-    {
-        $parts = explode('/', $relativeUrl);
-
-        if (!isset($parts[2])) {
-            throw new \common_exception_BadRequest('Missed controller name in uri: ' . $relativeUrl);
-        }
-
-        if (!class_exists(self::REST_CONTROLLER_PREFIX . ucfirst($parts[2]))) {
-            throw new \common_exception_BadRequest('Controller ' . $parts[2] . ' does not exists in Test Center API');
-        }
-
-        return self::REST_CONTROLLER_PREFIX . ucfirst($parts[2]);
-    }
-
-    /**
-     * @return string
-     * @throws \common_exception_BadRequest
-     */
-    protected function getAction()
-    {
-        $method = \Context::getInstance()->getRequest()->getMethod();
-
-        switch ($method) {
-            case "GET":
-                $action = 'get';
-                break;
-            case "PUT":
-                $action = 'put';
-                break;
-            case "POST":
-                $action = 'post';
-                break;
-            case "DELETE":
-                $action = 'delete';
-                break;
-            default:
-                throw new \common_exception_BadRequest('Method `' . $method . ' is not supported by Test Center API');
-        }
-
-        return $action;
+        return self::REST_CONTROLLER_PREFIX;
     }
 }
