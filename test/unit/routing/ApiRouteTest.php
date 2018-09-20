@@ -23,77 +23,40 @@ namespace oat\taoTestCenter\test\unit\routing;
 use oat\generis\test\TestCase;
 use oat\taoTestCenter\model\routing\ApiRoute;
 use oat\taoTestCenter\controller\RestEligibility;
+use GuzzleHttp\Psr7\ServerRequest;
+
 /**
  * Class ApiRouteTest
  * @package oat\taoTestCenter\test\unit\routing
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
- * @runInSeparateProcess
  */
 class ApiRouteTest extends TestCase
 {
-    private $method = 'GET';
-
-    public function setUp()
-    {
-        $reflectedContext = new \ReflectionClass(\Context::class);
-        $reflectedContextProperty = $reflectedContext->getProperty('instance');
-        $reflectedContextProperty->setAccessible(true);
-        $reflectedContextProperty->setValue($this->getContextMock());
-    }
-
     public function testResolve()
     {
         $route = new ApiRoute(new \common_ext_Extension('taoTestCenter'), 'taoTestCenter/api', []);
-        $path = $route->resolve('taoTestCenter/api/eligibility');
+        $path = $route->resolve(new ServerRequest('GET', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(RestEligibility::class . '@get', $path);
 
-        $this->method = 'PUT';
-        $path = $route->resolve('taoTestCenter/api/eligibility');
+        $path = $route->resolve(new ServerRequest('PUT', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(RestEligibility::class . '@put', $path);
 
-        $this->method = 'POST';
-        $path = $route->resolve('taoTestCenter/api/eligibility');
+        $path = $route->resolve(new ServerRequest('POST', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(RestEligibility::class . '@post', $path);
 
-        $this->method = 'DELETE';
-        $path = $route->resolve('taoTestCenter/api/eligibility');
+        $path = $route->resolve(new ServerRequest('DELETE', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(RestEligibility::class . '@delete', $path);
 
-        $this->method = 'GET';
-        $path = $route->resolve('taoTestCenter/api/foo');
+        $path = $route->resolve(new ServerRequest('GET', '/taoTestCenter/api/foo'));
         $this->assertEquals(null, $path);
 
-        $path = $route->resolve('foo/api/eligibility');
+        $path = $route->resolve(new ServerRequest('GET', '/foo/api/eligibility'));
         $this->assertEquals(null, $path);
 
-        $path = $route->resolve('taoTestCenter/foo/eligibility');
+        $path = $route->resolve(new ServerRequest('GET', '/taoTestCenter/foo/eligibility'));
         $this->assertEquals(null, $path);
 
-        $this->method = 'PATCH';
-        $path = $route->resolve('taoTestCenter/api/eligibility');
+        $path = $route->resolve(new ServerRequest('PATCH', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(null, $path);
-    }
-
-    /**
-     * @return \Context
-     */
-    protected function getContextMock()
-    {
-        $contextProphecy = $this->prophesize(\Context::class);
-        $requestProphecy = $this->prophesize(\Request::class);
-        $test = $this;
-        $requestProphecy->getMethod()->will(function () use ($test) {
-            return $test->getMethod();
-        });
-        $contextProphecy->getRequest()->willReturn($requestProphecy->reveal());
-        return $contextProphecy->reveal();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethod()
-    {
-        return $this->method;
     }
 }
