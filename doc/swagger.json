@@ -324,8 +324,12 @@
                   "label"
                 ],
                 "properties": {
-                  "class": {
-                    "description": "Class URI. Root class will be used if parameter was not given",
+                  "class-uri": {
+                    "description": "Class uri to import item. If not specified root class will be used.",
+                    "type": "string"
+                  },
+                  "class-label": {
+                    "description": "Label of class to import item. If not specified root class will be used.\r\n     * If label is not unique first match will be used.",
                     "type": "string"
                   },
                   "label": {

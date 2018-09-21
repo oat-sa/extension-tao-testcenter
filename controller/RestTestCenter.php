@@ -44,9 +44,15 @@ class RestTestCenter extends AbstractRestController
      *             @OA\Schema(
      *                 type="object",
      *                 @OA\Property(
-     *                     property="class",
+     *                     property="class-uri",
      *                     type="string",
-     *                     description="Class URI. Root class will be used if parameter was not given",
+     *                     description="Class uri to import item. If not specified root class will be used.",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="class-label",
+     *                     type="string",
+     *                     description="Label of class to import item. If not specified root class will be used.
+     * If label is not unique first match will be used.",
      *                 ),
      *                 @OA\Property(
      *                     property="label",
@@ -179,26 +185,6 @@ class RestTestCenter extends AbstractRestController
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
-    }
-
-    /**
-     * Get test center class from request
-     * @param \core_kernel_classes_Class $rootClass
-     * @return \core_kernel_classes_Class|null
-     * @throws \common_exception_NotFound
-     */
-    protected function getClassFromRequest(\core_kernel_classes_Class $rootClass)
-    {
-        try {
-            $classUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_CLASS);
-        } catch (\common_exception_MissingParameter $e) {
-            return $rootClass;
-        }
-        $class = $this->getClass($classUri);
-        if (!$class->exists() || !$class->isSubClassOf($this->getService()->getRootClass())) {
-            throw new \common_exception_NotFound(__('Class with `%s` uri not found', $classUri));
-        }
-        return $class;
     }
 
     /**
