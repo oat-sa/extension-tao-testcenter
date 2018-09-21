@@ -247,6 +247,139 @@
           }
         }
       }
+    },
+    "/taoTestCenter/api/testCenter": {
+      "get": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Get test center data",
+        "description": "Get test center data",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenter::get",
+        "parameters": [
+          {
+            "name": "testCenter",
+            "in": "query",
+            "description": "testCenter Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test center data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "label": {
+                      "description": "Test center label",
+                      "type": "string"
+                    },
+                    "class": {
+                      "description": "Test center class URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "label": "http://sample/first.rdf#i1536680377163170",
+                    "class": "http://sample/first.rdf#i15367360596713165"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid test center Uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Create new test center",
+        "description": "Create new test center",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenter::post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "label"
+                ],
+                "properties": {
+                  "class": {
+                    "description": "Class URI. Root class will be used if parameter was not given",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Test center label",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created test center URI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    },
+                    "uri": {
+                      "description": "Created test center URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true,
+                    "uri": "http://sample/first.rdf#i1536680377163171"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid class uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Class `http://sample/first.rdf#i1536680377656966` does not exists",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
