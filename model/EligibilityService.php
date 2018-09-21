@@ -39,12 +39,15 @@ use oat\taoTestCenter\model\proctoring\TestCenterMonitoringService;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
+use oat\generis\model\OntologyAwareTrait;
 
 /**
  * Service to manage eligible deliveries
  */
 class EligibilityService extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
     const SERVICE_ID = 'taoTestCenter/EligibilityService';
 
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility';
@@ -319,6 +322,16 @@ class EligibilityService extends ConfigurableService
         }
 
         return $result;
+    }
+
+    /**
+     * @param Resource $eligibility
+     * @return \core_kernel_classes_Container
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function getTestCenterByEligibility(Resource $eligibility)
+    {
+        return $eligibility->getOnePropertyValue($this->getProperty(self::PROPERTY_TESTCENTER_URI));
     }
 
     /**

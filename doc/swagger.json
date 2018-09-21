@@ -1,0 +1,421 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TAO Test Center API",
+    "version": "0.1"
+  },
+  "paths": {
+    "/taoTestCenter/api/eligibility": {
+      "get": {
+        "tags": [
+          "eligibility"
+        ],
+        "summary": "Get eligibility data",
+        "description": "Get eligibility data",
+        "operationId": "oat\\taoTestCenter\\controller\\RestEligibility::get",
+        "parameters": [
+          {
+            "name": "eligibility",
+            "in": "query",
+            "description": "Eligibility Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eligibility data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "delivery": "http://sample/first.rdf#i1536680377163170",
+                    "testCenter": "http://sample/first.rdf#i1536680377163171",
+                    "testTakers": [
+                      "http://sample/first.rdf#i1536680377163172",
+                      "http://sample/first.rdf#i1536680377163173"
+                    ]
+                  },
+                  "$ref": "#/components/schemas/Eligibility"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid eligibility Uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "eligibility"
+        ],
+        "summary": "Update eligibility test-takers",
+        "description": "Update eligibility test-takers list",
+        "operationId": "oat\\taoTestCenter\\controller\\RestEligibility::put",
+        "parameters": [
+          {
+            "name": "eligibility",
+            "in": "query",
+            "description": "Eligibility Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "properties": {
+                  "testTakers": {
+                    "description": "Array of test-takers URIs. Remove all the test takers if not given",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated eligibility uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    },
+                    "uri": {
+                      "description": "Updated eligibility URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true,
+                    "uri": "http://sample/first.rdf#i1536680377163171"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid test-taker uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "`testTakers` parameter must be an array",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Test taker, eligibility not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Resource with `http://sample/first.rdf#i1536680377656966s` uri not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "eligibility"
+        ],
+        "summary": "Create new eligibility",
+        "description": "Create new test center eligibility by test center uri and delivery",
+        "operationId": "oat\\taoTestCenter\\controller\\RestEligibility::post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "delivery",
+                  "testCenter"
+                ],
+                "properties": {
+                  "delivery": {
+                    "description": "delivery URI",
+                    "type": "string"
+                  },
+                  "testCenter": {
+                    "description": "test center URI",
+                    "type": "string"
+                  },
+                  "testTakers": {
+                    "description": "Array of test-takers URIs",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created eligibility URI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    },
+                    "uri": {
+                      "description": "Created eligibility URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true,
+                    "uri": "http://sample/first.rdf#i1536680377163171"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid delivery, test center or test-takers uri or eligibility already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "`testTakers` parameter must be an array",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Test taker, delivery or test center not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Resource with `http://sample/first.rdf#i1536680377656966s` uri not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/taoTestCenter/api/testCenter": {
+      "get": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Get test center data",
+        "description": "Get test center data",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenter::get",
+        "parameters": [
+          {
+            "name": "testCenter",
+            "in": "query",
+            "description": "testCenter Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test center data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "label": {
+                      "description": "Test center label",
+                      "type": "string"
+                    },
+                    "class": {
+                      "description": "Test center class URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "label": "http://sample/first.rdf#i1536680377163170",
+                    "class": "http://sample/first.rdf#i15367360596713165"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid test center Uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Create new test center",
+        "description": "Create new test center",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenter::post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "label"
+                ],
+                "properties": {
+                  "class-uri": {
+                    "description": "Class uri to import item. If not specified root class will be used.",
+                    "type": "string"
+                  },
+                  "class-label": {
+                    "description": "Label of class to import item. If not specified root class will be used.\r\n     * If label is not unique first match will be used.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Test center label",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created test center URI",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    },
+                    "uri": {
+                      "description": "Created test center URI",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true,
+                    "uri": "http://sample/first.rdf#i1536680377163171"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid class uri",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Class `http://sample/first.rdf#i1536680377656966` does not exists",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Eligibility": {
+        "required": [
+          "delivery",
+          "testCenter"
+        ],
+        "properties": {
+          "delivery": {
+            "description": "delivery URI",
+            "type": "string"
+          },
+          "testTakers": {
+            "description": "Array of test-taker URIs",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "testCenter": {
+            "description": "Test center URI",
+            "type": "string"
+          },
+          "id": {
+            "description": "Eligibility identifier",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  }
+}
