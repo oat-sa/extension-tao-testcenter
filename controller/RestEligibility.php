@@ -353,7 +353,7 @@ class RestEligibility extends AbstractRestController
     {
         $result = [];
         try {
-            $ids = json_decode($this->getParameterFromRequest(self::PARAMETER_TEST_TAKER_IDS), true);
+            $ids = $this->getParameterFromRequest(self::PARAMETER_TEST_TAKER_IDS);
         } catch (\common_exception_MissingParameter $e) {
             return $result;
         }
