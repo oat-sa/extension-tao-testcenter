@@ -38,6 +38,7 @@ use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\controller\RestEligibility;
+use oat\taoTestCenter\controller\RestTestCenter;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
@@ -302,6 +303,18 @@ class Updater extends \common_ext_ExtensionUpdater
             );
 
             $this->setVersion('3.17.0');
+        }
+
+        if ($this->isVersion('3.17.0')) {
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    TestCenterService::ROLE_TESTCENTER_MANAGER,
+                    RestTestCenter::class
+                )
+            );
+
+            $this->setVersion('3.18.0');
         }
     }
 }
