@@ -233,6 +233,16 @@ class ProctorManager extends SimplePageModule
                     if(!empty($testCenters)){
                         ProctorManagementService::singleton()->authorizeProctors(array($proctor->getUri()), $testCenters);
                     }
+
+                    //assigning app key to add chance to decrypt testsessions
+                    $tcAdminUser = \common_session_SessionManager::getSession()->getUser();
+                    $userResource = new \core_kernel_classes_Resource($tcAdminUser->getIdentifier());
+                    $appKeyProperty = new \core_kernel_classes_Property('http://www.tao.lu/Ontologies/TAODelivery.rdf#applicationKey');
+
+                    $appKey = $userResource->getOnePropertyValue($appKeyProperty);
+                    if (!empty($appKey)) {
+                        $proctor->setPropertyValue($appKeyProperty, $appKey);
+                    }
                 }
             }else{
                 $form = $myForm->render();
