@@ -46,6 +46,8 @@ use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
 use oat\taoTestCenter\model\gui\form\formFactory\SubTestCenterFormFactory;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
+use oat\taoTestCenter\model\gui\TestcenterAdministratorUserFormFactory;
+use oat\taoTestCenter\model\gui\ProctorUserFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\import\RdsEligibilityImportService;
 use oat\taoTestCenter\model\import\RdsTestCenterImportService;
@@ -318,5 +320,34 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         $this->skip('3.18.0', '3.18.1');
+
+        if ($this->isVersion('3.18.1')) {
+
+            $service = $this->getServiceManager()->get(TreeFormFactory::SERVICE_ID);
+            $factories = $service->getOption(TreeFormFactory::OPTION_FORM_FACTORIES);
+            /** @var FormFactory $factory */
+            foreach ($factories as &$factory) {
+                if (ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI === $factory->getOption('property')) {
+                    $factory = new ProctorUserFormFactory(array(
+                        'property' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor',
+                        'title' => 'Assign proctors',
+                        'isReversed' => true
+                    ));
+                }
+
+                if (ProctorManagementService::PROPERTY_ADMINISTRATOR_URI === $factory->getOption('property')) {
+                    $factory = new TestcenterAdministratorUserFormFactory(array(
+                        'property' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator',
+                        'title' => 'Assign administrators',
+                        'isReversed' => true
+                    ));
+                }
+            }
+            $service->setOption(TreeFormFactory::OPTION_FORM_FACTORIES, $factories);
+            $this->getServiceManager()->register(TreeFormFactory::SERVICE_ID, $service);
+
+            $this->setVersion('3.19.0');
+        }
+
     }
 }
