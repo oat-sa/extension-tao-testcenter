@@ -329,7 +329,7 @@ class Updater extends \common_ext_ExtensionUpdater
             foreach ($factories as &$factory) {
                 if (ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI === $factory->getOption('property')) {
                     $factory = new ProctorUserFormFactory(array(
-                        'property' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor',
+                        'property' => ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI,
                         'title' => 'Assign proctors',
                         'isReversed' => true
                     ));
@@ -337,7 +337,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
                 if (ProctorManagementService::PROPERTY_ADMINISTRATOR_URI === $factory->getOption('property')) {
                     $factory = new TestcenterAdministratorUserFormFactory(array(
-                        'property' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator',
+                        'property' => ProctorManagementService::PROPERTY_ADMINISTRATOR_URI,
                         'title' => 'Assign administrators',
                         'isReversed' => true
                     ));
