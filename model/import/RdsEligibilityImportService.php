@@ -57,11 +57,6 @@ class RdsEligibilityImportService extends AbstractImportService
         $eligibility = reset($eligibilities);
 
         $testTakers = $properties[EligibilityService::PROPERTY_TESTTAKER_URI];
-        $testTakersIds = [];
-        /** @var core_kernel_classes_Resource $testTaker */
-        foreach ($testTakers as $testTaker) {
-            $testTakersIds[] = $testTaker->getUri();
-        }
 
         $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
 
