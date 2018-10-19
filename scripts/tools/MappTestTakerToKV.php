@@ -19,15 +19,14 @@
 
 namespace oat\taoTestCenter\scripts\tools;
 
-use common_persistence_KeyValuePersistence;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\user\UserRdf;
-use oat\oatbox\extension\InstallAction;
+use oat\oatbox\extension\script\ScriptAction;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
 use common_report_Report as Report;
 
-class MappTestTakerToKV extends InstallAction
+class MappTestTakerToKV extends ScriptAction
 {
     use OntologyAwareTrait;
 
@@ -35,36 +34,71 @@ class MappTestTakerToKV extends InstallAction
      * @param $params
      * @throws \Exception
      */
-    public function __invoke($params)
+    public function run()
     {
+        $limit = $this->getOption('limit');
+        $offset = 0;
+
         $report = Report::createInfo('Mapping TestTakers logins');
 
         $class = $this->getClass(TaoOntology::CLASS_URI_SUBJECT);
 
         $tmpkvTable = new TmpKvTable();
         $this->propagate($tmpkvTable);
+        $count = 0;
+        do {
 
-        $results = $class->searchInstances(
-            [ UserRdf::PROPERTY_ROLES => TaoRoles::DELIVERY ],
-            [ 'like' => false]
-        );
+            $results = $class->searchInstances(
+                [ UserRdf::PROPERTY_ROLES => TaoRoles::DELIVERY ],
+                [
+                    'like' => false,
+                    'limit' => $limit,
+                    'offset' => $offset
+                ]
+            );
 
-        foreach ($results as $result) {
-            try {
-                $value = $result->getUniquePropertyValue($this->getProperty(UserRdf::PROPERTY_LOGIN) );
 
-                $key   = $value->literal;
-                $value = $result->getUri();
+            foreach ($results as $result) {
+                try {
+                    $value = $result->getUniquePropertyValue($this->getProperty(UserRdf::PROPERTY_LOGIN) );
 
-                $tmpkvTable->add($key, $value);
+                    $key   = $value->literal;
+                    $value = $result->getUri();
 
-            } catch (\Exception $e) {
-                $report->add(Report::createFailure($e->getMessage()));
+                    if ($tmpkvTable->add($key, $value)){
+                        $count++;
+                    }
+
+                } catch (\Exception $e) {
+                    $report->add(Report::createFailure($e->getMessage()));
+                }
             }
-        }
 
-        $report->add(Report::createSuccess('Everything mapped with success'));
+            $offset = $offset + $this->getOption('limit');
+
+        }while(!empty($results));
+
+        $report->add(Report::createSuccess('TT count mapped: ' . $count));
 
         return $report;
+    }
+
+    protected function provideOptions()
+    {
+
+        return [
+            'limit' => [
+                'prefix'      => 'l',
+                'longPrefix'  => 'limit',
+                'cast'        => 'integer',
+                'required'    => true,
+                'description' => 'Limit to get tt.'
+            ]
+        ];
+    }
+
+    protected function provideDescription()
+    {
+        return 'Mapping TestTakers logins';
     }
 }
