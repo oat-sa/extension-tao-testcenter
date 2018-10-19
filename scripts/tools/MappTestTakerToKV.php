@@ -37,7 +37,7 @@ class MappTestTakerToKV extends ScriptAction
     public function run()
     {
         $limit = $this->getOption('limit');
-        $offset = 0;
+        $offset = $this->getOption('offset');
 
         $report = Report::createInfo('Mapping TestTakers logins');
 
@@ -93,6 +93,13 @@ class MappTestTakerToKV extends ScriptAction
                 'cast'        => 'integer',
                 'required'    => true,
                 'description' => 'Limit to get tt.'
+            ],
+            'offset' => [
+                'prefix'      => 'o',
+                'longPrefix'  => 'offset',
+                'cast'        => 'integer',
+                'required'    => true,
+                'description' => 'Offset to get tt.'
             ]
         ];
     }
