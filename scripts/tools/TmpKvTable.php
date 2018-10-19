@@ -27,6 +27,8 @@ class TmpKvTable implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
+    const PREFIX = 'mapper_tt_';
+
     private $persistence;
 
     /**
@@ -37,7 +39,7 @@ class TmpKvTable implements ServiceManagerAwareInterface
      */
     public function add($key, $value)
     {
-        return $this->getPersistence()->set($key, $value);
+        return $this->getPersistence()->set($this->computeKey($key), $value);
     }
 
     /**
@@ -47,7 +49,12 @@ class TmpKvTable implements ServiceManagerAwareInterface
      */
     public function lookup($key)
     {
-        return $this->getPersistence()->get($key);
+        return $this->getPersistence()->get($this->computeKey($key));
+    }
+
+    private function computeKey($key)
+    {
+        return static::PREFIX . $key;
     }
 
     /**
