@@ -25,6 +25,7 @@ use oat\tao\model\import\service\AbstractImportService;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\taoTestCenter\model\EligibilityService;
 use core_kernel_classes_Resource;
+use oat\taoTestCenter\scripts\tools\TmpKvTable;
 
 class RdsEligibilityImportService extends AbstractImportService
 {
@@ -57,13 +58,16 @@ class RdsEligibilityImportService extends AbstractImportService
         $eligibility = reset($eligibilities);
 
         $testTakers = $properties[EligibilityService::PROPERTY_TESTTAKER_URI];
-        $testTakersIds = [];
-        /** @var core_kernel_classes_Resource $testTaker */
-        foreach ($testTakers as $testTaker) {
-            $testTakersIds[] = $testTaker->getUri();
+
+        $tmpkvTable = new TmpKvTable();
+        $this->propagate($tmpkvTable);
+
+        $testTakersUris = [];
+        foreach ($testTakers as $ttLogin) {
+            $testTakersUris[] = $tmpkvTable->lookup($ttLogin);
         }
 
-        $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
+        $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakersUris);
 
         if (isset($properties[EligibilityService::PROPERTY_BYPASSPROCTOR_URI])) {
             $byPass = !boolval($properties[EligibilityService::PROPERTY_BYPASSPROCTOR_URI]);
