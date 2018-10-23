@@ -43,7 +43,7 @@ return array(
     'version' => '4.0.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
-        'taoProctoring'  => '>=9.0.0',
+        'taoProctoring'  => '>=11.0.0',
         'taoDelivery'    => '>=11.0.0',
         'generis'        => '>=7.4.0',
         'tao'            => '>=21.0.0',
