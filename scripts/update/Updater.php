@@ -46,6 +46,8 @@ use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
 use oat\taoTestCenter\model\gui\form\formFactory\SubTestCenterFormFactory;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
+use oat\taoTestCenter\model\gui\TestcenterAdministratorUserFormFactory;
+use oat\taoTestCenter\model\gui\ProctorUserFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\import\RdsEligibilityImportService;
 use oat\taoTestCenter\model\import\RdsTestCenterImportService;
