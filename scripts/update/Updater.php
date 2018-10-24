@@ -319,6 +319,37 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('3.18.0');
         }
 
-        $this->skip('3.18.0', '4.0.0');
+        $this->skip('3.18.0', '3.18.1');
+
+        if ($this->isVersion('3.18.1')) {
+
+            $service = $this->getServiceManager()->get(TreeFormFactory::SERVICE_ID);
+            $factories = $service->getOption(TreeFormFactory::OPTION_FORM_FACTORIES);
+            /** @var FormFactory $factory */
+            foreach ($factories as &$factory) {
+                if (ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI === $factory->getOption('property')) {
+                    $factory = new ProctorUserFormFactory(array(
+                        'property' => ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI,
+                        'title' => 'Assign proctors',
+                        'isReversed' => true
+                    ));
+                }
+
+                if (ProctorManagementService::PROPERTY_ADMINISTRATOR_URI === $factory->getOption('property')) {
+                    $factory = new TestcenterAdministratorUserFormFactory(array(
+                        'property' => ProctorManagementService::PROPERTY_ADMINISTRATOR_URI,
+                        'title' => 'Assign administrators',
+                        'isReversed' => true
+                    ));
+                }
+            }
+            $service->setOption(TreeFormFactory::OPTION_FORM_FACTORIES, $factories);
+            $this->getServiceManager()->register(TreeFormFactory::SERVICE_ID, $service);
+
+            $this->setVersion('3.19.0');
+        }
+
+
+        $this->skip('3.19.0', '4.0.0');
     }
 }
