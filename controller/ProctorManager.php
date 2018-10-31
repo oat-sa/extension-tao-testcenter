@@ -19,9 +19,13 @@
  */
 namespace oat\taoTestCenter\controller;
 
+use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\tao\helpers\UserHelper;
 use oat\taoProctoring\helpers\DataTableHelper;
+use oat\taoTestCenter\model\event\ProctorCreatedEvent;
 use \tao_helpers_Uri;
 use \tao_helpers_Request;
 use common_session_SessionManager as SessionManager;
@@ -40,6 +44,7 @@ use oat\taoTestCenter\helper\TestCenterHelper;
  */
 class ProctorManager extends SimplePageModule
 {
+    use OntologyAwareTrait;
     use ProctoringTextConverterTrait;
 
     /**
@@ -233,6 +238,13 @@ class ProctorManager extends SimplePageModule
                     if(!empty($testCenters)){
                         ProctorManagementService::singleton()->authorizeProctors(array($proctor->getUri()), $testCenters);
                     }
+
+                    // Trigger ProctorCreatedEvent
+                    $tcAdminUser = \common_session_SessionManager::getSession()->getUser();
+                    $userResource = $this->getResource($tcAdminUser->getIdentifier());
+
+                    $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+                    $eventManager->trigger(new ProctorCreatedEvent($userResource, $proctor));
                 }
             }else{
                 $form = $myForm->render();
