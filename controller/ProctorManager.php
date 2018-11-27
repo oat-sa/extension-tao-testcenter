@@ -33,7 +33,7 @@ use oat\taoTestCenter\controller\form\AddProctor;
 use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoTestCenter\helper\TestCenterHelper;
-
+use common_exception_BadRequest;
 /**
  * Proctor manager controller
  *
@@ -264,12 +264,12 @@ class ProctorManager extends SimplePageModule
 
     /**
      * action used to check if a login can be used
-     * @throws \Exception
+     * @throws common_exception_BadRequest
      */
     public function checkLogin()
     {
         if (!tao_helpers_Request::isAjax()) {
-            throw new \Exception("wrong request mode");
+            throw new common_exception_BadRequest('wrong request mode');
         }
 
         $available = false;
