@@ -350,6 +350,6 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
 
-        $this->skip('3.19.0', '4.1.0');
+        $this->skip('3.19.0', '4.2.0');
     }
 }
