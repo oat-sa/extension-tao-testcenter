@@ -22,6 +22,7 @@ namespace oat\taoTestCenter\controller;
 
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
@@ -64,7 +65,7 @@ class TestCenterManager extends \tao_actions_SaSModule
         $clazz = $this->getCurrentClass();
         $testCenter = $this->getCurrentInstance();
 
-        $formContainer = new \tao_actions_form_Instance($clazz, $testCenter);
+        $formContainer = new SignedFormInstance($clazz, $testCenter);
         $myForm = $formContainer->getForm();
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
