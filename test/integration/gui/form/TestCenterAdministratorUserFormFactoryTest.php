@@ -17,14 +17,15 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\taoTestCenter\test\unit\gui\form\formFactory;
+namespace oat\taoTestCenter\test\integration\gui\form;
 
 use core_kernel_classes_Resource;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverter;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
+use oat\taoTestCenter\model\gui\TestcenterAdministratorUserFormFactory;
 use tao_helpers_form_GenerisTreeForm;
 
-class FormFactoryTest extends \PHPUnit_Framework_TestCase
+class TestCenterAdministratorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {
@@ -33,11 +34,13 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
         $factory->setOption('property', 'property_string');
         $factory->setOption('title', 'title_string');
         $factory->setOption('isReversed', false);
+        /** @var tao_helpers_form_GenerisTreeForm $form */
         $form = $factory->__invoke(
             $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock()
         );
 
         $this->assertInstanceOf(tao_helpers_form_GenerisTreeForm::class, $form);
+        sprintf($form->render());
     }
 
     /**
@@ -45,7 +48,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFactory()
     {
-        $factory = $this->getMockBuilder(FormFactory::class)
+        $factory = $this->getMockBuilder(TestcenterAdministratorUserFormFactory::class)
             ->setMethods(['getTextConverterService', 'buildGenerisForm'])
             ->disableOriginalConstructor()->getMock();
 
@@ -76,8 +79,6 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function mockProctoringTextConverter()
     {
-        $mock = $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
-
-        return $mock;
+        return $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
     }
 }

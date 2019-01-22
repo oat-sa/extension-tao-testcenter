@@ -17,15 +17,16 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\taoTestCenter\test\unit\gui\form;
+
+namespace oat\taoTestCenter\test\integration\gui\form\formFactory;
 
 use core_kernel_classes_Resource;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverter;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
-use oat\taoTestCenter\model\gui\ProctorUserFormFactory;
+use PHPUnit_Framework_TestCase;
 use tao_helpers_form_GenerisTreeForm;
 
-class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
+class FormFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {
@@ -34,13 +35,11 @@ class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
         $factory->setOption('property', 'property_string');
         $factory->setOption('title', 'title_string');
         $factory->setOption('isReversed', false);
-        /** @var tao_helpers_form_GenerisTreeForm $form */
         $form = $factory->__invoke(
             $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock()
         );
 
         $this->assertInstanceOf(tao_helpers_form_GenerisTreeForm::class, $form);
-        sprintf($form->render());
     }
 
     /**
@@ -48,7 +47,7 @@ class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFactory()
     {
-        $factory = $this->getMockBuilder(ProctorUserFormFactory::class)
+        $factory = $this->getMockBuilder(FormFactory::class)
             ->setMethods(['getTextConverterService', 'buildGenerisForm'])
             ->disableOriginalConstructor()->getMock();
 
@@ -79,8 +78,6 @@ class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function mockProctoringTextConverter()
     {
-        $mock = $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
-
-        return $mock;
+        return $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
     }
 }
