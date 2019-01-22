@@ -17,15 +17,16 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\taoTestCenter\test\unit\gui\form;
+
+namespace oat\taoTestCenter\test\integration\gui\form;
 
 use core_kernel_classes_Resource;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverter;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
-use oat\taoTestCenter\model\gui\TestcenterAdministratorUserFormFactory;
+use oat\taoTestCenter\model\gui\ProctorUserFormFactory;
 use tao_helpers_form_GenerisTreeForm;
 
-class TestcenterAdministratorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
+class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testInvoke()
     {
@@ -48,7 +49,7 @@ class TestcenterAdministratorUserFormFactoryTest extends \PHPUnit_Framework_Test
      */
     protected function getFactory()
     {
-        $factory = $this->getMockBuilder(TestcenterAdministratorUserFormFactory::class)
+        $factory = $this->getMockBuilder(ProctorUserFormFactory::class)
             ->setMethods(['getTextConverterService', 'buildGenerisForm'])
             ->disableOriginalConstructor()->getMock();
 
@@ -79,8 +80,6 @@ class TestcenterAdministratorUserFormFactoryTest extends \PHPUnit_Framework_Test
 
     protected function mockProctoringTextConverter()
     {
-        $mock = $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
-
-        return $mock;
+        return $this->getMockBuilder(ProctoringTextConverter::class)->disableOriginalConstructor()->getMock();
     }
 }
