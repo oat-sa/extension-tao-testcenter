@@ -18,8 +18,9 @@
  *
  */
 
-namespace oat\taoTestCenter\test\unit\routing;
+namespace oat\taoTestCenter\test\integration\routing;
 
+use common_ext_Extension;
 use oat\generis\test\TestCase;
 use oat\taoTestCenter\model\routing\ApiRoute;
 use oat\taoTestCenter\controller\RestEligibility;
@@ -34,7 +35,7 @@ class ApiRouteTest extends TestCase
 {
     public function testResolve()
     {
-        $route = new ApiRoute(new \common_ext_Extension('taoTestCenter'), 'taoTestCenter/api', []);
+        $route = new ApiRoute(new common_ext_Extension('taoTestCenter'), 'taoTestCenter/api', []);
         $path = $route->resolve(new ServerRequest('GET', '/taoTestCenter/api/eligibility'));
         $this->assertEquals(RestEligibility::class . '@get', $path);
 

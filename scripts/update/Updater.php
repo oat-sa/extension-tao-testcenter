@@ -22,6 +22,8 @@
 
 namespace oat\taoTestCenter\scripts\update;
 
+use common_Exception;
+use common_ext_ExtensionUpdater;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
@@ -68,18 +70,17 @@ use oat\taoTestCenter\scripts\tools\CleanupEligibility;
  * @access public
  * @package taoGroups
  */
-class Updater extends \common_ext_ExtensionUpdater
+class Updater extends common_ext_ExtensionUpdater
 {
-
     /**
      * (non-PHPdoc)
      * @see common_ext_ExtensionUpdater::update()
-     * @throws \common_Exception
+     * @throws common_Exception
      */
     public function update($initialVersion)
     {
         if ($this->isBetween('0.0.1', '0.3.0')) {
-            throw new \common_Exception('Upgrade unavailable');
+            throw new common_Exception('Upgrade unavailable');
         }
 
         $this->skip('0.3.0', '2.0.2');
@@ -109,7 +110,6 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('3.0.0', '3.0.1');
 
         if ($this->isVersion('3.0.1')) {
-
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
             $eventManager->attach(UserRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
             $eventManager->attach(TestTakerRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
@@ -155,8 +155,21 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
         if ($this->isVersion('3.9.0')) {
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_MANAGER, Import::class));
-            AclProxy::applyRule(new AccessRule(AccessRule::GRANT, TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class));
+            AclProxy::applyRule(
+                new AccessRule(
+                    AccessRule::GRANT,
+                    TestCenterService::ROLE_TESTCENTER_MANAGER,
+                    Import::class
+                )
+            );
+
+            AclProxy::applyRule(
+                new AccessRule(
+                    AccessRule::GRANT,
+                    TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR,
+                    Import::class
+                )
+            );
 
             $service = new TestCenterCsvImporterFactory(array(
                 TestCenterCsvImporterFactory::OPTION_DEFAULT_SCHEMA => array(
@@ -257,7 +270,13 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('3.12.0', '3.13.1');
 
         if ($this->isVersion('3.13.1')) {
-            AclProxy::applyRule(new AccessRule('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class));
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR,
+                    MonitorProctorAdministrator::class
+                )
+            );
 
             $this->setVersion('3.14.0');
         }
@@ -322,7 +341,6 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('3.18.0', '3.18.1');
 
         if ($this->isVersion('3.18.1')) {
-
             $service = $this->getServiceManager()->get(TreeFormFactory::SERVICE_ID);
             $factories = $service->getOption(TreeFormFactory::OPTION_FORM_FACTORIES);
             /** @var FormFactory $factory */
@@ -350,6 +368,6 @@ class Updater extends \common_ext_ExtensionUpdater
         }
 
 
-        $this->skip('3.19.0', '4.2.0');
+        $this->skip('3.19.0', '4.2.1');
     }
 }
