@@ -34,6 +34,7 @@ class RestEligibility extends AbstractRestController
 
     const PARAMETER_DELIVERY_ID = 'delivery';
     const PARAMETER_ELIGIBILITY_ID = 'eligibility';
+    const PARAMETER_ELIGIBILITY_PROCTORED = 'proctored';
     const PARAMETER_TEST_CENTER_ID = 'testCenter';
     const PARAMETER_TEST_TAKER_IDS = 'testTakers';
 
@@ -66,6 +67,11 @@ class RestEligibility extends AbstractRestController
      *                     @OA\Items(
      *                         type="string",
      *                     ),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="proctored",
+     *                     type="boolean",
+     *                     description="is eligibility proctored or not",
      *                 ),
      *                 required={"delivery", "testCenter"}
      *             )
@@ -133,15 +139,25 @@ class RestEligibility extends AbstractRestController
             $delivery = $this->getDeliveryFromRequest();
             $testCenter = $this->getTCFromRequest();
             $testTakers = $this->getTakersFromRequest();
+            $proctored = $this->getProctoredFromRequest();
+
+            /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
             if ($eligibilityService->getEligibility($testCenter, $delivery) !== null) {
                 throw new \common_exception_RestApi(__('Eligibility already exists'));
             }
-            if ($eligibilityService->createEligibility($testCenter, $delivery)) {
+
+            $eligibility = $eligibilityService->createEligibility($testCenter, $delivery);
+            if ($eligibility) {
+                if (!is_null($proctored)) {
+                    $bypass = !$proctored;
+                    $eligibilityService->setByPassProctor($eligibility, $bypass);
+                }
+
                 $eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
                 $this->returnJson([
                     'success' => true,
-                    'uri' => $eligibilityService->getEligibility($testCenter, $delivery)->getUri()
+                    'uri' => $eligibility->getUri()
                 ]);
             } else {
                 throw new \common_exception_BadRequest(__('Can\'t create eligibility. Please contact administrator.'));
@@ -365,5 +381,20 @@ class RestEligibility extends AbstractRestController
             throw new \common_exception_RestApi(__('`%s` parameter must be an array', self::PARAMETER_TEST_TAKER_IDS));
         }
         return $result;
+    }
+
+    /**
+     * Get value for proctored eligibility from request.
+     *
+     * @return bool|null
+     */
+    private function getProctoredFromRequest()
+    {
+        $proctored = null;
+        if ($this->getRequest()->hasParameter(self::PARAMETER_ELIGIBILITY_PROCTORED)) {
+            $proctored = filter_var($this->getRequest()->getParameter(self::PARAMETER_ELIGIBILITY_PROCTORED), FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $proctored;
     }
 }

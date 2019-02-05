@@ -93,7 +93,7 @@ class EligibilityService extends ConfigurableService
      * 
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @return boolean
+     * @return Resource
      */
     public function createEligibility(Resource $testCenter, Resource $delivery) {
         if (!is_null($this->getEligibility($testCenter, $delivery))) {
@@ -111,7 +111,7 @@ class EligibilityService extends ConfigurableService
             $this->setByPassProctor($eligibilty, true);
         }
 
-        return true;
+        return $eligibilty;
     }
 
     /**
