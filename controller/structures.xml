@@ -17,7 +17,7 @@
                           delete="testcenter-delete"
                             />
                 </trees>
-                <actions>
+                <actions allowClassActions="true">
                     <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class">
                         <icon id="icon-edit"/>
                     </action>
