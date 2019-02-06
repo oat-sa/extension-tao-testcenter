@@ -25,6 +25,9 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\Tree\GetTreeRequest;
+use oat\tao\model\Tree\GetTreeService;
+use oat\taoDevTools\actions\ExtensionsManager;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
@@ -58,6 +61,8 @@ class TestCenterManager extends \tao_actions_SaSModule
      *
      * @throws \tao_models_classes_MissingRequestParameterException
      * @throws \tao_models_classes_dataBinding_GenerisFormDataBindingException
+     *
+     * @requiresRight uri READ
      */
     public function editCenter()
     {
@@ -136,6 +141,42 @@ class TestCenterManager extends \tao_actions_SaSModule
         }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
 
         return DataTableHelper::paginate($data, $this->getRequestOptions());
+    }
+
+    /**
+     * this one was moved out of generis tree controller into here to allow to fetch tree data altogether with permissions
+     * used only if DACSimple extension is enabled
+     *
+     * @throws \common_Exception
+     * @throws \common_exception_IsAjaxAction
+     */
+    public function getData()
+    {
+        /** @var GetTreeService $service */
+        $service = $this->getServiceLocator()->get(GetTreeService::SERVICE_ID);
+
+        $response = $service->handle(GetTreeRequest::create($this->getRequest()));
+
+        $tree = $response->getTreeArray();
+
+        /** @var \common_ext_ExtensionsManager $extMgr */
+        $extMgr = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        $isDacEnabled = $extMgr->isInstalled('taoDacSimple') && $extMgr->isEnabled('taoDacSimple');
+
+        if ($isDacEnabled) {
+
+            //retrieve resources permissions
+            $user = \common_Session_SessionManager::getSession()->getUser();
+            $permissions = $this->getResourceService()->getResourcesPermissions($user, $tree);
+
+            $data = [
+                'tree' => $tree,
+                'permissions' => $permissions
+            ];
+        } else {
+            $data = $tree;
+        }
+        return $this->returnJson($data);
     }
 
     /**
@@ -368,5 +409,34 @@ class TestCenterManager extends \tao_actions_SaSModule
     protected function getEligibilityService()
     {
         return $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
+    }
+
+    /**
+     * overwrite the parent addInstance to add the requiresRight only in TestTakers
+     * @requiresRight id WRITE
+     */
+    public function addInstance()
+    {
+        parent::addInstance();
+    }
+
+    /**
+     * overwrite the parent addSubClass to add the requiresRight only in TestTakers
+     * @requiresRight id WRITE
+     */
+    public function addSubClass()
+    {
+        parent::addSubClass();
+    }
+
+    /**
+     * overwrite the parent cloneInstance to add the requiresRight only in TestTakers
+     * @see tao_actions_TaoModule::cloneInstance()
+     * @requiresRight uri READ
+     * @requiresRight classUri WRITE
+     */
+    public function cloneInstance()
+    {
+        return parent::cloneInstance();
     }
 }

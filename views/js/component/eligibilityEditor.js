@@ -39,12 +39,17 @@ define([
     };
 
     var config = {
-        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
+        dataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter'),
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
+        isDacEnabled: false
     };
 
     config = _.defaults({}, module.config(), config);
+
+    if (_.isObject(config.dataUrl)) {
+        config.dataUrl = helpers._url(config.dataUrl.action, config.dataUrl.controller, config.dataUrl.extension);
+    }
 
     /**
      * Create an eligibility editor into a $container
@@ -84,7 +89,8 @@ define([
                     openParentNodes : selected, //generis tree uses normal if to open nodes...
                     rootNode : 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
                 },
-                paginate : 10
+                paginate : 10,
+                checkResourcePermissions: config.isDacEnabled
             });
         };
 
