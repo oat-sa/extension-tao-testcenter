@@ -149,7 +149,7 @@ class RestEligibility extends AbstractRestController
 
             $eligibility = $eligibilityService->createEligibility($testCenter, $delivery);
             if ($eligibility) {
-                if (!is_null($proctored)) {
+                if ($proctored !== null) {
                     $bypass = !$proctored;
                     $eligibilityService->setByPassProctor($eligibility, $bypass);
                 }
@@ -195,7 +195,12 @@ class RestEligibility extends AbstractRestController
      *                     @OA\Items(
      *                         type="string",
      *                     ),
-     *                 )
+     *                 ),
+     *                 @OA\Property(
+     *                     property="proctored",
+     *                     type="boolean",
+     *                     description="is eligibility proctored or not",
+     *                 ),
      *             )
      *         )
      *     ),
@@ -260,12 +265,21 @@ class RestEligibility extends AbstractRestController
         try {
             $eligibility = $this->getEligibilityFromRequest();
             $testTakers = $this->getTakersFromRequest();
+            $proctored = $this->getProctoredFromRequest();
+
+            /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
             $eligibilityService->setEligibleTestTakers(
                 $eligibility->getTestCenter(),
                 $eligibility->getDelivery(),
                 $testTakers
             );
+            if ($proctored !== null) {
+                $bypass = !$proctored;
+                $eligibilityResource = $eligibilityService->getEligibility($eligibility->getTestCenter(), $eligibility->getDelivery());
+                $eligibilityService->setByPassProctor($eligibilityResource, $bypass);
+            }
+
             $this->returnJson([
                 'success' => true,
                 'uri' => $eligibility->getId()
