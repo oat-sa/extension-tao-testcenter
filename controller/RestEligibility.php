@@ -71,7 +71,7 @@ class RestEligibility extends AbstractRestController
      *                 @OA\Property(
      *                     property="proctored",
      *                     type="boolean",
-     *                     description="is eligibility proctored or not",
+     *                     description="Create proctored/unproctored eligibility",
      *                 ),
      *                 required={"delivery", "testCenter"}
      *             )
@@ -199,7 +199,7 @@ class RestEligibility extends AbstractRestController
      *                 @OA\Property(
      *                     property="proctored",
      *                     type="boolean",
-     *                     description="is eligibility proctored or not",
+     *                     description="Make eligibility proctored or not",
      *                 ),
      *             )
      *         )
