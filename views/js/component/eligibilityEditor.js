@@ -39,16 +39,19 @@ define([
     };
 
     var config = {
-        dataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter'),
+        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
-        isDacEnabled: false
+        isDacEnabled: false,
+        testTakerDataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter')
     };
 
     config = _.defaults({}, module.config(), config);
 
-    if (_.isObject(config.dataUrl)) {
-        config.dataUrl = helpers._url(config.dataUrl.action, config.dataUrl.controller, config.dataUrl.extension);
+    if (_.isObject(config.testTakerDataUrl)) {
+        config.testTakerDataUrl = helpers._url(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
+    } else {
+        config.testTakerDataUrl = config.dataUrl;
     }
 
     /**
@@ -173,7 +176,7 @@ define([
                     options = _.defaults(options || {}, this.config);
 
                     deliveryTree = buildDeliveryTree(deliveryTreeId, options.dataUrl);
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.dataUrl);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl);
 
                     initModal({
                         width : 650
@@ -231,7 +234,7 @@ define([
 
                     options = _.defaults(options || {}, this.config);
 
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.dataUrl, testTakers);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers);
 
                     initModal({
                         width : 400
