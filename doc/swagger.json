@@ -89,6 +89,10 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "proctored": {
+                    "description": "Make eligibility proctored or not",
+                    "type": "boolean"
                   }
                 },
                 "type": "object"
@@ -183,6 +187,10 @@
                     "items": {
                       "type": "string"
                     }
+                  },
+                  "proctored": {
+                    "description": "Create proctored/unproctored eligibility",
+                    "type": "boolean"
                   }
                 },
                 "type": "object"
