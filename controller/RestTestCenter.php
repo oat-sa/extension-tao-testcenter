@@ -150,7 +150,7 @@ class RestTestCenter extends AbstractRestController
      *                     description="Test center class URI",
      *                 ),
      *                 example={
-     *                     "label": "http://sample/first.rdf#i1536680377163170",
+     *                     "label": "Test Center ABC",
      *                     "class": "http://sample/first.rdf#i15367360596713165"
      *                 }
      *             )
