@@ -42,9 +42,17 @@ define([
         dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
+        isDacEnabled: false,
+        testTakerDataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter')
     };
 
     config = _.defaults({}, module.config(), config);
+
+    if (_.isObject(config.testTakerDataUrl)) {
+        config.testTakerDataUrl = helpers._url(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
+    } else {
+        config.testTakerDataUrl = config.dataUrl;
+    }
 
     /**
      * Create an eligibility editor into a $container
@@ -84,7 +92,8 @@ define([
                     openParentNodes : selected, //generis tree uses normal if to open nodes...
                     rootNode : 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
                 },
-                paginate : 10
+                paginate : 10,
+                checkResourcePermissions: config.isDacEnabled
             });
         };
 
@@ -167,7 +176,7 @@ define([
                     options = _.defaults(options || {}, this.config);
 
                     deliveryTree = buildDeliveryTree(deliveryTreeId, options.dataUrl);
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.dataUrl);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl);
 
                     initModal({
                         width : 650
@@ -225,7 +234,7 @@ define([
 
                     options = _.defaults(options || {}, this.config);
 
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.dataUrl, testTakers);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers);
 
                     initModal({
                         width : 400
