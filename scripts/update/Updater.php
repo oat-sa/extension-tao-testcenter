@@ -64,6 +64,7 @@ use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
 use common_report_Report as Report;
 use oat\taoTestCenter\scripts\tools\CleanupEligibility;
+use oat\taoProctoring\model\ProctorService;
 
 /**
  *
@@ -372,6 +373,22 @@ class Updater extends common_ext_ExtensionUpdater
         if ($this->isVersion('4.3.2')) {
             $this->getServiceManager()->register(TestCenterService::SERVICE_ID, new TestCenterService([]));
             $this->setVersion('4.4.0');
+        }
+
+        if ($this->isVersion('4.4.0')) {
+            $testCenterService = $this->getServiceManager()->get(TestCenterService::SERVICE_ID);
+            $testCenterService->setOption(TestCenterService::OPTION_ROLES_MAP, [
+                'administrator' => [
+                    'roleUri' => ProctorService::ROLE_PROCTOR,
+                    'propertyUri' => ProctorManagementService::PROPERTY_ADMINISTRATOR_URI,
+                ],
+                'proctor' => [
+                    'roleUri' => TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR,
+                    'propertyUri' => ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI,
+                ]
+            ]);
+            $this->getServiceManager()->register(TestCenterService::SERVICE_ID, $testCenterService);
+            $this->setVersion('4.5.0');
         }
     }
 }

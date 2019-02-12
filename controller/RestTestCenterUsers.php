@@ -152,7 +152,6 @@ class RestTestCenterUsers extends AbstractRestController
             throw new \common_exception_MissingParameter(__('Missed %s parameter', self::PARAMETER_USER_URI));
         }
         $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
-        $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
         $user = $this->getAndCheckResource($userUri, TaoOntology::CLASS_URI_TAO_USER);
         $role = $this->getRoleResource();
 

@@ -29,6 +29,7 @@ use oat\tao\model\ClassServiceTrait;
 use oat\tao\model\GenerisServiceTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\taoProctoring\model\ProctorService;
 
 /**
  * TestCenter Service for proctoring
@@ -42,6 +43,7 @@ class TestCenterService extends ConfigurableService
     use GenerisServiceTrait;
 
     const SERVICE_ID = 'taoTestCenter/TestCenterService';
+    const OPTION_ROLES_MAP = 'roles_map';
 
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
 
