@@ -20,52 +20,59 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\taoTestCenter\model\TestCenterService;
+use oat\tao\model\TaoOntology;
+use oat\generis\model\user\UserRdf;
 
 /**
- * Class RestTestCenter
+ * Class RestTestCenterUsers
  * @package oat\taoTestCenter\controller
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class RestTestCenter extends AbstractRestController
+class RestTestCenterUsers extends AbstractRestController
 {
 
-    const PARAMETER_TEST_CENTER_CLASS = 'class';
-    const PARAMETER_TEST_CENTER_LABEL = 'label';
+    const PARAMETER_USER_URI = 'user';
+    const PARAMETER_USER_ROLE = 'role';
+
+    const AVAILABLE_ROLES_MAP = [
+        'proctor' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor',
+        'administrator' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator',
+    ];
 
     /**
      * @OA\Post(
-     *     path="/taoTestCenter/api/testCenter",
+     *     path="/taoTestCenter/api/testCenterUsers",
      *     tags={"testCenter"},
-     *     summary="Create new test center",
-     *     description="Create new test center",
+     *     summary="Assign user to the test center",
+     *     description="Assign user to the test center",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/x-www-form-urlencoded",
      *             @OA\Schema(
      *                 type="object",
      *                 @OA\Property(
-     *                     property="class-uri",
+     *                     property="testCenter",
      *                     type="string",
-     *                     description="Class uri to import item. If not specified root class will be used.",
+     *                     description="Test center id",
      *                 ),
      *                 @OA\Property(
-     *                     property="class-label",
+     *                     property="user",
      *                     type="string",
-     *                     description="Label of class to import item. If not specified root class will be used.
-     * If label is not unique first match will be used.",
+     *                     description="User id",
      *                 ),
      *                 @OA\Property(
-     *                     property="label",
+     *                     property="role",
      *                     type="string",
-     *                     description="Test center label",
+     *                     description="The role to which the user should be assigned",
+     *                     enum={"proctor", "administrator"},
      *                 ),
-     *                 required={"label"}
+     *                 required={"testCenter, user, role"}
      *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response="200",
-     *         description="Created test center URI",
+     *         description="Assign user to the test center",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
@@ -75,28 +82,37 @@ class RestTestCenter extends AbstractRestController
      *                     type="boolean",
      *                     description="`false` on failure, `true` on success",
      *                 ),
-     *                 @OA\Property(
-     *                     property="uri",
-     *                     type="string",
-     *                     description="Created test center URI",
-     *                 ),
      *                 example={
-     *                     "success": true,
-     *                     "uri": "http://sample/first.rdf#i1536680377163171"
+     *                     "success": true
      *                 }
      *             ),
      *         ),
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid class uri",
+     *         description="Invalid user id or user is not allowed to be assigned to given role",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "Class `http://sample/first.rdf#i1536680377656966` does not exists",
+     *                     "errorMsg": "User does not exist",
+     *                     "version": "3.3.0-sprint85"
+     *                 }
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Test center not found",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 example={
+     *                     "success": false,
+     *                     "errorCode": 0,
+     *                     "errorMsg": "Test center not found",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )
@@ -106,102 +122,75 @@ class RestTestCenter extends AbstractRestController
      */
     public function post()
     {
+        $testCenter = $this->getTCFromRequest();
+        $user = $this->getUserFromRequest();
         try {
-            $class = $this->getClassFromRequest($this->getService()->getRootClass());
-            $resource = $class->createInstance($this->getLabelFromRequest());
+            $success = $syncUser->setPropertyValue($roleProperty, $testCenter);
             $this->returnJson([
                 'success' => true,
-                'uri' => $resource->getUri(),
+                'uri' => $success,
             ]);
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
     }
 
-    /**
-     * @OA\Get(
-     *     path="/taoTestCenter/api/testCenter",
-     *     tags={"testCenter"},
-     *     summary="Get test center data",
-     *     description="Get test center data",
-     *     @OA\Parameter(
-     *         name="testCenter",
-     *         in="query",
-     *         description="testCenter Uri (Url encoded)",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string",
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Test center data",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                     property="label",
-     *                     type="string",
-     *                     description="Test center label",
-     *                 ),
-     *                 @OA\Property(
-     *                     property="class",
-     *                     type="string",
-     *                     description="Test center class URI",
-     *                 ),
-     *                 example={
-     *                     "label": "Test Center ABC",
-     *                     "class": "http://sample/first.rdf#i15367360596713165"
-     *                 }
-     *             )
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Invalid test center Uri",
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 example={
-     *                     "success": false,
-     *                     "errorCode": 0,
-     *                     "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
-     *                     "version": "3.3.0-sprint85"
-     *                 }
-     *             )
-     *         ),
-     *     ),
-     * )
-     */
     public function get()
     {
-        try {
-            $tc = $this->getTCFromRequest();
-            $class = current($tc->getTypes());
-            $this->returnJson([
-                'label' => $tc->getLabel(),
-                'class' => $class->getUri(),
-            ]);
-        } catch (\Exception $e) {
-            return $this->returnFailure($e);
-        }
+
     }
 
     /**
-     * Get delivery resource from request parameters
-     * @return \core_kernel_classes_Resource
+     * @return mixed
+     * @throws \common_exception_BadRequest
      * @throws \common_exception_MissingParameter
+     * @throws \common_exception_NotFound
      */
-    private function getLabelFromRequest()
+    private function getUserFromRequest()
     {
-        return $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_LABEL);
+        if (!$this->hasRequestParameter(self::PARAMETER_USER_URI)) {
+            throw new \common_exception_MissingParameter(__('Missed %s parameter', self::PARAMETER_USER_URI));
+        }
+        $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
+        $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
+        $user = $this->getAndCheckResource($userUri, TaoOntology::CLASS_URI_TAO_USER);
+        $role = $this->getRoleResource();
+
+        if (!$this->getUserService()->userHasRoles($user, $role)) {
+            throw new \common_exception_BadRequest(__('User is not allowed to be assigned to given role'));
+        }
+
+        return $this->authorRoles[$user->getUri()];
+    }
+
+    protected function getRoleResource()
+    {
+        if (!$this->hasRequestParameter(self::PARAMETER_USER_ROLE)) {
+            throw new \common_exception_MissingParameter(__('Missed %s parameter', self::PARAMETER_USER_ROLE));
+        }
+        $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
+        $role = $this->getAndCheckResource($roleUri, UserRdf::PROPERTY_ROLES);
+    }
+
+
+    protected function getRoleProperty()
+    {
+
     }
 
     /**
      * @return TestCenterService
      */
-    private function getService()
+    protected function getService()
     {
         return TestCenterService::singleton();
+    }
+
+    /**
+     * @return \tao_models_classes_UserService
+     */
+    protected function getUserService()
+    {
+        return $this->getServiceLocator()->get(\tao_models_classes_UserService::SERVICE_ID);
     }
 }
