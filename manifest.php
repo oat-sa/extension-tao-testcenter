@@ -34,6 +34,7 @@ use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\scripts\install\OverrideBreadcrumbsServices;
 use oat\taoTestCenter\scripts\install\RegisterClientLibConfig;
+use oat\taoTestCenter\controller\RestTestCenterUsers;
 
 return array(
     'name' => 'taoTestCenter',
@@ -61,6 +62,7 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibility::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenter::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenterUsers::class),
         //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
     ),
     'install' => array(

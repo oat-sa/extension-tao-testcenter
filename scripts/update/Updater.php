@@ -41,6 +41,7 @@ use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\controller\RestEligibility;
 use oat\taoTestCenter\controller\RestTestCenter;
+use oat\taoTestCenter\controller\RestTestCenterUsers;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
@@ -64,7 +65,6 @@ use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
 use common_report_Report as Report;
 use oat\taoTestCenter\scripts\tools\CleanupEligibility;
-use oat\taoProctoring\model\ProctorService;
 
 /**
  *
@@ -376,18 +376,14 @@ class Updater extends common_ext_ExtensionUpdater
         }
 
         if ($this->isVersion('4.4.0')) {
-            $testCenterService = $this->getServiceManager()->get(TestCenterService::SERVICE_ID);
-            $testCenterService->setOption(TestCenterService::OPTION_ROLES_MAP, [
-                'administrator' => [
-                    'roleUri' => ProctorService::ROLE_PROCTOR,
-                    'propertyUri' => ProctorManagementService::PROPERTY_ADMINISTRATOR_URI,
-                ],
-                'proctor' => [
-                    'roleUri' => TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR,
-                    'propertyUri' => ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI,
-                ]
-            ]);
-            $this->getServiceManager()->register(TestCenterService::SERVICE_ID, $testCenterService);
+            AclProxy::applyRule(
+                new AccessRule(
+                    'grant',
+                    TestCenterService::ROLE_TESTCENTER_MANAGER,
+                    RestTestCenterUsers::class
+                )
+            );
+
             $this->setVersion('4.5.0');
         }
     }

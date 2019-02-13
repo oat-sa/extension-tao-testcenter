@@ -20,8 +20,6 @@
 namespace oat\taoTestCenter\controller;
 
 use oat\taoTestCenter\model\TestCenterService;
-use oat\tao\model\TaoOntology;
-use oat\generis\model\user\UserRdf;
 
 /**
  * Class RestTestCenterUsers
@@ -64,7 +62,7 @@ class RestTestCenterUsers extends AbstractRestController
      *                     property="role",
      *                     type="string",
      *                     description="The role to which the user should be assigned",
-     *                     enum={"proctor", "administrator"},
+     *                     enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"},
      *                 ),
      *                 required={"testCenter, user, role"}
      *             )
@@ -122,59 +120,117 @@ class RestTestCenterUsers extends AbstractRestController
      */
     public function post()
     {
-        $testCenter = $this->getTCFromRequest();
-        $user = $this->getUserFromRequest();
         try {
-            $success = $syncUser->setPropertyValue($roleProperty, $testCenter);
+            $testCenter = $this->getTCFromRequest();
+            $user = $this->getUserFromRequest();
+            $role = $this->getRoleFromRequest();
+
             $this->returnJson([
-                'success' => true,
-                'uri' => $success,
+                'success' => $this->getService()->assignUser($testCenter, $user, $role)
             ]);
-        } catch (\Exception $e) {
+        } catch (\common_Exception $e) {
             return $this->returnFailure($e);
         }
     }
 
-    public function get()
+    /**
+     * @OA\Delete(
+     *     path="/taoTestCenter/api/testCenterUsers",
+     *     tags={"testCenter"},
+     *     summary="Remove user from the test center",
+     *     description="Remove user from the test center",
+     *     @OA\Parameter(
+     *       name="testCenter",
+     *       in="path",
+     *       description="The test center id",
+     *       required=true,
+     *       @OA\Schema(
+     *           type="string"
+     *       )
+     *     ),
+     *     @OA\Parameter(
+     *       name="user",
+     *       in="path",
+     *       description="User id",
+     *       required=true,
+     *       @OA\Schema(
+     *           type="string"
+     *       )
+     *     ),
+     *     @OA\Parameter(
+     *       name="role",
+     *       in="path",
+     *       description="Role id",
+     *       required=true,
+     *       @OA\Schema(
+     *           enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"},
+     *           type="string"
+     *       )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Remove user from the test center",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="success",
+     *                     type="boolean",
+     *                     description="`false` on failure, `true` on success",
+     *                 ),
+     *                 example={
+     *                     "success": true
+     *                 }
+     *             ),
+     *         ),
+     *     ),
+     * )
+     */
+    public function delete()
     {
+        try {
+            $testCenter = $this->getTCFromRequest();
+            $user = $this->getUserFromRequest();
+            $role = $this->getRoleFromRequest();
 
+            $this->returnJson([
+                'success' => $this->getService()->unassignUser($testCenter, $user, $role)
+            ]);
+        } catch (\common_Exception $e) {
+            return $this->returnFailure($e);
+        }
     }
 
     /**
-     * @return mixed
+     * TODO: 
+     */
+    public function get()
+    {
+        //todo: implement retrieving test center users
+    }
+
+    /**
+     * @return \oat\oatbox\user\User
      * @throws \common_exception_BadRequest
+     * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
-     * @throws \common_exception_NotFound
      */
     private function getUserFromRequest()
     {
-        if (!$this->hasRequestParameter(self::PARAMETER_USER_URI)) {
-            throw new \common_exception_MissingParameter(__('Missed %s parameter', self::PARAMETER_USER_URI));
-        }
         $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
-        $user = $this->getAndCheckResource($userUri, TaoOntology::CLASS_URI_TAO_USER);
-        $role = $this->getRoleResource();
-
-        if (!$this->getUserService()->userHasRoles($user, $role)) {
-            throw new \common_exception_BadRequest(__('User is not allowed to be assigned to given role'));
-        }
-
-        return $this->authorRoles[$user->getUri()];
+        return $this->getUserService()->getUserById($userUri);
     }
 
-    protected function getRoleResource()
+    /**
+     * @return \core_kernel_classes_Resource
+     * @throws \common_exception_MissingParameter
+     * @throws \common_exception_NotFound
+     */
+    private function getRoleFromRequest()
     {
-        if (!$this->hasRequestParameter(self::PARAMETER_USER_ROLE)) {
-            throw new \common_exception_MissingParameter(__('Missed %s parameter', self::PARAMETER_USER_ROLE));
-        }
         $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
-        $role = $this->getAndCheckResource($roleUri, UserRdf::PROPERTY_ROLES);
-    }
-
-
-    protected function getRoleProperty()
-    {
-
+        return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
     }
 
     /**
