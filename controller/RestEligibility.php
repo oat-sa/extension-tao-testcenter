@@ -275,9 +275,11 @@ class RestEligibility extends AbstractRestController
                 $testTakers
             );
             if ($proctored !== null) {
-                $bypass = !$proctored;
                 $eligibilityResource = $eligibilityService->getEligibility($eligibility->getTestCenter(), $eligibility->getDelivery());
-                $eligibilityService->setByPassProctor($eligibilityResource, $bypass);
+                if ($eligibilityResource instanceof \core_kernel_classes_Resource) {
+                    $bypass = !$proctored;
+                    $eligibilityService->setByPassProctor($eligibilityResource, $bypass);
+                }
             }
 
             $this->returnJson([

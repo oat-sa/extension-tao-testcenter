@@ -93,7 +93,7 @@ class EligibilityService extends ConfigurableService
      * 
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @return Resource
+     * @return Resource|boolean
      */
     public function createEligibility(Resource $testCenter, Resource $delivery) {
         if (!is_null($this->getEligibility($testCenter, $delivery))) {
