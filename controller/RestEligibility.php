@@ -147,7 +147,7 @@ class RestEligibility extends AbstractRestController
                 throw new \common_exception_RestApi(__('Eligibility already exists'));
             }
 
-            $eligibility = $eligibilityService->createEligibility($testCenter, $delivery);
+            $eligibility = $eligibilityService->newEligibility($testCenter, $delivery);
             if ($eligibility) {
                 if ($proctored !== null) {
                     $bypass = !$proctored;

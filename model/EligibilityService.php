@@ -93,13 +93,28 @@ class EligibilityService extends ConfigurableService
      * 
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @return Resource|boolean
+     * @return boolean
+     *
+     * @deprecated use EligibilityService::newEligibility()
      */
     public function createEligibility(Resource $testCenter, Resource $delivery) {
+        return (boolean) $this->newEligibility($testCenter, $delivery);
+    }
+
+    /**
+     * Establishes a new eligibility
+     *
+     * @param Resource $testCenter
+     * @param Resource $delivery
+     * @return Resource|boolean
+     */
+    public function newEligibility(Resource $testCenter, Resource $delivery)
+    {
         if (!is_null($this->getEligibility($testCenter, $delivery))) {
             // already exists, don't recreate
             return false;
         }
+
         $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(
             self::PROPERTY_TESTCENTER_URI => $testCenter,
             self::PROPERTY_DELIVERY_URI => $delivery
