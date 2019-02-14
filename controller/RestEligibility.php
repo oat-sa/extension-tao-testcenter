@@ -324,7 +324,7 @@ class RestEligibility extends AbstractRestController
      * Get eligibility instance from request
      * @return Eligibility
      * @throws \common_exception_MissingParameter
-     * @throws \common_exception_NotFound
+     * @throws common_exception_RestApi
      */
     private function getEligibilityFromRequest()
     {
@@ -343,7 +343,7 @@ class RestEligibility extends AbstractRestController
      * Get delivery resource from request parameters
      * @return \core_kernel_classes_Resource
      * @throws \common_exception_MissingParameter
-     * @throws \common_exception_NotFound
+     * @throws common_exception_RestApi
      */
     private function getDeliveryFromRequest()
     {
@@ -358,8 +358,7 @@ class RestEligibility extends AbstractRestController
 
     /**
      * @return array
-     * @throws \common_exception_RestApi
-     * @throws \common_exception_NotFound
+     * @throws common_exception_RestApi
      */
     private function getTakersFromRequest()
     {
