@@ -23,6 +23,7 @@ namespace oat\taoTestCenter\model;
 use \core_kernel_classes_Resource as Resource;
 use core_kernel_classes_Class;
 use \core_kernel_classes_Property as Property;
+use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
@@ -98,7 +99,12 @@ class EligibilityService extends ConfigurableService
      * @deprecated use EligibilityService::newEligibility()
      */
     public function createEligibility(Resource $testCenter, Resource $delivery) {
-        return (boolean) $this->newEligibility($testCenter, $delivery);
+
+        try {
+            return (boolean) $this->newEligibility($testCenter, $delivery);
+        } catch (DuplicateResourceException $e) {
+            return false;
+        }
     }
 
     /**
@@ -106,13 +112,16 @@ class EligibilityService extends ConfigurableService
      *
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @return Resource|boolean
+     * @return Resource
+     *
+     * @throws DuplicateResourceException
+     * @throws \common_exception_InconsistentData
+     * @throws \core_kernel_persistence_Exception
      */
     public function newEligibility(Resource $testCenter, Resource $delivery)
     {
         if (!is_null($this->getEligibility($testCenter, $delivery))) {
-            // already exists, don't recreate
-            return false;
+            throw new DuplicateResourceException(self::CLASS_URI, []);
         }
 
         $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(

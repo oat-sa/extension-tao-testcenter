@@ -19,6 +19,7 @@
 
 namespace oat\taoTestCenter\controller;
 
+use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\taoTestCenter\model\eligibility\Eligibility;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
@@ -143,10 +144,6 @@ class RestEligibility extends AbstractRestController
 
             /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
-            if ($eligibilityService->getEligibility($testCenter, $delivery) !== null) {
-                throw new \common_exception_RestApi(__('Eligibility already exists'));
-            }
-
             $eligibility = $eligibilityService->newEligibility($testCenter, $delivery);
             if ($eligibility) {
                 if ($proctored !== null) {
@@ -162,6 +159,8 @@ class RestEligibility extends AbstractRestController
             } else {
                 throw new \common_exception_BadRequest(__('Can\'t create eligibility. Please contact administrator.'));
             }
+        } catch (DuplicateResourceException $e) {
+            return $this->returnFailure(new \common_exception_RestApi(__('Eligibility already exists')));
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
