@@ -335,7 +335,7 @@ class RestEligibility extends AbstractRestController
 
             return $eligibility;
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi(__('Eligibility `%s` does not exist.', $eligibilityUri));
+            throw new common_exception_RestApi(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
         }
     }
 
@@ -357,7 +357,7 @@ class RestEligibility extends AbstractRestController
     }
 
     /**
-     * @return array
+     * @return \core_kernel_classes_Resource[]
      * @throws common_exception_RestApi
      */
     private function getTakersFromRequest()
@@ -380,7 +380,7 @@ class RestEligibility extends AbstractRestController
     /**
      * @param $ids
      * @param $result
-     * @return array
+     * @return \core_kernel_classes_Resource[]
      * @throws common_exception_RestApi
      */
     private function getTestTakerResources($ids, $result)
