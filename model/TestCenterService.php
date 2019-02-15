@@ -31,7 +31,6 @@ use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoProctoring\model\ProctorService;
-use oat\generis\model\user\UserRdf;
 
 /**
  * TestCenter Service for proctoring
