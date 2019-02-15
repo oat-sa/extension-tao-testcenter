@@ -372,10 +372,10 @@ class Updater extends common_ext_ExtensionUpdater
 
         if ($this->isVersion('4.3.2')) {
             $this->getServiceManager()->register(TestCenterService::SERVICE_ID, new TestCenterService([]));
-            $this->setVersion('4.4.0');
+            $this->setVersion('4.4.1');
         }
 
-        if ($this->isVersion('4.4.0')) {
+        if ($this->isVersion('4.4.1')) {
             AclProxy::applyRule(
                 new AccessRule(
                     'grant',
