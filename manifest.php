@@ -34,13 +34,14 @@ use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\scripts\install\OverrideBreadcrumbsServices;
 use oat\taoTestCenter\scripts\install\RegisterClientLibConfig;
+use oat\taoTestCenter\controller\RestTestCenterUsers;
 
 return array(
     'name' => 'taoTestCenter',
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '4.4.1',
+    'version' => '4.5.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring'  => '>=11.0.0',
@@ -61,6 +62,7 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibility::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenter::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenterUsers::class),
         //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
     ),
     'install' => array(
