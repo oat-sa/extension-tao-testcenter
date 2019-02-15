@@ -75,14 +75,14 @@ class EligibilityService extends ConfigurableService
      */
     public function getRootClass()
     {
-        return new core_kernel_classes_Class(self::CLASS_URI);
+        return $this->getClass(self::CLASS_URI);
     }
     
     /**
      * @return TestCenterAssignment
      */
     public function getAssignmentService() {
-        $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
+        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
         if (!$assignmentService instanceof TestCenterAssignment) {
             throw new \common_exception_InconsistentData('Cannot manage testcenter assignments on alternative assignment service');
         }
@@ -279,7 +279,7 @@ class EligibilityService extends ConfigurableService
 
         $result =  $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $testTakerIds);
 
-        $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+        $eventManager = $this->getServiceLocator()->get(EventManager::CONFIG_ID);
         $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $testTakerIds));
 
         if(!$this->isManuallyAssigned()){
@@ -503,7 +503,7 @@ class EligibilityService extends ConfigurableService
 
             $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $newTestTakerIds);
 
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $newTestTakerIds));
         }
     }
