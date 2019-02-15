@@ -25,14 +25,24 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\oatbox\user\User;
 use oat\tao\model\TaoOntology;
-use tao_models_classes_ClassService;
+use oat\tao\model\ClassServiceTrait;
+use oat\tao\model\GenerisServiceTrait;
+use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * TestCenter Service for proctoring
  *
  */
-class TestCenterService extends tao_models_classes_ClassService
+class TestCenterService extends ConfigurableService
 {
+    use ClassServiceTrait {
+        deleteResource as protected traitDeleteResource;
+    }
+    use GenerisServiceTrait;
+
+    const SERVICE_ID = 'taoTestCenter/TestCenterService';
+
     const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
 
     const PROPERTY_CHILDREN_URI = 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children';
@@ -55,6 +65,14 @@ class TestCenterService extends tao_models_classes_ClassService
     const ROLE_TESTCENTER_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole';
 
     /**
+     * @deprecated
+     */
+    public static function singleton()
+    {
+        return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
+    }
+
+    /**
      * return the test center top level class
      *
      * @access public
@@ -66,12 +84,13 @@ class TestCenterService extends tao_models_classes_ClassService
     }
 
     /**
-     * (non-PHPdoc)
-     * @see tao_models_classes_ClassService::deleteResource()
+     * @param core_kernel_classes_Resource $resource
+     * @return bool
+     * @throws \common_exception_Error
      */
     public function deleteResource(core_kernel_classes_Resource $resource)
     {
-        $success = parent::deleteResource($resource);
+        $success = $this->traitDeleteResource($resource);
         if ($success) {
             $userClass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
             // cleanup proctors
