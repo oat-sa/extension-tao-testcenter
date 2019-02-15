@@ -28,14 +28,8 @@ use oat\taoTestCenter\model\TestCenterService;
  */
 class RestTestCenterUsers extends AbstractRestController
 {
-
     const PARAMETER_USER_URI = 'user';
     const PARAMETER_USER_ROLE = 'role';
-
-    const AVAILABLE_ROLES_MAP = [
-        'proctor' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor',
-        'administrator' => 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator',
-    ];
 
     /**
      * @OA\Post(
@@ -129,7 +123,7 @@ class RestTestCenterUsers extends AbstractRestController
                 'success' => $this->getService()->assignUser($testCenter, $user, $role)
             ]);
         } catch (\common_Exception $e) {
-            return $this->returnFailure($e);
+            return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
     }
 
@@ -198,7 +192,7 @@ class RestTestCenterUsers extends AbstractRestController
                 'success' => $this->getService()->unassignUser($testCenter, $user, $role)
             ]);
         } catch (\common_Exception $e) {
-            return $this->returnFailure($e);
+            return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
     }
 
@@ -238,7 +232,7 @@ class RestTestCenterUsers extends AbstractRestController
      */
     protected function getService()
     {
-        return TestCenterService::singleton();
+        return $this->getServiceLocator()->get(TestCenterService::SERVICE_ID);
     }
 
     /**

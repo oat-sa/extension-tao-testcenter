@@ -215,7 +215,7 @@ class TestCenterService extends ConfigurableService
     public function assignUser(\core_kernel_classes_Resource $testCenter, User $user, \core_kernel_classes_Resource $role)
     {
         $userResource = $this->getResource($user->getIdentifier());
-        $userRoles = $userResource->getPropertyValues($this->getProperty(UserRdf::PROPERTY_ROLES));
+        $userRoles = $user->getRoles();
 
         if (!in_array($role->getUri(), $userRoles)) {
             throw new TestCenterException(__('User with given role cannot be assigned to the test center.'));

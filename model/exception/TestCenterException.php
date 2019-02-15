@@ -22,8 +22,6 @@
 
 namespace oat\taoTestCenter\model\exception;
 
-use Exception;
-
 /**
  * Class TestCenterException
  * @package oat\taoTestCenter\model\exception
