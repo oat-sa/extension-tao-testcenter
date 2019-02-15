@@ -112,14 +112,14 @@ class EligibilityService extends ConfigurableService
      * @param Resource $delivery
      * @return Resource
      *
-     * @throws common_exception_BadRequest
+     * @throws DuplicateResourceException
      * @throws \common_exception_InconsistentData
      * @throws \core_kernel_persistence_Exception
      */
     public function newEligibility(Resource $testCenter, Resource $delivery)
     {
         if ($this->getEligibility($testCenter, $delivery) !== null) {
-            throw new common_exception_BadRequest('Eligibility already exists.');
+            throw new DuplicateResourceException(self::CLASS_URI, []);
         }
 
         $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(

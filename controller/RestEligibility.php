@@ -148,20 +148,22 @@ class RestEligibility extends AbstractRestController
             /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
             $eligibility = $eligibilityService->newEligibility($testCenter, $delivery);
-            if ($eligibility) {
-                if ($proctored !== null) {
-                    $bypass = !$proctored;
-                    $eligibilityService->setByPassProctor($eligibility, $bypass);
-                }
-
-                $eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
-                $this->returnJson([
-                    'success' => true,
-                    'uri' => $eligibility->getUri()
-                ]);
-            } else {
+            if (!$eligibility) {
                 throw new \common_exception_BadRequest(__('Can\'t create eligibility. Please contact administrator.'));
             }
+
+            if ($proctored !== null) {
+                $bypass = !$proctored;
+                $eligibilityService->setByPassProctor($eligibility, $bypass);
+            }
+
+            $eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
+            $this->returnJson([
+                'success' => true,
+                'uri' => $eligibility->getUri()
+            ]);
+        } catch (DuplicateResourceException $e) {
+            return $this->returnFailure(new common_exception_RestApi(__('Eligibility already exists')));
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }

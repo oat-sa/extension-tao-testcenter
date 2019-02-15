@@ -22,6 +22,7 @@ namespace oat\taoTestCenter\test\unit;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\generis\test\TestCase;
 use oat\taoTestCenter\model\EligibilityService;
 
@@ -68,7 +69,7 @@ class EligibilityServiceTest extends TestCase
 
     public function testNewEligibilityAlreadyExists()
     {
-        $this->expectException(\common_exception_BadRequest::class);
+        $this->expectException(DuplicateResourceException::class);
 
         $this->deliveryEligibilityClassMock->expects($this->once())
             ->method('searchInstances')
