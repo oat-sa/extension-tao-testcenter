@@ -256,15 +256,16 @@ class EligibilityService extends ConfigurableService
         }
         return $eligible;
     }
-    
+
     /**
      * Allow test-taker to be eligible for this testcenter/delivery context
      *
-     * @param Resource $testCenter
-     * @param Resource $delivery
-     * @param string[] $testTakerIds
+     * @param Resource  $testCenter
+     * @param Resource  $delivery
+     * @param Resource[] $testTakerIds
+     * @return bool
      * @throws IneligibileException
-     * @return boolean
+     * @throws \common_exception_InconsistentData
      */
     public function setEligibleTestTakers(Resource $testCenter, Resource $delivery, $testTakerIds) {
         /** @var \core_kernel_classes_Resource $eligibility */
