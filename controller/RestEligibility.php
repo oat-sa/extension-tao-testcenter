@@ -20,6 +20,7 @@
 namespace oat\taoTestCenter\controller;
 
 use common_exception_RestApi;
+use common_exception_MissingParameter;
 use common_exception_NotFound;
 use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\taoTestCenter\model\eligibility\Eligibility;
@@ -161,8 +162,6 @@ class RestEligibility extends AbstractRestController
             } else {
                 throw new \common_exception_BadRequest(__('Can\'t create eligibility. Please contact administrator.'));
             }
-        } catch (DuplicateResourceException $e) {
-            return $this->returnFailure(new \common_exception_RestApi(__('Eligibility already exists')));
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
@@ -359,12 +358,12 @@ class RestEligibility extends AbstractRestController
      */
     private function getEligibilityFromRequest()
     {
-        try {
-            $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
-            $resource = $this->getAndCheckResource($eligibilityUri, EligibilityService::CLASS_URI);
-            $eligibility = $this->propagate(new Eligibility($resource->getUri()));
+        $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
 
-            return $eligibility;
+        try {
+            $resource = $this->getAndCheckResource($eligibilityUri, EligibilityService::CLASS_URI);
+
+            return $this->propagate(new Eligibility($resource->getUri()));
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
         }
@@ -378,9 +377,9 @@ class RestEligibility extends AbstractRestController
      */
     private function getDeliveryFromRequest()
     {
-        try {
-            $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
+        $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
 
+        try {
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Delivery `%s` does not exist.', $deliveryUri));
@@ -401,10 +400,30 @@ class RestEligibility extends AbstractRestController
         }
 
         if (is_array($ids)) {
-            $result = $this->getTestTakerResources($ids, $result);
+            $result = $this->getTestTakerResources($ids);
         } else {
             throw new \common_exception_RestApi(__('`%s` parameter must be an array', self::PARAMETER_TEST_TAKER_IDS));
         }
+
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @return \core_kernel_classes_Resource[]
+     * @throws common_exception_RestApi
+     */
+    private function getTestTakerResources(array $ids)
+    {
+        $result = [];
+        try {
+            foreach ($ids as $testTakerUri) {
+                $result[] = $this->getAndCheckResource($testTakerUri, TaoOntology::CLASS_URI_SUBJECT);
+            }
+        } catch (common_exception_NotFound $e) {
+            throw new common_exception_RestApi(__('Test taker `%s` does not exist.', $testTakerUri));
+        }
+
         return $result;
     }
 
@@ -416,28 +435,12 @@ class RestEligibility extends AbstractRestController
     private function getProctoredFromRequest()
     {
         $proctored = null;
-        if ($this->getRequest()->hasParameter(self::PARAMETER_ELIGIBILITY_PROCTORED)) {
-            $proctored = filter_var($this->getRequest()->getParameter(self::PARAMETER_ELIGIBILITY_PROCTORED), FILTER_VALIDATE_BOOLEAN);
-        }
-
-        return $proctored;
-    }
-
-    /**
-     * @param $ids
-     * @param $result
-     * @return \core_kernel_classes_Resource[]
-     * @throws common_exception_RestApi
-     */
-    private function getTestTakerResources($ids, $result)
-    {
         try {
-            foreach ($ids as $testTakerUri) {
-                $result[] = $this->getAndCheckResource($testTakerUri, TaoOntology::CLASS_URI_SUBJECT);
-            }
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi(__('Test taker `%s` does not exist.', $testTakerUri));
+            $proctored = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_PROCTORED);
+        } catch (common_exception_MissingParameter $e) {
+            return $proctored;
         }
-        return $result;
+
+        return filter_var($proctored, FILTER_VALIDATE_BOOLEAN);
     }
 }

@@ -28,12 +28,9 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\taoDelivery\model\execution\ServiceProxy;
-use oat\taoProctoring\helpers\DeliveryHelper;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
-use oat\taoProctoring\model\implementation\DeliveryService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
-use tao_models_classes_ClassService;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
 use oat\taoTestCenter\model\proctoring\TestCenterMonitoringService;
@@ -41,6 +38,7 @@ use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\generis\model\OntologyAwareTrait;
+use common_exception_BadRequest;
 
 /**
  * Service to manage eligible deliveries
@@ -98,8 +96,8 @@ class EligibilityService extends ConfigurableService
      *
      * @deprecated use EligibilityService::newEligibility()
      */
-    public function createEligibility(Resource $testCenter, Resource $delivery) {
-
+    public function createEligibility(Resource $testCenter, Resource $delivery)
+    {
         try {
             return (boolean) $this->newEligibility($testCenter, $delivery);
         } catch (DuplicateResourceException $e) {
@@ -114,14 +112,14 @@ class EligibilityService extends ConfigurableService
      * @param Resource $delivery
      * @return Resource
      *
-     * @throws DuplicateResourceException
+     * @throws common_exception_BadRequest
      * @throws \common_exception_InconsistentData
      * @throws \core_kernel_persistence_Exception
      */
     public function newEligibility(Resource $testCenter, Resource $delivery)
     {
-        if (!is_null($this->getEligibility($testCenter, $delivery))) {
-            throw new DuplicateResourceException(self::CLASS_URI, []);
+        if ($this->getEligibility($testCenter, $delivery) !== null) {
+            throw new common_exception_BadRequest('Eligibility already exists.');
         }
 
         $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(
