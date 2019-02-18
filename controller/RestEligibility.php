@@ -20,7 +20,9 @@
 namespace oat\taoTestCenter\controller;
 
 use common_exception_RestApi;
+use common_exception_MissingParameter;
 use common_exception_NotFound;
+use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\taoTestCenter\model\eligibility\Eligibility;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
@@ -36,6 +38,7 @@ class RestEligibility extends AbstractRestController
 
     const PARAMETER_DELIVERY_ID = 'delivery';
     const PARAMETER_ELIGIBILITY_ID = 'eligibility';
+    const PARAMETER_ELIGIBILITY_PROCTORED = 'proctored';
     const PARAMETER_TEST_CENTER_ID = 'testCenter';
     const PARAMETER_TEST_TAKER_IDS = 'testTakers';
 
@@ -68,6 +71,11 @@ class RestEligibility extends AbstractRestController
      *                     @OA\Items(
      *                         type="string",
      *                     ),
+     *                 ),
+     *                 @OA\Property(
+     *                     property="proctored",
+     *                     type="boolean",
+     *                     description="Create proctored/unproctored eligibility",
      *                 ),
      *                 required={"delivery", "testCenter"}
      *             )
@@ -135,19 +143,27 @@ class RestEligibility extends AbstractRestController
             $delivery = $this->getDeliveryFromRequest();
             $testCenter = $this->getTCFromRequest();
             $testTakers = $this->getTakersFromRequest();
+            $proctored = $this->getProctoredFromRequest();
+
+            /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
-            if ($eligibilityService->getEligibility($testCenter, $delivery) !== null) {
-                throw new \common_exception_RestApi(__('Eligibility already exists'));
-            }
-            if ($eligibilityService->createEligibility($testCenter, $delivery)) {
-                $eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
-                $this->returnJson([
-                    'success' => true,
-                    'uri' => $eligibilityService->getEligibility($testCenter, $delivery)->getUri()
-                ]);
-            } else {
+            $eligibility = $eligibilityService->newEligibility($testCenter, $delivery);
+            if (!$eligibility) {
                 throw new \common_exception_BadRequest(__('Can\'t create eligibility. Please contact administrator.'));
             }
+
+            if ($proctored !== null) {
+                $bypass = !$proctored;
+                $eligibilityService->setByPassProctor($eligibility, $bypass);
+            }
+
+            $eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakers);
+            $this->returnJson([
+                'success' => true,
+                'uri' => $eligibility->getUri()
+            ]);
+        } catch (DuplicateResourceException $e) {
+            return $this->returnFailure(new common_exception_RestApi(__('Eligibility already exists')));
         } catch (\Exception $e) {
             return $this->returnFailure($e);
         }
@@ -181,7 +197,12 @@ class RestEligibility extends AbstractRestController
      *                     @OA\Items(
      *                         type="string",
      *                     ),
-     *                 )
+     *                 ),
+     *                 @OA\Property(
+     *                     property="proctored",
+     *                     type="boolean",
+     *                     description="Make eligibility proctored or not",
+     *                 ),
      *             )
      *         )
      *     ),
@@ -246,12 +267,23 @@ class RestEligibility extends AbstractRestController
         try {
             $eligibility = $this->getEligibilityFromRequest();
             $testTakers = $this->getTakersFromRequest();
+            $proctored = $this->getProctoredFromRequest();
+
+            /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
             $eligibilityService->setEligibleTestTakers(
                 $eligibility->getTestCenter(),
                 $eligibility->getDelivery(),
                 $testTakers
             );
+            if ($proctored !== null) {
+                $eligibilityResource = $eligibilityService->getEligibility($eligibility->getTestCenter(), $eligibility->getDelivery());
+                if ($eligibilityResource instanceof \core_kernel_classes_Resource) {
+                    $bypass = !$proctored;
+                    $eligibilityService->setByPassProctor($eligibilityResource, $bypass);
+                }
+            }
+
             $this->returnJson([
                 'success' => true,
                 'uri' => $eligibility->getId()
@@ -328,12 +360,12 @@ class RestEligibility extends AbstractRestController
      */
     private function getEligibilityFromRequest()
     {
-        try {
-            $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
-            $resource = $this->getAndCheckResource($eligibilityUri, EligibilityService::CLASS_URI);
-            $eligibility = $this->propagate(new Eligibility($resource->getUri()));
+        $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
 
-            return $eligibility;
+        try {
+            $resource = $this->getAndCheckResource($eligibilityUri, EligibilityService::CLASS_URI);
+
+            return $this->propagate(new Eligibility($resource->getUri()));
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
         }
@@ -347,9 +379,9 @@ class RestEligibility extends AbstractRestController
      */
     private function getDeliveryFromRequest()
     {
-        try {
-            $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
+        $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
 
+        try {
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Delivery `%s` does not exist.', $deliveryUri));
@@ -370,21 +402,22 @@ class RestEligibility extends AbstractRestController
         }
 
         if (is_array($ids)) {
-            $result = $this->getTestTakerResources($ids, $result);
+            $result = $this->getTestTakerResources($ids);
         } else {
             throw new \common_exception_RestApi(__('`%s` parameter must be an array', self::PARAMETER_TEST_TAKER_IDS));
         }
+
         return $result;
     }
 
     /**
-     * @param $ids
-     * @param $result
+     * @param array $ids
      * @return \core_kernel_classes_Resource[]
      * @throws common_exception_RestApi
      */
-    private function getTestTakerResources($ids, $result)
+    private function getTestTakerResources(array $ids)
     {
+        $result = [];
         try {
             foreach ($ids as $testTakerUri) {
                 $result[] = $this->getAndCheckResource($testTakerUri, TaoOntology::CLASS_URI_SUBJECT);
@@ -392,6 +425,24 @@ class RestEligibility extends AbstractRestController
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Test taker `%s` does not exist.', $testTakerUri));
         }
+
         return $result;
+    }
+
+    /**
+     * Get value for proctored eligibility from request.
+     *
+     * @return bool|null
+     */
+    private function getProctoredFromRequest()
+    {
+        $proctored = null;
+        try {
+            $proctored = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_PROCTORED);
+        } catch (common_exception_MissingParameter $e) {
+            return $proctored;
+        }
+
+        return filter_var($proctored, FILTER_VALIDATE_BOOLEAN);
     }
 }
