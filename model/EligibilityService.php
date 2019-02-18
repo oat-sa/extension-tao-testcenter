@@ -38,7 +38,6 @@ use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\generis\model\OntologyAwareTrait;
-use common_exception_BadRequest;
 
 /**
  * Service to manage eligible deliveries
