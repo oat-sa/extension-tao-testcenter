@@ -392,6 +392,159 @@
           }
         }
       }
+    },
+    "/taoTestCenter/api/testCenterUsers": {
+      "post": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Assign user to the test center",
+        "description": "Assign user to the test center",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenterUsers::post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "required": [
+                  "testCenter, user, role"
+                ],
+                "properties": {
+                  "testCenter": {
+                    "description": "Test center id",
+                    "type": "string"
+                  },
+                  "user": {
+                    "description": "User id",
+                    "type": "string"
+                  },
+                  "role": {
+                    "description": "The role to which the user should be assigned",
+                    "type": "string",
+                    "enum": [
+                      "http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole",
+                      "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"
+                    ]
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Assign user to the test center",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id or user is not allowed to be assigned to given role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "User does not exist",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Test center not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Test center not found",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "testCenter"
+        ],
+        "summary": "Remove user from the test center",
+        "description": "Remove user from the test center",
+        "operationId": "oat\\taoTestCenter\\controller\\RestTestCenterUsers::delete",
+        "parameters": [
+          {
+            "name": "testCenter",
+            "in": "path",
+            "description": "The test center id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "User id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "in": "path",
+            "description": "Role id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole",
+                "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remove user from the test center",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object",
+                  "example": {
+                    "success": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

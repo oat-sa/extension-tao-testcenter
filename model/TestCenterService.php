@@ -29,6 +29,8 @@ use oat\tao\model\ClassServiceTrait;
 use oat\tao\model\GenerisServiceTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\taoTestCenter\model\exception\TestCenterException;
+use oat\taoProctoring\model\ProctorService;
 
 /**
  * TestCenter Service for proctoring
@@ -201,4 +203,58 @@ class TestCenterService extends ConfigurableService
     {
         return new core_kernel_classes_Resource($testCenterUri);
     }
+
+    /**
+     * @param core_kernel_classes_Resource $testCenter
+     * @param User $user
+     * @param core_kernel_classes_Resource $role
+     * @return bool
+     * @throws TestCenterException
+     */
+    public function assignUser(\core_kernel_classes_Resource $testCenter, User $user, \core_kernel_classes_Resource $role)
+    {
+        $userResource = $this->getResource($user->getIdentifier());
+        $userRoles = $user->getRoles();
+
+        if (!in_array($role->getUri(), $userRoles)) {
+            throw new TestCenterException(__('User with given role cannot be assigned to the test center.'));
+        }
+
+        switch ($role->getUri()) {
+            case self::ROLE_TESTCENTER_ADMINISTRATOR:
+                $assignProperty = $this->getProperty(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI);
+                break;
+            case ProctorService::ROLE_PROCTOR:
+                $assignProperty = $this->getProperty(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI);
+                break;
+            default:
+                throw new TestCenterException(__('Role is not allowed.'));
+        }
+        return $userResource->editPropertyValues($assignProperty, $testCenter);
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $testCenter
+     * @param User $user
+     * @param core_kernel_classes_Resource $role
+     * @return bool
+     * @throws TestCenterException
+     */
+    public function unassignUser(\core_kernel_classes_Resource $testCenter, User $user, \core_kernel_classes_Resource $role)
+    {
+        $userResource = $this->getResource($user->getIdentifier());
+
+        switch ($role->getUri()) {
+            case self::ROLE_TESTCENTER_ADMINISTRATOR:
+                $assignProperty = $this->getProperty(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI);
+                break;
+            case ProctorService::ROLE_PROCTOR:
+                $assignProperty = $this->getProperty(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI);
+                break;
+            default:
+                throw new TestCenterException(__('Role is not allowed.'));
+        }
+        return $userResource->removePropertyValue($assignProperty, $testCenter);
+    }
+
 }
