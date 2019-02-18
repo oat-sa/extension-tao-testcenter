@@ -23,16 +23,14 @@ namespace oat\taoTestCenter\model;
 use \core_kernel_classes_Resource as Resource;
 use core_kernel_classes_Class;
 use \core_kernel_classes_Property as Property;
+use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\taoDelivery\model\execution\ServiceProxy;
-use oat\taoProctoring\helpers\DeliveryHelper;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
-use oat\taoProctoring\model\implementation\DeliveryService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
-use tao_models_classes_ClassService;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
 use oat\taoTestCenter\model\proctoring\TestCenterMonitoringService;
@@ -74,14 +72,14 @@ class EligibilityService extends ConfigurableService
      */
     public function getRootClass()
     {
-        return new core_kernel_classes_Class(self::CLASS_URI);
+        return $this->getClass(self::CLASS_URI);
     }
     
     /**
      * @return TestCenterAssignment
      */
     public function getAssignmentService() {
-        $assignmentService = $this->getServiceManager()->get(AssignmentService::SERVICE_ID);
+        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
         if (!$assignmentService instanceof TestCenterAssignment) {
             throw new \common_exception_InconsistentData('Cannot manage testcenter assignments on alternative assignment service');
         }
@@ -94,12 +92,35 @@ class EligibilityService extends ConfigurableService
      * @param Resource $testCenter
      * @param Resource $delivery
      * @return boolean
+     *
+     * @deprecated use EligibilityService::newEligibility()
      */
-    public function createEligibility(Resource $testCenter, Resource $delivery) {
-        if (!is_null($this->getEligibility($testCenter, $delivery))) {
-            // already exists, don't recreate
+    public function createEligibility(Resource $testCenter, Resource $delivery)
+    {
+        try {
+            return (boolean) $this->newEligibility($testCenter, $delivery);
+        } catch (DuplicateResourceException $e) {
             return false;
         }
+    }
+
+    /**
+     * Establishes a new eligibility
+     *
+     * @param Resource $testCenter
+     * @param Resource $delivery
+     * @return Resource
+     *
+     * @throws DuplicateResourceException
+     * @throws \common_exception_InconsistentData
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function newEligibility(Resource $testCenter, Resource $delivery)
+    {
+        if ($this->getEligibility($testCenter, $delivery) !== null) {
+            throw new DuplicateResourceException(self::CLASS_URI, []);
+        }
+
         $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(
             self::PROPERTY_TESTCENTER_URI => $testCenter,
             self::PROPERTY_DELIVERY_URI => $delivery
@@ -111,7 +132,7 @@ class EligibilityService extends ConfigurableService
             $this->setByPassProctor($eligibilty, true);
         }
 
-        return true;
+        return $eligibilty;
     }
 
     /**
@@ -234,15 +255,16 @@ class EligibilityService extends ConfigurableService
         }
         return $eligible;
     }
-    
+
     /**
      * Allow test-taker to be eligible for this testcenter/delivery context
      *
-     * @param Resource $testCenter
-     * @param Resource $delivery
-     * @param string[] $testTakerIds
+     * @param Resource  $testCenter
+     * @param Resource  $delivery
+     * @param Resource[] $testTakerIds
+     * @return bool
      * @throws IneligibileException
-     * @return boolean
+     * @throws \common_exception_InconsistentData
      */
     public function setEligibleTestTakers(Resource $testCenter, Resource $delivery, $testTakerIds) {
         /** @var \core_kernel_classes_Resource $eligibility */
@@ -255,7 +277,7 @@ class EligibilityService extends ConfigurableService
 
         $result =  $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $testTakerIds);
 
-        $eventManager = $this->getServiceManager()->get(EventManager::CONFIG_ID);
+        $eventManager = $this->getServiceLocator()->get(EventManager::CONFIG_ID);
         $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $testTakerIds));
 
         if(!$this->isManuallyAssigned()){
@@ -479,7 +501,7 @@ class EligibilityService extends ConfigurableService
 
             $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $newTestTakerIds);
 
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $newTestTakerIds));
         }
     }
