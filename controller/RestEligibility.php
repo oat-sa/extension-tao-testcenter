@@ -379,10 +379,12 @@ class RestEligibility extends AbstractRestController
      */
     private function getDeliveryFromRequest()
     {
-        $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
-
         try {
+            $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
+
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
+        } catch (common_exception_MissingParameter $e) {
+            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID));
         } catch (common_exception_NotFound $e) {
             throw new common_exception_RestApi(__('Delivery `%s` does not exist.', $deliveryUri));
         }
