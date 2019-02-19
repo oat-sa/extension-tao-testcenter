@@ -34,7 +34,6 @@ use oat\taoProctoring\model\ProctorService;
 
 /**
  * TestCenter Service for proctoring
- *
  */
 class TestCenterService extends ConfigurableService
 {
@@ -230,7 +229,10 @@ class TestCenterService extends ConfigurableService
             default:
                 throw new TestCenterException(__('Role is not allowed.'));
         }
-        return $userResource->editPropertyValues($assignProperty, $testCenter);
+
+        //remove value to avoid duplication
+        $userResource->removePropertyValue($assignProperty, $testCenter);
+        return $userResource->setPropertyValue($assignProperty, $testCenter);
     }
 
     /**
