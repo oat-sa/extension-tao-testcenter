@@ -5,6 +5,71 @@
     "version": "0.1"
   },
   "paths": {
+    "/taoTestCenter/api/eligibilities": {
+      "get": {
+        "tags": [
+          "eligibilities"
+        ],
+        "summary": "Search for eligibilities",
+        "description": "Search for eligibilities",
+        "operationId": "oat\\taoTestCenter\\controller\\RestEligibilities::get",
+        "parameters": [
+          {
+            "name": "delivery",
+            "in": "query",
+            "description": "Delivery Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "testCenter",
+            "in": "query",
+            "description": "Test center Uri (Url encoded)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eligibility data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "delivery": "http://sample/first.rdf#i1536680377163170",
+                    "testCenter": "http://sample/first.rdf#i1536680377163171",
+                    "testTakers": [
+                      "http://sample/first.rdf#i1536680377163172",
+                      "http://sample/first.rdf#i1536680377163173"
+                    ]
+                  },
+                  "$ref": "#/components/schemas/Eligibility"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Eligibility not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 404,
+                    "errorMsg": "Eligibility not found for provided search parameters.",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/taoTestCenter/api/eligibility": {
       "get": {
         "tags": [
