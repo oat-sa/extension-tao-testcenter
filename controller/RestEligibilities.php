@@ -119,7 +119,7 @@ class RestEligibilities extends AbstractRestController
                 'data' => $result
             ]);
         } catch (\Exception $e) {
-            return $this->returnFailure($e);
+            $this->returnFailure($e);
         }
     }
 
