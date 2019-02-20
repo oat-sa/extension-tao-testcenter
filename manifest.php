@@ -27,6 +27,7 @@ use oat\taoTestCenter\controller\TestCenter;
 use oat\taoTestCenter\scripts\install\TestCenterOverrideServices;
 use oat\taoTestCenter\controller\ProctorManager;
 use oat\taoTestCenter\controller\Diagnostic;
+use oat\taoTestCenter\controller\RestEligibilities;
 use oat\taoTestCenter\controller\RestEligibility;
 use oat\taoTestCenter\controller\RestTestCenter;
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEvents;
@@ -41,7 +42,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '4.6.0',
+    'version' => '4.7.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring'  => '>=11.0.0',
@@ -61,6 +62,7 @@ return array(
         array('grant', ProctorService::ROLE_PROCTOR, Diagnostic::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibility::class),
+        array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibilities::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenter::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenterUsers::class),
         //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
