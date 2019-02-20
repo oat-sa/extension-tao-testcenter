@@ -71,25 +71,30 @@ class RestEligibilities extends AbstractRestController
      *             @OA\Schema(
      *                 ref="#/components/schemas/Eligibility",
      *                 example= {
-     *                     "delivery": "http://sample/first.rdf#i1536680377163170",
-     *                     "testCenter": "http://sample/first.rdf#i1536680377163171",
-     *                     "testTakers": {
-     *                         "http://sample/first.rdf#i1536680377163172",
-     *                         "http://sample/first.rdf#i1536680377163173"
+     *                     "success": true,
+     *                     "data": {
+     *                         {
+     *                             "delivery": "http://sample/first.rdf#i1536680377163170",
+     *                             "testCenter": "http://sample/first.rdf#i1536680377163171",
+     *                             "testTakers": {
+     *                                 "http://sample/first.rdf#i1536680377163172",
+     *                                 "http://sample/first.rdf#i1536680377163173"
+     *                             }
+     *                         }
      *                     }
      *                 }
      *             )
      *         ),
      *     ),
      *     @OA\Response(
-     *         response=404,
+     *         response=400,
      *         description="Eligibility not found",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
-     *                     "errorCode": 404,
+     *                     "errorCode": 400,
      *                     "errorMsg": "Eligibility not found for provided search parameters.",
      *                     "version": "3.3.0-sprint85"
      *                 }
