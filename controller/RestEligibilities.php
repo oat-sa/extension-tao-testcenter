@@ -111,7 +111,7 @@ class RestEligibilities extends AbstractRestController
             if ($eligibility === null) {
                 $result = [];
             } else {
-                $result = $this->propagate(new Eligibility($eligibility->getUri()));
+                $result = [$this->propagate(new Eligibility($eligibility->getUri()))];
             }
 
             $this->returnJson([
@@ -131,6 +131,7 @@ class RestEligibilities extends AbstractRestController
      */
     private function getDeliveryFromRequest()
     {
+        $deliveryUri = '';
         try {
             $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
 

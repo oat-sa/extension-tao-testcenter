@@ -44,6 +44,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
      */
     protected function getTCFromRequest()
     {
+        $testCenterUri = '';
         try {
             $testCenterUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_ID);
 

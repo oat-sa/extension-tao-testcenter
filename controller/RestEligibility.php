@@ -379,6 +379,7 @@ class RestEligibility extends AbstractRestController
      */
     private function getDeliveryFromRequest()
     {
+        $deliveryUri = '';
         try {
             $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
 
