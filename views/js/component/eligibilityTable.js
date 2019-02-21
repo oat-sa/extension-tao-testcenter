@@ -45,14 +45,52 @@ define([
      * Creates the eligibilityTable component
      *
      * @param {String} testCenterId - the test center URI
+     * @param {Object|boolean} permissions - permissions to work with if DAC enabled
      * @returns {eligibilityTable} the component
      * @throws {TypeError} without a test center
      */
-    var eligibilityTableFactory = function eligibilityTableFactory(testCenterId){
+    var eligibilityTableFactory = function eligibilityTableFactory(testCenterId, permissions){
         var eligibilities = [];
+        var tools = [];
+        var allowedToWrite = false;
 
         if(_.isEmpty(testCenterId)){
             throw new TypeError('The eligibility provider needs to be initialized with a test center');
+        }
+
+        if (!permissions || (permissions && permissions.WRITE)) {
+            allowedToWrite = true;
+
+            tools = [
+                {
+                    id : 'add',
+                    icon : 'add',
+                    title : __('Add'),
+                    label : __('Add'),
+                    action : function(){
+
+                        /**
+                         * Add action
+                         * @event eligibilityTable#add
+                         * @param {Object} eligibilities
+                         */
+                        self.trigger('add', eligibilities);
+                    }
+                },{
+                    id : 'import',
+                    icon : 'import',
+                    title : __('Import'),
+                    label : __('Import'),
+                    action : function(){
+                        /**
+                         * Add action
+                         * @event eligibilityTable#add
+                         * @param {Object} eligibilities
+                         */
+                        self.trigger('import', eligibilities);
+                    }
+                }
+            ];
         }
 
         /**
@@ -96,34 +134,7 @@ define([
                             available: __('Eligible Deliveries'),
                             loading:   __('Loading')
                         },
-                        tools : [{
-                            id : 'add',
-                            icon : 'add',
-                            title : __('Add'),
-                            label : __('Add'),
-                            action : function(){
-
-                                /**
-                                 * Add action
-                                 * @event eligibilityTable#add
-                                 * @param {Object} eligibilities
-                                 */
-                                self.trigger('add', eligibilities);
-                            }
-                        },{
-                            id : 'import',
-                            icon : 'import',
-                            title : __('Import'),
-                            label : __('Import'),
-                            action : function(){
-                                /**
-                                 * Add action
-                                 * @event eligibilityTable#add
-                                 * @param {Object} eligibilities
-                                 */
-                                self.trigger('import', eligibilities);
-                            }
-                        }],
+                        tools : tools,
                         model : [{
                             id : 'status',
                             label : '',
@@ -146,6 +157,7 @@ define([
                             id: 'actions',
                             label: __('Actions'),
                             transform: function(value, row){
+                                row['allowedToWrite'] = allowedToWrite
                                 return actionsTpl(row);
                             }
                         }],
