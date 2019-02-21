@@ -50,6 +50,9 @@ define([
      * @throws {TypeError} without a test center
      */
     var eligibilityTableFactory = function eligibilityTableFactory(testCenterId, permissions){
+        //excessive variable for component - needs to be there, for actions to work normally (and for unit testing)
+        var tableComponent;
+
         var eligibilities = [];
         var tools = [];
         var allowedToWrite = false;
@@ -74,7 +77,7 @@ define([
                          * @event eligibilityTable#add
                          * @param {Object} eligibilities
                          */
-                        self.trigger('add', eligibilities);
+                        tableComponent.trigger('add', eligibilities);
                     }
                 },{
                     id : 'import',
@@ -87,7 +90,7 @@ define([
                          * @event eligibilityTable#add
                          * @param {Object} eligibilities
                          */
-                        self.trigger('import', eligibilities);
+                        tableComponent.trigger('import', eligibilities);
                     }
                 }
             ];
@@ -107,7 +110,7 @@ define([
          * @throws eligibilityTable#shield action
          * @throws eligibilityTable#unshield action
          */
-        return component({}, {
+        tableComponent = component({}, {
                 //config can be changed
                 dataUrl : helpers._url('getEligibilities', 'TestCenterManager', 'taoTestCenter', { uri : testCenterId })
             })
@@ -178,6 +181,8 @@ define([
                     this.$component.datatable('refresh');
                 }
             });
+
+        return tableComponent;
     };
 
     return eligibilityTableFactory;
