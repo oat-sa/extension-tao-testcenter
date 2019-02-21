@@ -81,7 +81,8 @@ define([
             })
             .add($container, {
                 dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                isDacEnabled: false
             });
     });
 
@@ -145,7 +146,8 @@ define([
             })
             .add($container, {
                 dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                isDacEnabled: false
             });
     });
 
@@ -205,7 +207,8 @@ define([
             })
             .edit($container, 'Foolivery', [], {
                 dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                isDacEnabled: false
             });
     });
 });
