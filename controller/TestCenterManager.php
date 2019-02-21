@@ -114,6 +114,8 @@ class TestCenterManager extends \tao_actions_SaSModule
 
             $this->setData('permissions', json_encode($permissions));
             $this->setData('isDacEnabled', $isDacEnabled);
+        } else {
+            $this->setData('isDacEnabled', $isDacEnabled);
         }
     }
 
