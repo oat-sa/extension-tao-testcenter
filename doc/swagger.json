@@ -492,7 +492,8 @@
                     "type": "string",
                     "enum": [
                       "http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole",
-                      "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"
+                      "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole",
+                      "http://www.tao.lu/Ontologies/generis.rdf#taoSyncManager"
                     ]
                   }
                 },
@@ -588,7 +589,8 @@
               "type": "string",
               "enum": [
                 "http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole",
-                "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"
+                "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole",
+                "http://www.tao.lu/Ontologies/generis.rdf#taoSyncManager"
               ]
             }
           }
