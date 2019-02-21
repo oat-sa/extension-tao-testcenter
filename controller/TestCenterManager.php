@@ -47,6 +47,8 @@ class TestCenterManager extends \tao_actions_SaSModule
 {
     use ProctoringTextConverterTrait;
 
+    const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
+
     /**
      * Initialize the service and the default data
      */
@@ -92,6 +94,27 @@ class TestCenterManager extends \tao_actions_SaSModule
         $this->setData('testCenter', $testCenter->getUri());
         $this->setData('myForm', $myForm->render());
         $this->setView('TestCenterManager/editCenter.tpl');
+
+        /** @var \common_ext_ExtensionsManager $extMgr */
+        $extMgr = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        $config = $extMgr->getExtensionById('tao')->getConfig('client_lib_config_registry');
+        $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
+
+        if ($isDacEnabled) {
+
+            //retrieve resources permissions
+            $user = \common_Session_SessionManager::getSession()->getUser();
+            $permissions = $this->getResourceService()->getResourcesPermissions($user, $testCenter);
+
+            $permissions = $permissions['data'][$testCenter->getUri()];
+            $permissions = array_flip($permissions);
+            foreach ($permissions as $key => &$value) {
+                $value = $key;
+            }
+
+            $this->setData('permissions', json_encode($permissions));
+            $this->setData('isDacEnabled', $isDacEnabled);
+        }
     }
 
     /**
@@ -161,7 +184,8 @@ class TestCenterManager extends \tao_actions_SaSModule
 
         /** @var \common_ext_ExtensionsManager $extMgr */
         $extMgr = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
-        $isDacEnabled = $extMgr->isInstalled('taoDacSimple') && $extMgr->isEnabled('taoDacSimple');
+        $config = $extMgr->getExtensionById('tao')->getConfig('client_lib_config_registry');
+        $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
 
         if ($isDacEnabled) {
 
