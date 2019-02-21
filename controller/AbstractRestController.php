@@ -44,10 +44,13 @@ abstract class AbstractRestController extends \tao_actions_RestController
      */
     protected function getTCFromRequest()
     {
-        $testCenterUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_ID);
-
+        $testCenterUri = '';
         try {
+            $testCenterUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_ID);
+
             return $this->getAndCheckResource($testCenterUri, TestCenterService::CLASS_URI);
+        } catch (\common_exception_MissingParameter $e) {
+            throw new \common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_TEST_CENTER_ID));
         } catch (\common_exception_NotFound $e) {
             throw new \common_exception_RestApi(__('Test Center `%s` does not exist.', $testCenterUri));
         }
