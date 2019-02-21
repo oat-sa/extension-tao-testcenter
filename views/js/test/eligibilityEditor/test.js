@@ -80,7 +80,8 @@ define([
                 QUnit.start();
             })
             .add($container, {
-                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
             });
     });
 
@@ -119,7 +120,9 @@ define([
                 QUnit.start();
             })
             .add($container, {
-                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                isDacEnabled: false
             });
     });
 
@@ -141,7 +144,8 @@ define([
                 QUnit.start();
             })
             .add($container, {
-                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
             });
     });
 
@@ -176,7 +180,9 @@ define([
                 QUnit.start();
             })
             .edit($container, 'Foolivery', [], {
-                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                isDacEnabled: false
             });
     });
 
@@ -198,7 +204,8 @@ define([
                 QUnit.start();
             })
             .edit($container, 'Foolivery', [], {
-                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
+                dataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl : '/taoTestCenter/views/js/test/eligibilityEditor/data.json'
             });
     });
 });
