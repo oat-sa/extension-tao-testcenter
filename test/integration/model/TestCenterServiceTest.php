@@ -18,10 +18,12 @@
  *
  *
  */
-namespace oat\taoTestCenter\test\unit\model;
+
+namespace oat\taoTestCenter\test\integration\model;
 
 use oat\generis\test\GenerisTestCase;
 use oat\tao\model\TaoOntology;
+use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\oatbox\user\User;
 use oat\taoProctoring\model\ProctorService;
@@ -40,11 +42,9 @@ class TestCenterServiceTest extends GenerisTestCase
     /** @var \core_kernel_classes_Resource */
     protected $userResource;
 
-    /**
-     * @expectedException oat\taoTestCenter\model\exception\TestCenterException
-     */
     public function testAssignUserException()
     {
+        $this->expectException(TestCenterException::class);
         $service = $this->getService();
         $user = $this->getUserMock('proctor', $service);
         $service->assignUser($this->tc, $user, $service->getProperty(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI));
