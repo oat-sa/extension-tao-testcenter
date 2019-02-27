@@ -27,9 +27,13 @@ use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\taoDelivery\model\execution\DeliveryExecutionContext;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoProctoring\model\monitorCache\DeliveryMonitoringData;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
+use oat\taoTestCenter\model\execution\TcDeliveryExecutionContext;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
@@ -422,10 +426,21 @@ class EligibilityService extends ConfigurableService
     public function deliveryExecutionCreated(DeliveryExecutionCreated $event)
     {
         $monitoringService = $this->getServiceLocator()->get(DeliveryMonitoringService::SERVICE_ID);
-        $testCenter = $this->getTestCenter($event->getDeliveryExecution()->getDelivery(), $event->getUser());
+        /** @var DeliveryExecutionInterface $deliveryExecution */
+        $deliveryExecution = $event->getDeliveryExecution();
+        $testCenter = $this->getTestCenter($deliveryExecution->getDelivery(), $event->getUser());
         if (!empty($testCenter)) {
-            $deliverMonitoringData = $monitoringService->getData($event->getDeliveryExecution());
+            /** @var DeliveryMonitoringData $deliverMonitoringData */
+            $deliverMonitoringData = $monitoringService->getData($deliveryExecution);
             $deliverMonitoringData->update(TestCenterMonitoringService::TEST_CENTER_ID, $testCenter->getUri());
+            $executionContext = new DeliveryExecutionContext(
+                $deliveryExecution->getIdentifier(),
+                $testCenter->getUri(),
+                TcDeliveryExecutionContext::EXECUTION_CONTEXT_TYPE,
+                $testCenter->getLabel()
+            );
+            $deliverMonitoringData->setDeliveryExecutionContext($executionContext);
+
             $monitoringService->save($deliverMonitoringData);
         }
     }
