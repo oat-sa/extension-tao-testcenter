@@ -528,8 +528,8 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * @param $deliveryExecution
-     * @param $testCenter
+     * @param string $deliveryExecution
+     * @param \core_kernel_classes_Resource $testCenter
      * @return DeliveryExecutionContext|null
      */
     private function createExecutionContext($deliveryExecution, $testCenter)
