@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint95\n"
-"PO-Revision-Date: 2019-02-15T13:22:19\n"
+"Project-Id-Version: TAO 3.3.0-sprint96\n"
+"PO-Revision-Date: 2019-03-01T12:22:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -52,10 +52,10 @@ msgstr ""
 msgid "Can\'t create eligibility. Please contact administrator."
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -171,6 +171,9 @@ msgstr ""
 msgid "Missed `%s` parameter"
 msgstr ""
 
+msgid "Missed required parameter: `%s`"
+msgstr ""
+
 msgid "Monitor and manage sessions for the test site"
 msgstr ""
 
@@ -244,6 +247,9 @@ msgstr ""
 msgid "Revoke"
 msgstr ""
 
+msgid "Role is not allowed."
+msgstr ""
+
 msgid "Session history"
 msgstr ""
 
@@ -267,11 +273,11 @@ msgstr ""
 msgid "Test Center List"
 msgstr ""
 
-#, tao-public
-msgid "Test Centers"
+msgid "Test centers"
 msgstr ""
 
-msgid "Test centers"
+#, tao-public
+msgid "Test Centers"
 msgstr ""
 
 msgid "Test site"
@@ -302,6 +308,9 @@ msgid "Un-Proctor"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "User with given role cannot be assigned to the test center."
 msgstr ""
 
 msgid "Workstation name"
