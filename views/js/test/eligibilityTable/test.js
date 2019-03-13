@@ -15,146 +15,146 @@
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
  */
-define( [
-    
+define([
+
     'jquery',
     'lodash',
     'taoTestCenter/component/eligibilityTable'
-], function(  $, _, eligibilityTableFactory ) {
+], function($, _, eligibilityTableFactory) {
     'use strict';
 
-    QUnit.module( 'API' );
+    QUnit.module('API');
 
-    QUnit.test( 'factory', function( assert ) {
-        assert.expect( 5 );
+    QUnit.test('factory', function(assert) {
+        assert.expect(5);
 
         var testCenterId = 'area51';
         var eligibilityTable;
-        assert.equal( typeof eligibilityTableFactory, 'function', 'The module exposes a function' );
+        assert.equal(typeof eligibilityTableFactory, 'function', 'The module exposes a function');
 
-        assert.throws( function() {
+        assert.throws(function() {
             eligibilityTableFactory();
-        }, TypeError, 'The component needs to be configured' );
+        }, TypeError, 'The component needs to be configured');
 
-        assert.throws( function() {
-            eligibilityTableFactory( '' );
-        }, TypeError, 'The component needs a valid test center' );
+        assert.throws(function() {
+            eligibilityTableFactory('');
+        }, TypeError, 'The component needs a valid test center');
 
-        eligibilityTable = eligibilityTableFactory( testCenterId );
+        eligibilityTable = eligibilityTableFactory(testCenterId);
 
-        assert.equal( typeof eligibilityTable, 'object', 'The factory creates an object' );
-        assert.notDeepEqual( eligibilityTable, eligibilityTableFactory( testCenterId ), 'The factory creates new objects' );
-    } );
+        assert.equal(typeof eligibilityTable, 'object', 'The factory creates an object');
+        assert.notDeepEqual(eligibilityTable, eligibilityTableFactory(testCenterId), 'The factory creates new objects');
+    });
 
     var pluginApi = [
-        { name: 'init', title: 'init' },
-        { name: 'render', title: 'render' },
-        { name: 'destroy', title: 'destroy' },
-        { name: 'on', title: 'on' },
-        { name: 'off', title: 'off' },
-        { name: 'trigger', title: 'trigger' }
+        {name: 'init', title: 'init'},
+        {name: 'render', title: 'render'},
+        {name: 'destroy', title: 'destroy'},
+        {name: 'on', title: 'on'},
+        {name: 'off', title: 'off'},
+        {name: 'trigger', title: 'trigger'}
     ];
 
     QUnit
-        .cases.init( pluginApi )
-        .test( 'component method ', function( data, assert ) {
-            assert.expect( 1 );
+        .cases.init(pluginApi)
+        .test('component method ', function(data, assert) {
+            assert.expect(1);
 
             var testCenterId = 'area51';
-            var eligibilityTable = eligibilityTableFactory( testCenterId );
+            var eligibilityTable = eligibilityTableFactory(testCenterId);
 
             assert.equal(typeof eligibilityTable[data.name], 'function', 'The component exposes a "' + data.name + '" function');
         });
 
-    QUnit.module( 'Behavior' );
+    QUnit.module('Behavior');
 
-    QUnit.test( 'create table', function( assert ) {
+    QUnit.test('create table', function(assert) {
         var ready = assert.async();
-        assert.expect( 4 );
+        assert.expect(4);
 
         var testCenterId = 'area51';
-        var $fixtureContainer = $( '#qunit-fixture' );
-        var eligibilityTable = eligibilityTableFactory( testCenterId );
+        var $fixtureContainer = $('#qunit-fixture');
+        var eligibilityTable = eligibilityTableFactory(testCenterId);
 
         eligibilityTable
-            .on( 'render', function() {
-                var $component = $( '.component', $fixtureContainer );
+            .on('render', function() {
+                var $component = $('.component', $fixtureContainer);
 
-                assert.equal( $component.length, 1, 'The component has been appended to the container' );
-                assert.ok( $component.hasClass( 'rendered' ), 'The component has the rendered class' );
+                assert.equal($component.length, 1, 'The component has been appended to the container');
+                assert.ok($component.hasClass('rendered'), 'The component has the rendered class');
 
-            } )
-            .on( 'loaded', function() {
+            })
+            .on('loaded', function() {
 
-                var $component = $( '.component', $fixtureContainer );
-                assert.equal( $( '.datatable-container > table', $component ).length, 1, 'The table is also added' );
-                assert.equal( $( '.datatable-container > table tbody tr', $component ).length, 2, 'The table contains 2 rows' );
+                var $component = $('.component', $fixtureContainer);
+                assert.equal($('.datatable-container > table', $component).length, 1, 'The table is also added');
+                assert.equal($('.datatable-container > table tbody tr', $component).length, 2, 'The table contains 2 rows');
 
                 ready();
-            } )
-            .init( { dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json' } )
-            .render( $fixtureContainer );
-    } );
+            })
+            .init({dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json'})
+            .render($fixtureContainer);
+    });
 
-    QUnit.test( 'add action', function( assert ) {
+    QUnit.test('add action', function(assert) {
         var ready = assert.async();
-        assert.expect( 4 );
+        assert.expect(4);
 
         var testCenterId = 'area51';
-        var $fixtureContainer = $( '#qunit-fixture' );
-        var eligibilityTable = eligibilityTableFactory( testCenterId );
+        var $fixtureContainer = $('#qunit-fixture');
+        var eligibilityTable = eligibilityTableFactory(testCenterId);
 
         eligibilityTable
-            .on( 'loaded', function() {
+            .on('loaded', function() {
                 var $add;
-                var $component = $( '.component:eq(0)', $fixtureContainer );
+                var $component = $('.component:eq(0)', $fixtureContainer);
 
-                assert.equal( $component.length, 1, 'The component has been appended to the container' );
-                assert.equal( $( '.action-bar', $component ).length, 1, 'The action bar exists' );
+                assert.equal($component.length, 1, 'The component has been appended to the container');
+                assert.equal($('.action-bar', $component).length, 1, 'The action bar exists');
 
-                $add = $( '.tool-add', $component );
-                assert.equal( $add.length, 1, 'The add action button exists' );
+                $add = $('.tool-add', $component);
+                assert.equal($add.length, 1, 'The add action button exists');
 
-                $add.trigger( 'click' );
-            } )
-            .on( 'add', function( data ) {
-                 assert.equal( data.length, 2, 'The table data contains 2 entries' );
+                $add.trigger('click');
+            })
+            .on('add', function(data) {
+                assert.equal(data.length, 2, 'The table data contains 2 entries');
 
                 ready();
-            } )
-            .init( { dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json' } )
-            .render( $fixtureContainer );
-    } );
+            })
+            .init({dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json'})
+            .render($fixtureContainer);
+    });
 
-    QUnit.test( 'remove action', function( assert ) {
+    QUnit.test('remove action', function(assert) {
         var ready = assert.async();
-        assert.expect( 5 );
+        assert.expect(5);
 
         var testCenterId = 'area51';
-        var $fixtureContainer = $( '#qunit-fixture' );
-        var eligibilityTable = eligibilityTableFactory( testCenterId );
+        var $fixtureContainer = $('#qunit-fixture');
+        var eligibilityTable = eligibilityTableFactory(testCenterId);
 
         eligibilityTable
-            .on( 'loaded', function() {
+            .on('loaded', function() {
                 var $rm;
-                var $component = $( '.component:eq(0)', $fixtureContainer );
+                var $component = $('.component:eq(0)', $fixtureContainer);
 
-                assert.equal( $component.length, 1, 'The component has been appended to the container' );
+                assert.equal($component.length, 1, 'The component has been appended to the container');
 
-                $rm = $( '.actions [data-action=remove]', $component );
-                assert.equal( $rm.length, 2, 'There is 2 remove button, one by row' );
+                $rm = $('.actions [data-action=remove]', $component);
+                assert.equal($rm.length, 2, 'There is 2 remove button, one by row');
 
-                $rm.first().trigger( 'click' );
-            } )
-            .on( 'remove', function( id, data ) {
-                 var $component = $( '.component:eq(0)', $fixtureContainer );
-                 assert.equal( typeof id, 'string', 'The id is given' );
-                 assert.equal( id, $( '.datatable-container tbody tr', $component ).first().data( 'item-identifier' ), 'The given identifier matches the row' );
-                 assert.equal( data.length, 2, 'The table data contains 2 entries' );
+                $rm.first().trigger('click');
+            })
+            .on('remove', function(id, data) {
+                var $component = $('.component:eq(0)', $fixtureContainer);
+                assert.equal(typeof id, 'string', 'The id is given');
+                assert.equal(id, $('.datatable-container tbody tr', $component).first().data('item-identifier'), 'The given identifier matches the row');
+                assert.equal(data.length, 2, 'The table data contains 2 entries');
 
                 ready();
-            } )
-            .init( { dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json' } )
-            .render( $fixtureContainer );
-    } );
-} );
+            })
+            .init({dataUrl: '/taoTestCenter/views/js/test/eligibilityTable/data.json'})
+            .render($fixtureContainer);
+    });
+});
