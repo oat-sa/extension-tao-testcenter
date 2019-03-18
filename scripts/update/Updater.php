@@ -44,8 +44,6 @@ use oat\taoTestCenter\controller\RestEligibility;
 use oat\taoTestCenter\controller\RestTestCenter;
 use oat\taoTestCenter\controller\RestTestCenterUsers;
 use oat\taoTestCenter\model\breadcrumbs\OverriddenDeliverySelectionService;
-use oat\taoTestCenter\model\breadcrumbs\OverriddenMonitorService;
-use oat\taoTestCenter\model\breadcrumbs\OverriddenReportingService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
 use oat\taoTestCenter\model\gui\form\formFactory\SubTestCenterFormFactory;
@@ -402,6 +400,6 @@ class Updater extends common_ext_ExtensionUpdater
             $this->setVersion('4.7.0');
         }
 
-        $this->skip('4.7.0', '5.0.0');
+        $this->skip('4.7.0', '5.1.0');
     }
 }

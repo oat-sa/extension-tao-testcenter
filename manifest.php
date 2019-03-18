@@ -42,7 +42,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '5.0.0',
+    'version' => '5.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring'  => '>=12.7.0',
@@ -59,7 +59,6 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, Import::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, Import::class),
         array('grant', ProctorService::ROLE_PROCTOR, TestCenter::class),
-        array('grant', ProctorService::ROLE_PROCTOR, Diagnostic::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR, MonitorProctorAdministrator::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibility::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibilities::class),
