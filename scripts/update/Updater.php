@@ -37,6 +37,7 @@ use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoProctoring\controller\MonitorProctorAdministrator;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
+use oat\taoProctoring\model\ProctorService;
 use oat\taoProctoring\model\ProctorServiceInterface;
 use oat\taoTestCenter\controller\Import;
 use oat\taoTestCenter\controller\RestEligibilities;
@@ -401,5 +402,12 @@ class Updater extends common_ext_ExtensionUpdater
         }
 
         $this->skip('4.7.0', '5.1.0');
+
+        if ($this->isVersion('5.0.0')) {
+            AclProxy::revokeRule(
+                new AccessRule('grant', ProctorService::ROLE_PROCTOR, '\oat\taoTestCenter\controller\Diagnostic')
+            );
+            $this->setVersion('5.1.0');
+        }
     }
 }

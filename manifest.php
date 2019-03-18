@@ -64,7 +64,6 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibilities::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenter::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenterUsers::class),
-        //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
     ),
     'install' => array(
         'php' => array(
