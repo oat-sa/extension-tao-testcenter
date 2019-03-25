@@ -59,13 +59,20 @@ class TestCenterServiceTest extends GenerisTestCase
         $this->assertEquals($assignedTc->getUri(), $this->tc->getUri());
     }
 
+    public function testUnassignUserException()
+    {
+        $this->expectException(TestCenterException::class);
+        $service = $this->getService();
+        $user = $this->getUserMock('proctor', $service);
+        $service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR));
+    }
+
     public function testUnassignUser()
     {
         $service = $this->getService();
         $user = $this->getUserMock('proctor', $service);
         $this->assertTrue($service->assignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
         $this->assertTrue($service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
-        $this->assertFalse($service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
 
         $assignedTc = $this->userResource->getOnePropertyValue($service->getProperty(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI));
         $this->assertNull($assignedTc);
