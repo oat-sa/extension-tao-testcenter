@@ -59,21 +59,15 @@ class TestCenterServiceTest extends GenerisTestCase
         $this->assertEquals($assignedTc->getUri(), $this->tc->getUri());
     }
 
-    public function testUnassignInvalidProctorUserException()
+    /**
+     * @dataProvider userRoleDataProvider
+     */
+    public function testUnassignUserException($role, $uri)
     {
         $this->expectException(TestCenterException::class);
         $service = $this->getService();
-        $user = $this->getUserMock('proctor', $service);
-        $service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR));
-    }
-
-
-    public function testUnassignInvalidAdminUserException()
-    {
-        $this->expectException(TestCenterException::class);
-        $service = $this->getService();
-        $user = $this->getUserMock('admin', $service);
-        $service->unassignUser($this->tc, $user, $service->getProperty(TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR));
+        $user = $this->getUserMock($role, $service);
+        $service->unassignUser($this->tc, $user, $service->getProperty($uri));
     }
 
     public function testUnassignUser()
@@ -85,6 +79,17 @@ class TestCenterServiceTest extends GenerisTestCase
 
         $assignedTc = $this->userResource->getOnePropertyValue($service->getProperty(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI));
         $this->assertNull($assignedTc);
+    }
+
+    /**
+     * @return array
+     */
+    public function userRoleDataProvider()
+    {
+        return [
+            ['proctor', ProctorService::ROLE_PROCTOR],
+            ['admin', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR],
+        ];
     }
 
     /**
