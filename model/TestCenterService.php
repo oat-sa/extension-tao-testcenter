@@ -235,7 +235,13 @@ class TestCenterService extends ConfigurableService
     public function unassignUser(\core_kernel_classes_Resource $testCenter, User $user, \core_kernel_classes_Resource $role)
     {
         $userResource = $this->getResource($user->getIdentifier());
-        return $userResource->removePropertyValue($this->getAssigneeProperty($role), $testCenter);
+        $property = $this->getAssigneeProperty($role);
+        $propertyValues = $userResource->getPropertyValues($property);
+        if (empty($propertyValues)) {
+            throw new TestCenterException(__('User is not assigned to the test center with given role.'));
+        }
+
+        return $userResource->removePropertyValue($property, $testCenter);
     }
 
     /**
