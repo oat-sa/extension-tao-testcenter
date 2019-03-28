@@ -642,6 +642,10 @@
             "description": "Test center URI",
             "type": "string"
           },
+          "proctored": {
+            "type": "boolean",
+            "description": "return Eligibility is proctred by pass"
+          },
           "id": {
             "description": "Eligibility identifier",
             "type": "string"
