@@ -142,14 +142,14 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      * @return bool
      * @throws \core_kernel_persistence_Exception
      */
-    public function getProctored(){
-        $byPass =  $this->getResource($this->id)->getOnePropertyValue(new Property( EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
-        return !($byPass->getUri() == EligibilityService::BOOLEAN_TRUE? : false);
+    public function isProctored()
+    {
+        $isProctorBypassed =  $this->getResource($this->id)->getOnePropertyValue(new Property(EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
+        return $isProctorBypassed->getUri() !== EligibilityService::BOOLEAN_TRUE;
     }
 
     /**
      * @return array
-     * @throws \core_kernel_persistence_Exception
      */
     public function jsonSerialize()
     {
@@ -157,7 +157,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
             'delivery' => $this->getDelivery()->getUri(),
             'testCenter' => $this->getTestCenter()->getUri(),
             'testTakers' => $this->getTestTakers(),
-            'proctored'=> $this->getProctored(),
+            'proctored'=> $this->isProctored(),
             'id' => $this->getId(),
         ];
     }
