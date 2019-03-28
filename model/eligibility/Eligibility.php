@@ -21,7 +21,6 @@
 namespace oat\taoTestCenter\model\eligibility;
 
 use \core_kernel_classes_Resource as Resource;
-use \core_kernel_classes_Property as Property;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\taoTestCenter\model\EligibilityService;
@@ -86,6 +85,17 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      * Eligibility constructor.
      * @param string $id eligibility identifier
      */
+
+    /**
+     * Eligibility proctored
+     * @var string
+     * @OA\Property(
+     *     description="Eligibility proctored  URI value",
+     *     type="string",
+     * )
+     */
+    private $proctored;
+
     public function __construct($id)
     {
         $this->id = $id;
@@ -139,13 +149,23 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
     }
 
     /**
+     * @return Resource
+     * @throws \core_kernel_persistence_Exception
+     */
+    public function getProctorBypassed(){
+        if($this->proctored === null){
+            $this->proctored =$this->getProperty(EligibilityService::PROPERTY_BYPASSPROCTOR_URI);
+        }
+        return $this->proctored->getUri();
+    }
+
+    /**
      * @return bool
      * @throws \core_kernel_persistence_Exception
      */
     public function isProctorBypassed()
     {
-        $isProctorBypassed =  $this->getProperty(EligibilityService::PROPERTY_BYPASSPROCTOR_URI);
-        return $isProctorBypassed->getUri() !== EligibilityService::BOOLEAN_TRUE;
+        return  $this->proctored !== EligibilityService::BOOLEAN_TRUE;
     }
 
     /**
