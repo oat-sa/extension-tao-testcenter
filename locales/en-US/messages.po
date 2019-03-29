@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint96\n"
-"PO-Revision-Date: 2019-03-01T12:22:07\n"
+"Project-Id-Version: TAO 3.3.0-sprint98\n"
+"PO-Revision-Date: 2019-03-29T10:15:35\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -308,6 +308,9 @@ msgid "Un-Proctor"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "User is not assigned to the test center with given role."
 msgstr ""
 
 msgid "User with given role cannot be assigned to the test center."
