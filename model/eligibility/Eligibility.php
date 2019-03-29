@@ -90,8 +90,8 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      * Eligibility proctored
      * @var string
      * @OA\Property(
-     *     description="Eligibility proctored  URI value",
-     *     type="string",
+     *     description="Eligibility proctored   value",
+     *     type="boolean",
      * )
      */
     private $proctored;

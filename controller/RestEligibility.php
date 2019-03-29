@@ -322,7 +322,7 @@ class RestEligibility extends AbstractRestController
      *                         "http://sample/first.rdf#i1536680377163172",
      *                         "http://sample/first.rdf#i1536680377163173"
      *                     },
-     *                     "proctored" true:
+     *                    "proctored": true,
      *                 }
      *             )
      *         ),
