@@ -69,7 +69,18 @@ class RestEligibilities extends AbstractRestController
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 ref="#/components/schemas/Eligibility",
+     *                 @OA\Property(
+     *                     property="success",
+     *                     type="boolean",
+     *                     description="`false` on failure, `true` on success",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="data",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         ref="#/components/schemas/Eligibility",
+     *                     ),
+     *                 ),
      *                 example= {
      *                     "success": true,
      *                     "data": {
@@ -87,14 +98,14 @@ class RestEligibilities extends AbstractRestController
      *         ),
      *     ),
      *     @OA\Response(
-     *         response=400,
+     *         response=404,
      *         description="Eligibility not found",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
-     *                     "errorCode": 400,
+     *                     "errorCode": 0,
      *                     "errorMsg": "Eligibility not found for provided search parameters.",
      *                     "version": "3.3.0-sprint85"
      *                 }
@@ -109,19 +120,11 @@ class RestEligibilities extends AbstractRestController
             $delivery = $this->getDeliveryFromRequest();
             $testCenter = $this->getTCFromRequest();
 
-            /** @var EligibilityService $eligibilityService */
-            $eligibilityService = $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
-            $eligibility = $eligibilityService->getEligibility($testCenter, $delivery);
-
-            if ($eligibility === null) {
-                $result = [];
-            } else {
-                $result = [$this->propagate(new Eligibility($eligibility->getUri()))];
-            }
+            $eligibility = $this->getEligibilityByTestCenterAndDelivery($testCenter, $delivery);
 
             $this->returnJson([
                 'success' => true,
-                'data' => $result
+                'data' => [$eligibility],
             ]);
         } catch (\Exception $e) {
             $this->returnFailure($e);
@@ -133,6 +136,7 @@ class RestEligibilities extends AbstractRestController
      *
      * @return \core_kernel_classes_Resource
      * @throws common_exception_RestApi
+     * @throws common_exception_NotFound
      */
     private function getDeliveryFromRequest()
     {
@@ -144,7 +148,27 @@ class RestEligibilities extends AbstractRestController
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID));
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi("Delivery `{$deliveryUri}` does not exist.");
+            throw new common_exception_NotFound(__('Delivery `%s` does not exist.', $deliveryUri));
         }
+    }
+
+    /**
+     * @param $testCenter
+     * @param $delivery
+     * @return Eligibility
+     * @throws \common_exception_InconsistentData
+     * @throws common_exception_NotFound
+     */
+    private function getEligibilityByTestCenterAndDelivery($testCenter, $delivery)
+    {
+        /** @var EligibilityService $eligibilityService */
+        $eligibilityService = $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
+        $eligibility = $eligibilityService->getEligibility($testCenter, $delivery);
+
+        if (!$eligibility) {
+            throw new common_exception_NotFound(__('Eligibility not found for provided search parameters.'));
+        }
+
+        return $this->propagate(new Eligibility($eligibility->getUri()));
     }
 }

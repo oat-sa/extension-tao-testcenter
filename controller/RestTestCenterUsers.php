@@ -58,7 +58,7 @@ class RestTestCenterUsers extends AbstractRestController
      *                     description="The role to which the user should be assigned",
      *                     enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole", "http://www.tao.lu/Ontologies/generis.rdf#taoSyncManager"},
      *                 ),
-     *                 required={"testCenter, user, role"}
+     *                 required={"testCenter", "user", "role"}
      *             )
      *         )
      *     ),
@@ -82,14 +82,14 @@ class RestTestCenterUsers extends AbstractRestController
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Invalid user id or user is not allowed to be assigned to given role",
+     *         description="User is not allowed to be assigned to given role",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "User does not exist",
+     *                     "errorMsg": "User with given role cannot be assigned to the test center.",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )
@@ -97,14 +97,14 @@ class RestTestCenterUsers extends AbstractRestController
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Test center not found",
+     *         description="Test center, user or role not found",
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "Test center not found",
+     *                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )
@@ -122,6 +122,8 @@ class RestTestCenterUsers extends AbstractRestController
             $this->returnJson([
                 'success' => $this->getService()->assignUser($testCenter, $user, $role)
             ]);
+        } catch (\common_exception_NotFound $e) {
+            return $this->returnFailure($e);
         } catch (\common_Exception $e) {
             return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
@@ -179,6 +181,36 @@ class RestTestCenterUsers extends AbstractRestController
      *             ),
      *         ),
      *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="User can not be unassigned from the test center with given role",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 example={
+     *                     "success": false,
+     *                     "errorCode": 0,
+     *                     "errorMsg": "User is not assigned to the test center with given role.",
+     *                     "version": "3.3.0-sprint85"
+     *                 }
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Test center, user or role not found",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 example={
+     *                     "success": false,
+     *                     "errorCode": 0,
+     *                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
+     *                     "version": "3.3.0-sprint85"
+     *                 }
+     *             )
+     *         ),
+     *     )
      * )
      */
     public function delete()
@@ -191,6 +223,8 @@ class RestTestCenterUsers extends AbstractRestController
             $this->returnJson([
                 'success' => $this->getService()->unassignUser($testCenter, $user, $role)
             ]);
+        } catch (\common_exception_NotFound $e) {
+            return $this->returnFailure($e);
         } catch (\common_Exception $e) {
             return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
@@ -206,25 +240,42 @@ class RestTestCenterUsers extends AbstractRestController
 
     /**
      * @return \oat\oatbox\user\User
-     * @throws \common_exception_BadRequest
      * @throws \common_exception_Error
-     * @throws \common_exception_MissingParameter
+     * @throws \common_exception_NotFound
+     * @throws \common_exception_RestApi
      */
     private function getUserFromRequest()
     {
-        $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
-        return $this->getUserService()->getUserById($userUri);
+        try {
+            $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
+        } catch (\common_exception_MissingParameter $e) {
+            throw new \common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_URI));
+        }
+        $user = $this->getUserService()->getUserById($userUri);
+        if (!$user || !$this->getResource($user->getIdentifier())->exists()) {
+            throw new \common_exception_NotFound(__('User `%s` does not exist.', $userUri));
+        }
+
+        return $user;
     }
 
     /**
      * @return \core_kernel_classes_Resource
-     * @throws \common_exception_MissingParameter
      * @throws \common_exception_NotFound
+     * @throws \common_exception_RestApi
      */
     private function getRoleFromRequest()
     {
-        $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
-        return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
+        $roleUri = '';
+        try {
+            $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
+
+            return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
+        } catch (\common_exception_MissingParameter $e) {
+            throw new \common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE));
+        } catch (\common_exception_NotFound $e) {
+            throw new \common_exception_NotFound(__('User Role `%s` does not exist.', $roleUri));
+        }
     }
 
     /**
