@@ -74,16 +74,19 @@ class TestCenterManager extends \tao_actions_SaSModule
 
         $formContainer = new \tao_actions_form_Instance($clazz, $testCenter);
         $myForm = $formContainer->getForm();
-        if ($myForm->isSubmited()) {
-            if ($myForm->isValid()) {
 
-                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
-                $testCenter = $binder->bind($myForm->getValues());
+        if ($this->hasWriteAccess($testCenter->getUri())) {
+            if ($myForm->isSubmited() && $myForm->isValid()) {
 
-                $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
-                $this->setData('message', $this->convert('Test center saved'));
-                $this->setData('reload', true);
+                    $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
+                    $testCenter = $binder->bind($myForm->getValues());
+
+                    $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
+                    $this->setData('message', $this->convert('Test center saved'));
+                    $this->setData('reload', true);
             }
+        } else {
+            $myForm->setActions(array());
         }
 
         $forms = $this->getServiceLocator()->get(TreeFormFactory::SERVICE_ID)->renderForms($testCenter);
