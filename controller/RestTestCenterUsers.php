@@ -56,7 +56,7 @@ class RestTestCenterUsers extends AbstractRestController
      *                     property="role",
      *                     type="string",
      *                     description="The role to which the user should be assigned",
-     *                     enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"},
+     *                     enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole", "http://www.tao.lu/Ontologies/generis.rdf#taoSyncManager"},
      *                 ),
      *                 required={"testCenter, user, role"}
      *             )
@@ -157,7 +157,7 @@ class RestTestCenterUsers extends AbstractRestController
      *       description="Role id",
      *       required=true,
      *       @OA\Schema(
-     *           enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole"},
+     *           enum={"http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole", "http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole", "http://www.tao.lu/Ontologies/generis.rdf#taoSyncManager"},
      *           type="string"
      *       )
      *     ),

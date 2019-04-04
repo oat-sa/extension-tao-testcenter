@@ -25,9 +25,9 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
+use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\Tree\GetTreeRequest;
 use oat\tao\model\Tree\GetTreeService;
-use oat\taoDevTools\actions\ExtensionsManager;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 use oat\taoTestCenter\model\TestCenterService;
@@ -51,6 +51,7 @@ class TestCenterManager extends \tao_actions_SaSModule
 
     /**
      * Initialize the service and the default data
+     * @security("hide")
      */
     public function __construct()
     {

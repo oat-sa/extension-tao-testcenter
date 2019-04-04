@@ -90,7 +90,7 @@ class EligibilityServiceTest extends TestCase
 
         $this->deliveryEligibilityClassMock->expects($this->once())
             ->method('searchInstances')
-            ->willReturn(null);
+            ->willReturn([]);
         $this->deliveryEligibilityClassMock->expects($this->once())
             ->method('createInstanceWithProperties')
             ->willReturn($expectedEligibility);

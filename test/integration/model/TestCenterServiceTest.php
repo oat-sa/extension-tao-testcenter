@@ -18,10 +18,12 @@
  *
  *
  */
-namespace oat\taoTestCenter\test\unit\model;
+
+namespace oat\taoTestCenter\test\integration\model;
 
 use oat\generis\test\GenerisTestCase;
 use oat\tao\model\TaoOntology;
+use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\oatbox\user\User;
 use oat\taoProctoring\model\ProctorService;
@@ -40,11 +42,9 @@ class TestCenterServiceTest extends GenerisTestCase
     /** @var \core_kernel_classes_Resource */
     protected $userResource;
 
-    /**
-     * @expectedException oat\taoTestCenter\model\exception\TestCenterException
-     */
     public function testAssignUserException()
     {
+        $this->expectException(TestCenterException::class);
         $service = $this->getService();
         $user = $this->getUserMock('proctor', $service);
         $service->assignUser($this->tc, $user, $service->getProperty(ProctorManagementService::PROPERTY_ADMINISTRATOR_URI));
@@ -59,16 +59,37 @@ class TestCenterServiceTest extends GenerisTestCase
         $this->assertEquals($assignedTc->getUri(), $this->tc->getUri());
     }
 
+    /**
+     * @dataProvider userRoleDataProvider
+     */
+    public function testUnassignUserException($role, $uri)
+    {
+        $this->expectException(TestCenterException::class);
+        $service = $this->getService();
+        $user = $this->getUserMock($role, $service);
+        $service->unassignUser($this->tc, $user, $service->getProperty($uri));
+    }
+
     public function testUnassignUser()
     {
         $service = $this->getService();
         $user = $this->getUserMock('proctor', $service);
         $this->assertTrue($service->assignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
         $this->assertTrue($service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
-        $this->assertFalse($service->unassignUser($this->tc, $user, $service->getProperty(ProctorService::ROLE_PROCTOR)));
 
         $assignedTc = $this->userResource->getOnePropertyValue($service->getProperty(ProctorManagementService::PROPERTY_ASSIGNED_PROCTOR_URI));
         $this->assertNull($assignedTc);
+    }
+
+    /**
+     * @return array
+     */
+    public function userRoleDataProvider()
+    {
+        return [
+            ['proctor', ProctorService::ROLE_PROCTOR],
+            ['admin', TestCenterService::ROLE_TESTCENTER_ADMINISTRATOR],
+        ];
     }
 
     /**

@@ -14,28 +14,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\taoTestCenter\model\routing;
+namespace oat\taoTestCenter\model\execution;
 
-use oat\tao\model\routing\AbstractApiRoute;
+use oat\taoDelivery\model\execution\DeliveryExecutionContext;
 
-/**
- * Route for RestApi controllers
- * @author Aleh Hutnikau, <hutnikau@1pt.com>
- */
-class ApiRoute extends AbstractApiRoute
+class TcDeliveryExecutionContext extends DeliveryExecutionContext
 {
-    const REST_CONTROLLER_PREFIX = 'oat\\taoTestCenter\\controller\\Rest';
-
-    /**
-     * @inheritdoc
-     * @return string
-     */
-    public static function getControllerPrefix()
-    {
-        return self::REST_CONTROLLER_PREFIX;
-    }
+    const EXECUTION_CONTEXT_TYPE = 'test_center';
 }

@@ -27,9 +27,14 @@ use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\taoDelivery\model\execution\DeliveryExecutionContext;
+use oat\taoDelivery\model\execution\DeliveryExecutionContextInterface;
+use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoProctoring\model\monitorCache\DeliveryMonitoringData;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
+use oat\taoTestCenter\model\execution\TcDeliveryExecutionContext;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
@@ -422,11 +427,27 @@ class EligibilityService extends ConfigurableService
     public function deliveryExecutionCreated(DeliveryExecutionCreated $event)
     {
         $monitoringService = $this->getServiceLocator()->get(DeliveryMonitoringService::SERVICE_ID);
-        $testCenter = $this->getTestCenter($event->getDeliveryExecution()->getDelivery(), $event->getUser());
-        if (!empty($testCenter)) {
-            $deliverMonitoringData = $monitoringService->getData($event->getDeliveryExecution());
+        /** @var DeliveryExecutionInterface $deliveryExecution */
+        $deliveryExecution = $event->getDeliveryExecution();
+
+        try {
+            $testCenter = $this->getTestCenter($deliveryExecution->getDelivery(), $event->getUser());
+            if (empty($testCenter)) {
+                return;
+            }
+
+            /** @var DeliveryMonitoringData $deliverMonitoringData */
+            $deliverMonitoringData = $monitoringService->getData($deliveryExecution);
             $deliverMonitoringData->update(TestCenterMonitoringService::TEST_CENTER_ID, $testCenter->getUri());
+
+            $executionContext = $this->createExecutionContext($deliveryExecution, $testCenter);
+            if ($executionContext instanceof DeliveryExecutionContextInterface) {
+                $deliverMonitoringData->setDeliveryExecutionContext($executionContext);
+            }
+
             $monitoringService->save($deliverMonitoringData);
+        } catch (\Exception $e) {
+            $this->logWarning('Delivery monitoring data were not stored. Reason: ' . $e->getMessage(), $e->getTrace());
         }
     }
 
@@ -504,5 +525,27 @@ class EligibilityService extends ConfigurableService
             $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $newTestTakerIds));
         }
+    }
+
+    /**
+     * @param string $deliveryExecution
+     * @param \core_kernel_classes_Resource $testCenter
+     * @return DeliveryExecutionContext|null
+     */
+    private function createExecutionContext($deliveryExecution, $testCenter)
+    {
+        $executionContext = null;
+        try {
+            $executionContext = new DeliveryExecutionContext(
+                $deliveryExecution->getIdentifier(),
+                $testCenter->getUri(),
+                TcDeliveryExecutionContext::EXECUTION_CONTEXT_TYPE,
+                $testCenter->getLabel()
+            );
+        } catch (\InvalidArgumentException $e) {
+            $this->logInfo('Delivery execution context object can not be created. Reason: ' . $e->getMessage());
+        }
+
+        return $executionContext;
     }
 }
