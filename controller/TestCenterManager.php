@@ -78,12 +78,12 @@ class TestCenterManager extends \tao_actions_SaSModule
         if ($this->hasWriteAccess($testCenter->getUri())) {
             if ($myForm->isSubmited() && $myForm->isValid()) {
 
-                    $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
-                    $testCenter = $binder->bind($myForm->getValues());
+                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
+                $testCenter = $binder->bind($myForm->getValues());
 
-                    $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
-                    $this->setData('message', $this->convert('Test center saved'));
-                    $this->setData('reload', true);
+                $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
+                $this->setData('message', $this->convert('Test center saved'));
+                $this->setData('reload', true);
             }
         } else {
             $myForm->setActions(array());
@@ -111,10 +111,7 @@ class TestCenterManager extends \tao_actions_SaSModule
             $permissions = $this->getResourceService()->getResourcesPermissions($user, $testCenter);
 
             $permissions = $permissions['data'][$testCenter->getUri()];
-            $permissions = array_flip($permissions);
-            foreach ($permissions as $key => &$value) {
-                $value = $key;
-            }
+            $permissions = array_combine($permissions, $permissions);
 
             $this->setData('permissions', json_encode($permissions));
             $this->setData('isDacEnabled', $isDacEnabled);
