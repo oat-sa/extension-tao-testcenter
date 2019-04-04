@@ -48,29 +48,29 @@ class Import extends \tao_actions_Import
             $this->getCurrentClass()
         );
         $myForm = $formContainer->getForm();
+        $myForm->addCsrfTokenProtection();
 
         //if the form is submited and valid
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
-                $options = $myForm->getValues();
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $this->validateCsrf();
+            $options = $myForm->getValues();
 
-                /** @var UploadService $uploadService */
-                $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
-                $file = $uploadService->getUploadedFlyFile($options['importFile']);
+            /** @var UploadService $uploadService */
+            $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFlyFile($options['importFile']);
 
-                /** @var TestCenterCsvImporterFactory $testCenterImport */
-                $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-                $importerService = $testCenterImport->create('default');
+            /** @var TestCenterCsvImporterFactory $testCenterImport */
+            $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
+            $importerService = $testCenterImport->create('default');
 
-                $report = $importerService->import($file,[
-                    OntologyRdf::RDF_TYPE => $options['classUri']
-                ], [
-                    'delimiter' => $options['field_delimiter'],
-                    'enclosure' => $options['field_encloser'],
-                ]);
+            $report = $importerService->import($file,[
+                OntologyRdf::RDF_TYPE => $options['classUri']
+            ], [
+                'delimiter' => $options['field_delimiter'],
+                'enclosure' => $options['field_encloser'],
+            ]);
 
-                return $this->returnReport($report);
-            }
+            return $this->returnReport($report);
         }
 
         $this->setData('myForm', $myForm->render());
