@@ -245,6 +245,11 @@ class ProctorManager extends SimplePageModule
 
                 $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
                 $eventManager->trigger(new ProctorCreatedEvent($userResource, $proctor));
+                $this->returnJson([
+                    'success' => true,
+                    'message' => __('Successfully created proctor')
+                ]);
+                return;
             }
         } else{
             $form = $myForm->render();
