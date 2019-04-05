@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -21,7 +21,7 @@ define([
     'lodash',
     'i18n',
     'module',
-    'helpers',
+    'util/url',
     'uri',
     'ui/component',
     'generis.tree.select',
@@ -29,7 +29,7 @@ define([
     'ui/feedback',
     'ui/modal',
     'css!taoTestCenterCss/eligibilityEditor'
-], function($, _, __, module, helpers, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
+], function($, _, __, module, url, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
     'use strict';
 
     var _ns = '.eligibility-editor';
@@ -39,17 +39,17 @@ define([
     };
 
     var config = {
-        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
+        dataUrl :  url.route('getData', 'GenerisTree', 'tao'),
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
         isDacEnabled: false,
-        testTakerDataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter')
+        testTakerDataUrl :  url.route('getData', 'TestCenterManager', 'taoTestCenter', '', '')
     };
 
     config = _.defaults({}, module.config(), config);
 
     if (_.isObject(config.testTakerDataUrl)) {
-        config.testTakerDataUrl = helpers._url(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
+        config.testTakerDataUrl = url.route(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
     } else {
         config.testTakerDataUrl = config.dataUrl;
     }
