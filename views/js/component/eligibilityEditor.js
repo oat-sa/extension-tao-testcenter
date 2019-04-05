@@ -77,11 +77,16 @@ define([
          * @param {String} id - the tree identifier, use to get the DOM node to put the tree
          * @param {String} url - the tree data url
          * @param {Array} [testTakers] - array of currently selected test takers
+         * @param {Boolean} isDacEnabled - flag to enable/disable resource permissions check
          * @returns {tree} the created tree
          */
-        var buildTestTakerTree = function buildTestTakerTree(id, url, testTakers){
+        var buildTestTakerTree = function buildTestTakerTree(id, url, testTakers, isDacEnabled){
 
             var selected = _.pluck(testTakers, 'uri');
+
+            if (isDacEnabled === undefined) {
+                isDacEnabled = config.isDacEnabled;
+            }
 
             return new GenerisTreeSelectClass('#' + id, url, {
                 actionId : 'treeOptions.actionId',
@@ -93,7 +98,7 @@ define([
                     rootNode : 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
                 },
                 paginate : 10,
-                checkResourcePermissions: config.isDacEnabled
+                checkResourcePermissions: isDacEnabled
             });
         };
 
@@ -163,6 +168,8 @@ define([
              * @param {jQueryElement} $container - where to append the component
              * @param {Object} [options]
              * @param {String} [options.dataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.testTakerDataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.isDacEnabled] - to define wherether resource permissions should be checked
              * @returns {eligibilityEditor} chains the component
              * @fires eligibilityEditor#ok with the selected eligibities in parameter
              * @fires eligibilityEditor#cancel
@@ -176,7 +183,7 @@ define([
                     options = _.defaults(options || {}, this.config);
 
                     deliveryTree = buildDeliveryTree(deliveryTreeId, options.dataUrl);
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, [], options.isDacEnabled);
 
                     initModal({
                         width : 650
@@ -223,6 +230,8 @@ define([
              * @param {Array} testTakers - the test takers already selected
              * @param {Object} [options]
              * @param {String} [options.dataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.testTakerDataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.isDacEnabled] - to define wherether resource permissions should be checked
              * @returns {eligibilityEditor} chains the component
              * @fires eligibilityEditor#ok with the selected test takers in parameter
              * @fires eligibilityEditor#cancel
@@ -234,7 +243,7 @@ define([
 
                     options = _.defaults(options || {}, this.config);
 
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers, options.isDacEnabled);
 
                     initModal({
                         width : 400

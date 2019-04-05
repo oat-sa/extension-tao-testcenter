@@ -81,7 +81,8 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json'
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
+                isDacEnabled: false
             });
     });
 
@@ -120,7 +121,8 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json'
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
+                isDacEnabled: false
             });
     });
 
@@ -144,7 +146,8 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json'
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
+                isDacEnabled: false
             });
     });
 
@@ -180,7 +183,8 @@ define([
                 ready();
             })
             .edit($container, 'Foolivery', [], {
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json'
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
+                isDacEnabled: false
             });
     });
 
@@ -203,7 +207,8 @@ define([
                 ready();
             })
             .edit($container, 'Foolivery', [], {
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json'
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
+                isDacEnabled: false
             });
     });
 });
