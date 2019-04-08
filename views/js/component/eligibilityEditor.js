@@ -43,7 +43,7 @@ define([
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
         isDacEnabled: false,
-        testTakerDataUrl :  url.route('getData', 'TestCenterManager', 'taoTestCenter', '', '')
+        testTakerDataUrl :  url.route('getData', 'TestCenterManager', 'taoTestCenter')
     };
 
     config = _.defaults({}, module.config(), config);
