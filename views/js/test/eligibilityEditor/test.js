@@ -13,10 +13,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  */
 define([
-
     'jquery',
     'lodash',
     'taoTestCenter/component/eligibilityEditor'
@@ -82,7 +81,7 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
                 isDacEnabled: false
             });
     });
@@ -122,7 +121,7 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
                 isDacEnabled: false
             });
     });
@@ -147,7 +146,7 @@ define([
             })
             .add($container, {
                 dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
                 isDacEnabled: false
             });
     });
@@ -184,8 +183,7 @@ define([
                 ready();
             })
             .edit($container, 'Foolivery', [], {
-                dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
                 isDacEnabled: false
             });
     });
@@ -209,8 +207,7 @@ define([
                 ready();
             })
             .edit($container, 'Foolivery', [], {
-                dataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
-                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/data.json',
+                testTakerDataUrl: '/taoTestCenter/views/js/test/eligibilityEditor/testTakers.json',
                 isDacEnabled: false
             });
     });
