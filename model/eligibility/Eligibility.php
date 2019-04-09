@@ -25,6 +25,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\generis\model\OntologyAwareTrait;
+use \core_kernel_classes_Property as Property;
 
 /**
  * Class Eligibility
@@ -99,6 +100,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
     public function __construct($id)
     {
         $this->id = $id;
+
     }
 
     /**
@@ -154,7 +156,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      */
     public function getProctorBypassed(){
         if($this->proctored === null){
-            $this->proctored =$this->getProperty(EligibilityService::PROPERTY_BYPASSPROCTOR_URI);
+            $this->proctored= $this->getResource($this->getId())->getOnePropertyValue(new \core_kernel_classes_Property(EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
         }
         return $this->proctored->getUri();
     }
@@ -165,7 +167,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      */
     public function isProctorBypassed()
     {
-        return  $this->proctored !== EligibilityService::BOOLEAN_TRUE;
+        return  $this->getProctorBypassed() !== EligibilityService::BOOLEAN_TRUE;
     }
 
     /**
