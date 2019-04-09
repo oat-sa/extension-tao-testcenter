@@ -25,7 +25,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\generis\model\OntologyAwareTrait;
-use \core_kernel_classes_Property as Property;
+
 
 /**
  * Class Eligibility
