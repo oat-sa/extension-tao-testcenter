@@ -20,6 +20,7 @@
 
 namespace oat\taoTestCenter\model\eligibility;
 
+use core_kernel_classes_Property;
 use \core_kernel_classes_Resource as Resource;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -156,7 +157,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
      */
     public function getProctorBypassed(){
         if($this->proctored === null){
-            $this->proctored= $this->getResource($this->getId())->getOnePropertyValue(new \core_kernel_classes_Property(EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
+            $this->proctored= $this->getResource($this->id)->getOnePropertyValue(new core_kernel_classes_Property(EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
         }
         return $this->proctored->getUri();
     }
