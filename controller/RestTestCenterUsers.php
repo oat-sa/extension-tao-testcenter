@@ -124,7 +124,7 @@ class RestTestCenterUsers extends AbstractRestController
             ]);
         } catch (\common_exception_NotFound $e) {
             return $this->returnFailure($e);
-        } catch (\common_Exception $e) {
+        } catch (\Exception $e) {
             return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
     }
@@ -225,7 +225,7 @@ class RestTestCenterUsers extends AbstractRestController
             ]);
         } catch (\common_exception_NotFound $e) {
             return $this->returnFailure($e);
-        } catch (\common_Exception $e) {
+        } catch (\Exception $e) {
             return $this->returnFailure(new \common_exception_RestApi($e->getMessage()));
         }
     }
