@@ -52,7 +52,6 @@ class Import extends \tao_actions_Import
 
         //if the form is submited and valid
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            $this->validateCsrf();
             $options = $myForm->getValues();
 
             /** @var UploadService $uploadService */

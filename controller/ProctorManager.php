@@ -220,7 +220,6 @@ class ProctorManager extends SimplePageModule
         $form = '';
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            $this->validateCsrf();
             $valid = $myForm->isValid();
             $values = $myForm->getValues();
             $values[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
@@ -245,11 +244,6 @@ class ProctorManager extends SimplePageModule
 
                 $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
                 $eventManager->trigger(new ProctorCreatedEvent($userResource, $proctor));
-                $this->returnJson([
-                    'success' => true,
-                    'message' => __('Successfully created proctor')
-                ]);
-                return;
             }
         } else{
             $form = $myForm->render();
