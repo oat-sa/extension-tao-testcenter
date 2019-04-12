@@ -19,9 +19,10 @@
 
 namespace oat\taoTestCenter\controller;
 
-use common_exception_MissingParameter;
-use common_exception_NotFound;
-use common_exception_RestApi;
+use common_exception_InconsistentData as InconsistentDataException;
+use common_exception_MissingParameter as MissingParameterException;
+use common_exception_NotFound as NotFoundException;
+use common_exception_RestApi as RestApiException;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoTestCenter\model\eligibility\Eligibility;
 use oat\taoTestCenter\model\EligibilityService;
@@ -36,7 +37,7 @@ class RestEligibilities extends AbstractRestController
      */
     public function post()
     {
-        $this->returnFailure(new common_exception_RestApi('Not implemented.'));
+        $this->returnFailure(new RestApiException('Not implemented.'));
     }
 
     /**
@@ -105,7 +106,7 @@ class RestEligibilities extends AbstractRestController
      *             @OA\Schema(
      *                 example={
      *                     "success": false,
-     *                     "errorCode": 0,
+     *                     "errorCode": 404,
      *                     "errorMsg": "Eligibility not found for provided search parameters.",
      *                     "version": "3.3.0-sprint85"
      *                 }
@@ -135,8 +136,8 @@ class RestEligibilities extends AbstractRestController
      * Get delivery resource from request parameters
      *
      * @return \core_kernel_classes_Resource
-     * @throws common_exception_RestApi
-     * @throws common_exception_NotFound
+     * @throws RestApiException
+     * @throws NotFoundException
      */
     private function getDeliveryFromRequest()
     {
@@ -145,10 +146,10 @@ class RestEligibilities extends AbstractRestController
             $deliveryUri = $this->getParameterFromRequest(self::PARAMETER_DELIVERY_ID);
 
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
-        } catch (common_exception_MissingParameter $e) {
-            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID));
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_NotFound(__('Delivery `%s` does not exist.', $deliveryUri));
+        } catch (MissingParameterException $e) {
+            throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID), 400);
+        } catch (NotFoundException $e) {
+            throw new NotFoundException(__('Delivery `%s` does not exist.', $deliveryUri), 404);
         }
     }
 
@@ -156,8 +157,8 @@ class RestEligibilities extends AbstractRestController
      * @param $testCenter
      * @param $delivery
      * @return Eligibility
-     * @throws \common_exception_InconsistentData
-     * @throws common_exception_NotFound
+     * @throws InconsistentDataException
+     * @throws NotFoundException
      */
     private function getEligibilityByTestCenterAndDelivery($testCenter, $delivery)
     {
@@ -166,7 +167,7 @@ class RestEligibilities extends AbstractRestController
         $eligibility = $eligibilityService->getEligibility($testCenter, $delivery);
 
         if (!$eligibility) {
-            throw new common_exception_NotFound(__('Eligibility not found for provided search parameters.'));
+            throw new NotFoundException(__('Eligibility not found for provided search parameters.'), 404);
         }
 
         return $this->propagate(new Eligibility($eligibility->getUri()));
