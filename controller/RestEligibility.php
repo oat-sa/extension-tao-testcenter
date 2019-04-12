@@ -335,7 +335,7 @@ class RestEligibility extends AbstractRestController
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+     *                     "errorMsg": "Eligibility `http://sample/first.rdf#i15367360596713165` does not exist.",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )
@@ -355,8 +355,8 @@ class RestEligibility extends AbstractRestController
     /**
      * Get eligibility instance from request
      * @return Eligibility
-     * @throws \common_exception_MissingParameter
-     * @throws common_exception_RestApi
+     * @throws common_exception_MissingParameter
+     * @throws common_exception_NotFound
      */
     private function getEligibilityFromRequest()
     {
@@ -367,14 +367,14 @@ class RestEligibility extends AbstractRestController
 
             return $this->propagate(new Eligibility($resource->getUri()));
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
+            throw new common_exception_NotFound(__('Eligibility `%s` does not exist.', $eligibilityUri));
         }
     }
 
     /**
      * Get delivery resource from request parameters
      * @return \core_kernel_classes_Resource
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_NotFound
      * @throws common_exception_RestApi
      */
     private function getDeliveryFromRequest()
@@ -387,12 +387,13 @@ class RestEligibility extends AbstractRestController
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID));
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi(__('Delivery `%s` does not exist.', $deliveryUri));
+            throw new common_exception_NotFound(__('Delivery `%s` does not exist.', $deliveryUri));
         }
     }
 
     /**
      * @return \core_kernel_classes_Resource[]
+     * @throws common_exception_NotFound
      * @throws common_exception_RestApi
      */
     private function getTakersFromRequest()
@@ -416,7 +417,7 @@ class RestEligibility extends AbstractRestController
     /**
      * @param array $ids
      * @return \core_kernel_classes_Resource[]
-     * @throws common_exception_RestApi
+     * @throws common_exception_NotFound
      */
     private function getTestTakerResources(array $ids)
     {
@@ -426,7 +427,7 @@ class RestEligibility extends AbstractRestController
                 $result[] = $this->getAndCheckResource($testTakerUri, TaoOntology::CLASS_URI_SUBJECT);
             }
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestApi(__('Test taker `%s` does not exist.', $testTakerUri));
+            throw new common_exception_NotFound(__('Test taker `%s` does not exist.', $testTakerUri));
         }
 
         return $result;
