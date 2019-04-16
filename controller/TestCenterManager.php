@@ -301,7 +301,7 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function delete()
     {
-        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance());
+        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance('id'));
         return $this->returnJson(array(
             'deleted' => $deleted
         ));
