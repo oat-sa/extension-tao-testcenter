@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2015-2019 (original work) Open Assessment Technologies SA ;
  *
  */
 define([
@@ -21,7 +21,7 @@ define([
     'lodash',
     'i18n',
     'module',
-    'helpers',
+    'util/url',
     'uri',
     'ui/component',
     'generis.tree.select',
@@ -29,7 +29,7 @@ define([
     'ui/feedback',
     'ui/modal',
     'css!taoTestCenterCss/eligibilityEditor'
-], function($, _, __, module, helpers, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
+], function($, _, __, module, url, uri, component, GenerisTreeSelectClass, layoutTpl, feedback){
     'use strict';
 
     var _ns = '.eligibility-editor';
@@ -39,17 +39,17 @@ define([
     };
 
     var config = {
-        dataUrl :  helpers._url('getData', 'GenerisTree', 'tao'),
+        dataUrl :  url.route('getData', 'GenerisTree', 'tao'),
         deliveriesOrder : 'http://www.w3.org/2000/01/rdf-schema#label',
         deliveriesOrderdir : 'asc',
         isDacEnabled: false,
-        testTakerDataUrl :  helpers._url('getData', 'TestCenterManager', 'taoTestCenter')
+        testTakerDataUrl :  url.route('getData', 'TestCenterManager', 'taoTestCenter')
     };
 
     config = _.defaults({}, module.config(), config);
 
     if (_.isObject(config.testTakerDataUrl)) {
-        config.testTakerDataUrl = helpers._url(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
+        config.testTakerDataUrl = url.route(config.testTakerDataUrl.action, config.testTakerDataUrl.controller, config.testTakerDataUrl.extension);
     } else {
         config.testTakerDataUrl = config.dataUrl;
     }
@@ -77,11 +77,16 @@ define([
          * @param {String} id - the tree identifier, use to get the DOM node to put the tree
          * @param {String} url - the tree data url
          * @param {Array} [testTakers] - array of currently selected test takers
+         * @param {Boolean} isDacEnabled - flag to enable/disable resource permissions check
          * @returns {tree} the created tree
          */
-        var buildTestTakerTree = function buildTestTakerTree(id, url, testTakers){
+        var buildTestTakerTree = function buildTestTakerTree(id, url, testTakers, isDacEnabled){
 
             var selected = _.pluck(testTakers, 'uri');
+
+            if (isDacEnabled === undefined) {
+                isDacEnabled = config.isDacEnabled;
+            }
 
             return new GenerisTreeSelectClass('#' + id, url, {
                 actionId : 'treeOptions.actionId',
@@ -93,7 +98,7 @@ define([
                     rootNode : 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject'
                 },
                 paginate : 10,
-                checkResourcePermissions: config.isDacEnabled
+                checkResourcePermissions: isDacEnabled
             });
         };
 
@@ -163,6 +168,8 @@ define([
              * @param {jQueryElement} $container - where to append the component
              * @param {Object} [options]
              * @param {String} [options.dataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.testTakerDataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.isDacEnabled] - to define wherether resource permissions should be checked
              * @returns {eligibilityEditor} chains the component
              * @fires eligibilityEditor#ok with the selected eligibities in parameter
              * @fires eligibilityEditor#cancel
@@ -176,7 +183,7 @@ define([
                     options = _.defaults(options || {}, this.config);
 
                     deliveryTree = buildDeliveryTree(deliveryTreeId, options.dataUrl);
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, [], options.isDacEnabled);
 
                     initModal({
                         width : 650
@@ -223,6 +230,8 @@ define([
              * @param {Array} testTakers - the test takers already selected
              * @param {Object} [options]
              * @param {String} [options.dataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.testTakerDataUrl] - to define where the tree data are retrieved
+             * @param {String} [options.isDacEnabled] - to define wherether resource permissions should be checked
              * @returns {eligibilityEditor} chains the component
              * @fires eligibilityEditor#ok with the selected test takers in parameter
              * @fires eligibilityEditor#cancel
@@ -234,7 +243,7 @@ define([
 
                     options = _.defaults(options || {}, this.config);
 
-                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers);
+                    testTakerTree = buildTestTakerTree(testTakerTreeId, options.testTakerDataUrl, testTakers, options.isDacEnabled);
 
                     initModal({
                         width : 400

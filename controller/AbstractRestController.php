@@ -39,8 +39,8 @@ abstract class AbstractRestController extends \tao_actions_RestController
     /**
      * Get test center resource from request parameters
      * @return \core_kernel_classes_Resource
-     * @throws \common_exception_MissingParameter
      * @throws \common_exception_RestApi
+     * @throws \common_exception_NotFound
      */
     protected function getTCFromRequest()
     {
@@ -52,7 +52,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
         } catch (\common_exception_MissingParameter $e) {
             throw new \common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_TEST_CENTER_ID));
         } catch (\common_exception_NotFound $e) {
-            throw new \common_exception_RestApi(__('Test Center `%s` does not exist.', $testCenterUri));
+            throw new \common_exception_NotFound(__('Test Center `%s` does not exist.', $testCenterUri));
         }
     }
 
