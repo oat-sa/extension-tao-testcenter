@@ -19,7 +19,6 @@
  */
 namespace oat\taoTestCenter\controller;
 
-use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
@@ -34,6 +33,8 @@ use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use common_exception_BadRequest;
+use tao_helpers_form_FormContainer as FormContainer;
+
 /**
  * Proctor manager controller
  *
@@ -210,11 +211,10 @@ class ProctorManager extends SimplePageModule
     /**
      * Returns the proctor creation form
      */
-    public function createProctorForm(){
-
-        $myFormContainer = new AddProctor();
+    public function createProctorForm()
+    {
+        $myFormContainer = new AddProctor([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
         $myForm = $myFormContainer->getForm();
-        $myForm->addCsrfTokenProtection();
         $valid = false;
         $created = false;
         $form = '';

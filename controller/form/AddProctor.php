@@ -29,9 +29,15 @@ class AddProctor extends tao_actions_form_Users
 {
     use ProctoringTextConverterTrait;
 
-    public function __construct()
+    /**
+     * AddProctor constructor.
+     * @param array $data
+     * @param array $options
+     * @throws \common_exception_Error
+     */
+    public function __construct($data = [], $options = [])
     {
-        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), null, true);
+        parent::__construct(new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER), null, true, $options);
     }
 
     protected function initForm()
@@ -43,7 +49,7 @@ class AddProctor extends tao_actions_form_Users
     protected function getCustomActions()
     {
         $returnValue = array();
-        
+
         $actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
         $value   = '';
 

@@ -19,11 +19,13 @@
  */
 
 namespace oat\taoTestCenter\controller;
+
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\upload\UploadService;
 use oat\taoTestCenter\controller\form\CsvImporter;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use tao_actions_form_Import;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Extends the common Import class to exchange the generic
@@ -45,10 +47,10 @@ class Import extends \tao_actions_Import
         $formContainer = new tao_actions_form_Import(
             $importer,
             $this->getAvailableImportHandlers(),
-            $this->getCurrentClass()
+            $this->getCurrentClass(),
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
         $myForm = $formContainer->getForm();
-        $myForm->addCsrfTokenProtection();
 
         //if the form is submited and valid
         if ($myForm->isSubmited() && $myForm->isValid()) {
