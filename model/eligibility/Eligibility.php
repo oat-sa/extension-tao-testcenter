@@ -161,7 +161,7 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
         if($this->proctored === null){
             $byPass = $this->getCurrentResource($this->id)->getOnePropertyValue(new core_kernel_classes_Property(EligibilityService::PROPERTY_BYPASSPROCTOR_URI));
             $this->proctored = $byPass instanceof \core_kernel_classes_Resource
-                ? $byPass->getUri() == EligibilityService::BOOLEAN_TRUE
+                ? $byPass->getUri()
                 : EligibilityService::BOOLEAN_FALSE;
         }
 
@@ -200,12 +200,13 @@ class Eligibility implements \JsonSerializable, ServiceLocatorAwareInterface
         return $this->getServiceLocator()->get(EligibilityService::SERVICE_ID);
     }
 
-    private function getCurrentResource($id){
+    private function getCurrentResource($id)
+    {
         if($this->current_resourse == null){
             $this->current_resourse = $this->getResource($id);
         }
         return $this->current_resourse;
-        }
+    }
 
 
 }
