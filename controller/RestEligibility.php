@@ -447,7 +447,6 @@ class RestEligibility extends AbstractRestController
         } catch (common_exception_MissingParameter $e) {
             return $proctored;
         }
-
         return filter_var($proctored, FILTER_VALIDATE_BOOLEAN);
     }
 }
