@@ -321,7 +321,8 @@ class RestEligibility extends AbstractRestController
      *                     "testTakers": {
      *                         "http://sample/first.rdf#i1536680377163172",
      *                         "http://sample/first.rdf#i1536680377163173"
-     *                     }
+     *                     },
+     *                    "proctored": true,
      *                 }
      *             )
      *         ),
@@ -346,6 +347,7 @@ class RestEligibility extends AbstractRestController
     public function get()
     {
         try {
+
             $this->returnJson($this->getEligibilityFromRequest());
         } catch (\Exception $e) {
             return $this->returnFailure($e);
@@ -446,7 +448,6 @@ class RestEligibility extends AbstractRestController
         } catch (common_exception_MissingParameter $e) {
             return $proctored;
         }
-
         return filter_var($proctored, FILTER_VALIDATE_BOOLEAN);
     }
 }
