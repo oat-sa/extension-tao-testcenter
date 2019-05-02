@@ -34,6 +34,7 @@ use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoProctoring\helpers\DataTableHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Proctoring Test Center controllers for test center screens
@@ -72,7 +73,11 @@ class TestCenterManager extends \tao_actions_SaSModule
         $clazz = $this->getCurrentClass();
         $testCenter = $this->getCurrentInstance();
 
-        $formContainer = new \tao_actions_form_Instance($clazz, $testCenter);
+        $formContainer = new \tao_actions_form_Instance(
+            $clazz,
+            $testCenter,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        );
         $myForm = $formContainer->getForm();
 
         if ($this->hasWriteAccess($testCenter->getUri())) {
