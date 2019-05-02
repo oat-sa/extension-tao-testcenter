@@ -96,7 +96,7 @@ class RestTestCenter extends AbstractRestController
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "Class `http://sample/first.rdf#i1536680377656966` does not exists",
+     *                     "errorMsg": "Class does not exist. Please use valid class-uri or class-label",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )
@@ -165,7 +165,7 @@ class RestTestCenter extends AbstractRestController
      *                 example={
      *                     "success": false,
      *                     "errorCode": 0,
-     *                     "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+     *                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
      *                     "version": "3.3.0-sprint85"
      *                 }
      *             )

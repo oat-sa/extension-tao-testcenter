@@ -54,6 +54,12 @@ define([
             //get the test center id from the DOM
             var testCenterId = $container.data('testcenter');
 
+            //default permissions value
+            var permissions = false;
+            if ($container.data('dacenabled')) {
+                permissions = $container.data('permissions');
+            }
+
             /**
              * Start the loading bar
              */
@@ -88,8 +94,9 @@ define([
             };
 
             //setup the eligibility table
+            //also - passing the permissions to eligibilityTable to check if user is allowed to make any actions on the eligibilitiesTable
             eligibilityTable =
-              eligibilityTableFactory(testCenterId)
+              eligibilityTableFactory(testCenterId, permissions)
                 .on('loading', loading)
                 .on('loaded', loaded)
                 .on('add', function handleAddAction(){

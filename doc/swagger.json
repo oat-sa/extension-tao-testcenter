@@ -39,6 +39,19 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "properties": {
+                    "success": {
+                      "description": "`false` on failure, `true` on success",
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Eligibility"
+                      }
+                    }
+                  },
+                  "type": "object",
                   "example": {
                     "success": true,
                     "data": [
@@ -51,20 +64,19 @@
                         ]
                       }
                     ]
-                  },
-                  "$ref": "#/components/schemas/Eligibility"
+                  }
                 }
               }
             }
           },
-          "400": {
+          "404": {
             "description": "Eligibility not found",
             "content": {
               "application/json": {
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 400,
+                    "errorCode": 0,
                     "errorMsg": "Eligibility not found for provided search parameters.",
                     "version": "3.3.0-sprint85"
                   }
@@ -106,7 +118,8 @@
                     "testTakers": [
                       "http://sample/first.rdf#i1536680377163172",
                       "http://sample/first.rdf#i1536680377163173"
-                    ]
+                    ],
+                    "proctored": true
                   },
                   "$ref": "#/components/schemas/Eligibility"
                 }
@@ -121,7 +134,7 @@
                   "example": {
                     "success": false,
                     "errorCode": 0,
-                    "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+                    "errorMsg": "Eligibility `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
                 }
@@ -378,7 +391,7 @@
                   "example": {
                     "success": false,
                     "errorCode": 0,
-                    "errorMsg": "Resource with `http://sample/first.rdf#i15367360596713165` uri not found",
+                    "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
                 }
@@ -407,7 +420,7 @@
                     "type": "string"
                   },
                   "class-label": {
-                    "description": "Label of class to import item. If not specified root class will be used.\r\n     * If label is not unique first match will be used.",
+                    "description": "Label of class to import item. If not specified root class will be used.\n   * If label is not unique first match will be used.",
                     "type": "string"
                   },
                   "label": {
@@ -453,7 +466,7 @@
                   "example": {
                     "success": false,
                     "errorCode": 0,
-                    "errorMsg": "Class `http://sample/first.rdf#i1536680377656966` does not exists",
+                    "errorMsg": "Class does not exist. Please use valid class-uri or class-label",
                     "version": "3.3.0-sprint85"
                   }
                 }
@@ -476,7 +489,9 @@
             "application/x-www-form-urlencoded": {
               "schema": {
                 "required": [
-                  "testCenter, user, role"
+                  "testCenter",
+                  "user",
+                  "role"
                 ],
                 "properties": {
                   "testCenter": {
@@ -523,14 +538,14 @@
             }
           },
           "400": {
-            "description": "Invalid user id or user is not allowed to be assigned to given role",
+            "description": "User is not allowed to be assigned to given role",
             "content": {
               "application/json": {
                 "schema": {
                   "example": {
                     "success": false,
                     "errorCode": 0,
-                    "errorMsg": "User does not exist",
+                    "errorMsg": "User with given role cannot be assigned to the test center.",
                     "version": "3.3.0-sprint85"
                   }
                 }
@@ -538,14 +553,14 @@
             }
           },
           "404": {
-            "description": "Test center not found",
+            "description": "Test center, user or role not found",
             "content": {
               "application/json": {
                 "schema": {
                   "example": {
                     "success": false,
                     "errorCode": 0,
-                    "errorMsg": "Test center not found",
+                    "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
                 }
@@ -614,6 +629,36 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "User can not be unassigned from the test center with given role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "User is not assigned to the test center with given role.",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Test center, user or role not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 0,
+                    "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
+                    "version": "3.3.0-sprint85"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -645,6 +690,10 @@
           "id": {
             "description": "Eligibility identifier",
             "type": "string"
+          },
+          "proctored": {
+            "description": "Eligibility proctored   value",
+            "type": "boolean"
           }
         },
         "type": "object"

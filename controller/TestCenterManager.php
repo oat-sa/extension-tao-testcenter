@@ -48,6 +48,8 @@ class TestCenterManager extends \tao_actions_SaSModule
 {
     use ProctoringTextConverterTrait;
 
+    const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
+
     /**
      * Initialize the service and the default data
      * @security("hide")
@@ -77,13 +79,19 @@ class TestCenterManager extends \tao_actions_SaSModule
             [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
         $myForm = $formContainer->getForm();
-        if ($myForm->isSubmited() && $myForm->isValid()) {
-            $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
-            $testCenter = $binder->bind($myForm->getValues());
 
-            $this->setData('selectNode', \tao_helpers_Uri::encode($testCenter->getUri()));
-            $this->setData('message', $this->convert('Test center saved'));
-            $this->setData('reload', true);
+        if ($this->hasWriteAccess($testCenter->getUri())) {
+            if ($myForm->isSubmited() && $myForm->isValid()) {
+
+                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
+                $testCenter = $binder->bind($myForm->getValues());
+
+                $this->setData("selectNode", \tao_helpers_Uri::encode($testCenter->getUri()));
+                $this->setData('message', $this->convert('Test center saved'));
+                $this->setData('reload', true);
+            }
+        } else {
+            $myForm->setActions(array());
         }
 
         $forms = $this->getServiceLocator()->get(TreeFormFactory::SERVICE_ID)->renderForms($testCenter);
@@ -95,6 +103,26 @@ class TestCenterManager extends \tao_actions_SaSModule
         $this->setData('testCenter', $testCenter->getUri());
         $this->setData('myForm', $myForm->render());
         $this->setView('TestCenterManager/editCenter.tpl');
+
+        /** @var \common_ext_ExtensionsManager $extMgr */
+        $extMgr = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
+        $config = $extMgr->getExtensionById('tao')->getConfig('client_lib_config_registry');
+        $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
+
+        if ($isDacEnabled) {
+
+            //retrieve resources permissions
+            $user = \common_Session_SessionManager::getSession()->getUser();
+            $permissions = $this->getResourceService()->getResourcesPermissions($user, $testCenter);
+
+            $permissions = $permissions['data'][$testCenter->getUri()];
+            $permissions = array_combine($permissions, $permissions);
+
+            $this->setData('permissions', json_encode($permissions));
+            $this->setData('isDacEnabled', $isDacEnabled);
+        } else {
+            $this->setData('isDacEnabled', $isDacEnabled);
+        }
     }
 
     /**
@@ -164,7 +192,8 @@ class TestCenterManager extends \tao_actions_SaSModule
 
         /** @var \common_ext_ExtensionsManager $extMgr */
         $extMgr = $this->getServiceLocator()->get(\common_ext_ExtensionsManager::SERVICE_ID);
-        $isDacEnabled = $extMgr->isInstalled('taoDacSimple') && $extMgr->isEnabled('taoDacSimple');
+        $config = $extMgr->getExtensionById('tao')->getConfig('client_lib_config_registry');
+        $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
 
         if ($isDacEnabled) {
 
@@ -277,7 +306,7 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function delete()
     {
-        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance());
+        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance('id'));
         return $this->returnJson(array(
             'deleted' => $deleted
         ));

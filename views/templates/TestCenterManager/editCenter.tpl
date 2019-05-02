@@ -25,7 +25,7 @@ Template::inc('form_context.tpl', 'tao');
         <?= $form; ?>
     <?php endforeach; ?>
 
-    <div class="eligible-deliveries clear" data-testcenter="<?=get_data('testCenter')?>">
+    <div class="eligible-deliveries clear" data-testcenter="<?=get_data('testCenter')?>" data-permissions='<?=get_data('permissions')?>' data-dacenabled="<?=get_data('isDacEnabled')?>">
         <div class="eligibility-table-container"></div>
         <div class="eligibility-editor-container no-scroll-offset"></div>
         <div class="eligibility-import-container no-scroll-offset"></div>
