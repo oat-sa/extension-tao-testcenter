@@ -22,7 +22,9 @@ namespace oat\taoTestCenter\controller;
 use common_exception_MissingParameter as MissingParameterException;
 use common_exception_NotFound as NotFoundException;
 use common_exception_RestApi as RestApiException;
+use common_exception_RestNotFound;
 use Exception;
+use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoTestCenter\model\TestCenterService;
 
 /**
@@ -126,10 +128,10 @@ class RestTestCenterUsers extends AbstractRestController
             $this->returnJson([
                 'success' => $this->getService()->assignUser($testCenter, $user, $role)
             ]);
-        } catch (NotFoundException $e) {
-            return $this->returnFailure($e);
-        } catch (Exception $e) {
+        } catch (TestCenterException $e) {
             return $this->returnFailure(new RestApiException($e->getMessage(), 400));
+        } catch (Exception $e) {
+            return $this->returnFailure($e);
         }
     }
 
@@ -227,10 +229,10 @@ class RestTestCenterUsers extends AbstractRestController
             $this->returnJson([
                 'success' => $this->getService()->unassignUser($testCenter, $user, $role)
             ]);
-        } catch (NotFoundException $e) {
-            return $this->returnFailure($e);
-        } catch (Exception $e) {
+        } catch (TestCenterException $e) {
             return $this->returnFailure(new RestApiException($e->getMessage(), 400));
+        } catch (Exception $e) {
+            return $this->returnFailure($e);
         }
     }
 
@@ -244,9 +246,9 @@ class RestTestCenterUsers extends AbstractRestController
 
     /**
      * @return \oat\oatbox\user\User
-     * @throws \common_exception_Error
-     * @throws NotFoundException
      * @throws RestApiException
+     * @throws \common_exception_Error
+     * @throws common_exception_RestNotFound
      */
     private function getUserFromRequest()
     {
@@ -257,7 +259,7 @@ class RestTestCenterUsers extends AbstractRestController
         }
         $user = $this->getUserService()->getUserById($userUri);
         if (!$user || !$this->getResource($user->getIdentifier())->exists()) {
-            throw new NotFoundException(__('User `%s` does not exist.', $userUri), 404);
+            throw new common_exception_RestNotFound(__('User `%s` does not exist.', $userUri), 404);
         }
 
         return $user;
@@ -265,8 +267,8 @@ class RestTestCenterUsers extends AbstractRestController
 
     /**
      * @return \core_kernel_classes_Resource
-     * @throws NotFoundException
      * @throws RestApiException
+     * @throws common_exception_RestNotFound
      */
     private function getRoleFromRequest()
     {
@@ -278,7 +280,7 @@ class RestTestCenterUsers extends AbstractRestController
         } catch (MissingParameterException $e) {
             throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE), 400);
         } catch (NotFoundException $e) {
-            throw new NotFoundException(__('User Role `%s` does not exist.', $roleUri), 404);
+            throw new common_exception_RestNotFound(__('User Role `%s` does not exist.', $roleUri), 404);
         }
     }
 

@@ -22,6 +22,7 @@ namespace oat\taoTestCenter\controller;
 use common_exception_MissingParameter as MissingParameterException;
 use common_exception_NotFound as NotFoundException;
 use common_exception_RestApi as RestApiException;
+use common_exception_RestNotFound;
 use oat\taoTestCenter\model\TestCenterService;
 
 /**
@@ -43,7 +44,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
      * Get test center resource from request parameters
      * @return \core_kernel_classes_Resource
      * @throws RestApiException
-     * @throws NotFoundException
+     * @throws common_exception_RestNotFound
      */
     protected function getTCFromRequest()
     {
@@ -55,7 +56,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
         } catch (MissingParameterException $e) {
             throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_TEST_CENTER_ID), 400);
         } catch (NotFoundException $e) {
-            throw new NotFoundException(__('Test Center `%s` does not exist.', $testCenterUri), 404);
+            throw new common_exception_RestNotFound(__('Test Center `%s` does not exist.', $testCenterUri), 404);
         }
     }
 

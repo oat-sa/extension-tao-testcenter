@@ -23,6 +23,7 @@ use common_exception_InconsistentData as InconsistentDataException;
 use common_exception_MissingParameter as MissingParameterException;
 use common_exception_NotFound as NotFoundException;
 use common_exception_RestApi as RestApiException;
+use common_exception_RestNotFound;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoTestCenter\model\eligibility\Eligibility;
 use oat\taoTestCenter\model\EligibilityService;
@@ -137,7 +138,7 @@ class RestEligibilities extends AbstractRestController
      *
      * @return \core_kernel_classes_Resource
      * @throws RestApiException
-     * @throws NotFoundException
+     * @throws common_exception_RestNotFound
      */
     private function getDeliveryFromRequest()
     {
@@ -149,7 +150,7 @@ class RestEligibilities extends AbstractRestController
         } catch (MissingParameterException $e) {
             throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID), 400);
         } catch (NotFoundException $e) {
-            throw new NotFoundException(__('Delivery `%s` does not exist.', $deliveryUri), 404);
+            throw new common_exception_RestNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
         }
     }
 
@@ -158,7 +159,7 @@ class RestEligibilities extends AbstractRestController
      * @param $delivery
      * @return Eligibility
      * @throws InconsistentDataException
-     * @throws NotFoundException
+     * @throws common_exception_RestNotFound
      */
     private function getEligibilityByTestCenterAndDelivery($testCenter, $delivery)
     {
@@ -167,7 +168,7 @@ class RestEligibilities extends AbstractRestController
         $eligibility = $eligibilityService->getEligibility($testCenter, $delivery);
 
         if (!$eligibility) {
-            throw new NotFoundException(__('Eligibility not found for provided search parameters.'), 404);
+            throw new common_exception_RestNotFound(__('Eligibility not found for provided search parameters.'), 404);
         }
 
         return $this->propagate(new Eligibility($eligibility->getUri()));
