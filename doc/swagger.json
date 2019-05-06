@@ -118,7 +118,8 @@
                     "testTakers": [
                       "http://sample/first.rdf#i1536680377163172",
                       "http://sample/first.rdf#i1536680377163173"
-                    ]
+                    ],
+                    "proctored": true
                   },
                   "$ref": "#/components/schemas/Eligibility"
                 }
@@ -689,6 +690,10 @@
           "id": {
             "description": "Eligibility identifier",
             "type": "string"
+          },
+          "proctored": {
+            "description": "Eligibility proctored   value",
+            "type": "boolean"
           }
         },
         "type": "object"

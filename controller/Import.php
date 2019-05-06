@@ -19,11 +19,13 @@
  */
 
 namespace oat\taoTestCenter\controller;
+
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\upload\UploadService;
 use oat\taoTestCenter\controller\form\CsvImporter;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
 use tao_actions_form_Import;
+use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Extends the common Import class to exchange the generic
@@ -45,32 +47,31 @@ class Import extends \tao_actions_Import
         $formContainer = new tao_actions_form_Import(
             $importer,
             $this->getAvailableImportHandlers(),
-            $this->getCurrentClass()
+            $this->getCurrentClass(),
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
         $myForm = $formContainer->getForm();
 
         //if the form is submited and valid
-        if($myForm->isSubmited()){
-            if($myForm->isValid()){
-                $options = $myForm->getValues();
+        if ($myForm->isSubmited() && $myForm->isValid()) {
+            $options = $myForm->getValues();
 
-                /** @var UploadService $uploadService */
-                $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
-                $file = $uploadService->getUploadedFlyFile($options['importFile']);
+            /** @var UploadService $uploadService */
+            $uploadService = $this->getServiceLocator()->get(UploadService::SERVICE_ID);
+            $file = $uploadService->getUploadedFlyFile($options['importFile']);
 
-                /** @var TestCenterCsvImporterFactory $testCenterImport */
-                $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
-                $importerService = $testCenterImport->create('default');
+            /** @var TestCenterCsvImporterFactory $testCenterImport */
+            $testCenterImport = $this->getServiceLocator()->get(TestCenterCsvImporterFactory::SERVICE_ID);
+            $importerService = $testCenterImport->create('default');
 
-                $report = $importerService->import($file,[
-                    OntologyRdf::RDF_TYPE => $options['classUri']
-                ], [
-                    'delimiter' => $options['field_delimiter'],
-                    'enclosure' => $options['field_encloser'],
-                ]);
+            $report = $importerService->import($file,[
+                OntologyRdf::RDF_TYPE => $options['classUri']
+            ], [
+                'delimiter' => $options['field_delimiter'],
+                'enclosure' => $options['field_encloser'],
+            ]);
 
-                return $this->returnReport($report);
-            }
+            return $this->returnReport($report);
         }
 
         $this->setData('myForm', $myForm->render());
