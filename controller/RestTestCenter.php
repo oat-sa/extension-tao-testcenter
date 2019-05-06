@@ -19,7 +19,7 @@
 
 namespace oat\taoTestCenter\controller;
 
-use common_exception_MissingParameter as MissingParameterException;
+use common_exception_MissingParameter;
 use oat\taoTestCenter\model\TestCenterService;
 
 /**
@@ -191,7 +191,7 @@ class RestTestCenter extends AbstractRestController
     /**
      * Get delivery resource from request parameters
      * @return \core_kernel_classes_Resource
-     * @throws MissingParameterException
+     * @throws common_exception_MissingParameter
      */
     private function getLabelFromRequest()
     {

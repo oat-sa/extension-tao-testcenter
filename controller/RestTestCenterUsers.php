@@ -19,9 +19,9 @@
 
 namespace oat\taoTestCenter\controller;
 
-use common_exception_MissingParameter as MissingParameterException;
-use common_exception_NotFound as NotFoundException;
-use common_exception_RestApi as RestApiException;
+use common_exception_MissingParameter;
+use common_exception_NotFound;
+use common_exception_RestApi;
 use common_exception_RestNotFound;
 use Exception;
 use oat\taoTestCenter\model\exception\TestCenterException;
@@ -129,7 +129,7 @@ class RestTestCenterUsers extends AbstractRestController
                 'success' => $this->getService()->assignUser($testCenter, $user, $role)
             ]);
         } catch (TestCenterException $e) {
-            return $this->returnFailure(new RestApiException($e->getMessage(), 400));
+            return $this->returnFailure(new common_exception_RestApi($e->getMessage(), 400));
         } catch (Exception $e) {
             return $this->returnFailure($e);
         }
@@ -230,7 +230,7 @@ class RestTestCenterUsers extends AbstractRestController
                 'success' => $this->getService()->unassignUser($testCenter, $user, $role)
             ]);
         } catch (TestCenterException $e) {
-            return $this->returnFailure(new RestApiException($e->getMessage(), 400));
+            return $this->returnFailure(new common_exception_RestApi($e->getMessage(), 400));
         } catch (Exception $e) {
             return $this->returnFailure($e);
         }
@@ -246,7 +246,7 @@ class RestTestCenterUsers extends AbstractRestController
 
     /**
      * @return \oat\oatbox\user\User
-     * @throws RestApiException
+     * @throws common_exception_RestApi
      * @throws \common_exception_Error
      * @throws common_exception_RestNotFound
      */
@@ -254,8 +254,8 @@ class RestTestCenterUsers extends AbstractRestController
     {
         try {
             $userUri = $this->getParameterFromRequest(self::PARAMETER_USER_URI);
-        } catch (MissingParameterException $e) {
-            throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_USER_URI), 400);
+        } catch (common_exception_MissingParameter $e) {
+            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_URI), 400);
         }
         $user = $this->getUserService()->getUserById($userUri);
         if (!$user || !$this->getResource($user->getIdentifier())->exists()) {
@@ -267,7 +267,7 @@ class RestTestCenterUsers extends AbstractRestController
 
     /**
      * @return \core_kernel_classes_Resource
-     * @throws RestApiException
+     * @throws common_exception_RestApi
      * @throws common_exception_RestNotFound
      */
     private function getRoleFromRequest()
@@ -277,9 +277,9 @@ class RestTestCenterUsers extends AbstractRestController
             $roleUri = $this->getParameterFromRequest(self::PARAMETER_USER_ROLE);
 
             return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
-        } catch (MissingParameterException $e) {
-            throw new RestApiException(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE), 400);
-        } catch (NotFoundException $e) {
+        } catch (common_exception_MissingParameter $e) {
+            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE), 400);
+        } catch (common_exception_NotFound $e) {
             throw new common_exception_RestNotFound(__('User Role `%s` does not exist.', $roleUri), 404);
         }
     }
