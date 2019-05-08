@@ -19,6 +19,10 @@
 
 namespace oat\taoTestCenter\controller;
 
+use common_exception_MissingParameter;
+use common_exception_NotFound;
+use common_exception_RestApi;
+use common_exception_RestNotFound;
 use oat\taoTestCenter\model\TestCenterService;
 
 /**
@@ -39,8 +43,8 @@ abstract class AbstractRestController extends \tao_actions_RestController
     /**
      * Get test center resource from request parameters
      * @return \core_kernel_classes_Resource
-     * @throws \common_exception_RestApi
-     * @throws \common_exception_NotFound
+     * @throws common_exception_RestApi
+     * @throws common_exception_RestNotFound
      */
     protected function getTCFromRequest()
     {
@@ -49,24 +53,24 @@ abstract class AbstractRestController extends \tao_actions_RestController
             $testCenterUri = $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_ID);
 
             return $this->getAndCheckResource($testCenterUri, TestCenterService::CLASS_URI);
-        } catch (\common_exception_MissingParameter $e) {
-            throw new \common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_TEST_CENTER_ID));
-        } catch (\common_exception_NotFound $e) {
-            throw new \common_exception_NotFound(__('Test Center `%s` does not exist.', $testCenterUri));
+        } catch (common_exception_MissingParameter $e) {
+            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_TEST_CENTER_ID), 400);
+        } catch (common_exception_NotFound $e) {
+            throw new common_exception_RestNotFound(__('Test Center `%s` does not exist.', $testCenterUri), 404);
         }
     }
 
     /**
      * @param $parameterName
      * @return array|bool|mixed|null|string
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_MissingParameter
      */
     protected function getParameterFromRequest($parameterName)
     {
         parse_str(file_get_contents("php://input"), $params);
         $params = array_merge($params, $this->getRequestParameters());
         if (!isset($params[$parameterName])) {
-            throw new \common_exception_MissingParameter(__('Missed `%s` parameter', $parameterName));
+            throw new common_exception_MissingParameter(__('Missed `%s` parameter', $parameterName));
         }
         return $params[$parameterName];
     }
@@ -75,13 +79,13 @@ abstract class AbstractRestController extends \tao_actions_RestController
      * @param $uri
      * @param null $class
      * @return \core_kernel_classes_Resource
-     * @throws \common_exception_NotFound
+     * @throws common_exception_NotFound
      */
     protected function getAndCheckResource($uri, $class = null)
     {
         $resource = $this->getResource($uri);
         if (!$resource->exists() || ($class !== null && !$resource->isInstanceOf($this->getClass($class)))) {
-            throw new \common_exception_NotFound(__('Resource with `%s` uri not found', $uri));
+            throw new common_exception_NotFound(__('Resource with `%s` uri not found', $uri), 404);
         }
         return $resource;
     }

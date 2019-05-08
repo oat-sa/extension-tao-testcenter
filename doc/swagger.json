@@ -76,7 +76,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Eligibility not found for provided search parameters.",
                     "version": "3.3.0-sprint85"
                   }
@@ -133,7 +133,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Eligibility `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
@@ -215,7 +215,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 400,
                     "errorMsg": "`testTakers` parameter must be an array",
                     "version": "3.3.0-sprint85"
                   }
@@ -230,7 +230,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Resource with `http://sample/first.rdf#i1536680377656966s` uri not found",
                     "version": "3.3.0-sprint85"
                   }
@@ -313,7 +313,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 400,
                     "errorMsg": "`testTakers` parameter must be an array",
                     "version": "3.3.0-sprint85"
                   }
@@ -328,7 +328,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Resource with `http://sample/first.rdf#i1536680377656966s` uri not found",
                     "version": "3.3.0-sprint85"
                   }
@@ -390,7 +390,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
@@ -544,7 +544,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 400,
                     "errorMsg": "User with given role cannot be assigned to the test center.",
                     "version": "3.3.0-sprint85"
                   }
@@ -559,7 +559,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
@@ -637,7 +637,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 400,
                     "errorMsg": "User is not assigned to the test center with given role.",
                     "version": "3.3.0-sprint85"
                   }
@@ -652,7 +652,7 @@
                 "schema": {
                   "example": {
                     "success": false,
-                    "errorCode": 0,
+                    "errorCode": 404,
                     "errorMsg": "Test Center `http://sample/first.rdf#i15367360596713165` does not exist.",
                     "version": "3.3.0-sprint85"
                   }
