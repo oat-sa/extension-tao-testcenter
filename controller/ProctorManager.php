@@ -19,7 +19,6 @@
  */
 namespace oat\taoTestCenter\controller;
 
-use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
@@ -34,6 +33,8 @@ use oat\taoTestCenter\model\ProctorManagementService;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
 use oat\taoTestCenter\helper\TestCenterHelper;
 use common_exception_BadRequest;
+use tao_helpers_form_FormContainer as FormContainer;
+
 /**
  * Proctor manager controller
  *
@@ -210,49 +211,44 @@ class ProctorManager extends SimplePageModule
     /**
      * Returns the proctor creation form
      */
-    public function createProctorForm(){
-
-        $myFormContainer = new AddProctor();
+    public function createProctorForm()
+    {
+        $myFormContainer = new AddProctor([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
         $myForm = $myFormContainer->getForm();
         $valid = false;
         $created = false;
         $form = '';
-        
-        if ($myForm->isSubmited()) {
+
+        if ($myForm->isSubmited() && $myForm->isValid()) {
             $valid = $myForm->isValid();
-            if ($valid) {
-                $values = $myForm->getValues();
-                $values[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
-                unset($values['password1']);
-                unset($values['password2']);
+            $values = $myForm->getValues();
+            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($values['password1']);
+            unset($values['password1'], $values['password2']);
 
-                //force the new user role to be proctorRole
-                $values[GenerisRdf::PROPERTY_USER_ROLES] = array('http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole');//@todo use a constant instead
-                $proctor = $myFormContainer->getUser();
-                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($proctor);
-                $created = $binder->bind($values);
-                if($created){
-                    //assign then authorize the new proctor to the selected test centers
-                    ProctorManagementService::singleton()->assignProctors(array($proctor->getUri()), SessionManager::getSession()->getUserUri());
-                    $testCenters = $this->getRequestTestCenters();
-                    if(!empty($testCenters)){
-                        ProctorManagementService::singleton()->authorizeProctors(array($proctor->getUri()), $testCenters);
-                    }
-
-                    // Trigger ProctorCreatedEvent
-                    $tcAdminUser = \common_session_SessionManager::getSession()->getUser();
-                    $userResource = $this->getResource($tcAdminUser->getIdentifier());
-
-                    $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-                    $eventManager->trigger(new ProctorCreatedEvent($userResource, $proctor));
+            //force the new user role to be proctorRole
+            $values[GenerisRdf::PROPERTY_USER_ROLES] = array('http://www.tao.lu/Ontologies/TAOProctor.rdf#ProctorRole');//@todo use a constant instead
+            $proctor = $myFormContainer->getUser();
+            $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($proctor);
+            $created = $binder->bind($values);
+            if($created){
+                //assign then authorize the new proctor to the selected test centers
+                ProctorManagementService::singleton()->assignProctors(array($proctor->getUri()), SessionManager::getSession()->getUserUri());
+                $testCenters = $this->getRequestTestCenters();
+                if(!empty($testCenters)){
+                    ProctorManagementService::singleton()->authorizeProctors(array($proctor->getUri()), $testCenters);
                 }
-            }else{
-                $form = $myForm->render();
+
+                // Trigger ProctorCreatedEvent
+                $tcAdminUser = \common_session_SessionManager::getSession()->getUser();
+                $userResource = $this->getResource($tcAdminUser->getIdentifier());
+
+                $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+                $eventManager->trigger(new ProctorCreatedEvent($userResource, $proctor));
             }
-        }else{
+        } else{
             $form = $myForm->render();
         }
-        
+
         $this->returnJson(array(
             'form' => $form,
             'valid' => $valid,
