@@ -126,6 +126,21 @@
               }
             }
           },
+          "400": {
+            "description": "Missing parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "errorCode": 400,
+                    "errorMsg": "Missed required parameter: `eligibility`",
+                    "version": "3.3.0-sprint102"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Invalid eligibility Uri",
             "content": {
