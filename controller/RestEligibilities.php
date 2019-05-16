@@ -23,7 +23,7 @@ use common_exception_InconsistentData;
 use common_exception_MissingParameter;
 use common_exception_NotFound;
 use common_exception_RestApi;
-use common_exception_RestNotFound;
+use common_exception_ResourceNotFound;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
 use oat\taoTestCenter\model\eligibility\Eligibility;
 use oat\taoTestCenter\model\EligibilityService;
@@ -138,7 +138,7 @@ class RestEligibilities extends AbstractRestController
      *
      * @return \core_kernel_classes_Resource
      * @throws common_exception_RestApi
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getDeliveryFromRequest()
     {
@@ -150,7 +150,7 @@ class RestEligibilities extends AbstractRestController
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID), 400);
         } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
+            throw new common_exception_ResourceNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
         }
     }
 
@@ -159,7 +159,7 @@ class RestEligibilities extends AbstractRestController
      * @param $delivery
      * @return Eligibility
      * @throws common_exception_InconsistentData
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getEligibilityByTestCenterAndDelivery($testCenter, $delivery)
     {
@@ -168,7 +168,7 @@ class RestEligibilities extends AbstractRestController
         $eligibility = $eligibilityService->getEligibility($testCenter, $delivery);
 
         if (!$eligibility) {
-            throw new common_exception_RestNotFound(__('Eligibility not found for provided search parameters.'), 404);
+            throw new common_exception_ResourceNotFound(__('Eligibility not found for provided search parameters.'), 404);
         }
 
         return $this->propagate(new Eligibility($eligibility->getUri()));
