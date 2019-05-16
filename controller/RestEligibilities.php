@@ -21,7 +21,6 @@ namespace oat\taoTestCenter\controller;
 
 use common_exception_InconsistentData;
 use common_exception_MissingParameter;
-use common_exception_NotFound;
 use common_exception_RestApi;
 use common_exception_ResourceNotFound;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
@@ -149,7 +148,7 @@ class RestEligibilities extends AbstractRestController
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID), 400);
-        } catch (common_exception_NotFound $e) {
+        } catch (common_exception_ResourceNotFound $e) {
             throw new common_exception_ResourceNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
         }
     }

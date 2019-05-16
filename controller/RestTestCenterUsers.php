@@ -20,7 +20,6 @@
 namespace oat\taoTestCenter\controller;
 
 use common_exception_MissingParameter;
-use common_exception_NotFound;
 use common_exception_RestApi;
 use common_exception_ResourceNotFound;
 use Exception;
@@ -279,7 +278,7 @@ class RestTestCenterUsers extends AbstractRestController
             return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE), 400);
-        } catch (common_exception_NotFound $e) {
+        } catch (common_exception_ResourceNotFound $e) {
             throw new common_exception_ResourceNotFound(__('User Role `%s` does not exist.', $roleUri), 404);
         }
     }
