@@ -20,9 +20,8 @@
 namespace oat\taoTestCenter\controller;
 
 use common_exception_MissingParameter;
-use common_exception_NotFound;
 use common_exception_RestApi;
-use common_exception_RestNotFound;
+use common_exception_ResourceNotFound;
 use Exception;
 use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\taoTestCenter\model\eligibility\Eligibility;
@@ -330,6 +329,21 @@ class RestEligibility extends AbstractRestController
      *         ),
      *     ),
      *     @OA\Response(
+     *         response=400,
+     *         description="Missing parameter",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 example={
+     *                     "success": false,
+     *                     "errorCode": 400,
+     *                     "errorMsg": "Missed required parameter: `eligibility`",
+     *                     "version": "3.3.0-sprint102"
+     *                 }
+     *             )
+     *         ),
+     *     ),
+     *     @OA\Response(
      *         response=404,
      *         description="Invalid eligibility Uri",
      *         @OA\MediaType(
@@ -359,19 +373,21 @@ class RestEligibility extends AbstractRestController
     /**
      * Get eligibility instance from request
      * @return Eligibility
-     * @throws common_exception_MissingParameter
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
+     * @throws common_exception_RestApi
      */
     private function getEligibilityFromRequest()
     {
-        $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
-
+        $eligibilityUri = '';
         try {
+            $eligibilityUri = $this->getParameterFromRequest(self::PARAMETER_ELIGIBILITY_ID);
             $resource = $this->getAndCheckResource($eligibilityUri, EligibilityService::CLASS_URI);
 
             return $this->propagate(new Eligibility($resource->getUri()));
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestNotFound(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
+        } catch (common_exception_MissingParameter $e) {
+            throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_ELIGIBILITY_ID), 400);
+        } catch (common_exception_ResourceNotFound $e) {
+            throw new common_exception_ResourceNotFound(__('Eligibility `%s` does not exist.', $eligibilityUri), 404);
         }
     }
 
@@ -379,7 +395,7 @@ class RestEligibility extends AbstractRestController
      * Get delivery resource from request parameters
      * @return \core_kernel_classes_Resource
      * @throws common_exception_RestApi
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getDeliveryFromRequest()
     {
@@ -390,15 +406,15 @@ class RestEligibility extends AbstractRestController
             return $this->getAndCheckResource($deliveryUri, DeliveryAssemblyService::CLASS_URI);
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_DELIVERY_ID), 400);
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
+        } catch (common_exception_ResourceNotFound $e) {
+            throw new common_exception_ResourceNotFound(__('Delivery `%s` does not exist.', $deliveryUri), 404);
         }
     }
 
     /**
      * @return \core_kernel_classes_Resource[]
      * @throws common_exception_RestApi
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getTakersFromRequest()
     {
@@ -421,7 +437,7 @@ class RestEligibility extends AbstractRestController
     /**
      * @param array $ids
      * @return \core_kernel_classes_Resource[]
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getTestTakerResources(array $ids)
     {
@@ -430,8 +446,8 @@ class RestEligibility extends AbstractRestController
             foreach ($ids as $testTakerUri) {
                 $result[] = $this->getAndCheckResource($testTakerUri, TaoOntology::CLASS_URI_SUBJECT);
             }
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestNotFound(__('Test taker `%s` does not exist.', $testTakerUri), 404);
+        } catch (common_exception_ResourceNotFound $e) {
+            throw new common_exception_ResourceNotFound(__('Test taker `%s` does not exist.', $testTakerUri), 404);
         }
 
         return $result;
