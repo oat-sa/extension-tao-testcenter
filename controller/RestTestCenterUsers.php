@@ -20,9 +20,8 @@
 namespace oat\taoTestCenter\controller;
 
 use common_exception_MissingParameter;
-use common_exception_NotFound;
 use common_exception_RestApi;
-use common_exception_RestNotFound;
+use common_exception_ResourceNotFound;
 use Exception;
 use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoTestCenter\model\TestCenterService;
@@ -248,7 +247,7 @@ class RestTestCenterUsers extends AbstractRestController
      * @return \oat\oatbox\user\User
      * @throws common_exception_RestApi
      * @throws \common_exception_Error
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getUserFromRequest()
     {
@@ -259,7 +258,7 @@ class RestTestCenterUsers extends AbstractRestController
         }
         $user = $this->getUserService()->getUserById($userUri);
         if (!$user || !$this->getResource($user->getIdentifier())->exists()) {
-            throw new common_exception_RestNotFound(__('User `%s` does not exist.', $userUri), 404);
+            throw new common_exception_ResourceNotFound(__('User `%s` does not exist.', $userUri), 404);
         }
 
         return $user;
@@ -268,7 +267,7 @@ class RestTestCenterUsers extends AbstractRestController
     /**
      * @return \core_kernel_classes_Resource
      * @throws common_exception_RestApi
-     * @throws common_exception_RestNotFound
+     * @throws common_exception_ResourceNotFound
      */
     private function getRoleFromRequest()
     {
@@ -279,8 +278,8 @@ class RestTestCenterUsers extends AbstractRestController
             return $this->getAndCheckResource($roleUri, 'http://www.tao.lu/Ontologies/generis.rdf#UserRole');
         } catch (common_exception_MissingParameter $e) {
             throw new common_exception_RestApi(__('Missed required parameter: `%s`', self::PARAMETER_USER_ROLE), 400);
-        } catch (common_exception_NotFound $e) {
-            throw new common_exception_RestNotFound(__('User Role `%s` does not exist.', $roleUri), 404);
+        } catch (common_exception_ResourceNotFound $e) {
+            throw new common_exception_ResourceNotFound(__('User Role `%s` does not exist.', $roleUri), 404);
         }
     }
 
