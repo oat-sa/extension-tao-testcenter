@@ -24,6 +24,7 @@ use \core_kernel_classes_Resource as Resource;
 use core_kernel_classes_Class;
 use \core_kernel_classes_Property as Property;
 use oat\generis\model\resource\exception\DuplicateResourceException;
+use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\UserRemovedEvent;
@@ -31,6 +32,7 @@ use oat\taoDelivery\model\execution\DeliveryExecutionContext;
 use oat\taoDelivery\model\execution\DeliveryExecutionContextInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDeliveryRdf\model\event\DeliveryRemovedEvent;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringData;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
@@ -224,11 +226,11 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * Removes an eligibility
+     * Removes an eligibility by testCenter and delivery
      * 
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @throws IneligibileException
+     * @throws IneligibileException|\common_exception_InconsistentData
      * @return boolean
      */
     public function removeEligibility(Resource $testCenter, Resource $delivery) {
@@ -236,6 +238,18 @@ class EligibilityService extends ConfigurableService
         if (is_null($eligibility)) {
             throw new IneligibileException('Delivery '.$delivery->getUri().' ineligible to test center '.$testCenter->getUri());
         }
+        return $this->deleteEligibilityResource($eligibility);
+    }
+
+    /**
+     * Removes an eligibility resource
+     *
+     * @param Resource $eligibility
+     * @throws \common_exception_InconsistentData
+     * @return boolean
+     */
+    private function deleteEligibilityResource(Resource $eligibility)
+    {
         $deletion = $eligibility->delete(true);
         if($deletion){
             $this->getAssignmentService()->unassignAll($eligibility);
@@ -528,6 +542,34 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
+     * @param Event $event
+     * @throws \common_exception_InconsistentData
+     */
+    public function deleteDelivery(Event $event)
+    {
+        if(!$event instanceof DeliveryRemovedEvent) {
+            return;
+        }
+
+        $eventData = $event->jsonSerialize();
+
+        if (!array_key_exists('delivery', $eventData)) {
+            return;
+        }
+
+        $eligibilities = $this->getRootClass()->searchInstances(
+            [
+                EligibilityService::PROPERTY_DELIVERY_URI => $eventData['delivery']
+            ],
+            ['like' => false]
+        );
+
+        foreach ($eligibilities as $eligibility) {
+            $this->deleteEligibilityResource($eligibility);
+        }
+    }
+
+    /**
      * @param string $deliveryExecution
      * @param \core_kernel_classes_Resource $testCenter
      * @return DeliveryExecutionContext|null
@@ -547,5 +589,21 @@ class EligibilityService extends ConfigurableService
         }
 
         return $executionContext;
+    }
+
+    /**
+     * @throws \common_exception_InconsistentData|\core_kernel_persistence_Exception
+     */
+    public function deleteEligibilitiesWithoutDelivery()
+    {
+        $deliveryProperty = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
+        $eligibilities = $this->getRootClass()->searchInstances([], ['like' => false]);
+
+        foreach ($eligibilities as $eligibility) {
+            $delivery = $eligibility->getOnePropertyValue($deliveryProperty);
+            if (!$delivery->exists()) {
+                $this->deleteEligibilityResource($eligibility);
+            }
+        }
     }
 }
