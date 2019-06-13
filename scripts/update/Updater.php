@@ -35,6 +35,7 @@ use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoDeliveryRdf\model\DeliveryAssemblyService;
+use oat\taoDeliveryRdf\model\event\DeliveryRemovedEvent;
 use oat\taoProctoring\controller\MonitorProctorAdministrator;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
@@ -403,5 +404,13 @@ class Updater extends common_ext_ExtensionUpdater
         }
 
         $this->skip('4.7.0', '8.0.2');
+
+        if ($this->isVersion('8.0.2')) {
+            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+            $eventManager->attach(DeliveryRemovedEvent::class, [EligibilityService::SERVICE_ID, 'deleteDelivery']);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->getServiceManager()->get(EligibilityService::SERVICE_ID)->deleteEligibilitiesWithoutDelivery();
+            $this->setVersion('8.0.3');
+        }
     }
 }
