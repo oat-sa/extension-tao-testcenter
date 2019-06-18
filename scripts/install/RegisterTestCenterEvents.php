@@ -47,7 +47,5 @@ class RegisterTestCenterEvents extends InstallAction
         $this->registerEvent(UserRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
         $this->registerEvent(TestTakerRemovedEvent::EVENT_NAME, [EligibilityService::SERVICE_ID, 'deletedTestTaker']);
         $this->registerEvent(DeliveryRemovedEvent::class, [DeliveryListener::SERVICE_ID, 'deleteDelivery']);
-
-        $this->getServiceManager()->register(DeliveryListener::SERVICE_ID, new DeliveryListener([]));
     }
 }
