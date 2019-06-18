@@ -58,6 +58,7 @@ use oat\taoTestCenter\model\import\RdsEligibilityImportService;
 use oat\taoTestCenter\model\import\RdsTestCenterImportService;
 use oat\taoTestCenter\model\import\TestCenterAdminCsvImporter;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
+use oat\taoTestCenter\model\listener\DeliveryListener;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
@@ -407,9 +408,13 @@ class Updater extends common_ext_ExtensionUpdater
 
         if ($this->isVersion('8.0.2')) {
             $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(DeliveryRemovedEvent::class, [EligibilityService::SERVICE_ID, 'deleteDelivery']);
+            $eventManager->attach(DeliveryRemovedEvent::class, [DeliveryListener::SERVICE_ID, 'deleteDelivery']);
             $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
-            $this->getServiceManager()->get(EligibilityService::SERVICE_ID)->deleteEligibilitiesWithoutDelivery();
+            $this->getServiceManager()->register(DeliveryListener::SERVICE_ID, new DeliveryListener([]));
+            $this->addReport(new Report(
+                Report::TYPE_WARNING,
+                __('Please run %s script to clean up orphan eligibilities', CleanupEligibility::class)
+            ));
             $this->setVersion('8.0.3');
         }
     }

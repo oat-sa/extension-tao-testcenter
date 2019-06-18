@@ -542,24 +542,14 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * @param Event $event
+     * @param string $deliveryUri
      * @throws \common_exception_InconsistentData
      */
-    public function deleteDelivery(Event $event)
+    public function deleteEligibilitiesByDelivery($deliveryUri)
     {
-        if(!$event instanceof DeliveryRemovedEvent) {
-            return;
-        }
-
-        $eventData = $event->jsonSerialize();
-
-        if (!array_key_exists('delivery', $eventData)) {
-            return;
-        }
-
         $eligibilities = $this->getRootClass()->searchInstances(
             [
-                EligibilityService::PROPERTY_DELIVERY_URI => $eventData['delivery']
+                EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri
             ],
             ['like' => false]
         );
@@ -589,21 +579,5 @@ class EligibilityService extends ConfigurableService
         }
 
         return $executionContext;
-    }
-
-    /**
-     * @throws \common_exception_InconsistentData|\core_kernel_persistence_Exception
-     */
-    public function deleteEligibilitiesWithoutDelivery()
-    {
-        $deliveryProperty = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
-        $eligibilities = $this->getRootClass()->searchInstances([], ['like' => false]);
-
-        foreach ($eligibilities as $eligibility) {
-            $delivery = $eligibility->getOnePropertyValue($deliveryProperty);
-            if (!$delivery->exists()) {
-                $this->deleteEligibilityResource($eligibility);
-            }
-        }
     }
 }
