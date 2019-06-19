@@ -17,7 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\taoTestCenter\test\unit;
+namespace oat\taoTestCenter\test\unit\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
@@ -116,7 +116,7 @@ class EligibilityServiceTest extends TestCase
 
     public function testDeleteEligibilitiesByDelivery()
     {
-        $eligibility1 = $this->getMock(\core_kernel_classes_Resource::class)
+        $eligibility1 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
             ->disableOriginalConstructor()
             ->getMock();
 

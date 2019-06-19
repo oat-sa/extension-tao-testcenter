@@ -17,7 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
  *
  */
-namespace oat\taoTestCenter\test\model\listener;
+namespace oat\taoTestCenter\test\unit\model\listener;
 
 use oat\generis\test\TestCase;
 use oat\taoDeliveryRdf\model\event\DeliveryRemovedEvent;
@@ -27,74 +27,65 @@ use oat\taoTestCenter\model\listener\DeliveryListener;
 
 class DeliveryListenerTest extends TestCase
 {
-    public function testDeleteDelivery()
+    /**
+     * @var DeliveryListener
+     */
+    private $deliveryListener;
+
+    /**
+     * @var EligibilityService|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $eligibilityServiceMock;
+
+    protected function setUp()
     {
-        $eligibilityServiceMock = $this->getMockBuilder(EligibilityService::class)
-            ->setMethods(['deleteEligibilitiesByDelivery'])
-            ->getMock();
+        parent::setUp();
 
-        $serviceLocatorMock = $this->getServiceLocatorMock([EligibilityService::SERVICE_ID => $eligibilityServiceMock]);
+        $this->eligibilityServiceMock = $this->getMock(EligibilityService::class);
+        $slMock = $this->getServiceLocatorMock([
+            EligibilityService::SERVICE_ID => $this->eligibilityServiceMock
+        ]);
 
-        $serviceMock = $this->getMockBuilder(DeliveryListener::class)
-            ->setMethods(['getServiceLocator'])
-            ->getMock();
-
-        $eventMock = $this->getMockBuilder(DeliveryRemovedEvent::class)
-            ->setMethods(['jsonSerialize'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $eventMock->expects($this->once())
-            ->method('jsonSerialize')
-            ->willReturn(['delivery' => 'deliveryUrl']);
-
-        $serviceMock->method('getServiceLocator')->willReturn($serviceLocatorMock);
-
-        $eligibilityServiceMock->expects($this->once())
-            ->method('deleteEligibilitiesByDelivery')
-            ->with('deliveryUrl');
-
-        $serviceMock->deleteDelivery($eventMock);
+        $this->deliveryListener = new DeliveryListener();
+        $this->deliveryListener->setServiceLocator($slMock);
     }
 
-    public function testDeleteDeliveryWithWrongEvent()
+    public function testDeleteDelivery()
     {
-        $eligibilityServiceMock = $this->getMockBuilder(EligibilityService::class)
-            ->setMethods(['deleteEligibilitiesByDelivery'])
-            ->getMock();
+        $deliveryUri = 'DUMMY_URI';
+        $event = new DeliveryRemovedEvent($deliveryUri);
 
-        $serviceLocatorMock = $this->getServiceLocatorMock([EligibilityService::SERVICE_ID => $eligibilityServiceMock]);
+        $this->eligibilityServiceMock->expects($this->once())
+            ->method('deleteEligibilitiesByDelivery')
+            ->with($deliveryUri);
 
-        $serviceMock = $this->getMockBuilder(DeliveryListener::class)
-            ->setMethods(['getServiceLocator'])
-            ->getMock();
+        $this->deliveryListener->deleteDelivery($event);
+    }
 
-        $eventMock = $this->getMockBuilder(DeliveryRemovedEvent::class)
-            ->setMethods(['jsonSerialize'])
-            ->disableOriginalConstructor()
-            ->getMock();
+    /**
+     * @dataProvider dataProviderTestDeleteDeliveryWithoutValidDeliveryId
+     */
+    public function testDeleteDeliveryWithoutValidDeliveryId($deliveryUri)
+    {
+        $event = new DeliveryRemovedEvent($deliveryUri);
 
-        $eventMock->expects($this->once())
-            ->method('jsonSerialize')
-            ->willReturn(['invalidData' => 'deliveryUrl']);
+        $this->eligibilityServiceMock->expects($this->never())->method('deleteEligibilitiesByDelivery');
 
-        $serviceMock->method('getServiceLocator')->willReturn($serviceLocatorMock);
+        $this->deliveryListener->deleteDelivery($event);
+    }
 
-        $eligibilityServiceMock->expects($this->never())->method('deleteEligibilitiesByDelivery');
-
-        $serviceMock->deleteDelivery($eventMock);
-
-        $eventMock2 = $this->getMockBuilder(DeliveryUpdatedEvent::class)
-            ->setMethods(['jsonSerialize'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $eventMock2->expects($this->never())->method('jsonSerialize');
-
-        $serviceMock->method('getServiceLocator')->willReturn($serviceLocatorMock);
-
-        $eligibilityServiceMock->expects($this->never())->method('deleteEligibilitiesByDelivery');
-
-        $serviceMock->deleteDelivery($eventMock2);
+    /**
+     * @return array
+     */
+    public function dataProviderTestDeleteDeliveryWithoutValidDeliveryId()
+    {
+        return [
+            'Empty delivery uri' => [
+                'deliveryUri' => ''
+            ],
+            'Delivery uri is not a string' => [
+                'deliveryUri' => 234
+            ]
+        ];
     }
 }
