@@ -18,7 +18,6 @@
  */
 namespace oat\taoTestCenter\model\listener;
 
-use oat\oatbox\event\Event;
 use oat\oatbox\service\ConfigurableService;
 use oat\taoDeliveryRdf\model\event\DeliveryRemovedEvent;
 use oat\taoTestCenter\model\EligibilityService;
@@ -32,17 +31,13 @@ class DeliveryListener extends ConfigurableService
     const SERVICE_ID = 'taoTestCenter/DeliveryListener';
 
     /**
-     * @param Event $event
+     * @param DeliveryRemovedEvent $event
      */
-    public function deleteDelivery(Event $event)
+    public function deleteDelivery(DeliveryRemovedEvent $event)
     {
-        if (!$event instanceof DeliveryRemovedEvent) {
-            return;
-        }
-
         $eventData = $event->jsonSerialize();
 
-        if (!array_key_exists('delivery', $eventData)) {
+        if (empty($eventData['delivery']) || !is_string($eventData['delivery'])) {
             return;
         }
 
