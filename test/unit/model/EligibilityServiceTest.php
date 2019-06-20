@@ -117,19 +117,20 @@ class EligibilityServiceTest extends TestCase
     public function testDeleteEligibilitiesByDelivery()
     {
         $eligibility1 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(['uri1'])
             ->getMock();
 
         $eligibility2 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(['uri2'])
             ->getMock();
 
         $eligibility3 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs(['uri3'])
             ->getMock();
 
         $this->deliveryEligibilityClassMock->expects($this->once())
             ->method('searchInstances')
+            ->with(['http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileDelivery' => 'uri'], ['like' => false])
             ->willReturn([$eligibility1, $eligibility2, $eligibility3]);
 
         $eligibility1->expects($this->once())->method('delete')->willReturn(true);
