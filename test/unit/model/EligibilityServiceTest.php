@@ -17,7 +17,7 @@
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-namespace oat\taoTestCenter\test\unit;
+namespace oat\taoTestCenter\test\unit\model;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
@@ -25,6 +25,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\generis\test\TestCase;
 use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\TestCenterAssignment;
 
 class EligibilityServiceTest extends TestCase
 {
@@ -53,6 +54,11 @@ class EligibilityServiceTest extends TestCase
      */
     private $testCenter;
 
+    /**
+     * @var TestCenterAssignment|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $testCenterAssignmentMock;
+
     protected function setUp()
     {
         parent::setUp();
@@ -60,11 +66,19 @@ class EligibilityServiceTest extends TestCase
         $this->delivery = $this->createMock(core_kernel_classes_Resource::class);
         $this->testCenter = $this->createMock(core_kernel_classes_Resource::class);
 
+        // Setup ontology model mock
         $this->deliveryEligibilityClassMock = $this->createMock(core_kernel_classes_Class::class);
         $this->modelMock = $this->createMock(Ontology::class);
         $this->modelMock->method('getClass')
             ->willReturn($this->deliveryEligibilityClassMock);
         $this->eligibilityService->setModel($this->modelMock);
+
+        // Setup service locator mock
+        $this->testCenterAssignmentMock = $this->createMock(TestCenterAssignment::class);
+        $slMock = $this->getServiceLocatorMock([
+            TestCenterAssignment::SERVICE_ID => $this->testCenterAssignmentMock
+        ]);
+        $this->eligibilityService->setServiceLocator($slMock);
     }
 
     public function testNewEligibilityAlreadyExists()
@@ -98,6 +112,36 @@ class EligibilityServiceTest extends TestCase
         $result = $this->eligibilityService->newEligibility($this->testCenter, $this->delivery);
 
         $this->assertSame($expectedEligibility, $result, 'Created eligibility must be as expected.');
+    }
+
+    public function testDeleteEligibilitiesByDelivery()
+    {
+        $eligibility1 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uri1'])
+            ->getMock();
+
+        $eligibility2 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uri2'])
+            ->getMock();
+
+        $eligibility3 = $this->getMockBuilder(\core_kernel_classes_Resource::class)
+            ->setConstructorArgs(['uri3'])
+            ->getMock();
+
+        $this->deliveryEligibilityClassMock->expects($this->once())
+            ->method('searchInstances')
+            ->with(['http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileDelivery' => 'uri'], ['like' => false])
+            ->willReturn([$eligibility1, $eligibility2, $eligibility3]);
+
+        $eligibility1->expects($this->once())->method('delete')->willReturn(true);
+        $eligibility2->expects($this->once())->method('delete')->willReturn(false);
+        $eligibility3->expects($this->once())->method('delete')->willReturn(true);
+
+        $this->testCenterAssignmentMock->expects($this->exactly(2))
+            ->method('unassignAll')
+            ->withConsecutive([$eligibility1], [$eligibility3]);
+
+        $this->eligibilityService->deleteEligibilitiesByDelivery('uri');
     }
 }
 

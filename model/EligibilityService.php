@@ -224,11 +224,11 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * Removes an eligibility
+     * Removes an eligibility by testCenter and delivery
      * 
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @throws IneligibileException
+     * @throws IneligibileException|\common_exception_InconsistentData
      * @return boolean
      */
     public function removeEligibility(Resource $testCenter, Resource $delivery) {
@@ -236,6 +236,18 @@ class EligibilityService extends ConfigurableService
         if (is_null($eligibility)) {
             throw new IneligibileException('Delivery '.$delivery->getUri().' ineligible to test center '.$testCenter->getUri());
         }
+        return $this->deleteEligibilityResource($eligibility);
+    }
+
+    /**
+     * Removes an eligibility resource
+     *
+     * @param Resource $eligibility
+     * @throws \common_exception_InconsistentData
+     * @return boolean
+     */
+    private function deleteEligibilityResource(Resource $eligibility)
+    {
         $deletion = $eligibility->delete(true);
         if($deletion){
             $this->getAssignmentService()->unassignAll($eligibility);
@@ -524,6 +536,24 @@ class EligibilityService extends ConfigurableService
 
             $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
             $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $newTestTakerIds));
+        }
+    }
+
+    /**
+     * @param string $deliveryUri
+     * @throws \common_exception_InconsistentData
+     */
+    public function deleteEligibilitiesByDelivery($deliveryUri)
+    {
+        $eligibilities = $this->getRootClass()->searchInstances(
+            [
+                EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri
+            ],
+            ['like' => false]
+        );
+
+        foreach ($eligibilities as $eligibility) {
+            $this->deleteEligibilityResource($eligibility);
         }
     }
 
