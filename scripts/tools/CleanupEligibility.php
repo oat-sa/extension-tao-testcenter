@@ -52,11 +52,13 @@ class CleanupEligibility extends ScriptAction
         $eligibilityService = $this->getServiceManager()->get(EligibilityService::class);
         $eligibilities = $eligibilityService->getRootClass()->getInstances(true);
         $testCenterProp = $this->getProperty(EligibilityService::PROPERTY_TESTCENTER_URI);
+        $deliveryProperty = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
         $i = 0;
 
         foreach ($eligibilities as $eligibility) {
             $tc = $eligibility->getOnePropertyValue($testCenterProp);
-            if (!$tc->exists()) {
+            $delivery = $eligibility->getOnePropertyValue($deliveryProperty);
+            if (!$tc->exists() || !$delivery->exists()) {
                 $i++;
                 $eligibility->delete(true);
             }
