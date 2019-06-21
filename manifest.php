@@ -42,7 +42,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '8.0.2',
+    'version' => '8.0.4',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'taoProctoring'  => '>=12.7.0',
