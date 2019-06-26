@@ -144,6 +144,9 @@ class RestEligibility extends AbstractRestController
             $delivery = $this->getDeliveryFromRequest();
             $testCenter = $this->getTCFromRequest();
             $testTakers = $this->getTakersFromRequest();
+            if (is_null($testTakers)) {
+                $testTakers = [];
+            }
             $proctored = $this->getProctoredFromRequest();
 
             /** @var EligibilityService $eligibilityService */
@@ -268,15 +271,20 @@ class RestEligibility extends AbstractRestController
         try {
             $eligibility = $this->getEligibilityFromRequest();
             $testTakers = $this->getTakersFromRequest();
-            $proctored = $this->getProctoredFromRequest();
 
             /** @var EligibilityService $eligibilityService */
             $eligibilityService = $this->getServiceLocator()->get(EligibilityService::class);
-            $eligibilityService->setEligibleTestTakers(
-                $eligibility->getTestCenter(),
-                $eligibility->getDelivery(),
-                $testTakers
-            );
+
+            if (!is_null($testTakers)) {
+                $eligibilityService->setEligibleTestTakers(
+                    $eligibility->getTestCenter(),
+                    $eligibility->getDelivery(),
+                    $testTakers
+                );
+            }
+
+            $proctored = $this->getProctoredFromRequest();
+
             if ($proctored !== null) {
                 $eligibilityResource = $eligibilityService->getEligibility($eligibility->getTestCenter(), $eligibility->getDelivery());
                 if ($eligibilityResource instanceof \core_kernel_classes_Resource) {
@@ -418,20 +426,21 @@ class RestEligibility extends AbstractRestController
      */
     private function getTakersFromRequest()
     {
-        $result = [];
         try {
             $ids = $this->getParameterFromRequest(self::PARAMETER_TEST_TAKER_IDS);
         } catch (common_exception_MissingParameter $e) {
-            return $result;
+            return null;
         }
 
         if (is_array($ids)) {
-            $result = $this->getTestTakerResources($ids);
-        } else {
-            throw new common_exception_RestApi(__('`%s` parameter must be an array', self::PARAMETER_TEST_TAKER_IDS), 400);
+            $ids = array_filter($ids);
+            return $ids ? $this->getTestTakerResources($ids) : [];
         }
 
-        return $result;
+        throw new common_exception_RestApi(
+            __('`%s` parameter must be an array', self::PARAMETER_TEST_TAKER_IDS),
+            400
+        );
     }
 
     /**
