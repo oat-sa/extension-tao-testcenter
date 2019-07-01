@@ -63,6 +63,8 @@ use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoTestCenter\model\ProctorManagementService;
+use oat\taoTestCenter\model\service\OrganisationIdLabelStrategy;
+use oat\taoTestCenter\model\service\OrganisationService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -419,5 +421,11 @@ class Updater extends common_ext_ExtensionUpdater
         }
 
         $this->skip('8.0.3', '8.0.4');
+
+        if ($this->isVersion('8.0.4')) {
+            $this->getServiceManager()->register(OrganisationIdLabelStrategy::SERVICE_ID, new OrganisationIdLabelStrategy());
+            $this->getServiceManager()->register(OrganisationService::SERVICE_ID, new OrganisationService());
+            $this->setVersion('8.1.0');
+        }
     }
 }
