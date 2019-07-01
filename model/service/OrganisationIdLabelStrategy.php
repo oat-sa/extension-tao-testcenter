@@ -42,7 +42,7 @@ class OrganisationIdLabelStrategy extends ConfigurableService implements Organis
         $unique = $organisationId;
 
         while ($organisationService->getTestCentersByOrganisationId($unique)) {
-            if ($count > self::MAX_ATTEMPT) {
+            if ($count >= self::MAX_ATTEMPT) {
                 return  $this->concatParts($organisationId, helpers_Random::generateString(8));
             }
             $unique = $this->concatParts($organisationId, ++$count);
