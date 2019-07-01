@@ -20,17 +20,24 @@
  */
 namespace oat\taoTestCenter\model;
 
+use common_Exception;
+use common_exception_Error;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use League\Flysystem\FileExistsException;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\user\User;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\ClassServiceTrait;
 use oat\tao\model\GenerisServiceTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\taoSync\model\synchronizer\custom\byOrganisationId\testcenter\TestCenterByOrganisationId;
 use oat\taoTestCenter\model\exception\TestCenterException;
 use oat\taoProctoring\model\ProctorService;
+use oat\taoTestCenter\model\service\OrganisationIdLabelStrategy;
+use oat\taoTestCenter\model\service\OrganisationIdLabelStrategyInterface;
 
 /**
  * TestCenter Service for proctoring
@@ -40,7 +47,9 @@ class TestCenterService extends ConfigurableService
     use ClassServiceTrait {
         deleteResource as protected traitDeleteResource;
     }
-    use GenerisServiceTrait;
+    use GenerisServiceTrait {
+        cloneInstanceProperty as protected cloneInstancePropertyTrait;
+    }
 
     const SERVICE_ID = 'taoTestCenter/TestCenterService';
 
@@ -64,6 +73,10 @@ class TestCenterService extends ConfigurableService
      * @var string
      */
     const ROLE_TESTCENTER_ADMINISTRATOR = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole';
+
+    const ORGANISATION_ID_STRATEGY_PARAM = 'organisationIdStrategy';
+
+    const DEFAULT_ORGANISATION_ID_STRATEGY = OrganisationIdLabelStrategy::SERVICE_ID;
 
     /**
      * @deprecated
@@ -264,4 +277,53 @@ class TestCenterService extends ConfigurableService
         return $prop;
     }
 
+    /**
+     *
+     * @param core_kernel_classes_Class $clazz
+     * @param string label
+     * @return core_kernel_classes_Resource
+     * @throws common_exception_Error
+     */
+    public function createInstance(core_kernel_classes_Class $clazz, $label = '')
+    {
+        if (!$label) {
+            $label = $this->createUniqueLabel($clazz);
+        }
+        $propertiesValues = [OntologyRdfs::RDFS_LABEL => $label];
+        $propertiesValues[TestCenterByOrganisationId::ORGANISATION_ID_PROPERTY]
+            = $this->getOrganisationIdStrategy()->generateOrganisationId($label);
+        $returnValue = $clazz->createInstanceWithProperties($propertiesValues);
+
+        return $returnValue;
+    }
+
+    /**
+     *
+     * @param core_kernel_classes_Resource $source
+     * @param core_kernel_classes_Resource $destination
+     * @param core_kernel_classes_Property $property
+     * @throws FileExistsException
+     * @throws common_Exception
+     * @throws common_exception_Error
+     */
+    protected function cloneInstanceProperty(
+        core_kernel_classes_Resource $source,
+        core_kernel_classes_Resource $destination,
+        core_kernel_classes_Property $property
+    ) {
+        if ($property->getUri() !== TestCenterByOrganisationId::ORGANISATION_ID_PROPERTY) {
+            $this->cloneInstancePropertyTrait($source, $destination, $property);
+        }
+    }
+
+    /**
+     * @return OrganisationIdLabelStrategyInterface
+     */
+    private function getOrganisationIdStrategy()
+    {
+        if ($this->hasOption(self::ORGANISATION_ID_STRATEGY_PARAM)) {
+            return $this->getServiceLocator()->get($this->getOption(self::ORGANISATION_ID_STRATEGY_PARAM));
+        }
+        return $this->getServiceLocator()->get(self::DEFAULT_ORGANISATION_ID_STRATEGY);
+    }
 }
