@@ -315,23 +315,6 @@ class RestTestCenter extends AbstractRestController
     }
 
     /**
-     * @return array
-     */
-    protected function getPostData()
-    {
-        return $this->getPsrRequest()->getParsedBody();
-    }
-
-    /**
-     * @return array
-     */
-    protected function getPutData()
-    {
-        parse_str($this->getPsrRequest()->getBody(), $params);
-        return $params;
-    }
-
-    /**
      * @param array $values
      * @return array
      * @throws common_exception_RestApi|common_exception_Error

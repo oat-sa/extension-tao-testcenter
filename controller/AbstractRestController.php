@@ -88,4 +88,21 @@ abstract class AbstractRestController extends \tao_actions_RestController
         }
         return $resource;
     }
+
+    /**
+     * @return array
+     */
+    protected function getPostData()
+    {
+        return $this->getPsrRequest()->getParsedBody();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getPutData()
+    {
+        parse_str($this->getPsrRequest()->getBody(), $params);
+        return $params;
+    }
 }
