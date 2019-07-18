@@ -324,18 +324,13 @@ class RestTestCenter extends AbstractRestController
      */
     protected function prepareRequestData(array $values)
     {
-        $propertiesValues = [];
-
-        foreach ($values as $name => $value) {
-            if (array_key_exists($name, $this->parametersMap)) {
-                if (empty($value)) {
-                    throw new common_exception_RestApi(sprintf(__('%s is required'), $name), 400);
-                }
-                $propertiesValues[$this->parametersMap[$name]] = $value;
-            }
+        if (!array_key_exists(self::PARAMETER_TEST_CENTER_LABEL, $values)) {
+            throw new common_exception_RestApi ('label required');
         }
-
-        return $propertiesValues;
+        if (empty($values[self::PARAMETER_TEST_CENTER_LABEL])) {
+            throw new common_exception_RestApi ('label required');
+        }
+        return [OntologyRdfs::RDFS_LABEL => $values[self::PARAMETER_TEST_CENTER_LABEL]];
     }
 
     /**
