@@ -116,7 +116,7 @@ class RestTestCenter extends AbstractRestController
             $testCenter = $this->getTCFromRequest();
 
             $data = $this->prepareRequestData(
-                array_merge($this->getParametersFromRequest(), ['uri' => $testCenter->getUri()])
+                array_merge($this->getParametersFromRequest($this->getPutData()), ['uri' => $testCenter->getUri()])
             );
 
             foreach ($data as $propertyUri => $value) {
@@ -212,7 +212,7 @@ class RestTestCenter extends AbstractRestController
                 $this->getTestCenterService()->getRootClass()
             )->createInstanceWithProperties(
                 $this->prepareRequestData(
-                    $this->getParametersFromRequest(true)
+                    $this->getParametersFromRequest($this->getPostData(), true)
                 )
             );
 
@@ -295,14 +295,14 @@ class RestTestCenter extends AbstractRestController
     }
 
     /**
+     * @param array $data
      * @param bool $isRequired
      * @return array
      * @throws common_exception_RestApi
      */
-    protected function getParametersFromRequest($isRequired = false)
+    protected function getParametersFromRequest(array $data, $isRequired = false)
     {
         $values = [];
-        $data = $this->getRequestData();
 
         foreach (array_keys($this->parametersMap) as $name) {
             if (array_key_exists($name, $data)) {
@@ -317,11 +317,16 @@ class RestTestCenter extends AbstractRestController
     /**
      * @return array
      */
-    protected function getRequestData()
+    protected function getPostData()
     {
-        if ($this->getPsrRequest()->getMethod() === 'POST') {
-            return $this->getPsrRequest()->getParsedBody();
-        }
+        return $this->getPsrRequest()->getParsedBody();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getPutData()
+    {
         parse_str($this->getPsrRequest()->getBody(), $params);
         return $params;
     }
