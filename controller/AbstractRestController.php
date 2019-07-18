@@ -63,6 +63,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
      * @param $parameterName
      * @return array|bool|mixed|null|string
      * @throws common_exception_MissingParameter
+     * @deprecated
      */
     protected function getParameterFromRequest($parameterName)
     {
@@ -92,7 +93,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
     /**
      * @return array
      */
-    protected function getPostData()
+    protected function getRequestPostData()
     {
         return $this->getPsrRequest()->getParsedBody();
     }
@@ -100,7 +101,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
     /**
      * @return array
      */
-    protected function getPutData()
+    protected function getRequestPutData()
     {
         parse_str($this->getPsrRequest()->getBody(), $params);
         return $params;
