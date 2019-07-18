@@ -325,7 +325,7 @@ class RestTestCenter extends AbstractRestController
     protected function prepareRequestData(array $values)
     {
         if (empty($values[self::PARAMETER_TEST_CENTER_LABEL])) {
-            throw new common_exception_RestApi ('label required');
+            throw new common_exception_RestApi ('Missed required parameter: label');
         }
         return [OntologyRdfs::RDFS_LABEL => $values[self::PARAMETER_TEST_CENTER_LABEL]];
     }
