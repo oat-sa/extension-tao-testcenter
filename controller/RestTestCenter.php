@@ -116,7 +116,10 @@ class RestTestCenter extends AbstractRestController
             $testCenter = $this->getTCFromRequest();
 
             $data = $this->prepareRequestData(
-                array_merge($this->getParametersRequestData($this->getRequestPutData()), ['uri' => $testCenter->getUri()])
+                array_merge(
+                    $this->getParametersRequestData($this->getRequestPutData()),
+                    ['uri' => $testCenter->getUri()]
+                )
             );
 
             foreach ($data as $propertyUri => $value) {
