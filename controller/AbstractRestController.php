@@ -63,7 +63,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
      * @param $parameterName
      * @return array|bool|mixed|null|string
      * @throws common_exception_MissingParameter
-     * @deprecated
+     * @deprecated use getRequestPostData or getRequestPutData
      */
     protected function getParameterFromRequest($parameterName)
     {
