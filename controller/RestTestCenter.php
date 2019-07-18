@@ -324,9 +324,6 @@ class RestTestCenter extends AbstractRestController
      */
     protected function prepareRequestData(array $values)
     {
-        if (!array_key_exists(self::PARAMETER_TEST_CENTER_LABEL, $values)) {
-            throw new common_exception_RestApi ('label required');
-        }
         if (empty($values[self::PARAMETER_TEST_CENTER_LABEL])) {
             throw new common_exception_RestApi ('label required');
         }
