@@ -211,13 +211,14 @@ class RestTestCenter extends AbstractRestController
     public function post()
     {
         try {
+
+            $properties = $this->validateRequestParameters(
+                $this->getParametersFromRequestData($this->getRequestPostData(), true)
+            );
+
             $resource = $this->getClassFromRequest(
                 $this->getTestCenterService()->getRootClass()
-            )->createInstanceWithProperties(
-                $this->prepareRequestData(
-                    $this->getParametersRequestData($this->getRequestPostData(), true)
-                )
-            );
+            )->createInstanceWithProperties($properties);
 
             $this->returnJson([
                 'success' => true,
@@ -303,7 +304,7 @@ class RestTestCenter extends AbstractRestController
      * @return array
      * @throws common_exception_RestApi
      */
-    protected function getParametersRequestData(array $data, $isRequired = false)
+    protected function getParametersFromRequestData(array $data, $isRequired = false)
     {
         $values = [];
 
@@ -322,10 +323,10 @@ class RestTestCenter extends AbstractRestController
      * @return array
      * @throws common_exception_RestApi|common_exception_Error
      */
-    protected function prepareRequestData(array $values)
+    protected function validateRequestParameters(array $values)
     {
         if (empty($values[self::PARAMETER_TEST_CENTER_LABEL])) {
-            throw new common_exception_RestApi ('Missed required parameter: label');
+            throw new common_exception_RestApi('Missed required parameter: label');
         }
         return [OntologyRdfs::RDFS_LABEL => $values[self::PARAMETER_TEST_CENTER_LABEL]];
     }
