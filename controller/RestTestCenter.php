@@ -19,7 +19,11 @@
 
 namespace oat\taoTestCenter\controller;
 
-use common_exception_MissingParameter;
+use common_exception_Error;
+use common_exception_RestApi;
+use core_kernel_classes_Property;
+use Exception;
+use oat\generis\model\OntologyRdfs;
 use oat\taoTestCenter\model\TestCenterService;
 
 /**
@@ -32,6 +36,104 @@ class RestTestCenter extends AbstractRestController
 
     const PARAMETER_TEST_CENTER_CLASS = 'class';
     const PARAMETER_TEST_CENTER_LABEL = 'label';
+
+    /**
+     * @var array
+     */
+    protected $parametersMap = [
+        self::PARAMETER_TEST_CENTER_LABEL => OntologyRdfs::RDFS_LABEL
+    ];
+
+    /**
+     * @OA\Put(
+     *     path="/taoOffline/api/testCenter",
+     *     tags={"testCenter"},
+     *     summary="Update test center",
+     *     description="Update center label",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="testCenter",
+     *                     type="string",
+     *                     description="Test center uri",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="label",
+     *                     type="string",
+     *                     description="Test center label",
+     *                 ),
+     *                 required={"testCenter"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Test center URI",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="success",
+     *                     type="boolean",
+     *                     description="`false` on failure, `true` on success",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="uri",
+     *                     type="string",
+     *                     description="Updated test center URI",
+     *                 ),
+     *                 example={
+     *                     "success": true,
+     *                     "uri": "http://sample/first.rdf#i1536680377163171"
+     *                 }
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Invalid class uri",
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 example={
+     *                     "success": false,
+     *                     "errorCode": 404,
+     *                     "errorMsg": "Test Center `http://sample/first.rdf#i1536680377163171` does not exist.",
+     *                     "version": "3.3.0-sprint106"
+     *                 }
+     *             )
+     *         ),
+     *     )
+     * )
+     */
+    public function put()
+    {
+        try {
+            $testCenter = $this->getTCFromRequest();
+
+            $data = $this->validateRequestParameters(
+                array_merge(
+                    $this->getParametersFromRequestData($this->getRequestPutData()),
+                    ['uri' => $testCenter->getUri()]
+                )
+            );
+
+            foreach ($data as $propertyUri => $value) {
+                $testCenter->editPropertyValues(new core_kernel_classes_Property($propertyUri), $value);
+            }
+
+            $this->returnJson([
+                'success' => true,
+                'uri' => $testCenter->getUri()
+            ]);
+        } catch (Exception $e) {
+            $this->returnFailure($e);
+        }
+    }
 
     /**
      * @OA\Post(
@@ -108,14 +210,20 @@ class RestTestCenter extends AbstractRestController
     public function post()
     {
         try {
-            $class = $this->getClassFromRequest($this->getService()->getRootClass());
-            $resource = $class->createInstance($this->getLabelFromRequest());
+            $properties = $this->validateRequestParameters(
+                $this->getParametersFromRequestData($this->getRequestPostData(), true)
+            );
+
+            $resource = $this->getClassFromRequest(
+                $this->getTestCenterService()->getRootClass()
+            )->createInstanceWithProperties($properties);
+
             $this->returnJson([
                 'success' => true,
                 'uri' => $resource->getUri(),
             ]);
-        } catch (\Exception $e) {
-            return $this->returnFailure($e);
+        } catch (Exception $e) {
+            $this->returnFailure($e);
         }
     }
 
@@ -189,20 +297,49 @@ class RestTestCenter extends AbstractRestController
     }
 
     /**
-     * Get delivery resource from request parameters
-     * @return \core_kernel_classes_Resource
-     * @throws common_exception_MissingParameter
+     * @param array $data
+     * @param bool $isRequired
+     * @return array
+     * @throws common_exception_RestApi
      */
-    private function getLabelFromRequest()
+    protected function getParametersFromRequestData(array $data, $isRequired = false)
     {
-        return $this->getParameterFromRequest(self::PARAMETER_TEST_CENTER_LABEL);
+        $values = [];
+
+        foreach (array_keys($this->parametersMap) as $name) {
+            if (array_key_exists($name, $data)) {
+                $values[$name] = $data[$name];
+            } else if ($isRequired) {
+                throw new common_exception_RestApi(__('Missed required parameter: `%s`', $name), 400);
+            }
+        }
+        return $values;
+    }
+
+    /**
+     * @param array $values
+     * @return array
+     * @throws common_exception_RestApi|common_exception_Error
+     */
+    protected function validateRequestParameters(array $values)
+    {
+        $propertiesValues = [];
+        foreach ($values as $name => $value) {
+            if (array_key_exists($name, $this->parametersMap)) {
+                if (empty($value)) {
+                    throw new common_exception_RestApi(__('Missed required parameter: `%s`', $name), 400);
+                }
+                $propertiesValues[$this->parametersMap[$name]] = $value;
+            }
+        }
+        return $propertiesValues;
     }
 
     /**
      * @return TestCenterService
      */
-    private function getService()
+    protected function getTestCenterService()
     {
-        return TestCenterService::singleton();
+        return $this->getServiceLocator()->get(TestCenterService::SERVICE_ID);
     }
 }
