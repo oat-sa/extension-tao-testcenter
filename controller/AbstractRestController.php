@@ -63,6 +63,7 @@ abstract class AbstractRestController extends \tao_actions_RestController
      * @param $parameterName
      * @return array|bool|mixed|null|string
      * @throws common_exception_MissingParameter
+     * @deprecated use getRequestPostData or getRequestPutData
      */
     protected function getParameterFromRequest($parameterName)
     {
@@ -87,5 +88,22 @@ abstract class AbstractRestController extends \tao_actions_RestController
             throw new common_exception_ResourceNotFound(__('Resource with `%s` uri not found', $uri), 404);
         }
         return $resource;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequestPostData()
+    {
+        return $this->getPsrRequest()->getParsedBody();
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequestPutData()
+    {
+        parse_str($this->getPsrRequest()->getBody(), $params);
+        return $params;
     }
 }

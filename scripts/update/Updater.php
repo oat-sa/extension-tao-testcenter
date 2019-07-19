@@ -63,6 +63,7 @@ use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
 use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\tao\scripts\update\OntologyUpdater;
 use oat\taoTestCenter\model\ProctorManagementService;
+use oat\taoTestCenter\model\TestCenterFormService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 use oat\tao\model\ClientLibConfigRegistry;
@@ -419,5 +420,15 @@ class Updater extends common_ext_ExtensionUpdater
         }
 
         $this->skip('8.0.3', '8.0.4');
+
+        if ($this->isVersion('8.0.4')) {
+            $this->getServiceManager()->register(
+                TestCenterFormService::SERVICE_ID,
+                new TestCenterFormService()
+            );
+            $this->setVersion('8.1.0');
+        }
+
+        $this->skip('8.1.0', '8.2.0');
     }
 }

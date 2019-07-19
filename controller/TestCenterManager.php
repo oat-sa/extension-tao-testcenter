@@ -25,16 +25,15 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\tao\model\resources\ResourceWatcher;
-use oat\tao\model\routing\AnnotationReader\security;
 use oat\tao\model\Tree\GetTreeRequest;
 use oat\tao\model\Tree\GetTreeService;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
+use oat\taoTestCenter\model\TestCenterFormService;
 use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoProctoring\helpers\DataTableHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
-use tao_helpers_form_FormContainer as FormContainer;
 
 /**
  * Proctoring Test Center controllers for test center screens
@@ -73,12 +72,10 @@ class TestCenterManager extends \tao_actions_SaSModule
         $clazz = $this->getCurrentClass();
         $testCenter = $this->getCurrentInstance();
 
-        $formContainer = new \tao_actions_form_Instance(
-            $clazz,
-            $testCenter,
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
-        );
-        $myForm = $formContainer->getForm();
+        $myForm = $this->getServiceLocator()
+            ->get(TestCenterFormService::SERVICE_ID)
+            ->getTestCenterFormContainer($clazz, $testCenter)
+            ->getForm();
 
         if ($this->hasWriteAccess($testCenter->getUri())) {
             if ($myForm->isSubmited() && $myForm->isValid()) {
