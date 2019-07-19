@@ -133,7 +133,6 @@ class RestTestCenter extends AbstractRestController
         } catch (Exception $e) {
             $this->returnFailure($e);
         }
-
     }
 
     /**
