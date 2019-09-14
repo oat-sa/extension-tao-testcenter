@@ -429,6 +429,6 @@ class Updater extends common_ext_ExtensionUpdater
             $this->setVersion('8.1.0');
         }
 
-        $this->skip('8.1.0', '8.2.0');
+        $this->skip('8.1.0', '8.2.1');
     }
 }

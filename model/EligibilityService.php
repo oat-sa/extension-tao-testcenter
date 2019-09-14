@@ -298,7 +298,8 @@ class EligibilityService extends ConfigurableService
         $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $testTakerIds));
 
         if(!$this->isManuallyAssigned()){
-            $this->getAssignmentService()->unassign($previousTestTakerCollection, $eligibility);
+            //Commented this line to avoid unassigning existing TT's
+//            $this->getAssignmentService()->unassign($previousTestTakerCollection, $eligibility);
             $this->getAssignmentService()->assign($testTakerIds, $eligibility);
         }
 
