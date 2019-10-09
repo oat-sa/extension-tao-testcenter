@@ -26,6 +26,7 @@ use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\generis\test\TestCase;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\TestCenterAssignment;
+use oat\generis\test\MockObject;
 
 class EligibilityServiceTest extends TestCase
 {
@@ -35,27 +36,27 @@ class EligibilityServiceTest extends TestCase
     private $eligibilityService;
 
     /**
-     * @var Ontology|\PHPUnit_Framework_MockObject_MockObject
+     * @var Ontology|MockObject
      */
     private $modelMock;
 
     /**
-     * @var core_kernel_classes_Class|\PHPUnit_Framework_MockObject_MockObject
+     * @var core_kernel_classes_Class|MockObject
      */
     private $deliveryEligibilityClassMock;
 
     /**
-     * @var core_kernel_classes_Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var core_kernel_classes_Resource|MockObject
      */
     private $delivery;
 
     /**
-     * @var core_kernel_classes_Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var core_kernel_classes_Resource|MockObject
      */
     private $testCenter;
 
     /**
-     * @var TestCenterAssignment|\PHPUnit_Framework_MockObject_MockObject
+     * @var TestCenterAssignment|MockObject
      */
     private $testCenterAssignmentMock;
 

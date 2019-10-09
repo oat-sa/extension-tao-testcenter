@@ -24,6 +24,7 @@ use oat\taoDeliveryRdf\model\event\DeliveryRemovedEvent;
 use oat\taoDeliveryRdf\model\event\DeliveryUpdatedEvent;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoTestCenter\model\listener\DeliveryListener;
+use oat\generis\test\MockObject;
 
 class DeliveryListenerTest extends TestCase
 {
@@ -33,7 +34,7 @@ class DeliveryListenerTest extends TestCase
     private $deliveryListener;
 
     /**
-     * @var EligibilityService|\PHPUnit_Framework_MockObject_MockObject
+     * @var EligibilityService|MockObject
      */
     private $eligibilityServiceMock;
 

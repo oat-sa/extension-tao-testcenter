@@ -23,10 +23,10 @@ namespace oat\taoTestCenter\test\integration\gui\form\formFactory;
 use core_kernel_classes_Resource;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverter;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
-use PHPUnit_Framework_TestCase;
 use tao_helpers_form_GenerisTreeForm;
+use oat\generis\test\TestCase;
 
-class FormFactoryTest extends PHPUnit_Framework_TestCase
+class FormFactoryTest extends TestCase
 {
     public function testInvoke()
     {
