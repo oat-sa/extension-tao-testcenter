@@ -21,8 +21,9 @@ namespace oat\taoTestCenter\test\unit\import;
 
 use oat\tao\model\import\service\ImportServiceInterface;
 use oat\taoTestCenter\model\import\TestCenterCsvImporterFactory;
+use oat\generis\test\TestCase;
 
-class TestCenterCsvImporterFactoryTest extends \PHPUnit_Framework_TestCase
+class TestCenterCsvImporterFactoryTest extends TestCase
 {
     public function testGetImporter()
     {

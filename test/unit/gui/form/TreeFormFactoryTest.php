@@ -23,8 +23,9 @@ use core_kernel_classes_Resource;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactoryInterface;
 use oat\taoTestCenter\model\gui\form\TreeFormFactory;
 use tao_helpers_form_GenerisTreeForm;
+use oat\generis\test\TestCase;
 
-class TreeFormFactoryTest extends \PHPUnit_Framework_TestCase
+class TreeFormFactoryTest extends TestCase
 {
 
     public function testGetForms()
