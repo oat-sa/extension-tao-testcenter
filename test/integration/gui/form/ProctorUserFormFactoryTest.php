@@ -25,8 +25,9 @@ use oat\taoProctoring\model\textConverter\ProctoringTextConverter;
 use oat\taoTestCenter\model\gui\form\formFactory\FormFactory;
 use oat\taoTestCenter\model\gui\ProctorUserFormFactory;
 use tao_helpers_form_GenerisTreeForm;
+use oat\generis\test\TestCase;
 
-class ProctorUserFormFactoryTest extends \PHPUnit_Framework_TestCase
+class ProctorUserFormFactoryTest extends TestCase
 {
     public function testInvoke()
     {
