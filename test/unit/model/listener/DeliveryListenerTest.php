@@ -42,7 +42,7 @@ class DeliveryListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->eligibilityServiceMock = $this->getMock(EligibilityService::class);
+        $this->eligibilityServiceMock = $this->createMock(EligibilityService::class);
         $slMock = $this->getServiceLocatorMock([
             EligibilityService::SERVICE_ID => $this->eligibilityServiceMock
         ]);
