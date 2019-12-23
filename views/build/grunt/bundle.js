@@ -29,6 +29,7 @@ module.exports = function(grunt) {
                 options : {
                     extension : 'taoTestCenter',
                     outputDir : 'loader',
+                    paths: require('./paths'),
                     dependencies : ['taoProctoring'],
                     bundles : [{
                         name : 'taoTestCenter',
