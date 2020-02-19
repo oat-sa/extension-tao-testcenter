@@ -110,7 +110,7 @@ class FormFactory extends ConfigurableService implements FormFactoryInterface
      */
     protected function convert($key)
     {
-        return $this->getTextConverterService()->get($key);
+        return $key;//$this->getTextConverterService()->get($key);
     }
 
     /**

@@ -43,8 +43,8 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
     public function __invoke($params)
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
-        $this->registerTestTakerAuthorizationService();
-        $this->registerProctorService();
+//        $this->registerTestTakerAuthorizationService();
+//        $this->registerProctorService();
         $this->registerTestCenterAdminCsvImporter();
     }
 

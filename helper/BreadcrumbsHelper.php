@@ -239,6 +239,7 @@ class BreadcrumbsHelper
      */
     static protected function convert($key)
     {
+        return $key. '__1';
         if (! self::$textConverterService) {
             self::$textConverterService = ServiceManager::getServiceManager()->get(ProctoringTextConverter::SERVICE_ID);
         }
