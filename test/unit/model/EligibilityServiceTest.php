@@ -60,7 +60,7 @@ class EligibilityServiceTest extends TestCase
      */
     private $testCenterAssignmentMock;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->eligibilityService = new EligibilityService([]);
