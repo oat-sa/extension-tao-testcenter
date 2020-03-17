@@ -33,7 +33,7 @@ class TreeFormFactoryTest extends TestCase
         $treeFormFactory = $this->getService();
         $forms = $treeFormFactory->getForms();
 
-        $this->assertIsArray( $forms);
+        $this->assertisarray($forms);
         $this->assertCount(3, $forms);
         $this->assertInstanceOf(FormFactoryInterface::class, $forms[0]);
         $this->assertInstanceOf(FormFactoryInterface::class, $forms[1]);
@@ -51,7 +51,7 @@ class TreeFormFactoryTest extends TestCase
             $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock()
         );
 
-        $this->assertIsArray( $renderForms);
+        $this->assertisarray($renderForms);
         $this->assertCount(3, $renderForms);
 
         $this->assertIsString(tao_helpers_form_GenerisTreeForm::class, $renderForms[0]);
