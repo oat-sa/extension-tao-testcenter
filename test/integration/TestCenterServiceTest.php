@@ -51,7 +51,7 @@ class TestCenterServiceTest extends TaoPhpUnitTestRunner
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
         \common_ext_ExtensionsManager::singleton()->getExtensionById('taoTestTaker');
         TaoPhpUnitTestRunner::initTest();
