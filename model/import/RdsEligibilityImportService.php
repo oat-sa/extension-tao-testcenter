@@ -64,7 +64,11 @@ class RdsEligibilityImportService extends AbstractImportService
 
         $testTakersUris = [];
         foreach ($testTakers as $ttLogin) {
-            $testTakersUris[] = $tmpkvTable->lookup($ttLogin);
+            if ($ttLogin instanceof core_kernel_classes_Resource) {
+                $testTakersUris[] = $ttLogin->getUri();
+            } else {
+                $testTakersUris[] = $tmpkvTable->lookup($ttLogin);
+            }
         }
 
         $this->eligibilityService->setEligibleTestTakers($testCenter, $delivery, $testTakersUris);
