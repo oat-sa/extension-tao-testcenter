@@ -49,7 +49,7 @@ class Diagnostic extends SimplePageModule
                 'config' => TestCenterHelper::getDiagnosticConfig($testCenter),
                 'installedextension' => \common_ext_ExtensionsManager::singleton()->isInstalled('ltiDeliveryProvider'),
             ),
-            'pages/index.tpl',
+            'TestCenter/index.tpl',
             'taoTestCenter'
         );
     }
@@ -68,7 +68,7 @@ class Diagnostic extends SimplePageModule
                 'testCenter' => $testCenter->getUri(),
                 'config' => TestCenterHelper::getDiagnosticConfig($testCenter),
             ),
-            'pages/index.tpl',
+            'TestCenter/index.tpl',
             'taoTestCenter'
         );
     }
