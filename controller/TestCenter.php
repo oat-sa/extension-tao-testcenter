@@ -54,7 +54,7 @@ class TestCenter extends SimplePageModule
             $this->composeView(
                 'testcenters-index',
                 $data,
-                'pages/index.tpl',
+                'TestCenter/index.tpl',
                 'taoTestCenter'
             );
         }
@@ -79,7 +79,7 @@ class TestCenter extends SimplePageModule
             $this->composeView(
                 'testcenters-testcenter',
                 $data,
-                'pages/index.tpl',
+                'TestCenter/index.tpl',
                 'taoTestCenter'
             );
         }
