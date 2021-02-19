@@ -42,16 +42,7 @@ return array(
     'label' => 'Test Center',
     'description' => 'Proctoring via test-centers',
     'license' => 'GPL-2.0',
-    'version' => '9.2.1',
     'author' => 'Open Assessment Technologies SA',
-    'requires' => array(
-        'taoProctoring'  => '>=12.7.0',
-        'taoDelivery'    => '>=12.5.0',
-        'generis'        => '>=12.15.0',
-        'tao'            => '>=35.5.1',
-        'taoTestTaker'   => '>=4.0.0',
-        'taoDeliveryRdf' => '>=6.0.0',
-    ),
     'managementRole' => TestCenterService::ROLE_TESTCENTER_MANAGER,
     'acl' => array(
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, TestCenterManager::class),
@@ -65,7 +56,6 @@ return array(
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestEligibilities::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenter::class),
         array('grant', TestCenterService::ROLE_TESTCENTER_MANAGER, RestTestCenterUsers::class),
-        //array('grant', TaoRoles::ANONYMOUS, DiagnosticChecker::class),
     ),
     'install' => array(
         'php' => array(
@@ -80,7 +70,6 @@ return array(
             __DIR__.'/scripts/install/ontology/eligibility.rdf',
         )
     ),
-//    'uninstall' => array(),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
     'routes' => array(
         '/taoTestCenter/api' => ['class' => \oat\taoTestCenter\model\routing\ApiRoute::class],
