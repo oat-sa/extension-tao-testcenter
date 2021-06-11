@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T11:42:45\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: en-US\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Test Center"
+msgstr "テストセンター"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Test Center"
+msgstr "テストセンター"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Member of the test center"
+msgstr "テストセンターメンバー"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Proctor"
+msgstr "試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Proctor of the test center"
+msgstr "テストセンター試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Administrator"
+msgstr "アドミニストレータ"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "the administrator of the test center"
+msgstr "テストセンター・アドミニストレータ"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Authorized Proctor"
+msgstr "承認された試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Authorized Proctor of the test center"
+msgstr "承認されたテストセンター試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Assigned Proctor"
+msgstr "担当試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Assigned Proctor of the test center"
+msgstr "テストセンター担当試検監督者"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Content"
+msgstr "内容"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "test center administers delivery"
+msgstr "テストセンターがデリバリを実施"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Children Test Center"
+msgstr "子テストセンター"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "children test center of the test center"
+msgstr "テストセンターの子テストセンター"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Assignment"
+msgstr "割当て"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Eligibilities of the Test-Taker"
+msgstr "受検者の資格"
+
+# http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Test Center Administrator Role"
+msgstr "Test Center Administratorロール"
+
+# http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Test Center Administrator Role"
+msgstr "est Center Administratorロール"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Test Centers Manager"
+msgstr "テストセンター管理"
+
+# http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "The Test Centers Manager Role"
+msgstr "The Test Centers Managerロール"
+
