@@ -1,0 +1,336 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.3.0-sprint106\n"
+"PO-Revision-Date: 2019-07-19T11:42:45\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: en-US\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "`%s` parameter must be an array"
+msgstr "`%s` パラメータは配列でなければなりません。"
+
+msgid "Actions"
+msgstr "実行"
+
+msgid "Add"
+msgstr "追加"
+
+msgid "Add Eligibility"
+msgstr "対象者の追加"
+
+msgid "Add Test Takers"
+msgstr "受検者の追加"
+
+msgid "All Sessions"
+msgstr "全セッション"
+
+msgid "Assessment Activity Reporting"
+msgstr "評価レポート"
+
+msgid "At least one delivery need to be selected to create"
+msgstr "デリバリを少なくとも1つ選択する必要があります"
+
+msgid "Authorize"
+msgstr "承認"
+
+msgid "Authorized"
+msgstr "承認済み"
+
+msgid "Available"
+msgstr "有効"
+
+msgid "Back to index"
+msgstr "インデックスに戻る"
+
+msgid "Can\'t create eligibility. Please contact administrator."
+msgstr "受検資格が作成ƒできません。管理者にお問い合わせください。"
+
+msgid "cancel"
+msgstr "キャンセル"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "cancel the action"
+msgstr "操作をキャンセル"
+
+msgid "Check the compatibility of the current workstation and see the results"
+msgstr "現在のワークステーションの互換性をチェックし、その結果を見る"
+
+msgid "Continue"
+msgstr "続行"
+
+#, tao-public
+msgid "Delete"
+msgstr "削除"
+
+msgid "Delivery"
+msgstr "デリバリ"
+
+msgid "Delivery `%s` does not exist."
+msgstr "デリバリ `%s` は存在しません"
+
+#, tao-public
+msgid "Duplicate"
+msgstr "コピー"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Edit eligibile test takers"
+msgstr "受検資格者の編集"
+
+msgid "Edit Eligibility"
+msgstr "受検資格の編集"
+
+msgid "Eligibility `%s` does not exist."
+msgstr "受検資格がありません"
+
+msgid "Eligibility already exists"
+msgstr "受検資格は既にあります"
+
+msgid "Eligibility don\'t need proctor authorization any more."
+msgstr "もう試検監督の承認は必要ありません。"
+
+msgid "Eligibility needs proctor authorization"
+msgstr "受検資格には試検監督の承認が必要です"
+
+msgid "Eligibility not found for provided search parameters."
+msgstr "指定された検索条件では、受検資格が見つかりませんでした"
+
+msgid "Eligible Deliveries"
+msgstr "対象デリバリ"
+
+msgid "Eligible delivery removed"
+msgstr "対象のデリバリが削除されました"
+
+msgid "Eligible Test Takers"
+msgstr "受検資格者"
+
+msgid "Eligible test takers updated"
+msgstr "受検資格者が更新されました"
+
+msgid "Enable proctor authorization"
+msgstr "受検監督者承認の有効化"
+
+msgid "First name"
+msgstr "名前１"
+
+msgid "for"
+msgstr ""
+
+msgid "Go"
+msgstr "移動"
+
+msgid "Go to"
+msgstr "移動先："
+
+#, tao-public
+msgid "Import"
+msgstr "インポート"
+
+msgid "Import "
+msgstr "インポート"
+
+msgid "Import Eligibilities from csv file."
+msgstr "受検資格者をCSVインポート"
+
+msgid "Last name"
+msgstr "名前２"
+
+msgid "Last updated on %2s"
+msgstr "最終更新日：%2s"
+
+msgid "Loading"
+msgstr "読込中"
+
+msgid "Login"
+msgstr "ログイン"
+
+msgid "Logout"
+msgstr "ログアウト"
+
+#, tao-public
+msgid "Manage Schema"
+msgstr "スキーマ管理"
+
+#, tao-public
+msgid "Manage Test Center"
+msgstr "テストセンタ管理"
+
+msgid "Manage Test Takers"
+msgstr "受検者管理"
+
+msgid "Manage testcenters and administer deliveries"
+msgstr "テストセンターの管理とデリバリの管理"
+
+msgid "Missed `%s` parameter"
+msgstr "不足しているパラメータ: `%s`"
+
+msgid "Missed required parameter: `%s`"
+msgstr "不足している必須パラメータ: `%s`"
+
+msgid "Monitor and manage sessions for the test site"
+msgstr "テストサイトのセッションの監視と管理"
+
+#, tao-public
+msgid "Move"
+msgstr "移動"
+
+msgid "My Test sites"
+msgstr "My Test Site"
+
+#, tao-public
+msgid "New class"
+msgstr "新規クラス"
+
+msgid "New eligible delivery added"
+msgstr "新たに対象となるデリバリを追加"
+
+#, tao-public
+msgid "New Test Center"
+msgstr "新規テストセンタ"
+
+msgid "No authorization to revoke for these proctors :"
+msgstr "これらの試検監督者には、取り消しの権限がありません"
+
+msgid "No Eligible Delivery yet"
+msgstr "対象のデリバリはありません"
+
+msgid "No test site available"
+msgstr "テストサイトはありません"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Partially authorized"
+msgstr "一部承認"
+
+msgid "Proctor"
+msgstr "受検監督者"
+
+#, tao-public
+msgid "Properties"
+msgstr "プロパティ"
+
+msgid "Readiness check"
+msgstr "準備状況の確認"
+
+msgid "Readiness Check"
+msgstr "準備状況の確認"
+
+msgid "Readiness Check for test site %s"
+msgstr "テストサイト %s　の準備状況の確認"
+
+msgid "Refresh"
+msgstr "更新"
+
+msgid "Refresh the page"
+msgstr "ページ更新"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Remove eligibility"
+msgstr "受検資格を削除"
+
+msgid "Remove proctor authorization"
+msgstr "試検監督者権限の削除"
+
+msgid "Resource with `%s` uri not found"
+msgstr "URIリソースが見つかりません： `%s` "
+
+msgid "Revoke"
+msgstr "取り消し"
+
+msgid "Role is not allowed."
+msgstr "ロールは与えられません"
+
+msgid "Session history"
+msgstr "セッション履歴"
+
+msgid "Sessions"
+msgstr "セッション"
+
+msgid "Something went wrong ..."
+msgstr "異常が発生しました"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "Test Center `%s` does not exist."
+msgstr "テストセンター `%s` は存在しません。"
+
+#, tao-public
+msgid "Test center contains test taker and groups and are administer by a proctor"
+msgstr "テストセンターには受検者とグループが含まれ、試検監督者が管理しています。"
+
+#, tao-public
+msgid "Test Center List"
+msgstr "テストセンター一覧"
+
+msgid "Test centers"
+msgstr "テストセンター"
+
+#, tao-public
+msgid "Test Centers"
+msgstr "テストセンター"
+
+msgid "Test site"
+msgstr "テストサイト"
+
+msgid "Test sites"
+msgstr "テストサイト"
+
+msgid "Test taker `%s` does not exist."
+msgstr "この受検者は存在しません： `%s` "
+
+msgid "Testcenter Proctoring"
+msgstr "テストセンター試検監督"
+
+msgid "Testcenter Proctors"
+msgstr "テストセンター試検監督者"
+
+msgid "The following delivery(ies) are already eligible : "
+msgstr "次のデリバリは既に対象となっています : "
+
+msgid "This delivery can be launched without authorization"
+msgstr "このデリバリは承認なしで開始できます"
+
+msgid "This delivery needs proctor authorization"
+msgstr "このデリバリは受検監督者の承認が必要です。"
+
+msgid "Un-Proctor"
+msgstr "非受検監督者"
+
+msgid "Unable to upload file %s : %s"
+msgstr "ファイル %s : %s をアップロードできません"
+
+msgid "User `%s` does not exist."
+msgstr "このユーザは存在しません : `%s` "
+
+msgid "User is not assigned to the test center with given role."
+msgstr "ユーザーが、指定されたロールでテストセンターに割り当てられていません。"
+
+msgid "User Role `%s` does not exist."
+msgstr "このユーザロールが存在しません : `%s` "
+
+msgid "User with given role cannot be assigned to the test center."
+msgstr "指定されたロールを持つユーザは、テストセンターに割り当てられません。"
+
+msgid "Workstation name"
+msgstr "ワークステーション名"
+
+msgid "Workstation:"
+msgstr "ワークステーション"
+
+msgid "You must select at least one test center!"
+msgstr "少なくとも1つのテストセンターを選んでください"
+
