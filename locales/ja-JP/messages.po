@@ -23,7 +23,7 @@ msgid "Add"
 msgstr "追加"
 
 msgid "Add Eligibility"
-msgstr "対象者の追加"
+msgstr "対象デリバリ追加"
 
 msgid "Add Test Takers"
 msgstr "受検者の追加"
@@ -44,10 +44,10 @@ msgid "Authorized"
 msgstr "承認済み"
 
 msgid "Available"
-msgstr "有効"
+msgstr "実施可能"
 
 msgid "Back to index"
-msgstr "インデックスに戻る"
+msgstr "一覧に戻る"
 
 msgid "Can\'t create eligibility. Please contact administrator."
 msgstr "受検資格が作成ƒできません。管理者にお問い合わせください。"
@@ -88,7 +88,7 @@ msgid "Edit eligibile test takers"
 msgstr "受検資格者の編集"
 
 msgid "Edit Eligibility"
-msgstr "受検資格の編集"
+msgstr "受検資格者の編集"
 
 msgid "Eligibility `%s` does not exist."
 msgstr "受検資格がありません"
@@ -97,10 +97,10 @@ msgid "Eligibility already exists"
 msgstr "受検資格は既にあります"
 
 msgid "Eligibility don\'t need proctor authorization any more."
-msgstr "もう試検監督の承認は必要ありません。"
+msgstr "試検監督の承認は不要です。"
 
 msgid "Eligibility needs proctor authorization"
-msgstr "受検資格には試検監督の承認が必要です"
+msgstr "試検監督の承認が必要となります。"
 
 msgid "Eligibility not found for provided search parameters."
 msgstr "指定された検索条件では、受検資格が見つかりませんでした"
@@ -118,7 +118,7 @@ msgid "Eligible test takers updated"
 msgstr "受検資格者が更新されました"
 
 msgid "Enable proctor authorization"
-msgstr "受検監督者承認の有効化"
+msgstr "試検監督者承認の有効化"
 
 msgid "First name"
 msgstr "名前１"
@@ -130,7 +130,7 @@ msgid "Go"
 msgstr "移動"
 
 msgid "Go to"
-msgstr "移動先："
+msgstr "移動"
 
 #, tao-public
 msgid "Import"
@@ -163,7 +163,7 @@ msgstr "スキーマ管理"
 
 #, tao-public
 msgid "Manage Test Center"
-msgstr "テストセンタ管理"
+msgstr "テストセンター管理"
 
 msgid "Manage Test Takers"
 msgstr "受検者管理"
@@ -196,7 +196,7 @@ msgstr "新たに対象となるデリバリを追加"
 
 #, tao-public
 msgid "New Test Center"
-msgstr "新規テストセンタ"
+msgstr "新規テストセンター"
 
 msgid "No authorization to revoke for these proctors :"
 msgstr "これらの試検監督者には、取り消しの権限がありません"
@@ -214,7 +214,7 @@ msgid "Partially authorized"
 msgstr "一部承認"
 
 msgid "Proctor"
-msgstr "受検監督者"
+msgstr "試験監督"
 
 #, tao-public
 msgid "Properties"
@@ -305,10 +305,10 @@ msgid "This delivery can be launched without authorization"
 msgstr "このデリバリは承認なしで開始できます"
 
 msgid "This delivery needs proctor authorization"
-msgstr "このデリバリは受検監督者の承認が必要です。"
+msgstr "このデリバリは試検監督者の承認が必要です。"
 
 msgid "Un-Proctor"
-msgstr "非受検監督者"
+msgstr "試検監督なし"
 
 msgid "Unable to upload file %s : %s"
 msgstr "ファイル %s : %s をアップロードできません"
