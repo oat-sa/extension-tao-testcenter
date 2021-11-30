@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint106\n"
-"PO-Revision-Date: 2019-07-19T11:42:45\n"
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-11-29T21:24:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid "%d eligibilities have been deleted"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr "`%s` パラメータは配列でなければなりません。"
@@ -63,6 +66,9 @@ msgstr "操作をキャンセル"
 
 msgid "Check the compatibility of the current workstation and see the results"
 msgstr "現在のワークステーションの互換性をチェックし、その結果を見る"
+
+msgid "Clean up orphan eligibilities"
+msgstr ""
 
 msgid "Continue"
 msgstr "続行"
@@ -142,6 +148,9 @@ msgstr "インポート"
 msgid "Import Eligibilities from csv file."
 msgstr "受検資格者をCSVインポート"
 
+msgid "Invalid files have been removed"
+msgstr ""
+
 msgid "Last name"
 msgstr "名前２"
 
@@ -156,6 +165,9 @@ msgstr "ログイン"
 
 msgid "Logout"
 msgstr "ログアウト"
+
+msgid "Main Menu"
+msgstr ""
 
 #, tao-public
 msgid "Manage Schema"
@@ -212,6 +224,9 @@ msgstr "OK"
 
 msgid "Partially authorized"
 msgstr "一部承認"
+
+msgid "Please run %s script to clean up orphan eligibilities"
+msgstr ""
 
 msgid "Proctor"
 msgstr "試験監督"
