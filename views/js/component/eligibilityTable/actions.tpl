@@ -5,11 +5,11 @@
 
     {{#if byPassProctor}}
         <button class="btn-info small edit" title="{{__ 'Enable proctor authorization'}}" data-action="shield">
-            <span class="icon-shield"></span> {{__ 'Proctor'}}
+            <span class="icon-shield"></span> {{__ 'Require authorization'}}
         </button>
     {{else}}
         <button class="btn-info small edit" title="{{__ 'Remove proctor authorization'}}" data-action="unshield">
-            <span class="icon-unshield"></span> {{__ 'Un-Proctor'}}
+            <span class="icon-unshield"></span> {{__ 'Monitor only'}}
         </button>
     {{/if}}
 
