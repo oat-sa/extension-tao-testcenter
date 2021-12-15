@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-11-29T21:24:14\n"
+"Project-Id-Version: TAO 2022.01\n"
+"PO-Revision-Date: 2021-12-07T10:19:55\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -192,6 +192,9 @@ msgstr "不足している必須パラメータ: `%s`"
 msgid "Monitor and manage sessions for the test site"
 msgstr "テストサイトのセッションの監視と管理"
 
+msgid "Monitor only"
+msgstr "試検監督なし"
+
 #, tao-public
 msgid "Move"
 msgstr "移動"
@@ -228,9 +231,6 @@ msgstr "一部承認"
 msgid "Please run %s script to clean up orphan eligibilities"
 msgstr ""
 
-msgid "Proctor"
-msgstr "試験監督"
-
 #, tao-public
 msgid "Properties"
 msgstr "プロパティ"
@@ -258,6 +258,9 @@ msgstr "受検資格を削除"
 
 msgid "Remove proctor authorization"
 msgstr "試検監督者権限の削除"
+
+msgid "Require authorization"
+msgstr "試験監督"
 
 msgid "Resource with `%s` uri not found"
 msgstr "URIリソースが見つかりません： `%s` "
@@ -321,9 +324,6 @@ msgstr "このデリバリは承認なしで開始できます"
 
 msgid "This delivery needs proctor authorization"
 msgstr "このデリバリは試検監督者の承認が必要です。"
-
-msgid "Un-Proctor"
-msgstr "試検監督なし"
 
 msgid "Unable to upload file %s : %s"
 msgstr "ファイル %s : %s をアップロードできません"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint106\n"
-"PO-Revision-Date: 2019-07-19T11:42:45\n"
+"Project-Id-Version: TAO 2022.01\n"
+"PO-Revision-Date: 2021-12-07T09:59:19\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid "%d eligibilities have been deleted"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr ""
@@ -62,6 +65,9 @@ msgid "cancel the action"
 msgstr ""
 
 msgid "Check the compatibility of the current workstation and see the results"
+msgstr ""
+
+msgid "Clean up orphan eligibilities"
 msgstr ""
 
 msgid "Continue"
@@ -142,6 +148,9 @@ msgstr ""
 msgid "Import Eligibilities from csv file."
 msgstr ""
 
+msgid "Invalid files have been removed"
+msgstr ""
+
 msgid "Last name"
 msgstr ""
 
@@ -155,6 +164,9 @@ msgid "Login"
 msgstr ""
 
 msgid "Logout"
+msgstr ""
+
+msgid "Main Menu"
 msgstr ""
 
 #, tao-public
@@ -178,6 +190,9 @@ msgid "Missed required parameter: `%s`"
 msgstr ""
 
 msgid "Monitor and manage sessions for the test site"
+msgstr ""
+
+msgid "Monitor only"
 msgstr ""
 
 #, tao-public
@@ -213,7 +228,7 @@ msgstr ""
 msgid "Partially authorized"
 msgstr ""
 
-msgid "Proctor"
+msgid "Please run %s script to clean up orphan eligibilities"
 msgstr ""
 
 #, tao-public
@@ -242,6 +257,9 @@ msgid "Remove eligibility"
 msgstr ""
 
 msgid "Remove proctor authorization"
+msgstr ""
+
+msgid "Require authorization"
 msgstr ""
 
 msgid "Resource with `%s` uri not found"
@@ -305,9 +323,6 @@ msgid "This delivery can be launched without authorization"
 msgstr ""
 
 msgid "This delivery needs proctor authorization"
-msgstr ""
-
-msgid "Un-Proctor"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
