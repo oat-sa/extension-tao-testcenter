@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2021-12-07T10:19:55\n"
+"Project-Id-Version: TAO 2022.09\n"
+"PO-Revision-Date: 2022-08-12T16:46:03\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "%d eligibilities have been deleted"
-msgstr ""
+msgstr "%d 資格は削除されました"
 
 msgid "`%s` parameter must be an array"
 msgstr "`%s` パラメータは配列でなければなりません。"
@@ -29,7 +29,7 @@ msgid "Add Eligibility"
 msgstr "対象デリバリ追加"
 
 msgid "Add Test Takers"
-msgstr "受検者の追加"
+msgstr "受験者の追加"
 
 msgid "All Sessions"
 msgstr "全セッション"
@@ -53,7 +53,7 @@ msgid "Back to index"
 msgstr "一覧に戻る"
 
 msgid "Can\'t create eligibility. Please contact administrator."
-msgstr "受検資格が作成ƒできません。管理者にお問い合わせください。"
+msgstr "受験資格が作成ƒできません。管理者にお問い合わせください。"
 
 msgid "cancel"
 msgstr "キャンセル"
@@ -68,7 +68,7 @@ msgid "Check the compatibility of the current workstation and see the results"
 msgstr "現在のワークステーションの互換性をチェックし、その結果を見る"
 
 msgid "Clean up orphan eligibilities"
-msgstr ""
+msgstr "孤立した資格をクリーンアップ"
 
 msgid "Continue"
 msgstr "続行"
@@ -91,16 +91,16 @@ msgid "Edit"
 msgstr "編集"
 
 msgid "Edit eligibile test takers"
-msgstr "受検資格者の編集"
+msgstr "受験資格者の編集"
 
 msgid "Edit Eligibility"
-msgstr "受検資格者の編集"
+msgstr "受験資格者の編集"
 
 msgid "Eligibility `%s` does not exist."
-msgstr "受検資格がありません"
+msgstr "受験資格がありません"
 
 msgid "Eligibility already exists"
-msgstr "受検資格は既にあります"
+msgstr "受験資格は既にあります"
 
 msgid "Eligibility don\'t need proctor authorization any more."
 msgstr "試検監督の承認は不要です。"
@@ -109,7 +109,7 @@ msgid "Eligibility needs proctor authorization"
 msgstr "試検監督の承認が必要となります。"
 
 msgid "Eligibility not found for provided search parameters."
-msgstr "指定された検索条件では、受検資格が見つかりませんでした"
+msgstr "指定された検索条件では、受験資格が見つかりませんでした"
 
 msgid "Eligible Deliveries"
 msgstr "対象デリバリ"
@@ -118,10 +118,10 @@ msgid "Eligible delivery removed"
 msgstr "対象のデリバリが削除されました"
 
 msgid "Eligible Test Takers"
-msgstr "受検資格者"
+msgstr "受験資格者"
 
 msgid "Eligible test takers updated"
-msgstr "受検資格者が更新されました"
+msgstr "受験資格者が更新されました"
 
 msgid "Enable proctor authorization"
 msgstr "試検監督者承認の有効化"
@@ -146,10 +146,10 @@ msgid "Import "
 msgstr "インポート"
 
 msgid "Import Eligibilities from csv file."
-msgstr "受検資格者をCSVインポート"
+msgstr "受験資格者をCSVインポート"
 
 msgid "Invalid files have been removed"
-msgstr ""
+msgstr "無効なファイルは削除されました"
 
 msgid "Last name"
 msgstr "名前２"
@@ -167,7 +167,7 @@ msgid "Logout"
 msgstr "ログアウト"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "メインメニュー"
 
 #, tao-public
 msgid "Manage Schema"
@@ -178,7 +178,7 @@ msgid "Manage Test Center"
 msgstr "テストセンター管理"
 
 msgid "Manage Test Takers"
-msgstr "受検者管理"
+msgstr "受験者管理"
 
 msgid "Manage testcenters and administer deliveries"
 msgstr "テストセンターの管理とデリバリの管理"
@@ -229,7 +229,7 @@ msgid "Partially authorized"
 msgstr "一部承認"
 
 msgid "Please run %s script to clean up orphan eligibilities"
-msgstr ""
+msgstr "孤立した資格を削除するスクリプトを実行してください。"
 
 #, tao-public
 msgid "Properties"
@@ -254,13 +254,13 @@ msgid "Remove"
 msgstr "削除"
 
 msgid "Remove eligibility"
-msgstr "受検資格を削除"
+msgstr "受験資格を削除"
 
 msgid "Remove proctor authorization"
 msgstr "試検監督者権限の削除"
 
 msgid "Require authorization"
-msgstr "試験監督"
+msgstr "要承認"
 
 msgid "Resource with `%s` uri not found"
 msgstr "URIリソースが見つかりません： `%s` "
@@ -288,7 +288,7 @@ msgstr "テストセンター `%s` は存在しません。"
 
 #, tao-public
 msgid "Test center contains test taker and groups and are administer by a proctor"
-msgstr "テストセンターには受検者とグループが含まれ、試検監督者が管理しています。"
+msgstr "テストセンターには受験者とグループが含まれ、試検監督者が管理しています。"
 
 #, tao-public
 msgid "Test Center List"
@@ -308,7 +308,7 @@ msgid "Test sites"
 msgstr "テストサイト"
 
 msgid "Test taker `%s` does not exist."
-msgstr "この受検者は存在しません： `%s` "
+msgstr "この受験者は存在しません： `%s` "
 
 msgid "Testcenter Proctoring"
 msgstr "テストセンター試検監督"
