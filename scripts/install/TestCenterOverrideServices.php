@@ -21,6 +21,8 @@
 
 namespace oat\taoTestCenter\scripts\install;
 
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\search\SearchProxy;
 use oat\tao\model\user\import\UserCsvImporterFactory;
 use oat\taoProctoring\model\authorization\TestTakerAuthorizationInterface;
 use oat\taoProctoring\model\ProctorServiceInterface;
@@ -29,23 +31,22 @@ use oat\taoTestCenter\model\proctoring\TestCenterProctorService;
 use oat\taoTestCenter\model\TestCenterAssignment;
 use oat\taoDelivery\model\AssignmentService;
 use oat\taoTestCenter\model\proctoring\TestCenterAuthorizationService;
+use oat\taoTestCenter\model\TestCenterService;
 
 /**
  * Class TestCenterOverrideServices
  * @package oat\taoTestCenter\scripts\install
  * @author Aleh Hutnikau, <hutnikau@1pt.com>
  */
-class TestCenterOverrideServices extends \common_ext_action_InstallAction
+class TestCenterOverrideServices extends InstallAction
 {
-    /**
-     * @param $params
-     */
     public function __invoke($params)
     {
         $this->registerService(AssignmentService::CONFIG_ID, new TestCenterAssignment());
         $this->registerTestTakerAuthorizationService();
         $this->registerProctorService();
         $this->registerTestCenterAdminCsvImporter();
+        $this->registerSearchService();
     }
 
     private function registerTestTakerAuthorizationService()
@@ -75,5 +76,16 @@ class TestCenterOverrideServices extends \common_ext_action_InstallAction
         $importerFactory->setOption(UserCsvImporterFactory::OPTION_MAPPERS, $typeOptions);
         $this->registerService(UserCsvImporterFactory::SERVICE_ID, $importerFactory);
         return \common_report_Report::createSuccess('TestCenterAdmin csv importer successfully registered.');
+    }
+
+    private function registerSearchService()
+    {
+        /** @var SearchProxy $searchProxy */
+        $searchProxy = $this->getServiceManager()->get(SearchProxy::SERVICE_ID);
+        $searchProxy->extendGenerisSearchWhiteList([
+            TestCenterService::CLASS_URI,
+        ]);
+
+        $this->getServiceManager()->register(SearchProxy::SERVICE_ID, $searchProxy);
     }
 }
