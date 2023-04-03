@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 
 use oat\taoProctoring\controller\MonitorProctorAdministrator;
 use oat\taoTestCenter\controller\Import;
+use oat\taoTestCenter\scripts\install\HideTaoGroups;
 use oat\taoTestCenter\scripts\install\RegisterTestCenterEntryPoint;
 use oat\taoTestCenter\controller\TestCenterManager;
 use oat\taoTestCenter\controller\TestCenter;
@@ -64,10 +66,11 @@ return array(
             RegisterTestCenterEvents::class,
             OverrideBreadcrumbsServices::class,
             RegisterClientLibConfig::class,
+            HideTaoGroups::class,
         ),
         'rdf' => array(
-            __DIR__.'/scripts/install/ontology/taotestcenter.rdf',
-            __DIR__.'/scripts/install/ontology/eligibility.rdf',
+            __DIR__ . '/scripts/install/ontology/taotestcenter.rdf',
+            __DIR__ . '/scripts/install/ontology/eligibility.rdf',
         )
     ),
     'update' => 'oat\\taoTestCenter\\scripts\\update\\Updater',
