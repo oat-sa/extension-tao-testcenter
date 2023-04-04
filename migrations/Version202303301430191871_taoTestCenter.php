@@ -17,11 +17,11 @@ final class Version202303301430191871_taoTestCenter extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        HideTaoGroups::updateACL(false);
+        HideTaoGroups::hideGroupsFromGlobalManager();
     }
 
     public function down(Schema $schema): void
     {
-        HideTaoGroups::updateACL(true);
+        HideTaoGroups::showGroupsToGlobalManager();
     }
 }

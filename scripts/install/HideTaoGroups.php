@@ -29,22 +29,36 @@ use tao_models_classes_RoleService;
 
 class HideTaoGroups extends InstallAction
 {
+    private const GROUP_MANAGER_ROLE = 'http://www.tao.lu/Ontologies/TAOGroup.rdf#GroupsManagerRole';
+
     public function __invoke($params)
     {
-        self::updateACL(false);
+        self::hideGroupsFromGlobalManager();
     }
 
-    public static function updateACL(bool $include)
+    public static function hideGroupsFromGlobalManager()
     {
-        $role = new core_kernel_classes_Resource('http://www.tao.lu/Ontologies/TAOGroup.rdf#GroupsManagerRole');
-        if ($role->exists()) {
-            $globalManagerRole = new core_kernel_classes_Resource(TaoRoles::GLOBAL_MANAGER);
-            $roleService = tao_models_classes_RoleService::singleton();
-            if ($include) {
-                $roleService->includeRole($globalManagerRole, $role);
-            } else {
-                $roleService->unincludeRole($globalManagerRole, $role);
-            }
-        }
+        tao_models_classes_RoleService::singleton()->unincludeRole(
+            self::getGlobalManagerRole(),
+            self::getGroupsManagerRole()
+        );
+    }
+
+    public static function showGroupsToGlobalManager()
+    {
+        tao_models_classes_RoleService::singleton()->includeRole(
+            self::getGlobalManagerRole(),
+            self::getGroupsManagerRole()
+        );
+    }
+
+    private static function getGlobalManagerRole(): core_kernel_classes_Resource
+    {
+        return new core_kernel_classes_Resource(TaoRoles::GLOBAL_MANAGER);
+    }
+
+    private static function getGroupsManagerRole(): core_kernel_classes_Resource
+    {
+        return new core_kernel_classes_Resource(self::GROUP_MANAGER_ROLE);
     }
 }
