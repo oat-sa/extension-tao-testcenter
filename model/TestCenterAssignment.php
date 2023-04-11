@@ -100,6 +100,28 @@ class TestCenterAssignment extends GroupAssignment
     }
 
     /**
+     * @param string $deliveryId
+     * @return array identifiers of the users
+     */
+    public function getAssignedUsers($deliveryId)
+    {
+        $class = $this->getClass(EligibilityService::CLASS_URI);
+        $eligibilities = $class->searchInstances([
+            EligibilityService::PROPERTY_DELIVERY_URI => $deliveryId,
+        ], ['like' => false]);
+
+        $users = [];
+        foreach ($eligibilities as $eligibility) {
+            $users = array_merge(
+                $eligibility->getPropertyValues($this->getProperty(EligibilityService::PROPERTY_TESTTAKER_URI)),
+                $users
+            );
+        }
+
+        return array_unique($users);
+    }
+
+    /**
      * Assignments are only valid if user is also eligible
      * (non-PHPdoc)
      * @see \oat\taoDeliveryRdf\model\GroupAssignment::verifyUserAssigned()
