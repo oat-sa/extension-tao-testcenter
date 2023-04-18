@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2023.05\n"
-"PO-Revision-Date: 2023-04-18T13:40:49\n"
+"PO-Revision-Date: 2023-04-18T16:06:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
@@ -56,10 +56,10 @@ msgid "Can\'t create eligibility. Please contact administrator."
 msgstr ""
 
 msgid "cancel"
-msgstr "cancelar"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -71,11 +71,11 @@ msgid "Clean up orphan eligibilities"
 msgstr ""
 
 msgid "Continue"
-msgstr "Continuar"
+msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr "Excluir"
+msgstr ""
 
 msgid "Delivery"
 msgstr ""
@@ -88,7 +88,7 @@ msgid "Duplicate"
 msgstr ""
 
 msgid "Edit"
-msgstr "Editar"
+msgstr ""
 
 msgid "Edit eligibile test takers"
 msgstr ""
@@ -136,7 +136,7 @@ msgid "Go"
 msgstr ""
 
 msgid "Go to"
-msgstr "Ir para"
+msgstr ""
 
 #, tao-public
 msgid "Import"
@@ -158,13 +158,13 @@ msgid "Last updated on %2s"
 msgstr ""
 
 msgid "Loading"
-msgstr "Carregando"
+msgstr ""
 
 msgid "Login"
 msgstr ""
 
 msgid "Logout"
-msgstr "Sair"
+msgstr ""
 
 msgid "Main Menu"
 msgstr ""
@@ -223,7 +223,7 @@ msgid "No test site available"
 msgstr ""
 
 msgid "OK"
-msgstr "Ok"
+msgstr ""
 
 msgid "Partially authorized"
 msgstr ""
@@ -251,7 +251,7 @@ msgid "Refresh the page"
 msgstr ""
 
 msgid "Remove"
-msgstr "Remover"
+msgstr ""
 
 msgid "Remove eligibility"
 msgstr ""
