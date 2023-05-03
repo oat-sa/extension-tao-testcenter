@@ -147,10 +147,10 @@ msgstr "Ir para"
 
 #, tao-public
 msgid "Import"
-msgstr "Importação"
+msgstr "Importar"
 
 msgid "Import "
-msgstr "Importação "
+msgstr "Importar "
 
 msgid "Import Eligibilities from csv file."
 msgstr "Importar ligibilidades de arquivo csv."
