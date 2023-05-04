@@ -26,7 +26,7 @@
         "oat-sa/extension-tao-delivery": ">=15.0.0",
         "oat-sa/extension-tao-delivery-rdf": ">=14.0.0",
         "oat-sa/extension-tao-testtaker": ">=8.0.0",
-        "oat-sa/extension-tao-proctoring": "dev-feature/AUT-2995",
+        "oat-sa/extension-tao-proctoring": ">=20.0.0",
         "oat-sa/extension-tao-clientdiag": "dev-feature/AUT-2995"
     },
     "autoload": {
