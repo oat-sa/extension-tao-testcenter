@@ -1,17 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.09\n"
-"PO-Revision-Date: 2022-08-12T16:46:03\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ja-JP\n"
+"Language: ja\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: ja-JP\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 689\n"
+"Language-Team: Japanese\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr "%d 資格は削除されました"
@@ -20,7 +27,7 @@ msgid "`%s` parameter must be an array"
 msgstr "`%s` パラメータは配列でなければなりません。"
 
 msgid "Actions"
-msgstr "実行"
+msgstr "アクション"
 
 msgid "Add"
 msgstr "追加"
@@ -52,7 +59,7 @@ msgstr "実施可能"
 msgid "Back to index"
 msgstr "一覧に戻る"
 
-msgid "Can\'t create eligibility. Please contact administrator."
+msgid "Can\\'t create eligibility. Please contact administrator."
 msgstr "受験資格が作成ƒできません。管理者にお問い合わせください。"
 
 msgid "cancel"
@@ -85,7 +92,7 @@ msgstr "デリバリ `%s` は存在しません"
 
 #, tao-public
 msgid "Duplicate"
-msgstr "コピー"
+msgstr "複製"
 
 msgid "Edit"
 msgstr "編集"
@@ -102,7 +109,7 @@ msgstr "受験資格がありません"
 msgid "Eligibility already exists"
 msgstr "受験資格は既にあります"
 
-msgid "Eligibility don\'t need proctor authorization any more."
+msgid "Eligibility don\\'t need proctor authorization any more."
 msgstr "試検監督の承認は不要です。"
 
 msgid "Eligibility needs proctor authorization"
@@ -155,10 +162,10 @@ msgid "Last name"
 msgstr "名前２"
 
 msgid "Last updated on %2s"
-msgstr "最終更新日：%2s"
+msgstr "最終更新日： %2s"
 
 msgid "Loading"
-msgstr "読込中"
+msgstr "読み込み"
 
 msgid "Login"
 msgstr "ログイン"
@@ -171,7 +178,7 @@ msgstr "メインメニュー"
 
 #, tao-public
 msgid "Manage Schema"
-msgstr "スキーマ管理"
+msgstr "スキーム管理"
 
 #, tao-public
 msgid "Manage Test Center"
@@ -223,7 +230,7 @@ msgid "No test site available"
 msgstr "テストサイトはありません"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "Partially authorized"
 msgstr "一部承認"
@@ -239,7 +246,7 @@ msgid "Readiness check"
 msgstr "準備状況の確認"
 
 msgid "Readiness Check"
-msgstr "準備状況の確認"
+msgstr "レディネスチェック"
 
 msgid "Readiness Check for test site %s"
 msgstr "テストサイト %s　の準備状況の確認"
@@ -278,7 +285,7 @@ msgid "Sessions"
 msgstr "セッション"
 
 msgid "Something went wrong ..."
-msgstr "異常が発生しました"
+msgstr "不具合発生..."
 
 msgid "Status"
 msgstr "ステータス"
@@ -326,7 +333,7 @@ msgid "This delivery needs proctor authorization"
 msgstr "このデリバリは試検監督者の承認が必要です。"
 
 msgid "Unable to upload file %s : %s"
-msgstr "ファイル %s : %s をアップロードできません"
+msgstr "アップロードができません %s : %s"
 
 msgid "User `%s` does not exist."
 msgstr "このユーザは存在しません : `%s` "
@@ -344,7 +351,7 @@ msgid "Workstation name"
 msgstr "ワークステーション名"
 
 msgid "Workstation:"
-msgstr "ワークステーション"
+msgstr "ワークステーション:"
 
 msgid "You must select at least one test center!"
 msgstr "少なくとも1つのテストセンターを選んでください"
