@@ -1,0 +1,358 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 15:12\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: de\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 689\n"
+"Language-Team: German\n"
+
+msgid "%d eligibilities have been deleted"
+msgstr ""
+
+msgid "`%s` parameter must be an array"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Add Eligibility"
+msgstr ""
+
+msgid "Add Test Takers"
+msgstr ""
+
+msgid "All Sessions"
+msgstr ""
+
+msgid "Assessment Activity Reporting"
+msgstr ""
+
+msgid "At least one delivery need to be selected to create"
+msgstr ""
+
+msgid "Authorize"
+msgstr ""
+
+msgid "Authorized"
+msgstr ""
+
+msgid "Available"
+msgstr ""
+
+msgid "Back to index"
+msgstr ""
+
+msgid "Can\\'t create eligibility. Please contact administrator."
+msgstr ""
+
+msgid "cancel"
+msgstr "abbrechen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "cancel the action"
+msgstr ""
+
+msgid "Check the compatibility of the current workstation and see the results"
+msgstr ""
+
+msgid "Clean up orphan eligibilities"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+#, tao-public
+msgid "Delete"
+msgstr ""
+
+msgid "Delivery"
+msgstr ""
+
+msgid "Delivery `%s` does not exist."
+msgstr ""
+
+#, tao-public
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit eligibile test takers"
+msgstr ""
+
+msgid "Edit Eligibility"
+msgstr ""
+
+msgid "Eligibility `%s` does not exist."
+msgstr ""
+
+msgid "Eligibility already exists"
+msgstr ""
+
+msgid "Eligibility don\\'t need proctor authorization any more."
+msgstr ""
+
+msgid "Eligibility needs proctor authorization"
+msgstr ""
+
+msgid "Eligibility not found for provided search parameters."
+msgstr ""
+
+msgid "Eligible Deliveries"
+msgstr ""
+
+msgid "Eligible delivery removed"
+msgstr ""
+
+msgid "Eligible Test Takers"
+msgstr ""
+
+msgid "Eligible test takers updated"
+msgstr ""
+
+msgid "Enable proctor authorization"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "for"
+msgstr ""
+
+msgid "Go"
+msgstr ""
+
+msgid "Go to"
+msgstr ""
+
+#, tao-public
+msgid "Import"
+msgstr ""
+
+msgid "Import "
+msgstr ""
+
+msgid "Import Eligibilities from csv file."
+msgstr ""
+
+msgid "Invalid files have been removed"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "Last updated on %2s"
+msgstr "Letztes Update vom %2s"
+
+msgid "Loading"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Main Menu"
+msgstr ""
+
+#, tao-public
+msgid "Manage Schema"
+msgstr ""
+
+#, tao-public
+msgid "Manage Test Center"
+msgstr ""
+
+msgid "Manage Test Takers"
+msgstr ""
+
+msgid "Manage testcenters and administer deliveries"
+msgstr ""
+
+msgid "Missed `%s` parameter"
+msgstr ""
+
+msgid "Missed required parameter: `%s`"
+msgstr ""
+
+msgid "Monitor and manage sessions for the test site"
+msgstr ""
+
+msgid "Monitor only"
+msgstr ""
+
+#, tao-public
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "My Test sites"
+msgstr ""
+
+#, tao-public
+msgid "New class"
+msgstr "Neue Klasse"
+
+msgid "New eligible delivery added"
+msgstr ""
+
+#, tao-public
+msgid "New Test Center"
+msgstr ""
+
+msgid "No authorization to revoke for these proctors :"
+msgstr ""
+
+msgid "No Eligible Delivery yet"
+msgstr ""
+
+msgid "No test site available"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Partially authorized"
+msgstr ""
+
+msgid "Please run %s script to clean up orphan eligibilities"
+msgstr ""
+
+#, tao-public
+msgid "Properties"
+msgstr ""
+
+msgid "Readiness check"
+msgstr ""
+
+msgid "Readiness Check"
+msgstr ""
+
+msgid "Readiness Check for test site %s"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Refresh the page"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove eligibility"
+msgstr ""
+
+msgid "Remove proctor authorization"
+msgstr ""
+
+msgid "Require authorization"
+msgstr ""
+
+msgid "Resource with `%s` uri not found"
+msgstr ""
+
+msgid "Revoke"
+msgstr ""
+
+msgid "Role is not allowed."
+msgstr ""
+
+msgid "Session history"
+msgstr ""
+
+msgid "Sessions"
+msgstr ""
+
+msgid "Something went wrong ..."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Test Center `%s` does not exist."
+msgstr ""
+
+#, tao-public
+msgid "Test center contains test taker and groups and are administer by a proctor"
+msgstr ""
+
+#, tao-public
+msgid "Test Center List"
+msgstr ""
+
+msgid "Test centers"
+msgstr ""
+
+#, tao-public
+msgid "Test Centers"
+msgstr ""
+
+msgid "Test site"
+msgstr ""
+
+msgid "Test sites"
+msgstr ""
+
+msgid "Test taker `%s` does not exist."
+msgstr ""
+
+msgid "Testcenter Proctoring"
+msgstr ""
+
+msgid "Testcenter Proctors"
+msgstr ""
+
+msgid "The following delivery(ies) are already eligible : "
+msgstr ""
+
+msgid "This delivery can be launched without authorization"
+msgstr ""
+
+msgid "This delivery needs proctor authorization"
+msgstr ""
+
+msgid "Unable to upload file %s : %s"
+msgstr ""
+
+msgid "User `%s` does not exist."
+msgstr ""
+
+msgid "User is not assigned to the test center with given role."
+msgstr ""
+
+msgid "User Role `%s` does not exist."
+msgstr ""
+
+msgid "User with given role cannot be assigned to the test center."
+msgstr ""
+
+msgid "Workstation name"
+msgstr ""
+
+msgid "Workstation:"
+msgstr ""
+
+msgid "You must select at least one test center!"
+msgstr ""
+
