@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 15:12\n"
+"PO-Revision-Date: 2023-06-14 12:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -30,7 +30,7 @@ msgid "Actions"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "أضف"
 
 msgid "Add Eligibility"
 msgstr ""
@@ -63,10 +63,10 @@ msgid "Can\\'t create eligibility. Please contact administrator."
 msgstr ""
 
 msgid "cancel"
-msgstr ""
+msgstr "إلغاء"
 
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 msgid "cancel the action"
 msgstr ""
@@ -95,7 +95,7 @@ msgid "Duplicate"
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "الإصدار"
 
 msgid "Edit eligibile test takers"
 msgstr ""
@@ -147,7 +147,7 @@ msgstr ""
 
 #, tao-public
 msgid "Import"
-msgstr ""
+msgstr "استورد"
 
 msgid "Import "
 msgstr ""
@@ -230,7 +230,7 @@ msgid "No test site available"
 msgstr ""
 
 msgid "OK"
-msgstr ""
+msgstr "نعم"
 
 msgid "Partially authorized"
 msgstr ""
@@ -333,7 +333,7 @@ msgid "This delivery needs proctor authorization"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
+msgstr "تعذر تحميل الملف %s : %s"
 
 msgid "User `%s` does not exist."
 msgstr ""
