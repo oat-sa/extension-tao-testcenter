@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-14 12:48\n"
+"PO-Revision-Date: 2023-06-14 15:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -92,7 +92,7 @@ msgstr ""
 
 #, tao-public
 msgid "Duplicate"
-msgstr ""
+msgstr "انسخ"
 
 msgid "Edit"
 msgstr "الإصدار"
@@ -162,7 +162,7 @@ msgid "Last name"
 msgstr ""
 
 msgid "Last updated on %2s"
-msgstr ""
+msgstr "آخر تحديث في %2s"
 
 msgid "Loading"
 msgstr ""
@@ -178,7 +178,7 @@ msgstr ""
 
 #, tao-public
 msgid "Manage Schema"
-msgstr ""
+msgstr "إدارة الخطاطة"
 
 #, tao-public
 msgid "Manage Test Center"
@@ -204,14 +204,14 @@ msgstr ""
 
 #, tao-public
 msgid "Move"
-msgstr ""
+msgstr "حرك"
 
 msgid "My Test sites"
 msgstr ""
 
 #, tao-public
 msgid "New class"
-msgstr ""
+msgstr "صنف جديد"
 
 msgid "New eligible delivery added"
 msgstr ""
