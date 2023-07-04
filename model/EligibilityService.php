@@ -61,7 +61,7 @@ class EligibilityService extends ConfigurableService
 
     const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileDelivery';
 
-    const PROPERTY_BYPASSPROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor"';
+    const PROPERTY_BYPASSPROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor';
 
     const BOOLEAN_TRUE = 'http://www.tao.lu/Ontologies/generis.rdf#True';
 
