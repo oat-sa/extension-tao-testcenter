@@ -597,7 +597,8 @@ class EligibilityService extends ConfigurableService
     public function getEligibilityByTestTaker($testTakerUri)
     {
         $instances = $this->getRootClass()->searchInstances(
-            [self::PROPERTY_TESTTAKER_URI => $testTakerUri], ['like' => false]
+            [self::PROPERTY_TESTTAKER_URI => $testTakerUri],
+            ['like' => false]
         );
 
         return $instances;
@@ -611,9 +612,8 @@ class EligibilityService extends ConfigurableService
     public function deleteEligibilitiesByDelivery($deliveryUri)
     {
         $eligibilities = $this->getRootClass()->searchInstances(
-            [
-                EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri,
-            ], ['like' => false]
+            [EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri,],
+            ['like' => false]
         );
 
         foreach ($eligibilities as $eligibility) {
