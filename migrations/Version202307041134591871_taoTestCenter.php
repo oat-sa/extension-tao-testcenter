@@ -28,7 +28,10 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\reporting\Report as Report;
+use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
+use oat\taoTestCenter\model\EligibilityService;
+use oat\taoTestCenter\model\import\EligibilityCsvImporterFactory;
 
 /**
  * phpcs:disable Squiz.Classes.ValidClassName
@@ -42,22 +45,19 @@ final class Version202307041134591871_taoTestCenter extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        try {
-            $persistence = $this->getPersistence();
+        $ontologyWithTypo = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor"';
+        $correctOntology = EligibilityService::PROPERTY_BYPASSPROCTOR_URI;
 
-            $query = sprintf(
-                "UPDATE statements SET predicate = '%s' WHERE predicate = '%s';",
-                \oat\taoTestCenter\model\EligibilityService::PROPERTY_BYPASSPROCTOR_URI,
-                'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor"'
-            );
-            $persistence->exec($query);
+        try {
+            $this->updateConfig($ontologyWithTypo, $correctOntology);
+            $this->updateDatabase($ontologyWithTypo, $correctOntology);
 
             $this->addReport(
                 Report::createSuccess(
                     'Field name was fixed successfully for ByPassProctor field.'
                 )
             );
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->addReport(
                 Report::createError(
                     'Failed to fix field name for ByPassProctor field.',
@@ -77,10 +77,52 @@ final class Version202307041134591871_taoTestCenter extends AbstractMigration
         );
     }
 
-    private function getPersistence()
+    /**
+     * @param string $ontologyWithTypo
+     * @param string $correctOntology
+     *
+     * @return void
+     *
+     * @throws ServiceNotFoundException
+     * @throws \common_Exception
+     * @throws \common_exception_Error
+     */
+    public function updateConfig(string $ontologyWithTypo, string $correctOntology): void
     {
-        return $this->getServiceLocator()
+        /** @var EligibilityCsvImporterFactory $csvFactoryService */
+        $csvFactoryService = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
+
+        $options = $csvFactoryService->getOptions();
+        if (isset($options['default-schema']['optional']['is proctored'])
+         && $options['default-schema']['optional']['is proctored'] === $ontologyWithTypo
+        ) {
+            $options['default-schema']['optional']['is proctored'] = $correctOntology;
+            $csvFactoryService->setOptions($options);
+        }
+
+        $this->getServiceLocator()->register(EligibilityCsvImporterFactory::SERVICE_ID, $csvFactoryService);
+    }
+
+    /**
+     * @param string $ontologyWithTypo
+     * @param string $correctOntology
+     *
+     * @return void
+     *
+     * @throws ServiceNotFoundException
+     */
+    public function updateDatabase(string $ontologyWithTypo, string $correctOntology): void
+    {
+        $persistence = $this->getServiceLocator()
             ->get(PersistenceManager::SERVICE_ID)
             ->getPersistenceById('default');
+
+        $query = sprintf(
+            "UPDATE statements SET predicate = '%s' WHERE predicate = '%s';",
+            $correctOntology,
+            $ontologyWithTypo
+        );
+
+        $persistence->exec($query);
     }
 }
