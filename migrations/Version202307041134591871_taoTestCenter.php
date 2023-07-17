@@ -117,12 +117,14 @@ final class Version202307041134591871_taoTestCenter extends AbstractMigration
             ->get(PersistenceManager::SERVICE_ID)
             ->getPersistenceById('default');
 
-        $query = sprintf(
-            "UPDATE statements SET predicate = '%s' WHERE predicate = '%s';",
-            $correctOntology,
-            $ontologyWithTypo
-        );
+        if ($persistence instanceof \common_persistence_SqlPersistence) {
+            $query = sprintf(
+                "UPDATE statements SET predicate = '%s' WHERE predicate = '%s';",
+                $correctOntology,
+                $ontologyWithTypo
+            );
 
-        $persistence->exec($query);
+            $persistence->exec($query);
+        }
     }
 }
