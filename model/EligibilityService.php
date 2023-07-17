@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,31 +19,37 @@
  *
  *
  */
+
 namespace oat\taoTestCenter\model;
 
-use \core_kernel_classes_Resource as Resource;
+use common_exception_InconsistentData;
 use core_kernel_classes_Class;
-use \core_kernel_classes_Property as Property;
+use core_kernel_classes_Container;
+use core_kernel_classes_Property as Property;
+use core_kernel_classes_Resource as Resource;
+use core_kernel_persistence_Exception;
+use Exception;
+use InvalidArgumentException;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\resource\exception\DuplicateResourceException;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\User;
 use oat\tao\model\event\UserRemovedEvent;
+use oat\taoDelivery\model\AssignmentService;
 use oat\taoDelivery\model\execution\DeliveryExecutionContext;
 use oat\taoDelivery\model\execution\DeliveryExecutionContextInterface;
 use oat\taoDelivery\model\execution\DeliveryExecutionInterface;
 use oat\taoDelivery\model\execution\ServiceProxy;
+use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
 use oat\taoProctoring\model\monitorCache\DeliveryMonitoringData;
+use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
 use oat\taoProctoring\model\ProctorService;
 use oat\taoTestCenter\model\eligibility\EligiblityChanged;
-use oat\taoTestCenter\model\execution\TcDeliveryExecutionContext;
-use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
-use oat\oatbox\user\User;
 use oat\taoTestCenter\model\eligibility\IneligibileException;
+use oat\taoTestCenter\model\execution\TcDeliveryExecutionContext;
 use oat\taoTestCenter\model\proctoring\TestCenterMonitoringService;
-use oat\taoProctoring\model\monitorCache\DeliveryMonitoringService;
-use oat\taoDelivery\model\AssignmentService;
-use oat\taoDelivery\models\classes\execution\event\DeliveryExecutionCreated;
-use oat\generis\model\OntologyAwareTrait;
+use oat\taoTestTaker\models\events\TestTakerRemovedEvent;
 
 /**
  * Service to manage eligible deliveries
@@ -51,59 +58,38 @@ class EligibilityService extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'taoTestCenter/EligibilityService';
+    public const SERVICE_ID = 'taoTestCenter/EligibilityService';
 
-    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility';
+    public const CLASS_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility';
 
-    const PROPERTY_TESTCENTER_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileTestCenter';
+    public const PROPERTY_TESTCENTER_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileTestCenter';
 
-    const PROPERTY_TESTTAKER_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileTestTaker';
+    public const PROPERTY_TESTTAKER_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileTestTaker';
 
-    const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileDelivery';
+    public const PROPERTY_DELIVERY_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#EligibileDelivery';
 
-    const PROPERTY_BYPASSPROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor"';
+    public const PROPERTY_BYPASSPROCTOR_URI = 'http://www.tao.lu/Ontologies/TAOProctor.rdf#ByPassProctor';
 
-    const BOOLEAN_TRUE = 'http://www.tao.lu/Ontologies/generis.rdf#True';
+    public const BOOLEAN_TRUE = 'http://www.tao.lu/Ontologies/generis.rdf#True';
 
-    const BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
+    public const BOOLEAN_FALSE = 'http://www.tao.lu/Ontologies/generis.rdf#False';
 
-    const OPTION_MANAGEABLE = 'manageable';
+    public const OPTION_MANAGEABLE = 'manageable';
 
-    /**
-     * return the test center top level class
-     *
-     * @access public
-     * @return core_kernel_classes_Class
-     */
-    public function getRootClass()
-    {
-        return $this->getClass(self::CLASS_URI);
-    }
-    
-    /**
-     * @return TestCenterAssignment
-     */
-    public function getAssignmentService() {
-        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
-        if (!$assignmentService instanceof TestCenterAssignment) {
-            throw new \common_exception_InconsistentData('Cannot manage testcenter assignments on alternative assignment service');
-        }
-        return $assignmentService;
-    }
-    
     /**
      * Establishes a new eligibility
-     * 
+     *
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @return boolean
+     *
+     * @return bool
      *
      * @deprecated use EligibilityService::newEligibility()
      */
     public function createEligibility(Resource $testCenter, Resource $delivery)
     {
         try {
-            return (boolean) $this->newEligibility($testCenter, $delivery);
+            return (bool)$this->newEligibility($testCenter, $delivery);
         } catch (DuplicateResourceException $e) {
             return false;
         }
@@ -114,11 +100,12 @@ class EligibilityService extends ConfigurableService
      *
      * @param Resource $testCenter
      * @param Resource $delivery
+     *
      * @return Resource
      *
      * @throws DuplicateResourceException
-     * @throws \common_exception_InconsistentData
-     * @throws \core_kernel_persistence_Exception
+     * @throws common_exception_InconsistentData
+     * @throws core_kernel_persistence_Exception
      */
     public function newEligibility(Resource $testCenter, Resource $delivery)
     {
@@ -126,10 +113,10 @@ class EligibilityService extends ConfigurableService
             throw new DuplicateResourceException(self::CLASS_URI, []);
         }
 
-        $eligibilty = $this->getRootClass()->createInstanceWithProperties(array(
+        $eligibilty = $this->getRootClass()->createInstanceWithProperties([
             self::PROPERTY_TESTCENTER_URI => $testCenter,
-            self::PROPERTY_DELIVERY_URI => $delivery
-        ));
+            self::PROPERTY_DELIVERY_URI => $delivery,
+        ]);
 
         //Checking if proctoring was enabled for delivery, if not - we must bypass it in established eligibility
         $proctoring = $delivery->getOnePropertyValue(new Property(ProctorService::ACCESSIBLE_PROCTOR));
@@ -141,20 +128,74 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
+     * Returns the eligibility representing the link, or null if not found
+     *
+     * @param Resource $testCenter
+     * @param Resource $delivery
+     *
+     * @return null|Resource eligibility resource
+     * @throws common_exception_InconsistentData
+     */
+    public function getEligibility(Resource $testCenter, Resource $delivery)
+    {
+        $eligibles = $this->getRootClass()->searchInstances([
+            self::PROPERTY_TESTCENTER_URI => $testCenter,
+            self::PROPERTY_DELIVERY_URI => $delivery,
+        ], ['recursive' => false, 'like' => false]);
+        if (count($eligibles) == 0) {
+            return null;
+        }
+        if (count($eligibles) > 1) {
+            throw new common_exception_InconsistentData(
+                'Multiple eligibilities for testcenter ' . $testCenter->getUri() . ' and delivery ' . $delivery->getUri(
+                )
+            );
+        }
+        return reset($eligibles);
+    }
+
+    /**
+     * return the test center top level class
+     *
+     * @access public
+     * @return core_kernel_classes_Class
+     */
+    public function getRootClass()
+    {
+        return $this->getClass(self::CLASS_URI);
+    }
+
+    /**
+     * Set whether this Eligibility can by-pass the proctor authorization
+     *
+     * @param Resource $eligibility
+     * @param bool $bypass true if the elligility can by-pass the proctor authorization
+     */
+    public function setByPassProctor(Resource $eligibility, $bypass = false)
+    {
+        $eligibility->editPropertyValues(
+            new Property(self::PROPERTY_BYPASSPROCTOR_URI),
+            new Resource($bypass ? self::BOOLEAN_TRUE : self::BOOLEAN_FALSE)
+        );
+    }
+
+    /**
      * Get deliveries eligible at a testcenter
      *
      * @param Resource $testCenter
      * @param bool $sort
+     *
      * @return \Resource[]
      */
-    public function getEligibleDeliveries(Resource $testCenter, $sort = true) {
-        $eligibles = $this->getRootClass()->searchInstances(array(
-            self::PROPERTY_TESTCENTER_URI => $testCenter
-        ), array('recursive' => false, 'like' => false));
+    public function getEligibleDeliveries(Resource $testCenter, $sort = true)
+    {
+        $eligibles = $this->getRootClass()->searchInstances([
+            self::PROPERTY_TESTCENTER_URI => $testCenter,
+        ], ['recursive' => false, 'like' => false]);
 
         $deliveryProperty = new Property(self::PROPERTY_DELIVERY_URI);
-        
-        $deliveries = array();
+
+        $deliveries = [];
         foreach ($eligibles as $eligible) {
             $delivery = $eligible->getOnePropertyValue($deliveryProperty);
             if ($delivery->exists()) {
@@ -176,18 +217,19 @@ class EligibilityService extends ConfigurableService
      *
      * @param Resource $testCenter
      * @param array options paginantion options
+     *
      * @return array formated eligibilities
      */
-    public function getEligibilities(Resource $testCenter, $options = []) {
-
+    public function getEligibilities(Resource $testCenter, $options = [])
+    {
         $eligibilities = [];
 
-        $eligibles = $this->getRootClass()->searchInstances(array(
-            self::PROPERTY_TESTCENTER_URI => $testCenter
-        ), array('recursive' => false, 'like' => false));
+        $eligibles = $this->getRootClass()->searchInstances([
+            self::PROPERTY_TESTCENTER_URI => $testCenter,
+        ], ['recursive' => false, 'like' => false]);
 
-        $deliveryProperty  = new Property(self::PROPERTY_DELIVERY_URI);
-        $byPassProperty    = new Property(self::PROPERTY_BYPASSPROCTOR_URI);
+        $deliveryProperty = new Property(self::PROPERTY_DELIVERY_URI);
+        $byPassProperty = new Property(self::PROPERTY_BYPASSPROCTOR_URI);
         $testTakerProperty = new Property(self::PROPERTY_TESTTAKER_URI);
 
         foreach ($eligibles as $eligible) {
@@ -201,15 +243,15 @@ class EligibilityService extends ConfigurableService
                     'uri' => $eligible->getUri(),
                     'delivery' => [
                         'uri' => $delivery->getUri(),
-                        'label' => $delivery->getLabel()
+                        'label' => $delivery->getLabel(),
                     ],
-                    'byPassProctor' => $byPass instanceof \core_kernel_classes_Resource ? $byPass->getUri() == self::BOOLEAN_TRUE : false,
-                    'testTakers' => array_map(function($testTaker) {
+                    'byPassProctor' => $byPass instanceof Resource ? $byPass->getUri() == self::BOOLEAN_TRUE : false,
+                    'testTakers' => array_map(function ($testTaker) {
                         return [
                             'uri' => $testTaker->getUri(),
-                            'label' => $testTaker->getLabel()
+                            'label' => $testTaker->getLabel(),
                         ];
-                    }, $values[self::PROPERTY_TESTTAKER_URI])
+                    }, $values[self::PROPERTY_TESTTAKER_URI]),
                 ];
             }
         }
@@ -225,16 +267,20 @@ class EligibilityService extends ConfigurableService
 
     /**
      * Removes an eligibility by testCenter and delivery
-     * 
+     *
      * @param Resource $testCenter
      * @param Resource $delivery
-     * @throws IneligibileException|\common_exception_InconsistentData
-     * @return boolean
+     *
+     * @return bool
+     * @throws IneligibileException|common_exception_InconsistentData
      */
-    public function removeEligibility(Resource $testCenter, Resource $delivery) {
+    public function removeEligibility(Resource $testCenter, Resource $delivery)
+    {
         $eligibility = $this->getEligibility($testCenter, $delivery);
         if (is_null($eligibility)) {
-            throw new IneligibileException('Delivery '.$delivery->getUri().' ineligible to test center '.$testCenter->getUri());
+            throw new IneligibileException(
+                'Delivery ' . $delivery->getUri() . ' ineligible to test center ' . $testCenter->getUri()
+            );
         }
         return $this->deleteEligibilityResource($eligibility);
     }
@@ -243,27 +289,44 @@ class EligibilityService extends ConfigurableService
      * Removes an eligibility resource
      *
      * @param Resource $eligibility
-     * @throws \common_exception_InconsistentData
-     * @return boolean
+     *
+     * @return bool
+     * @throws common_exception_InconsistentData
      */
     private function deleteEligibilityResource(Resource $eligibility)
     {
         $deletion = $eligibility->delete(true);
-        if($deletion){
+        if ($deletion) {
             $this->getAssignmentService()->unassignAll($eligibility);
         }
         return $deletion;
     }
-    
+
+    /**
+     * @return TestCenterAssignment
+     */
+    public function getAssignmentService()
+    {
+        $assignmentService = $this->getServiceLocator()->get(AssignmentService::SERVICE_ID);
+        if (!$assignmentService instanceof TestCenterAssignment) {
+            throw new common_exception_InconsistentData(
+                'Cannot manage testcenter assignments on alternative assignment service'
+            );
+        }
+        return $assignmentService;
+    }
+
     /**
      * Return ids of test-takers that are eligble in the specified context
-     * 
+     *
      * @param Resource $testCenter
      * @param Resource $delivery
+     *
      * @return string[] identifiers of the test-takers
      */
-    public function getEligibleTestTakers(Resource $testCenter, Resource $delivery) {
-        $eligible = array();
+    public function getEligibleTestTakers(Resource $testCenter, Resource $delivery)
+    {
+        $eligible = [];
         $eligibility = $this->getEligibility($testCenter, $delivery);
         if (!is_null($eligibility)) {
             foreach ($eligibility->getPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI)) as $testTaker) {
@@ -276,60 +339,48 @@ class EligibilityService extends ConfigurableService
     /**
      * Allow test-taker to be eligible for this testcenter/delivery context
      *
-     * @param Resource  $testCenter
-     * @param Resource  $delivery
+     * @param Resource $testCenter
+     * @param Resource $delivery
      * @param Resource[] $testTakerIds
+     *
      * @return bool
      * @throws IneligibileException
-     * @throws \common_exception_InconsistentData
+     * @throws common_exception_InconsistentData
      */
-    public function setEligibleTestTakers(Resource $testCenter, Resource $delivery, $testTakerIds) {
-        /** @var \core_kernel_classes_Resource $eligibility */
+    public function setEligibleTestTakers(Resource $testCenter, Resource $delivery, $testTakerIds)
+    {
+        /** @var Resource $eligibility */
         $eligibility = $this->getEligibility($testCenter, $delivery);
         if (is_null($eligibility)) {
-            throw new IneligibileException('Delivery '.$delivery->getUri().' ineligible to test center '.$testCenter->getUri());
+            throw new IneligibileException(
+                'Delivery ' . $delivery->getUri() . ' ineligible to test center ' . $testCenter->getUri()
+            );
         }
 
         $previousTestTakerCollection = $eligibility->getPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI));
 
-        $result =  $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $testTakerIds);
+        $result = $eligibility->editPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI), $testTakerIds);
 
         $eventManager = $this->getServiceLocator()->get(EventManager::CONFIG_ID);
         $eventManager->trigger(new EligiblityChanged($eligibility, $previousTestTakerCollection, $testTakerIds));
 
-        if(!$this->isManuallyAssigned()){
+        if (!$this->isManuallyAssigned()) {
             $this->getAssignmentService()->unassign($previousTestTakerCollection, $eligibility);
             $this->getAssignmentService()->assign($testTakerIds, $eligibility);
         }
 
         return $result;
     }
-    
-    /**
-     * Returns the eligibility representing the link, or null if not found
-     *  
-     * @param Resource $testCenter
-     * @param Resource $delivery
-     * @throws \common_exception_InconsistentData
-     * @return null|Resource eligibility resource
-     */
-    public function getEligibility(Resource $testCenter, Resource $delivery) {
-        $eligibles = $this->getRootClass()->searchInstances(array(
-            self::PROPERTY_TESTCENTER_URI => $testCenter,
-            self::PROPERTY_DELIVERY_URI => $delivery
-        ), array('recursive' => false, 'like' => false));
-        if (count($eligibles) == 0) {
-            return null;
-        }
-        if (count($eligibles) > 1) {
-            throw new \common_exception_InconsistentData('Multiple eligibilities for testcenter '.$testCenter->getUri().' and delivery '.$delivery->getUri());
-        }
-        return reset($eligibles);
+
+    public function isManuallyAssigned()
+    {
+        return $this->hasOption(self::OPTION_MANAGEABLE) && $this->getOption(self::OPTION_MANAGEABLE) === true;
     }
 
     /**
      * @param Resource $delivery
      * @param User $user
+     *
      * @return bool
      */
     public function isDeliveryEligible(Resource $delivery, User $user)
@@ -340,21 +391,23 @@ class EligibilityService extends ConfigurableService
     /**
      * @param Resource $delivery
      * @param User $user
-     * @return \core_kernel_classes_Container|Resource|null
-     * @throws \core_kernel_persistence_Exception
+     *
+     * @return core_kernel_classes_Container|Resource|null
+     * @throws core_kernel_persistence_Exception
      */
-    public function getTestCenter(Resource $delivery, User $user){
+    public function getTestCenter(Resource $delivery, User $user)
+    {
         $result = null;
-        $class = new \core_kernel_classes_Class(EligibilityService::CLASS_URI);
+        $class = new core_kernel_classes_Class(EligibilityService::CLASS_URI);
         $eligibilities = $class->searchInstances([
             EligibilityService::PROPERTY_TESTTAKER_URI => $user->getIdentifier(),
             EligibilityService::PROPERTY_DELIVERY_URI => $delivery->getUri(),
         ], ['like' => false]);
 
         foreach ($eligibilities as $eligibility) {
-            /* @var \core_kernel_classes_Resource $eligibility*/
-            $testCenter = $eligibility->getOnePropertyValue(new \core_kernel_classes_Property(EligibilityService::PROPERTY_TESTCENTER_URI));
-            if ($testCenter instanceof \core_kernel_classes_Resource && $testCenter->exists()) {
+            /* @var Resource $eligibility */
+            $testCenter = $eligibility->getOnePropertyValue(new Property(EligibilityService::PROPERTY_TESTCENTER_URI));
+            if ($testCenter instanceof Resource && $testCenter->exists()) {
                 $result = $testCenter;
                 break;
             }
@@ -365,8 +418,9 @@ class EligibilityService extends ConfigurableService
 
     /**
      * @param Resource $eligibility
-     * @return \core_kernel_classes_Container
-     * @throws \core_kernel_persistence_Exception
+     *
+     * @return core_kernel_classes_Container
+     * @throws core_kernel_persistence_Exception
      */
     public function getTestCenterByEligibility(Resource $eligibility)
     {
@@ -374,40 +428,17 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * @param Resource $eligibility
-     * @return \core_kernel_classes_Resource
-     * @throws \core_kernel_persistence_Exception
-     */
-    public function getDelivery(Resource $eligibility)
-    {
-        /* @var \core_kernel_classes_Resource $eligibility */
-        $delivery = $eligibility->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_DELIVERY_URI));
-        return $delivery;
-
-    }
-
-    /**
-     * Check whether this Eligibility can by-pass the proctor authorization
-     * @param Resource $eligibility
-     * @return boolean true if the elligility can by-pass the proctor authorization
-     */
-    public function canByPassProctor(Resource $eligibility)
-    {
-        $canByPass = $eligibility->getOnePropertyValue(new Property(self::PROPERTY_BYPASSPROCTOR_URI));
-        return !is_null($canByPass) ? ($canByPass->getUri() == self::BOOLEAN_TRUE) : false;    
-    }
-
-    /**
      * Whenever or not a proctor bypass exists
      *
      * @param string $deliveryId
      * @param User $user
-     * @return boolean
+     *
+     * @return bool
      */
     public function proctorBypassExists($deliveryId, User $user)
     {
         $bypassExists = false;
-        $class = new \core_kernel_classes_Class(EligibilityService::CLASS_URI);
+        $class = new core_kernel_classes_Class(EligibilityService::CLASS_URI);
         $eligibilities = $class->searchInstances([
             EligibilityService::PROPERTY_TESTTAKER_URI => $user->getIdentifier(),
             EligibilityService::PROPERTY_DELIVERY_URI => $deliveryId,
@@ -422,20 +453,18 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
-     * Set whether this Eligibility can by-pass the proctor authorization
+     * Check whether this Eligibility can by-pass the proctor authorization
+     *
      * @param Resource $eligibility
-     * @param boolean $bypass true if the elligility can by-pass the proctor authorization
+     *
+     * @return bool true if the elligility can by-pass the proctor authorization
      */
-    public function setByPassProctor(Resource $eligibility, $bypass = false)
+    public function canByPassProctor(Resource $eligibility)
     {
-        $eligibility->editPropertyValues(new Property(self::PROPERTY_BYPASSPROCTOR_URI), new Resource($bypass ? self::BOOLEAN_TRUE : self::BOOLEAN_FALSE));
+        $canByPass = $eligibility->getOnePropertyValue(new Property(self::PROPERTY_BYPASSPROCTOR_URI));
+        return !is_null($canByPass) ? ($canByPass->getUri() == self::BOOLEAN_TRUE) : false;
     }
 
-    public function isManuallyAssigned()
-    {
-        return $this->hasOption(self::OPTION_MANAGEABLE) && $this->getOption(self::OPTION_MANAGEABLE) === true;
-    }
-    
     public function deliveryExecutionCreated(DeliveryExecutionCreated $event)
     {
         $monitoringService = $this->getServiceLocator()->get(DeliveryMonitoringService::SERVICE_ID);
@@ -458,9 +487,45 @@ class EligibilityService extends ConfigurableService
             }
 
             $monitoringService->save($deliverMonitoringData);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logWarning('Delivery monitoring data were not stored. Reason: ' . $e->getMessage(), $e->getTrace());
         }
+    }
+
+    /**
+     * @param Resource $eligibility
+     *
+     * @return Resource
+     * @throws core_kernel_persistence_Exception
+     */
+    public function getDelivery(Resource $eligibility)
+    {
+        /* @var Resource $eligibility */
+        $delivery = $eligibility->getOnePropertyValue(new Property(self::PROPERTY_DELIVERY_URI));
+        return $delivery;
+    }
+
+    /**
+     * @param string $deliveryExecution
+     * @param Resource $testCenter
+     *
+     * @return DeliveryExecutionContext|null
+     */
+    private function createExecutionContext($deliveryExecution, $testCenter)
+    {
+        $executionContext = null;
+        try {
+            $executionContext = new DeliveryExecutionContext(
+                $deliveryExecution->getIdentifier(),
+                $testCenter->getUri(),
+                TcDeliveryExecutionContext::EXECUTION_CONTEXT_TYPE,
+                $testCenter->getLabel()
+            );
+        } catch (InvalidArgumentException $e) {
+            $this->logInfo('Delivery execution context object can not be created. Reason: ' . $e->getMessage());
+        }
+
+        return $executionContext;
     }
 
     public function eligiblityChange(EligiblityChanged $event)
@@ -469,9 +534,9 @@ class EligibilityService extends ConfigurableService
         $monitoringService = $this->getServiceLocator()->get(DeliveryMonitoringService::SERVICE_ID);
 
         $eligiblity = $event->getEligiblity();
-        
+
         $normalize = function ($item) {
-            return ($item instanceof \core_kernel_classes_Resource) ? $item->getUri() : $item;
+            return ($item instanceof Resource) ? $item->getUri() : $item;
         };
 
         $before = array_map($normalize, $event->getPreviousTestTakerCollection());
@@ -491,43 +556,28 @@ class EligibilityService extends ConfigurableService
                 $monitoringService->save($deliverMonitoringData);
             }
         }
-
-    }
-
-    /**
-     * @param string $testTakerUri
-     * @return \core_kernel_classes_Resource[]
-     */
-    public function getEligibilityByTestTaker($testTakerUri)
-    {
-        $instances = $this->getRootClass()->searchInstances(
-            [self::PROPERTY_TESTTAKER_URI => $testTakerUri]
-            ,['like' => false]
-        );
-
-        return $instances;
     }
 
     public function deletedTestTaker($event)
     {
         $userUri = null;
-        if($event instanceof TestTakerRemovedEvent){
+        if ($event instanceof TestTakerRemovedEvent) {
             $user = $event->jsonSerialize();
             $userUri = $user['testTakerUri'];
         }
 
-        if($event instanceof UserRemovedEvent){
+        if ($event instanceof UserRemovedEvent) {
             $user = $event->jsonSerialize();
             $userUri = $user['uri'];
         }
-        
+
         $eligibilities = $this->getEligibilityByTestTaker($userUri);
 
-        foreach ($eligibilities as $eligibility){
+        foreach ($eligibilities as $eligibility) {
             $previousTestTakerCollection = $eligibility->getPropertyValues(new Property(self::PROPERTY_TESTTAKER_URI));
             $newTestTakerIds = [];
-            foreach ($previousTestTakerCollection as $previousTestTaker){
-                if($userUri !== $previousTestTaker){
+            foreach ($previousTestTakerCollection as $previousTestTaker) {
+                if ($userUri !== $previousTestTaker) {
                     $newTestTakerIds[] = $previousTestTaker;
                 }
             }
@@ -540,42 +590,34 @@ class EligibilityService extends ConfigurableService
     }
 
     /**
+     * @param string $testTakerUri
+     *
+     * @return Resource[]
+     */
+    public function getEligibilityByTestTaker($testTakerUri)
+    {
+        $instances = $this->getRootClass()->searchInstances(
+            [self::PROPERTY_TESTTAKER_URI => $testTakerUri],
+            ['like' => false]
+        );
+
+        return $instances;
+    }
+
+    /**
      * @param string $deliveryUri
-     * @throws \common_exception_InconsistentData
+     *
+     * @throws common_exception_InconsistentData
      */
     public function deleteEligibilitiesByDelivery($deliveryUri)
     {
         $eligibilities = $this->getRootClass()->searchInstances(
-            [
-                EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri
-            ],
+            [EligibilityService::PROPERTY_DELIVERY_URI => $deliveryUri,],
             ['like' => false]
         );
 
         foreach ($eligibilities as $eligibility) {
             $this->deleteEligibilityResource($eligibility);
         }
-    }
-
-    /**
-     * @param string $deliveryExecution
-     * @param \core_kernel_classes_Resource $testCenter
-     * @return DeliveryExecutionContext|null
-     */
-    private function createExecutionContext($deliveryExecution, $testCenter)
-    {
-        $executionContext = null;
-        try {
-            $executionContext = new DeliveryExecutionContext(
-                $deliveryExecution->getIdentifier(),
-                $testCenter->getUri(),
-                TcDeliveryExecutionContext::EXECUTION_CONTEXT_TYPE,
-                $testCenter->getLabel()
-            );
-        } catch (\InvalidArgumentException $e) {
-            $this->logInfo('Delivery execution context object can not be created. Reason: ' . $e->getMessage());
-        }
-
-        return $executionContext;
     }
 }
