@@ -23,6 +23,7 @@ use oat\tao\model\TaoOntology;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoGroups\models\GroupsService;
 
 /**
  * Class TestCenterAssignment
