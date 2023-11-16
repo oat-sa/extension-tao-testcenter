@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,28 +18,23 @@
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
+
 namespace oat\taoTestCenter\model;
 
+use core_kernel_classes_Resource;
 use oat\tao\model\TaoOntology;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 
-/**
- * Class TestCenterAssignment
- * @access public
- * @author Aleh Hutnikau, <hutnikau@1pt.com>
- * @package oat\taoTestCenter\model
- */
 class TestCenterAssignment extends GroupAssignment
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_TESTTAKER_ASSIGNED = 'http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment';
+    public const PROPERTY_TESTTAKER_ASSIGNED = 'http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment';
 
-    /**
-     * @inheritdoc
-     */
     public function getDeliveryIdsByUser(User $user)
     {
         $deliveryUris = array();
@@ -56,12 +52,12 @@ class TestCenterAssignment extends GroupAssignment
      * take the delivery in question
      *
      * @param array $testTakerIds
-     * @param \core_kernel_classes_Resource $assignment
+     * @param core_kernel_classes_Resource $assignment
      */
     public function assign($testTakerIds, $assignment)
     {
         $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
-        foreach($testTakerIds as $testTakerId) {
+        foreach ($testTakerIds as $testTakerId) {
             $this->getResource($testTakerId)->setPropertyValue($property, $assignment);
         }
     }
@@ -71,12 +67,12 @@ class TestCenterAssignment extends GroupAssignment
      * take the delivery in question
      *
      * @param array $testTakerIds
-     * @param \core_kernel_classes_Resource $assignment
+     * @param core_kernel_classes_Resource $assignment
      */
     public function unassign($testTakerIds, $assignment)
     {
         $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
-        foreach($testTakerIds as $testTakerId) {
+        foreach ($testTakerIds as $testTakerId) {
             $this->getResource($testTakerId)->removePropertyValue($property, $assignment);
         }
     }
@@ -85,16 +81,20 @@ class TestCenterAssignment extends GroupAssignment
      * Unassign all users from an assignment, cleanup triggered on
      * assigment deletion
      *
-     * @param \core_kernel_classes_Resource $assignment
+     * @param core_kernel_classes_Resource $assignment
      */
     public function unassignAll($assignment)
     {
         $instances = $this->getClass(TaoOntology::SUBJECT_CLASS_URI)->searchInstances(
             [
-              self::PROPERTY_TESTTAKER_ASSIGNED => $assignment->getUri()
-            ],['recursive' => true, 'like' => false]
+              self::PROPERTY_TESTTAKER_ASSIGNED => $assignment->getUri(),
+            ],
+            [
+                'recursive' => true,
+                'like' => false,
+            ]
         );
-        foreach($instances as $testTaker) {
+        foreach ($instances as $testTaker) {
             $testTaker->removePropertyValue($this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED), $assignment);
         }
     }
@@ -123,15 +123,13 @@ class TestCenterAssignment extends GroupAssignment
 
     /**
      * Assignments are only valid if user is also eligible
-     * (non-PHPdoc)
-     * @see \oat\taoDeliveryRdf\model\GroupAssignment::verifyUserAssigned()
      */
-    protected function verifyUserAssigned(\core_kernel_classes_Resource $delivery, User $user)
+    protected function verifyUserAssigned(core_kernel_classes_Resource $delivery, User $user)
     {
         $deliveryProp = $this->getProperty(EligibilityService::PROPERTY_DELIVERY_URI);
 
         //check for guest access mode
-        if($this->isDeliveryGuestUser($user) && $this->hasDeliveryGuestAccess($delivery)){
+        if ($this->isDeliveryGuestUser($user) && $this->hasDeliveryGuestAccess($delivery)) {
             return true;
         }
 
@@ -152,7 +150,7 @@ class TestCenterAssignment extends GroupAssignment
     /**
      * Returns all Assignments a User is assigned to (not just eligible)
      * @param User $user
-     * @return \core_kernel_classes_Resource[]
+     * @return core_kernel_classes_Resource[]
      */
     protected function getTestCenterAssignments(User $user)
     {
