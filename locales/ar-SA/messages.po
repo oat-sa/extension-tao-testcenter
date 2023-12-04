@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-14 15:12\n"
+"PO-Revision-Date: 2023-12-04 16:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -21,46 +21,46 @@ msgstr ""
 "Language-Team: Arabic\n"
 
 msgid "%d eligibilities have been deleted"
-msgstr ""
+msgstr "تم حذف %d من الأهليات"
 
 msgid "`%s` parameter must be an array"
-msgstr ""
+msgstr "يجب أن تكون المعلمة `%s` عبارة عن مصفوفة"
 
 msgid "Actions"
-msgstr ""
+msgstr "إجراءات"
 
 msgid "Add"
 msgstr "أضف"
 
 msgid "Add Eligibility"
-msgstr ""
+msgstr "أضف الأهلية"
 
 msgid "Add Test Takers"
-msgstr ""
+msgstr "أضف خاضعين للاختبار"
 
 msgid "All Sessions"
-msgstr ""
+msgstr "جميع الحصص"
 
 msgid "Assessment Activity Reporting"
-msgstr ""
+msgstr "تقرير عن نشاط التقييم"
 
 msgid "At least one delivery need to be selected to create"
-msgstr ""
+msgstr "يجب اختيار تسليم واحد على الأقل للإنشاء"
 
 msgid "Authorize"
-msgstr ""
+msgstr "رخٍص"
 
 msgid "Authorized"
-msgstr ""
+msgstr "مرخص له"
 
 msgid "Available"
-msgstr ""
+msgstr "متوفر"
 
 msgid "Back to index"
-msgstr ""
+msgstr "العودة إلى الفهرس"
 
 msgid "Can\\'t create eligibility. Please contact administrator."
-msgstr ""
+msgstr "لا/ يمكن إنشاء الأهلية. يرجى الاتصال بالمسؤول."
 
 msgid "cancel"
 msgstr "إلغاء"
@@ -69,26 +69,26 @@ msgid "Cancel"
 msgstr "إلغاء"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "إلغاء الإجراء"
 
 msgid "Check the compatibility of the current workstation and see the results"
-msgstr ""
+msgstr "تحقق من توافق محطة العمل الحالية وشاهد النتائج"
 
 msgid "Clean up orphan eligibilities"
-msgstr ""
+msgstr "امسح الأهليات اليتيمة/المنفردة"
 
 msgid "Continue"
-msgstr ""
+msgstr "تابع"
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 msgid "Delivery"
-msgstr ""
+msgstr "تسليم"
 
 msgid "Delivery `%s` does not exist."
-msgstr ""
+msgstr "التسليم \"%s\" غير موجود."
 
 #, tao-public
 msgid "Duplicate"
@@ -98,83 +98,83 @@ msgid "Edit"
 msgstr "الإصدار"
 
 msgid "Edit eligibile test takers"
-msgstr ""
+msgstr "تحرير الخاضعين للاختبار المؤهلين"
 
 msgid "Edit Eligibility"
-msgstr ""
+msgstr "تحرير الأهلية"
 
 msgid "Eligibility `%s` does not exist."
-msgstr ""
+msgstr "الأهلية `%s` غير موجودة."
 
 msgid "Eligibility already exists"
-msgstr ""
+msgstr "الأهلية موجودة مقدّمًا"
 
 msgid "Eligibility don\\'t need proctor authorization any more."
-msgstr ""
+msgstr "الأهلية لا/ تحتاج إلى إذن مراقب بعد الآن."
 
 msgid "Eligibility needs proctor authorization"
-msgstr ""
+msgstr "الأهلية تحتاج إلى إذن مراقب"
 
 msgid "Eligibility not found for provided search parameters."
-msgstr ""
+msgstr "لم يتم العثور على الأهلية لمعلمات البحث المقدمة."
 
 msgid "Eligible Deliveries"
-msgstr ""
+msgstr "عمليات التسليم المؤهلة"
 
 msgid "Eligible delivery removed"
-msgstr ""
+msgstr "تمت إزالة عملية التسليم المؤهلة"
 
 msgid "Eligible Test Takers"
-msgstr ""
+msgstr "المؤهلون للاختبار"
 
 msgid "Eligible test takers updated"
-msgstr ""
+msgstr "تم تحديث المؤهلين للاختبار"
 
 msgid "Enable proctor authorization"
-msgstr ""
+msgstr "تفعيل ترخيص المراقب"
 
 msgid "First name"
-msgstr ""
+msgstr "الاسم الشخصي"
 
 msgid "for"
-msgstr ""
+msgstr "ل/من أجل"
 
 msgid "Go"
-msgstr ""
+msgstr "اذهب"
 
 msgid "Go to"
-msgstr ""
+msgstr "اذهب إلى"
 
 #, tao-public
 msgid "Import"
 msgstr "استورد"
 
 msgid "Import "
-msgstr ""
+msgstr "استيراد "
 
 msgid "Import Eligibilities from csv file."
-msgstr ""
+msgstr "استيراد الأهليات من ملف csv."
 
 msgid "Invalid files have been removed"
-msgstr ""
+msgstr "تمت إزالة الملفات غير الصالحة"
 
 msgid "Last name"
-msgstr ""
+msgstr "الاسم العائلي "
 
 msgid "Last updated on %2s"
 msgstr "آخر تحديث في %2s"
 
 msgid "Loading"
-msgstr ""
+msgstr "جار التحميل"
 
 msgid "Login"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 msgid "Logout"
-msgstr ""
+msgstr "تسجيل الخروج"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "القائمة الرئيسية"
 
 #, tao-public
 msgid "Manage Schema"
@@ -182,177 +182,177 @@ msgstr "إدارة الخطاطة"
 
 #, tao-public
 msgid "Manage Test Center"
-msgstr ""
+msgstr "إدارة مركز الرائز"
 
 msgid "Manage Test Takers"
-msgstr ""
+msgstr "إدارة الخاضعين للاختبار"
 
 msgid "Manage testcenters and administer deliveries"
-msgstr ""
+msgstr "تدبير مراكز الاختبار وإدارة عمليات التسليم"
 
 msgid "Missed `%s` parameter"
-msgstr ""
+msgstr "معلمة \"%s\" مفقودة"
 
 msgid "Missed required parameter: `%s`"
-msgstr ""
+msgstr "المعلمة المطلوبة مفقودة: `%s`"
 
 msgid "Monitor and manage sessions for the test site"
-msgstr ""
+msgstr "مراقبة وإدارة الحصص لموقع الرائز"
 
 msgid "Monitor only"
-msgstr ""
+msgstr "المراقبة فقط"
 
 #, tao-public
 msgid "Move"
 msgstr "حرك"
 
 msgid "My Test sites"
-msgstr ""
+msgstr "مواقع الرائز الخاصة بي"
 
 #, tao-public
 msgid "New class"
 msgstr "صنف جديد"
 
 msgid "New eligible delivery added"
-msgstr ""
+msgstr "تمت إضافة تسليم مؤهل جديد"
 
 #, tao-public
 msgid "New Test Center"
-msgstr ""
+msgstr "مركز رائز جديد"
 
 msgid "No authorization to revoke for these proctors :"
-msgstr ""
+msgstr "لا يوجد إذن بإلغاء هؤلاء المراقبين:"
 
 msgid "No Eligible Delivery yet"
-msgstr ""
+msgstr "لا يوجد تسليم مؤهل حتى الآن"
 
 msgid "No test site available"
-msgstr ""
+msgstr "لا يتوفر موقع رائز"
 
 msgid "OK"
 msgstr "نعم"
 
 msgid "Partially authorized"
-msgstr ""
+msgstr "مرخص له جزئيا"
 
 msgid "Please run %s script to clean up orphan eligibilities"
-msgstr ""
+msgstr "يرجى تشغيل البرنامج النصي %s لمسح الأهليات الأيتام/المنفردة"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "خصائص"
 
 msgid "Readiness check"
-msgstr ""
+msgstr "التحقق من الجاهزية"
 
 msgid "Readiness Check"
-msgstr ""
+msgstr "التحقق من الجاهزية"
 
 msgid "Readiness Check for test site %s"
-msgstr ""
+msgstr "التحقق من جاهزية موقع الرائز %s"
 
 msgid "Refresh"
-msgstr ""
+msgstr "تحديث"
 
 msgid "Refresh the page"
-msgstr ""
+msgstr "تحديث الصفحة"
 
 msgid "Remove"
-msgstr ""
+msgstr "إزالة"
 
 msgid "Remove eligibility"
-msgstr ""
+msgstr "إزالة الأهلية"
 
 msgid "Remove proctor authorization"
-msgstr ""
+msgstr "قم بإزالة ترخيص المراقب"
 
 msgid "Require authorization"
-msgstr ""
+msgstr "يتطلب ترخيصا"
 
 msgid "Resource with `%s` uri not found"
-msgstr ""
+msgstr "لم يتم العثور على المورد `%s` uri"
 
 msgid "Revoke"
-msgstr ""
+msgstr "أَلْغى"
 
 msgid "Role is not allowed."
-msgstr ""
+msgstr "الدور غير مسموح به."
 
 msgid "Session history"
-msgstr ""
+msgstr "سجل الحصة"
 
 msgid "Sessions"
-msgstr ""
+msgstr "حصص"
 
 msgid "Something went wrong ..."
-msgstr ""
+msgstr "حدث خطأ ما ..."
 
 msgid "Status"
-msgstr ""
+msgstr "حالة"
 
 msgid "Test Center `%s` does not exist."
-msgstr ""
+msgstr "مركز الاختبار \"%s\" غير موجود."
 
 #, tao-public
 msgid "Test center contains test taker and groups and are administer by a proctor"
-msgstr ""
+msgstr "يحتوي مركز الاختبار على الخاضعين للاختبار ومجموعات ويديرها مراقب"
 
 #, tao-public
 msgid "Test Center List"
-msgstr ""
+msgstr "قائمة مركز الرائز"
 
 msgid "Test centers"
-msgstr ""
+msgstr "مراكز الرائز"
 
 #, tao-public
 msgid "Test Centers"
-msgstr ""
+msgstr "مراكز الرائز"
 
 msgid "Test site"
-msgstr ""
+msgstr "موقع الرائز"
 
 msgid "Test sites"
-msgstr ""
+msgstr "مواقع الرائز"
 
 msgid "Test taker `%s` does not exist."
-msgstr ""
+msgstr "الرائز \"%s\" غير موجود."
 
 msgid "Testcenter Proctoring"
-msgstr ""
+msgstr "مراقبة مركز الرائز"
 
 msgid "Testcenter Proctors"
-msgstr ""
+msgstr "مراقبو مركز الرائز"
 
 msgid "The following delivery(ies) are already eligible : "
-msgstr ""
+msgstr "التسليم (التسليمات) التالية مؤهلة سابقا: "
 
 msgid "This delivery can be launched without authorization"
-msgstr ""
+msgstr "يمكن إطلاق هذا التسليم دون ترخيص"
 
 msgid "This delivery needs proctor authorization"
-msgstr ""
+msgstr "يحتاج هذا التسليم إلى إذن مراقب"
 
 msgid "Unable to upload file %s : %s"
 msgstr "تعذر تحميل الملف %s : %s"
 
 msgid "User `%s` does not exist."
-msgstr ""
+msgstr "المستخدم \"%s\" غير موجود."
 
 msgid "User is not assigned to the test center with given role."
-msgstr ""
+msgstr "لم يتم تعيين دور للمستخدم في مركز الرائز."
 
 msgid "User Role `%s` does not exist."
-msgstr ""
+msgstr "دور المستخدم `%s` غير موجود."
 
 msgid "User with given role cannot be assigned to the test center."
-msgstr ""
+msgstr "لا يمكن تعيين المستخدم الذي لديه دور معين في مركز الرائز."
 
 msgid "Workstation name"
-msgstr ""
+msgstr "اسم محطة العمل"
 
 msgid "Workstation:"
-msgstr ""
+msgstr "مَحَطّة عَمَلٍ:"
 
 msgid "You must select at least one test center!"
-msgstr ""
+msgstr "يجب عليك اختيار مركز رائز واحد على الأقل!"
 
