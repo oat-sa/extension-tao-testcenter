@@ -1,23 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 15:12\n"
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 689\n"
+"X-Crowdin-File: /taoTestCenter/locales/pt-BR/messages.po\n"
+"X-Crowdin-File-ID: 1817\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 msgid "%d eligibilities have been deleted"
@@ -27,7 +27,7 @@ msgid "`%s` parameter must be an array"
 msgstr "` parâmetro%s` deve ser um array"
 
 msgid "Actions"
-msgstr "Ações"
+msgstr "Ações."
 
 msgid "Add"
 msgstr "Adicionar"
@@ -92,7 +92,7 @@ msgstr "A entrega `%s` não existe."
 
 #, tao-public
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicate"
 
 msgid "Edit"
 msgstr "Alterar"
@@ -204,14 +204,14 @@ msgstr "Apenas monitor"
 
 #, tao-public
 msgid "Move"
-msgstr "Mover"
+msgstr "Mover-se"
 
 msgid "My Test sites"
 msgstr "Meus sites de teste"
 
 #, tao-public
 msgid "New class"
-msgstr "Nova pasta"
+msgstr "Nova classe"
 
 msgid "New eligible delivery added"
 msgstr "Nova entrega elegível adicionada"
@@ -273,7 +273,7 @@ msgid "Resource with `%s` uri not found"
 msgstr "Recurso com `%s` uri não encontrado"
 
 msgid "Revoke"
-msgstr ""
+msgstr "Revoke"
 
 msgid "Role is not allowed."
 msgstr "Função não permitida."
@@ -351,7 +351,7 @@ msgid "Workstation name"
 msgstr "Nome da estação"
 
 msgid "Workstation:"
-msgstr ""
+msgstr "Workstation:"
 
 msgid "You must select at least one test center!"
 msgstr "Você deve selecionar pelo menos um centro de teste!"
