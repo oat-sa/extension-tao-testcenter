@@ -12,35 +12,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/eligibility.rdf.po\n"
 "X-Crowdin-File-ID: 687\n"
-"Language-Team: Portuguese, Brazilian\n"
+"Language-Team: Portuguese\n"
 
 # http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Eligibility"
-msgstr "Elegibilidade de entrega"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Enable"
-msgstr "Habilitar Verificação"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Enable"
-msgstr "Habilitar Verificação"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ComplyEnabled
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Enable"
-msgstr "Habilitado"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ComplyEnabled
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Enable"
-msgstr "Habilitado"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
