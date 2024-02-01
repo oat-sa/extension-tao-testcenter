@@ -110,7 +110,7 @@ define([
                     files = _.filter(files, function(file){
                         // for some weird reasons some browsers have quotes around the file type
                         var checkType = file.type.replace(/("|')/g, '');
-                        return _.contains(_fileTypeFilters, checkType) || (checkType === '' && _fileExtFilter.test(file.name));
+                        return _.includes(_fileTypeFilters, checkType) || (checkType === '' && _fileExtFilter.test(file.name));
                     });
 
                     if(files.length !== givenLength){

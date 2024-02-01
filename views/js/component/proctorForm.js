@@ -85,7 +85,7 @@ define([
                             var data = {
                                 testCenters : list && list.getSelection()
                             };
-                            _.each(fields, function(field){
+                            _.forEach(fields, function(field){
                                 data[field.name] = field.value;
                             });
 
