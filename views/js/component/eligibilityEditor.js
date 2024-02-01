@@ -82,7 +82,7 @@ define([
          */
         var buildTestTakerTree = function buildTestTakerTree(id, url, testTakers, isDacEnabled){
 
-            var selected = _.pluck(testTakers, 'uri');
+            var selected = _.map(testTakers, 'uri');
 
             if (isDacEnabled === undefined) {
                 isDacEnabled = config.isDacEnabled;
@@ -112,7 +112,7 @@ define([
          */
         var buildDeliveryTree = function buildDeliveryTree(id, url, deliveries){
 
-            var selected = _.pluck(deliveries, 'uri');
+            var selected = _.map(deliveries, 'uri');
             return new GenerisTreeSelectClass('#' + id, url, {
                 actionId : 'treeOptions.actionId',
                 saveUrl : 'treeOptions.saveUrl',
