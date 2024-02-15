@@ -24,10 +24,12 @@ declare(strict_types=1);
 namespace oat\taoTestCenter\model;
 
 use core_kernel_classes_Resource;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\taoDeliveryRdf\model\GroupAssignment;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoTestTaker\models\events\TestTakerUpdatedEvent;
 
 class TestCenterAssignment extends GroupAssignment
 {
@@ -56,9 +58,11 @@ class TestCenterAssignment extends GroupAssignment
      */
     public function assign($testTakerIds, $assignment)
     {
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
         foreach ($testTakerIds as $testTakerId) {
             $this->getResource($testTakerId)->setPropertyValue($property, $assignment);
+            $eventManager->trigger(new TestTakerUpdatedEvent($testTakerId, []));
         }
     }
 
@@ -71,9 +75,11 @@ class TestCenterAssignment extends GroupAssignment
      */
     public function unassign($testTakerIds, $assignment)
     {
+        $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $property = $this->getProperty(self::PROPERTY_TESTTAKER_ASSIGNED);
         foreach ($testTakerIds as $testTakerId) {
             $this->getResource($testTakerId)->removePropertyValue($property, $assignment);
+            $eventManager->trigger(new TestTakerUpdatedEvent($testTakerId, []));
         }
     }
 
