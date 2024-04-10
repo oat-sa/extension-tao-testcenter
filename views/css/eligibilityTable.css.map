@@ -1,14 +1,1 @@
-{
-	"version": 3,
-	"file": "eligibilityTable.css",
-	"sources": [
-		"../scss/eligibilityTable.scss",
-		"../../../tao/views/node_modules/@oat-sa/tao-core-ui/scss/inc/_bootstrap.scss",
-		"../../../tao/views/node_modules/@oat-sa/tao-core-ui/scss/inc/_variables.scss",
-		"../../../tao/views/node_modules/@oat-sa/tao-core-ui/scss/inc/_functions.scss",
-		"../../../tao/views/node_modules/@oat-sa/tao-core-ui/scss/inc/_colors.scss",
-		"../../../tao/views/scss/inc/fonts/_tao-icon-vars.scss"
-	],
-	"names": [],
-	"mappings": "AAoBA,AACI,oBADgB,CAChB,EAAE,AAAA,WAAW,AAAA,CACT,UAAU,CAAE,MAAM,CACrB,AAHL,AAII,oBAJgB,CAIhB,EAAE,AAAA,OAAO,AAAC,CACN,UAAU,CAAE,MAAM,CAClB,KAAK,CAAE,IAAI,CAMd,AAZL,AAQQ,oBARY,CAIhB,EAAE,AAAA,OAAO,CAID,IAAI,AAAC,CG4LT,SAAS,CAAE,IAAc,CACzB,SAAS,CAAE,MAAoB,CH3L3B,cAAc,CAAE,MAAM,CACzB"
-}
+{"version":3,"sourceRoot":"","sources":["../scss/eligibilityTable.scss","../../../tao/views/node_modules/@oat-sa/tao-core-ui/scss/inc/_functions.scss"],"names":[],"mappings":"AAqBI,mCACI,kBAEJ,+BACI,kBACA,WAEA,oCC4LA,eACA,iBD3LI","file":"eligibilityTable.css"}

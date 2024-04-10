@@ -97,7 +97,7 @@
       <rdfs:comment xml:lang="en-US"><![CDATA[Eligibilities of the Test-Taker]]></rdfs:comment>
       <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject"/>
       <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter"/>
-      <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False" />
+      <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
       <tao:TAOGUIOrder><![CDATA[20]]></tao:TAOGUIOrder>
   </rdf:Description>
 
