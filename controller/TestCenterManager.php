@@ -160,7 +160,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * this one was moved out of generis tree controller 
+     * This one was moved out of generis tree controller
      * into here to allow to fetch tree data altogether with permissions
      * used only if DACSimple extension is enabled
      *
