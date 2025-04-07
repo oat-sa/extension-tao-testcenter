@@ -56,7 +56,7 @@ class TestCenterManager extends \tao_actions_SaSModule
 {
     use ProctoringTextConverterTrait;
 
-    const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
+    private const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
 
     /**
      * Initialize the service and the default data
@@ -160,26 +160,6 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * Get eligibilities formatted in a way that is compatible
-     * with the eligibilityTable component
-     *
-     * @return array
-     * @throws \tao_models_classes_MissingRequestParameterException
-     */
-    private function _getEligibilities()
-    {
-
-        $testCenter = $this->getCurrentInstance();
-
-        $data = array_map(function ($eligibility) {
-            $eligibility['id'] = $eligibility['uri'];
-            return $eligibility;
-        }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
-
-        return DataTableHelper::paginate($data, $this->getRequestOptions());
-    }
-
-    /**
      * this one was moved out of generis tree controller into here to allow to fetch tree data altogether with permissions
      * used only if DACSimple extension is enabled
      *
@@ -250,7 +230,14 @@ class TestCenterManager extends \tao_actions_SaSModule
 
     public function getEligibilities()
     {
-        return $this->returnJson($this->_getEligibilities());
+        $testCenter = $this->getCurrentInstance();
+
+        $data = array_map(function ($eligibility) {
+            $eligibility['id'] = $eligibility['uri'];
+            return $eligibility;
+        }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
+
+        return $this->returnJson(DataTableHelper::paginate($data, $this->getRequestOptions()));
     }
 
     public function addEligibilities()
