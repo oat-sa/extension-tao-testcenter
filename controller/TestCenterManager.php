@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\Tree\GetTreeRequest;
 use oat\tao\model\Tree\GetTreeService;
@@ -34,6 +36,13 @@ use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoProctoring\helpers\DataTableHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
+use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\generis\model\resource\exception\ResourceDeletionException;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
+use oat\tao\model\resources\Service\ClassDeleter;
 
 /**
  * Proctoring Test Center controllers for test center screens
@@ -47,7 +56,7 @@ class TestCenterManager extends \tao_actions_SaSModule
 {
     use ProctoringTextConverterTrait;
 
-    const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
+    private const COMPONENT = 'taoTestCenter/component/eligibilityEditor';
 
     /**
      * Initialize the service and the default data
@@ -79,7 +88,6 @@ class TestCenterManager extends \tao_actions_SaSModule
 
         if ($this->hasWriteAccess($testCenter->getUri())) {
             if ($myForm->isSubmited() && $myForm->isValid()) {
-
                 $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($testCenter);
                 $testCenter = $binder->bind($myForm->getValues());
 
@@ -107,7 +115,6 @@ class TestCenterManager extends \tao_actions_SaSModule
         $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
 
         if ($isDacEnabled) {
-
             //retrieve resources permissions
             $user = \common_Session_SessionManager::getSession()->getUser();
             $permissions = $this->getResourceService()->getResourcesPermissions($user, $testCenter);
@@ -138,12 +145,12 @@ class TestCenterManager extends \tao_actions_SaSModule
         $service = $this->getServiceLocator()->get(EligibilityCsvImporterFactory::SERVICE_ID);
         $propertyKey = $this->getImportMapperTestCenterProperty();
 
-        if (empty($files)){
+        if (empty($files)) {
             throw new \Exception('No files selected.');
         }
 
-        foreach ($files as $file){
-            $report = $service->create('default')->import($file['tmp_name'],[
+        foreach ($files as $file) {
+            $report = $service->create('default')->import($file['tmp_name'], [
                 $propertyKey => $testCenter
             ]);
         }
@@ -153,26 +160,8 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * Get eligibilities formatted in a way that is compatible
-     * with the eligibilityTable component
-     *
-     * @return array
-     * @throws \tao_models_classes_MissingRequestParameterException
-     */
-    private function _getEligibilities(){
-
-        $testCenter = $this->getCurrentInstance();
-
-        $data = array_map(function($eligibility) {
-            $eligibility['id'] = $eligibility['uri'];
-            return $eligibility;
-        }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
-
-        return DataTableHelper::paginate($data, $this->getRequestOptions());
-    }
-
-    /**
-     * this one was moved out of generis tree controller into here to allow to fetch tree data altogether with permissions
+     * This one was moved out of generis tree controller
+     * into here to allow to fetch tree data altogether with permissions
      * used only if DACSimple extension is enabled
      *
      * @throws \common_Exception
@@ -193,7 +182,6 @@ class TestCenterManager extends \tao_actions_SaSModule
         $isDacEnabled = isset($config[self::COMPONENT]['isDacEnabled']) && $config[self::COMPONENT]['isDacEnabled'];
 
         if ($isDacEnabled) {
-
             //retrieve resources permissions
             $user = \common_Session_SessionManager::getSession()->getUser();
             $permissions = $this->getResourceService()->getResourcesPermissions($user, $tree);
@@ -216,51 +204,62 @@ class TestCenterManager extends \tao_actions_SaSModule
      * @return array
      * @throws \common_Exception
      */
-    private function _getRequestEligibility(){
-        if($this->hasRequestParameter('eligibility')){
+    private function getRequestEligibility()
+    {
+        if ($this->hasRequestParameter('eligibility')) {
             $eligibility = $this->getRequestParameter('eligibility');
-            if(isset($eligibility['deliveries']) && is_array($eligibility['deliveries'])){
-
+            if (isset($eligibility['deliveries']) && is_array($eligibility['deliveries'])) {
                 $formatted = array();
-                $formatted['deliveries'] = array_map(function($deliveryUri){
+                $formatted['deliveries'] = array_map(function ($deliveryUri) {
                         return new \core_kernel_classes_Resource(\tao_helpers_Uri::decode($deliveryUri));
-                    }, $eligibility['deliveries']);
+                }, $eligibility['deliveries']);
 
-                if(isset($eligibility['testTakers']) && is_array($eligibility['testTakers'])){
-                    $formatted['testTakers'] = array_map(function($testTakerId){
+                if (isset($eligibility['testTakers']) && is_array($eligibility['testTakers'])) {
+                    $formatted['testTakers'] = array_map(function ($testTakerId) {
                         return \tao_helpers_Uri::decode($testTakerId);
                     }, $eligibility['testTakers']);
                 }
 
                 return $formatted;
-            }else{
+            } else {
                 throw new \common_Exception('eligibility requires a delivery');
             }
-        }else{
+        } else {
             throw new \common_Exception('no eligibility in request');
         }
     }
 
     public function getEligibilities()
     {
-        return $this->returnJson($this->_getEligibilities());
+        $testCenter = $this->getCurrentInstance();
+
+        $data = array_map(function ($eligibility) {
+            $eligibility['id'] = $eligibility['uri'];
+            return $eligibility;
+        }, $this->getEligibilityService()->getEligibilities($testCenter, [ 'sort' => true ]));
+
+        return $this->returnJson(DataTableHelper::paginate($data, $this->getRequestOptions()));
     }
 
     public function addEligibilities()
     {
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $failures = array();
         $success = true;
-        foreach($eligibility['deliveries'] as $delivery){
-            if($delivery->isClass()){
+        foreach ($eligibility['deliveries'] as $delivery) {
+            if ($delivery->isClass()) {
                 continue;//prevent assigning eligibility to a class for now
             }
-            if($this->getEligibilityService()->createEligibility($testCenter, $delivery)){
-                if(isset($eligibility['testTakers'])){
-                    $success &= $this->getEligibilityService()->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
+            if ($this->getEligibilityService()->createEligibility($testCenter, $delivery)) {
+                if (isset($eligibility['testTakers'])) {
+                    $success &= $this->getEligibilityService()->setEligibleTestTakers(
+                        $testCenter,
+                        $delivery,
+                        $eligibility['testTakers']
+                    );
                 }
-            }else{
+            } else {
                 $success = false;
                 $failures[] = $delivery->getLabel();
             }
@@ -280,7 +279,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     {
         $success = false;
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $testTakers = isset($eligibility['testTakers']) ? $eligibility['testTakers'] : [];
 
         foreach ($eligibility['deliveries'] as $delivery) {
@@ -301,10 +300,29 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function delete()
     {
-        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance('id'));
+        $instance = $this->getCurrentInstance('id');
+        /**
+         * @var ResourceDeleterInterface|ClassDeleterInterface $deleter
+         * @var core_kernel_classes_Resource|core_kernel_classes_Class $instanceToDelete
+         */
+        [$deleter, $instanceToDelete] = $instance->isClass()
+            ? [$this->getClassDeleter(), $this->getClass($instance)]
+            : [$this->getResourceDeleter(), $instance];
+        $label = $instance->getLabel();
+        try {
+            $deleter->delete($instanceToDelete);
+            $success = true;
+            $deleted = true;
+            $message = __('%s has been deleted', $label);
+        } catch (PartialClassDeletionException | ResourceDeletionException $exception) {
+            $success = $exception instanceof PartialClassDeletionException;
+            $deleted = false;
+            $message = $exception->getUserMessage();
+        }
         return $this->returnJson(array(
-            'success' => $deleted,
-            'deleted' => $deleted
+            'success' => $success,
+            'deleted' => $deleted,
+            'message' => $message,
         ));
     }
 
@@ -315,7 +333,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     public function removeEligibilities()
     {
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $success = true;
         foreach ($eligibility['deliveries'] as $delivery) {
             $success = $success && $this->getEligibilityService()->removeEligibility($testCenter, $delivery);
@@ -334,7 +352,7 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function shieldEligibility()
     {
-        if(!$this->hasRequestParameter('eligibility')){
+        if (!$this->hasRequestParameter('eligibility')) {
             throw new \common_Exception('Please provide the URI of the eligibilty to shield');
         }
         $eligibilityUri = $this->getRequestParameter('eligibility');
@@ -351,7 +369,7 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function unshieldEligibility()
     {
-        if(!$this->hasRequestParameter('eligibility')){
+        if (!$this->hasRequestParameter('eligibility')) {
             throw new \common_Exception('Please provide the URI of the eligibilty to unshield');
         }
         $eligibilityUri = $this->getRequestParameter('eligibility');
@@ -367,7 +385,8 @@ class TestCenterManager extends \tao_actions_SaSModule
      *
      * @return array
      */
-    protected function getRequestOptions() {
+    protected function getRequestOptions()
+    {
 
         $page = $this->hasRequestParameter('page') ? $this->getRequestParameter('page') : DataTableHelper::DEFAULT_PAGE;
         $rows = $this->hasRequestParameter('rows') ? $this->getRequestParameter('rows') : DataTableHelper::DEFAULT_ROWS;
@@ -382,7 +401,6 @@ class TestCenterManager extends \tao_actions_SaSModule
             'sortOrder' => $sortOrder,
             'filter' => $filter
         );
-
     }
 
     /**
@@ -399,28 +417,28 @@ class TestCenterManager extends \tao_actions_SaSModule
         $mapper  = $service->create('default')->getMapper();
 
         $schema = $mapper->getOption(ImportMapperInterface::OPTION_SCHEMA);
-        if(!isset($schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY])){
+        if (!isset($schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY])) {
             return null;
         }
 
         $mandatoryFields = $schema[ImportMapperInterface::OPTION_SCHEMA_MANDATORY];
         foreach ($mandatoryFields as $key => $propertyKey) {
             $class = null;
-            if (is_array($propertyKey) && count($propertyKey) === 1){
+            if (is_array($propertyKey) && count($propertyKey) === 1) {
                 $valueMapper = reset($propertyKey);
-                if ($valueMapper instanceof RdsValidatorValueMapper){
+                if ($valueMapper instanceof RdsValidatorValueMapper) {
                     $class = $valueMapper->getOption(RdsValidatorValueMapper::OPTION_CLASS);
                 }
             } else {
                 $class = $propertyKey;
             }
 
-            if (TestCenterService::CLASS_URI === $class){
+            if (TestCenterService::CLASS_URI === $class) {
                 return $key;
             }
         }
-
-        throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI .' is not defined in the import mapper config.');
+        $message = 'Class uri: ' . TestCenterService::CLASS_URI . ' is not defined in the import mapper config.';
+        throw new \Exception($message);
     }
 
     /**
@@ -466,5 +484,15 @@ class TestCenterManager extends \tao_actions_SaSModule
     public function cloneInstance()
     {
         return parent::cloneInstance();
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ResourceDeleter::class);
     }
 }
