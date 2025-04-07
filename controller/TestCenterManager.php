@@ -203,7 +203,7 @@ class TestCenterManager extends \tao_actions_SaSModule
      * @return array
      * @throws \common_Exception
      */
-    private function _getRequestEligibility()
+    private function getRequestEligibility()
     {
         if ($this->hasRequestParameter('eligibility')) {
             $eligibility = $this->getRequestParameter('eligibility');
@@ -243,7 +243,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     public function addEligibilities()
     {
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $failures = array();
         $success = true;
         foreach ($eligibility['deliveries'] as $delivery) {
@@ -274,7 +274,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     {
         $success = false;
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $testTakers = isset($eligibility['testTakers']) ? $eligibility['testTakers'] : [];
 
         foreach ($eligibility['deliveries'] as $delivery) {
@@ -328,7 +328,7 @@ class TestCenterManager extends \tao_actions_SaSModule
     public function removeEligibilities()
     {
         $testCenter = $this->getCurrentInstance();
-        $eligibility = $this->_getRequestEligibility();
+        $eligibility = $this->getRequestEligibility();
         $success = true;
         foreach ($eligibility['deliveries'] as $delivery) {
             $success = $success && $this->getEligibilityService()->removeEligibility($testCenter, $delivery);
