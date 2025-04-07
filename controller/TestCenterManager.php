@@ -160,7 +160,8 @@ class TestCenterManager extends \tao_actions_SaSModule
     }
 
     /**
-     * this one was moved out of generis tree controller into here to allow to fetch tree data altogether with permissions
+     * this one was moved out of generis tree controller 
+     * into here to allow to fetch tree data altogether with permissions
      * used only if DACSimple extension is enabled
      *
      * @throws \common_Exception
@@ -252,7 +253,11 @@ class TestCenterManager extends \tao_actions_SaSModule
             }
             if ($this->getEligibilityService()->createEligibility($testCenter, $delivery)) {
                 if (isset($eligibility['testTakers'])) {
-                    $success &= $this->getEligibilityService()->setEligibleTestTakers($testCenter, $delivery, $eligibility['testTakers']);
+                    $success &= $this->getEligibilityService()->setEligibleTestTakers(
+                        $testCenter,
+                        $delivery,
+                        $eligibility['testTakers']
+                    );
                 }
             } else {
                 $success = false;
@@ -432,8 +437,8 @@ class TestCenterManager extends \tao_actions_SaSModule
                 return $key;
             }
         }
-
-        throw new \Exception('Class uri: ' . TestCenterService::CLASS_URI . ' is not defined in the import mapper config.');
+        $message = 'Class uri: ' . TestCenterService::CLASS_URI . ' is not defined in the import mapper config.';
+        throw new \Exception($message);
     }
 
     /**
