@@ -24,6 +24,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\import\service\ImportMapperInterface;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\Tree\GetTreeRequest;
 use oat\tao\model\Tree\GetTreeService;
@@ -34,6 +35,13 @@ use oat\taoTestCenter\model\TestCenterService;
 use oat\taoTestCenter\model\EligibilityService;
 use oat\taoProctoring\helpers\DataTableHelper;
 use oat\taoProctoring\model\textConverter\ProctoringTextConverterTrait;
+use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\generis\model\resource\exception\ResourceDeletionException;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
+use oat\tao\model\resources\Service\ClassDeleter;
 
 /**
  * Proctoring Test Center controllers for test center screens
@@ -301,10 +309,29 @@ class TestCenterManager extends \tao_actions_SaSModule
      */
     public function delete()
     {
-        $deleted = $this->getClassService()->deleteResource($this->getCurrentInstance('id'));
+        $instance = $this->getCurrentInstance('id');
+        /**
+         * @var ResourceDeleterInterface|ClassDeleterInterface $deleter
+         * @var core_kernel_classes_Resource|core_kernel_classes_Class $instanceToDelete
+         */
+        [$deleter, $instanceToDelete] = $instance->isClass()
+            ? [$this->getClassDeleter(), $this->getClass($instance)]
+            : [$this->getResourceDeleter(), $instance];
+        $label = $instance->getLabel();
+        try {
+            $deleter->delete($instanceToDelete);
+            $success = true;
+            $deleted = true;
+            $message = __('%s has been deleted', $label);
+        } catch (PartialClassDeletionException | ResourceDeletionException $exception) {
+            $success = $exception instanceof PartialClassDeletionException;
+            $deleted = false;
+            $message = $exception->getUserMessage();
+        }
         return $this->returnJson(array(
-            'success' => $deleted,
-            'deleted' => $deleted
+            'success' => $success,
+            'deleted' => $deleted,
+            'message' => $message,
         ));
     }
 
@@ -466,5 +493,15 @@ class TestCenterManager extends \tao_actions_SaSModule
     public function cloneInstance()
     {
         return parent::cloneInstance();
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ResourceDeleter::class);
     }
 }
