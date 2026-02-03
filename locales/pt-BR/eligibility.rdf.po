@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-06-07 15:12\n"
+"PO-Revision-Date: 2026-02-03 19:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/eligibility.rdf.po\n"
-"X-Crowdin-File-ID: 687\n"
+"X-Crowdin-File-ID: 1237\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 # http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility
@@ -45,10 +45,10 @@ msgstr "Habilitado"
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Accessible by Proctor"
-msgstr ""
+msgstr "Acessível pelo Proctor"
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Accessible by Proctor"
-msgstr ""
+msgstr "Acessível pelo Proctor"
 
