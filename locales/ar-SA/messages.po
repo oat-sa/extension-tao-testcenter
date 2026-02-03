@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-12-04 16:02\n"
+"PO-Revision-Date: 2026-02-03 19:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar\n"
@@ -22,6 +22,9 @@ msgstr ""
 
 msgid "%d eligibilities have been deleted"
 msgstr "تم حذف %d من الأهليات"
+
+msgid "%s has been deleted"
+msgstr "تم حذف %s"
 
 msgid "`%s` parameter must be an array"
 msgstr "يجب أن تكون المعلمة `%s` عبارة عن مصفوفة"
