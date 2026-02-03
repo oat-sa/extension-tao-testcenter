@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-12-04 16:01\n"
+"PO-Revision-Date: 2026-02-03 19:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de\n"
@@ -22,6 +22,9 @@ msgstr ""
 
 msgid "%d eligibilities have been deleted"
 msgstr "%d Berechtigungen wurden gelöscht"
+
+msgid "%s has been deleted"
+msgstr "%s wurde gelöscht"
 
 msgid "`%s` parameter must be an array"
 msgstr "Der Parameter `%s` muss ein Array sein"
