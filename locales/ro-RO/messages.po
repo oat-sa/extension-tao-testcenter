@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2025-12-05 08:38\n"
+"PO-Revision-Date: 2026-02-03 19:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -21,338 +21,341 @@ msgstr ""
 "Language-Team: Romanian\n"
 
 msgid "%d eligibilities have been deleted"
-msgstr ""
+msgstr "%d eligibilități au fost șterse"
+
+msgid "%s has been deleted"
+msgstr "%s a fost șters"
 
 msgid "`%s` parameter must be an array"
-msgstr ""
+msgstr "` parametrul%strebuie să fie un array"
 
 msgid "Actions"
-msgstr ""
+msgstr "Acțiuni"
 
 msgid "Add"
-msgstr ""
+msgstr "Adăugare"
 
 msgid "Add Eligibility"
-msgstr ""
+msgstr "Adaugă eligibilitate"
 
 msgid "Add Test Takers"
-msgstr ""
+msgstr "Adaugă Căptuitoare de test"
 
 msgid "All Sessions"
-msgstr ""
+msgstr "Toate sesiunile"
 
 msgid "Assessment Activity Reporting"
-msgstr ""
+msgstr "Evaluare raportare activitate"
 
 msgid "At least one delivery need to be selected to create"
-msgstr ""
+msgstr "Trebuie selectat cel putin o livrare pentru a fi creat"
 
 msgid "Authorize"
-msgstr ""
+msgstr "Autorizează"
 
 msgid "Authorized"
-msgstr ""
+msgstr "Autorizat"
 
 msgid "Available"
-msgstr ""
+msgstr "Disponibil"
 
 msgid "Back to index"
-msgstr ""
+msgstr "Înapoi la index"
 
 msgid "Can\\'t create eligibility. Please contact administrator."
-msgstr ""
+msgstr "Nu se poate crea eligibilitate. Vă rugăm să contactaţi administratorul."
 
 msgid "cancel"
-msgstr ""
+msgstr "anulează"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "anulează acțiunea"
 
 msgid "Check the compatibility of the current workstation and see the results"
-msgstr ""
+msgstr "Verificați compatibilitatea postului de lucru curent și vedeți rezultatele"
 
 msgid "Clean up orphan eligibilities"
-msgstr ""
+msgstr "Curățați eligibilitățile orfane"
 
 msgid "Continue"
-msgstr ""
+msgstr "Continuă"
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Ștergere"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Livrare"
 
 msgid "Delivery `%s` does not exist."
-msgstr ""
+msgstr "Livrarea `%s` nu există."
 
 #, tao-public
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicate"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editare"
 
 msgid "Edit eligibile test takers"
-msgstr ""
+msgstr "Editare taste de test"
 
 msgid "Edit Eligibility"
-msgstr ""
+msgstr "Editați eligibilitatea"
 
 msgid "Eligibility `%s` does not exist."
-msgstr ""
+msgstr "Eligibilitatea `%s` nu există."
 
 msgid "Eligibility already exists"
-msgstr ""
+msgstr "Eligibilitatea există deja"
 
 msgid "Eligibility don\\'t need proctor authorization any more."
-msgstr ""
+msgstr "Eligibilitatea nu mai are nevoie de autorizarea proctoarelor."
 
 msgid "Eligibility needs proctor authorization"
-msgstr ""
+msgstr "Eligibilitatea are nevoie de autorizare de proctor"
 
 msgid "Eligibility not found for provided search parameters."
-msgstr ""
+msgstr "Eligibilitatea nu a fost găsită pentru parametrii de căutare furnizați."
 
 msgid "Eligible Deliveries"
-msgstr ""
+msgstr "Livrări eligibile"
 
 msgid "Eligible delivery removed"
-msgstr ""
+msgstr "Livrare eligibilă eliminată"
 
 msgid "Eligible Test Takers"
-msgstr ""
+msgstr "Căptuitoare de testare eligibile"
 
 msgid "Eligible test takers updated"
-msgstr ""
+msgstr "Testări eligibile actualizate"
 
 msgid "Enable proctor authorization"
-msgstr ""
+msgstr "Activare autorizare proctor"
 
 msgid "First name"
-msgstr ""
+msgstr "Prenume"
 
 msgid "for"
-msgstr ""
+msgstr "pentru"
 
 msgid "Go"
-msgstr ""
+msgstr "Mergi"
 
 msgid "Go to"
-msgstr ""
+msgstr "Mergi la"
 
 #, tao-public
 msgid "Import"
-msgstr ""
+msgstr "Importă"
 
 msgid "Import "
-msgstr ""
+msgstr "Importă "
 
 msgid "Import Eligibilities from csv file."
-msgstr ""
+msgstr "Importa Eligibilities din fisierul csv."
 
 msgid "Invalid files have been removed"
-msgstr ""
+msgstr "Fișierele nevalide au fost eliminate"
 
 msgid "Last name"
-msgstr ""
+msgstr "Nume de familie"
 
 msgid "Last updated on %2s"
-msgstr ""
+msgstr "Ultima actualizare la %2s"
 
 msgid "Loading"
-msgstr ""
+msgstr "Încărcare"
 
 msgid "Login"
-msgstr ""
+msgstr "Autentificare"
 
 msgid "Logout"
-msgstr ""
+msgstr "Deconectare"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "Meniul principal"
 
 #, tao-public
 msgid "Manage Schema"
-msgstr ""
+msgstr "Gestionare schemă"
 
 #, tao-public
 msgid "Manage Test Center"
-msgstr ""
+msgstr "Gestionați centrul de testare"
 
 msgid "Manage Test Takers"
-msgstr ""
+msgstr "Gestionează butoanele de test"
 
 msgid "Manage testcenters and administer deliveries"
-msgstr ""
+msgstr "Gestionați centrele de testare și administrați livrările"
 
 msgid "Missed `%s` parameter"
-msgstr ""
+msgstr "Parametrul%sratat"
 
 msgid "Missed required parameter: `%s`"
-msgstr ""
+msgstr "Parametru necesar ratat: `%s`"
 
 msgid "Monitor and manage sessions for the test site"
-msgstr ""
+msgstr "Monitorizează și gestionează sesiunile pentru site-ul de testare"
 
 msgid "Monitor only"
-msgstr ""
+msgstr "Doar pentru monitorizare"
 
 #, tao-public
 msgid "Move"
-msgstr ""
+msgstr "Mutare"
 
 msgid "My Test sites"
-msgstr ""
+msgstr "Site-urile mele de testare"
 
 #, tao-public
 msgid "New class"
-msgstr ""
+msgstr "Clasa noua"
 
 msgid "New eligible delivery added"
-msgstr ""
+msgstr "Livrare eligibilă nouă adăugată"
 
 #, tao-public
 msgid "New Test Center"
-msgstr ""
+msgstr "Centru de testare nou"
 
 msgid "No authorization to revoke for these proctors :"
-msgstr ""
+msgstr "Nici o autorizaţie de revocare pentru aceşti proctori:"
 
 msgid "No Eligible Delivery yet"
-msgstr ""
+msgstr "Nicio livrare eligibilă încă"
 
 msgid "No test site available"
-msgstr ""
+msgstr "Nici un site de testare disponibil"
 
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 msgid "Partially authorized"
-msgstr ""
+msgstr "Autorizat parțial"
 
 msgid "Please run %s script to clean up orphan eligibilities"
-msgstr ""
+msgstr "Vă rugăm să executați scriptul %s pentru a curăța eligibilitățile orfane"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Proprietăți"
 
 msgid "Readiness check"
-msgstr ""
+msgstr "Verificare Readiness"
 
 msgid "Readiness Check"
-msgstr ""
+msgstr "Verificare Readiness"
 
 msgid "Readiness Check for test site %s"
-msgstr ""
+msgstr "Verificare de pregătire pentru site-ul de testare %s"
 
 msgid "Refresh"
-msgstr ""
+msgstr "Împrospătează"
 
 msgid "Refresh the page"
-msgstr ""
+msgstr "Reîmprospătează pagina"
 
 msgid "Remove"
-msgstr ""
+msgstr "Elimină"
 
 msgid "Remove eligibility"
-msgstr ""
+msgstr "Eliminați eligibilitatea"
 
 msgid "Remove proctor authorization"
-msgstr ""
+msgstr "Elimină autorizare proctor"
 
 msgid "Require authorization"
-msgstr ""
+msgstr "Necesită autorizare"
 
 msgid "Resource with `%s` uri not found"
-msgstr ""
+msgstr "Resursa cu `%s` uri nu a fost găsită"
 
 msgid "Revoke"
-msgstr ""
+msgstr "Revoke"
 
 msgid "Role is not allowed."
-msgstr ""
+msgstr "Rolul nu este permis."
 
 msgid "Session history"
-msgstr ""
+msgstr "Istoric sesiune"
 
 msgid "Sessions"
-msgstr ""
+msgstr "Sesiuni"
 
 msgid "Something went wrong ..."
-msgstr ""
+msgstr "Ceva nu a mers bine..."
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Test Center `%s` does not exist."
-msgstr ""
+msgstr "Testul centrului `%s` nu există."
 
 #, tao-public
 msgid "Test center contains test taker and groups and are administer by a proctor"
-msgstr ""
+msgstr "Centrul de încercare conține tastatura de testare și grupuri și sunt administrate de un proctor"
 
 #, tao-public
 msgid "Test Center List"
-msgstr ""
+msgstr "Lista Centrului de Testare"
 
 msgid "Test centers"
-msgstr ""
+msgstr "Centrele de încercare"
 
 #, tao-public
 msgid "Test Centers"
-msgstr ""
+msgstr "Centrele de testare"
 
 msgid "Test site"
-msgstr ""
+msgstr "Locul de testare"
 
 msgid "Test sites"
-msgstr ""
+msgstr "Site-uri de testare"
 
 msgid "Test taker `%s` does not exist."
-msgstr ""
+msgstr "Test taker `%s` nu există."
 
 msgid "Testcenter Proctoring"
-msgstr ""
+msgstr "Proctoring Testcenter"
 
 msgid "Testcenter Proctors"
-msgstr ""
+msgstr "Proctoare testcenter"
 
 msgid "The following delivery(ies) are already eligible : "
-msgstr ""
+msgstr "Următoarele livrări sunt deja eligibile: "
 
 msgid "This delivery can be launched without authorization"
-msgstr ""
+msgstr "Această livrare poate fi lansată fără autorizație"
 
 msgid "This delivery needs proctor authorization"
-msgstr ""
+msgstr "Această livrare are nevoie de o autorizație de proctor"
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
+msgstr "Imposibil de încărcat fișierul %s : %s"
 
 msgid "User `%s` does not exist."
-msgstr ""
+msgstr "Utilizatorul `%s` nu există."
 
 msgid "User is not assigned to the test center with given role."
-msgstr ""
+msgstr "Utilizatorul nu este atribuit centrului de testare cu un anumit rol."
 
 msgid "User Role `%s` does not exist."
-msgstr ""
+msgstr "Rolul de utilizator `%s` nu există."
 
 msgid "User with given role cannot be assigned to the test center."
-msgstr ""
+msgstr "Utilizatorul cu un anumit rol nu poate fi atribuit centrului de testare."
 
 msgid "Workstation name"
-msgstr ""
+msgstr "Numele postului de lucru"
 
 msgid "Workstation:"
-msgstr ""
+msgstr "Lucrători:"
 
 msgid "You must select at least one test center!"
-msgstr ""
+msgstr "Trebuie să selectaţi cel puţin un centru de testare!"
 
