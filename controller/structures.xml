@@ -18,14 +18,14 @@
                             />
                 </trees>
                 <actions allowClassActions="true">
-                    <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class" weight="10">
+                    <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class" weight="1">
                         <icon id="icon-edit"/>
                     </action>
-                    <action id="testcenter-class-schema" name="Manage Schema" url="/tao/PropertiesAuthoring/index" group="content" context="class" weight="3">
+                    <action id="testcenter-class-schema" name="Manage Schema" url="/tao/PropertiesAuthoring/index" group="content" context="class" weight="8">
                         <icon id="icon-property-add"/>
                     </action>
                     <action id="testcenter-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editCenter"
-                            group="content" context="instance" weight="10">
+                            group="content" context="instance" weight="1">
                         <icon id="icon-edit"/>
                     </action>
                     <action id="testcenter-class-new" name="New class" url="/taoTestCenter/TestCenterManager/addSubClass"
