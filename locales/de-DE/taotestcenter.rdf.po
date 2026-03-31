@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:44:32\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-02-03 19:17\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -9,109 +9,116 @@ msgstr ""
 "targetLanguage: de-DE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/taotestcenter.rdf.po\n"
+"X-Crowdin-File-ID: 1239\n"
+"Language-Team: German\n"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Center"
-msgstr ""
+msgstr "Test-Center"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Test Center"
-msgstr ""
+msgstr "Test-Center"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#member
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Member of the test center"
-msgstr ""
+msgstr "Mitglied des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Proctor"
-msgstr ""
+msgstr "Proktor"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#proctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Proctor of the test center"
-msgstr ""
+msgstr "Proktor des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Administrator"
-msgstr ""
+msgstr "Administrator"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "the administrator of the test center"
-msgstr ""
+msgstr "der Administrator des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Authorized Proctor"
-msgstr ""
+msgstr "Autorisierter Proctor"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#authorizedProctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Authorized Proctor of the test center"
-msgstr ""
+msgstr "Autorisierter Proctor des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Assigned Proctor"
-msgstr ""
+msgstr "Zugewiesener Proktor"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#assignedProctor
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Assigned Proctor of the test center"
-msgstr ""
+msgstr "Zugewiesener Proktor des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Content"
-msgstr ""
+msgstr "Inhalt"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#administers
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "test center administers delivery"
-msgstr ""
+msgstr "testcenter administriert Lieferung"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Children Test Center"
-msgstr ""
+msgstr "Kindertest-Center"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#children
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "children test center of the test center"
-msgstr ""
+msgstr "kindertest Zentrum des Testzentrums"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Assignment"
-msgstr ""
+msgstr "Zuordnung"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter#UserAssignment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Eligibilities of the Test-Taker"
-msgstr ""
+msgstr "Eligility des Test-Takers"
 
 # http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Center Administrator Role"
-msgstr ""
+msgstr "Test-Center Administratorrolle"
 
 # http://www.tao.lu/Ontologies/TAOProctor.rdf#TestCenterAdministratorRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Test Center Administrator Role"
-msgstr ""
+msgstr "Test-Center Administratorrolle"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Centers Manager"
-msgstr ""
+msgstr "Test-Center-Manager"
 
 # http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenterManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Centers Manager Role"
-msgstr ""
+msgstr "Die Rolle des Test Centers Managers"
 
