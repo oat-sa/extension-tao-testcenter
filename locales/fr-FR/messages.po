@@ -4,27 +4,23 @@ msgstr ""
 "PO-Revision-Date: 2026-02-03 19:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr\n"
+"Language: fr-FR\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: fr-FR\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 689\n"
-"Language-Team: French\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr "Les éligibilités %d ont été supprimées"
 
 msgid "%s has been deleted"
 msgstr "%s a été supprimé"
+
+msgid "%s has been deleted"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr "Le paramètre `%s` doit être un tableau"
@@ -61,6 +57,9 @@ msgstr "Disponible"
 
 msgid "Back to index"
 msgstr "Retour à l'index"
+
+msgid "Can\'t create eligibility. Please contact administrator."
+msgstr ""
 
 msgid "Can\\'t create eligibility. Please contact administrator."
 msgstr "Impossible de créer l'éligibilité. Veuillez contacter l'administrateur."
@@ -111,6 +110,9 @@ msgstr "L'éligibilité `%s` n'existe pas."
 
 msgid "Eligibility already exists"
 msgstr "L'éligibilité existe déjà"
+
+msgid "Eligibility don\'t need proctor authorization any more."
+msgstr ""
 
 msgid "Eligibility don\\'t need proctor authorization any more."
 msgstr "L'admissibilité ne nécessite plus d'autorisation de procès."

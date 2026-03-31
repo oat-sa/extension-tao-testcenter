@@ -4,27 +4,23 @@ msgstr ""
 "PO-Revision-Date: 2026-02-03 19:16\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: ro\n"
+"Language: ro-RO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"targetLanguage: ro-RO\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 689\n"
-"Language-Team: Romanian\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr "%d eligibilități au fost șterse"
 
 msgid "%s has been deleted"
 msgstr "%s a fost șters"
+
+msgid "%s has been deleted"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr "` parametrul%strebuie să fie un array"
@@ -61,6 +57,9 @@ msgstr "Disponibil"
 
 msgid "Back to index"
 msgstr "Înapoi la index"
+
+msgid "Can\'t create eligibility. Please contact administrator."
+msgstr ""
 
 msgid "Can\\'t create eligibility. Please contact administrator."
 msgstr "Nu se poate crea eligibilitate. Vă rugăm să contactaţi administratorul."
@@ -111,6 +110,9 @@ msgstr "Eligibilitatea `%s` nu există."
 
 msgid "Eligibility already exists"
 msgstr "Eligibilitatea există deja"
+
+msgid "Eligibility don\'t need proctor authorization any more."
+msgstr ""
 
 msgid "Eligibility don\\'t need proctor authorization any more."
 msgstr "Eligibilitatea nu mai are nevoie de autorizarea proctoarelor."
