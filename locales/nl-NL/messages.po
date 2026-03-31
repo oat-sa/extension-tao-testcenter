@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2026.02 LTS\n"
-"PO-Revision-Date: 2026-02-03T14:44:32\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2024-04-09 07:36\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -16,11 +16,8 @@ msgstr ""
 msgid "%d eligibilities have been deleted"
 msgstr ""
 
-msgid "%s has been deleted"
-msgstr ""
-
 msgid "`%s` parameter must be an array"
-msgstr ""
+msgstr "`%s` parameter moet een array zijn"
 
 msgid "Actions"
 msgstr "Acties"
@@ -29,37 +26,34 @@ msgid "Add"
 msgstr "Toevoegen"
 
 msgid "Add Eligibility"
-msgstr ""
+msgstr "Eligibiliteit toevoegen"
 
 msgid "Add Test Takers"
-msgstr ""
+msgstr "Test Takers toevoegen"
 
 msgid "All Sessions"
-msgstr ""
+msgstr "Alle sessies"
 
 msgid "Assessment Activity Reporting"
-msgstr ""
+msgstr "Beoordelingsactiviteit rapportage"
 
 msgid "At least one delivery need to be selected to create"
-msgstr ""
+msgstr "Ten minste één aflevering moet worden geselecteerd om te maken"
 
 msgid "Authorize"
-msgstr ""
+msgstr "Autoriseer"
 
 msgid "Authorized"
-msgstr ""
+msgstr "Geautoriseerd"
 
 msgid "Available"
-msgstr ""
+msgstr "Beschikbaar"
 
 msgid "Back to index"
 msgstr ""
 
-msgid "Can\'t create eligibility. Please contact administrator."
-msgstr ""
-
 msgid "Can\\'t create eligibility. Please contact administrator."
-msgstr ""
+msgstr "Kan geen geschiktheid creëren. Neem contact op met de beheerder."
 
 msgid "cancel"
 msgstr "annuleren"
@@ -68,26 +62,26 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 msgid "cancel the action"
-msgstr ""
+msgstr "annuleer de actie"
 
 msgid "Check the compatibility of the current workstation and see the results"
-msgstr ""
+msgstr "Controleer de compatibiliteit van het huidige werkstation en bekijk de resultaten"
 
 msgid "Clean up orphan eligibilities"
-msgstr ""
+msgstr "Opschonen van geschiktheid voor weeskinderen"
 
 msgid "Continue"
-msgstr ""
+msgstr "Doorgaan"
 
 #, tao-public
 msgid "Delete"
 msgstr "Verwijderen"
 
 msgid "Delivery"
-msgstr ""
+msgstr "Bezorging"
 
 msgid "Delivery `%s` does not exist."
-msgstr ""
+msgstr "Levering `%s` bestaat niet."
 
 #, tao-public
 msgid "Duplicate"
@@ -97,71 +91,68 @@ msgid "Edit"
 msgstr "Aanpassen"
 
 msgid "Edit eligibile test takers"
-msgstr ""
+msgstr "Bewerken van subsidiabiliteitstests"
 
 msgid "Edit Eligibility"
-msgstr ""
+msgstr "Wijzig Eventaliteit"
 
 msgid "Eligibility `%s` does not exist."
-msgstr ""
+msgstr "Eligibiliteit `%s` bestaat niet."
 
 msgid "Eligibility already exists"
 msgstr ""
 
-msgid "Eligibility don\'t need proctor authorization any more."
-msgstr ""
-
 msgid "Eligibility don\\'t need proctor authorization any more."
-msgstr ""
+msgstr "Eligibility heeft geen proctore autorisatie meer nodig."
 
 msgid "Eligibility needs proctor authorization"
-msgstr ""
+msgstr "Eligibiliteit vereist toestemming van de proctor"
 
 msgid "Eligibility not found for provided search parameters."
-msgstr ""
+msgstr "Kan niet gevonden worden voor de opgegeven zoekparameters."
 
 msgid "Eligible Deliveries"
-msgstr ""
+msgstr "Passende Leveringen"
 
 msgid "Eligible delivery removed"
-msgstr ""
+msgstr "Eventuele levering verwijderd"
 
 msgid "Eligible Test Takers"
-msgstr ""
+msgstr "Passende Test Takers"
 
 msgid "Eligible test takers updated"
-msgstr ""
+msgstr "Eligible testtakers bijgewerkt"
 
 msgid "Enable proctor authorization"
-msgstr ""
+msgstr "Proctor autorisatie inschakelen"
 
 msgid "First name"
-msgstr ""
+msgstr "Voornaam is vereist."
 
 msgid "for"
-msgstr ""
+msgstr "voor"
 
 msgid "Go"
-msgstr ""
+msgstr "Gaan"
 
 msgid "Go to"
-msgstr ""
+msgstr "Ga naar"
 
 #, tao-public
 msgid "Import"
-msgstr ""
+msgstr "Importeren"
 
 msgid "Import "
-msgstr ""
+msgstr "Importeren "
 
 msgid "Import Eligibilities from csv file."
-msgstr ""
+msgstr "Importeer Eligibilities uit csv bestand."
 
 msgid "Invalid files have been removed"
-msgstr ""
+msgstr "Ongeldige bestanden zijn verwijderd"
 
 msgid "Last name"
-msgstr ""
+msgstr "Achternaam is vereist."
 
 msgid "Last updated on %2s"
 msgstr "Laatst bijgewerkt op %2s"
@@ -176,7 +167,7 @@ msgid "Logout"
 msgstr "Afmelden"
 
 msgid "Main Menu"
-msgstr ""
+msgstr "Hoofd Menu"
 
 #, tao-public
 msgid "Manage Schema"
@@ -184,74 +175,74 @@ msgstr "Schema beheren"
 
 #, tao-public
 msgid "Manage Test Center"
-msgstr ""
+msgstr "Test Center beheren"
 
 msgid "Manage Test Takers"
-msgstr ""
+msgstr "Takers beheren"
 
 msgid "Manage testcenters and administer deliveries"
-msgstr ""
+msgstr "Beheer testcenters en beheer leveringen"
 
 msgid "Missed `%s` parameter"
-msgstr ""
+msgstr "Gemiste `%s` parameter"
 
 msgid "Missed required parameter: `%s`"
-msgstr ""
+msgstr "Vereiste parameter gemist: `%s`"
 
 msgid "Monitor and manage sessions for the test site"
-msgstr ""
+msgstr "Sessies voor de testsite monitoren en beheren en beheren"
 
 msgid "Monitor only"
-msgstr ""
+msgstr "Alleen monitoren"
 
 #, tao-public
 msgid "Move"
 msgstr "Verplaats"
 
 msgid "My Test sites"
-msgstr ""
+msgstr "Mijn testsites"
 
 #, tao-public
 msgid "New class"
 msgstr "Nieuwe klasse"
 
 msgid "New eligible delivery added"
-msgstr ""
+msgstr "Nieuwe in aanmerking komende levering toegevoegd"
 
 #, tao-public
 msgid "New Test Center"
-msgstr ""
+msgstr "Nieuw testcentrum"
 
 msgid "No authorization to revoke for these proctors :"
-msgstr ""
+msgstr "Geen toestemming om in te trekken voor deze opdrachten:"
 
 msgid "No Eligible Delivery yet"
-msgstr ""
+msgstr "Nog geen Eventuele Levering"
 
 msgid "No test site available"
-msgstr ""
+msgstr "Geen testsite beschikbaar"
 
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 msgid "Partially authorized"
-msgstr ""
+msgstr "Gedeeltelijk gemachtigd"
 
 msgid "Please run %s script to clean up orphan eligibilities"
-msgstr ""
+msgstr "Voer een %s script uit om de honing op te ruimen"
 
 #, tao-public
 msgid "Properties"
-msgstr ""
+msgstr "Eigenschappen"
 
 msgid "Readiness check"
-msgstr ""
+msgstr "Gereedschap controle"
 
 msgid "Readiness Check"
 msgstr "Gereedheid check"
 
 msgid "Readiness Check for test site %s"
-msgstr ""
+msgstr "Readiness Controle op testsite %s"
 
 msgid "Refresh"
 msgstr "Verversen"
@@ -263,91 +254,91 @@ msgid "Remove"
 msgstr "Verwijderen"
 
 msgid "Remove eligibility"
-msgstr ""
+msgstr "Compensatie verwijderen"
 
 msgid "Remove proctor authorization"
-msgstr ""
+msgstr "Proctor-autorisatie verwijderen"
 
 msgid "Require authorization"
-msgstr ""
+msgstr "Autorisatie vereist"
 
 msgid "Resource with `%s` uri not found"
-msgstr ""
+msgstr "Resource met `%s` uri niet gevonden"
 
 msgid "Revoke"
-msgstr ""
+msgstr "Revoke"
 
 msgid "Role is not allowed."
-msgstr ""
+msgstr "Rol is niet toegestaan."
 
 msgid "Session history"
-msgstr ""
+msgstr "Sessie geschiedenis"
 
 msgid "Sessions"
-msgstr ""
+msgstr "Sessies"
 
 msgid "Something went wrong ..."
 msgstr "Er ging iets verkeerd..."
 
 msgid "Status"
-msgstr ""
+msgstr "status"
 
 msgid "Test Center `%s` does not exist."
-msgstr ""
+msgstr "Test Center `%s` bestaat niet."
 
 #, tao-public
 msgid "Test center contains test taker and groups and are administer by a proctor"
-msgstr ""
+msgstr "Test center bevat testtaker en groepen en wordt beheerd door een proctor"
 
 #, tao-public
 msgid "Test Center List"
-msgstr ""
+msgstr "Test Center lijst"
 
 msgid "Test centers"
-msgstr ""
+msgstr "Test centra"
 
 #, tao-public
 msgid "Test Centers"
-msgstr ""
+msgstr "Test centra"
 
 msgid "Test site"
-msgstr ""
+msgstr "Test site"
 
 msgid "Test sites"
-msgstr ""
+msgstr "Sites testen"
 
 msgid "Test taker `%s` does not exist."
-msgstr ""
+msgstr "Test taker `%s` bestaat niet."
 
 msgid "Testcenter Proctoring"
-msgstr ""
+msgstr "Testcenter afwikkeling"
 
 msgid "Testcenter Proctors"
-msgstr ""
+msgstr "Testcenter Proctoren"
 
 msgid "The following delivery(ies) are already eligible : "
-msgstr ""
+msgstr "De volgende levering(en) komen al in aanmerking : "
 
 msgid "This delivery can be launched without authorization"
-msgstr ""
+msgstr "Deze levering kan worden gestart zonder autorisatie"
 
 msgid "This delivery needs proctor authorization"
-msgstr ""
+msgstr "Voor deze levering is vergunningen voor proctor nodig"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Kan bestand %s : %s niet uplodaen"
 
 msgid "User `%s` does not exist."
-msgstr ""
+msgstr "Gebruiker `%s` bestaat niet."
 
 msgid "User is not assigned to the test center with given role."
-msgstr ""
+msgstr "Gebruiker is niet toegewezen aan het testcentrum met een bepaalde rol."
 
 msgid "User Role `%s` does not exist."
-msgstr ""
+msgstr "Gebruiker rol `%s` bestaat niet."
 
 msgid "User with given role cannot be assigned to the test center."
-msgstr ""
+msgstr "Gebruiker met een bepaalde rol kan niet worden toegewezen aan het testcentrum."
 
 msgid "Workstation name"
 msgstr "Naam van werkstation"
@@ -356,5 +347,5 @@ msgid "Workstation:"
 msgstr "Werkstation:"
 
 msgid "You must select at least one test center!"
-msgstr ""
+msgstr "U moet ten minste één testcentrum selecteren!"
 
