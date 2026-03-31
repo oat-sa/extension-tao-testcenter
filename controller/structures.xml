@@ -18,25 +18,25 @@
                             />
                 </trees>
                 <actions allowClassActions="true">
-                    <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class">
+                    <action id="testcenter-class-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editClassLabel" group="content" context="class" weight="1">
                         <icon id="icon-edit"/>
                     </action>
-                    <action id="testcenter-class-schema" name="Manage Schema" url="/tao/PropertiesAuthoring/index" group="content" context="class">
+                    <action id="testcenter-class-schema" name="Manage Schema" url="/tao/PropertiesAuthoring/index" group="content" context="class" weight="8">
                         <icon id="icon-property-add"/>
                     </action>
                     <action id="testcenter-properties" name="Properties" url="/taoTestCenter/TestCenterManager/editCenter"
-                            group="content" context="instance">
+                            group="content" context="instance" weight="1">
                         <icon id="icon-edit"/>
                     </action>
                     <action id="testcenter-class-new" name="New class" url="/taoTestCenter/TestCenterManager/addSubClass"
-                            context="resource" group="tree" binding="subClass">
+                            context="resource" group="tree" binding="subClass" weight="10">
                         <icon id="icon-folder-open"/>
                     </action>
                     <action id="testcenter-delete" name="Delete" url="/taoTestCenter/TestCenterManager/delete"
-                            context="resource" group="tree" binding="removeNode">
+                            context="resource" group="tree" binding="removeNode" weight="9">
                         <icon id="icon-bin"/>
                     </action>
-                    <action id="testcenter-delete-all" name="Delete" url="/taoTestCenter/TestCenterManager/deleteAll" multiple="true" context="resource" group="tree" binding="removeNodes">
+                    <action id="testcenter-delete-all" name="Delete" url="/taoTestCenter/TestCenterManager/deleteAll" multiple="true" context="resource" group="tree" binding="removeNodes" weight="9">
                         <icon id="icon-bin"/>
                     </action>
                     <action id="testcenter-move" name="Move" url="/taoTestCenter/TestCenterManager/moveInstance"
@@ -44,15 +44,15 @@
                         <icon id="icon-move-item"/>
                     </action>
                     <action id="testcenter-duplicate" name="Duplicate" url="/taoTestCenter/TestCenterManager/cloneInstance"
-                            context="instance" group="tree" binding="duplicateNode">
+                            context="instance" group="tree" binding="duplicateNode" weight="6">
                         <icon id="icon-copy"/>
                     </action>
                     <action id="testcenter-new" name="New Test Center" url="/taoTestCenter/TestCenterManager/addInstance"
-                            context="resource" group="tree" binding="instanciate">
+                            context="resource" group="tree" binding="instanciate" weight="1">
                         <icon id="icon-users"/>
                     </action>
                     <action id="testcenter-import" name="Import" url="/taoTestCenter/Import/index"
-                            context="resource" group="tree">
+                            context="resource" group="tree" weight="8">
                         <icon id="icon-import"/>
                     </action>
                 </actions>
