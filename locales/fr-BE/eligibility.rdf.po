@@ -4,7 +4,7 @@ msgstr ""
 "PO-Revision-Date: 2026-07-03 11:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr\n"
+"Language: fr_BE\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,43 +12,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: fr\n"
+"X-Crowdin-Language: fr-BE\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/eligibility.rdf.po\n"
 "X-Crowdin-File-ID: 1237\n"
-"Language-Team: French\n"
+"Language-Team: French, Belgium\n"
 
 # http://www.tao.lu/Ontologies/TAOProctor.rdf#DeliveryEligibility
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Delivery Eligibility"
-msgstr "Admissibilité de la livraison"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Enable"
-msgstr "Cocher Activer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#CheckMode
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Enable"
-msgstr "Cocher Activer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ComplyEnabled
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Enable"
-msgstr "Activer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ComplyEnabled
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Enable"
-msgstr "Activer"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Accessible by Proctor"
-msgstr "Accessible par Proctor"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAODelivery.rdf#ProctorAccessible
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Accessible by Proctor"
-msgstr "Accessible par Proctor"
+msgstr ""
 
