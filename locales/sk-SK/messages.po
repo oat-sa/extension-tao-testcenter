@@ -1,23 +1,30 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-02-03 19:16\n"
+"PO-Revision-Date: 2026-07-03 11:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: sk-SK\n"
+"Language: sk\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: sk-SK\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: sk\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 689\n"
+"Language-Team: Slovak\n"
 
 msgid "%d eligibilities have been deleted"
-msgstr "%d oprávnení boli odstránené"
+msgstr "%d oprávnení bolo odstránených"
 
 msgid "%s has been deleted"
-msgstr "%s bolo odstránené"
+msgstr "%s bolo odstránených"
 
 msgid "`%s` parameter must be an array"
 msgstr "Parameter `%s` musí byť pole"
@@ -29,16 +36,16 @@ msgid "Add"
 msgstr "Pridať"
 
 msgid "Add Eligibility"
-msgstr "Pridať oprávnenosť"
+msgstr "Pridať oprávnenie"
 
 msgid "Add Test Takers"
 msgstr "Pridať účastníkov testu"
 
 msgid "All Sessions"
-msgstr "Všetky relácie"
+msgstr "Všetky Záznamy"
 
 msgid "Assessment Activity Reporting"
-msgstr "Hlásenie aktivít hodnotenia"
+msgstr "Hlásenia o hodnotiacich aktivitách"
 
 msgid "At least one delivery need to be selected to create"
 msgstr "Na vytvorenie je potrebné vybrať aspoň jednu dodávku"
@@ -55,11 +62,8 @@ msgstr "K dispozícii"
 msgid "Back to index"
 msgstr "Späť na index"
 
-msgid "Can\'t create eligibility. Please contact administrator."
-msgstr ""
-
 msgid "Can\\'t create eligibility. Please contact administrator."
-msgstr "Nepodarilo sa vytvoriť oprávnenosť. Kontaktujte administrátora."
+msgstr "Nie je možné vytvoriť oprávnenie. Kontaktujte správcu."
 
 msgid "cancel"
 msgstr "zrušiť"
@@ -74,7 +78,7 @@ msgid "Check the compatibility of the current workstation and see the results"
 msgstr "Skontrolujte kompatibilitu aktuálnej pracovnej stanice a pozrite si výsledky"
 
 msgid "Clean up orphan eligibilities"
-msgstr "Vyčistiť nároky osirelých detí"
+msgstr "Vyčistiť oprávnenosti bez priradenia"
 
 msgid "Continue"
 msgstr "Pokračovať"
@@ -84,14 +88,14 @@ msgid "Delete"
 msgstr "Odstrániť"
 
 msgid "Delivery"
-msgstr "Doručenie"
+msgstr "Dodávka"
 
 msgid "Delivery `%s` does not exist."
-msgstr "Doručenie `%s` neexistuje."
+msgstr "Dodávka `%s` neexistuje."
 
 #, tao-public
 msgid "Duplicate"
-msgstr "Duplikát"
+msgstr "Duplikovať"
 
 msgid "Edit"
 msgstr "Upraviť"
@@ -108,41 +112,38 @@ msgstr "Oprávnenosť `%s` neexistuje."
 msgid "Eligibility already exists"
 msgstr "Oprávnenosť už existuje"
 
-msgid "Eligibility don\'t need proctor authorization any more."
-msgstr ""
-
 msgid "Eligibility don\\'t need proctor authorization any more."
-msgstr "Na oprávnenosť už nie je potrebné povolenie dozorcu."
+msgstr "Na oprávnenie už nie je potrebné povolenie proktora."
 
 msgid "Eligibility needs proctor authorization"
-msgstr "Na oprávnenosť je potrebné schválenie dozorcom"
+msgstr "Na oprávnenie je potrebné schválenie proktora"
 
 msgid "Eligibility not found for provided search parameters."
-msgstr "Pre zadané parametre vyhľadávania sa nenašla spĺňajúca požiadavka."
+msgstr "Na základe zadaných vyhľadávacích parametrov neboli nájdené žiadne výsledky."
 
 msgid "Eligible Deliveries"
 msgstr "Oprávnené dodávky"
 
 msgid "Eligible delivery removed"
-msgstr "Oprávnené doručenie bolo odstránené"
+msgstr "Oprávnená dodávka bola odstránená"
 
 msgid "Eligible Test Takers"
 msgstr "Oprávnení účastníci testu"
 
 msgid "Eligible test takers updated"
-msgstr "Aktualizovaní oprávnení účastníci testu"
+msgstr "Oprávnení účastníci testu boli aktualizovaní"
 
 msgid "Enable proctor authorization"
-msgstr "Povoliť autorizáciu dozorcu"
+msgstr "Povoliť autorizáciu proktora"
 
 msgid "First name"
-msgstr "Krstné meno"
+msgstr "Meno"
 
 msgid "for"
 msgstr "pre"
 
 msgid "Go"
-msgstr "Ísť"
+msgstr "Spustiť"
 
 msgid "Go to"
 msgstr "Prejsť na"
@@ -184,13 +185,13 @@ msgstr "Spravovať schému"
 
 #, tao-public
 msgid "Manage Test Center"
-msgstr "Spravovať testovacie centrum"
+msgstr "Správa testovacieho centra"
 
 msgid "Manage Test Takers"
 msgstr "Správa účastníkov testu"
 
 msgid "Manage testcenters and administer deliveries"
-msgstr "Spravovať testovacie centrá a doručovať"
+msgstr "Spravovať testovacie centrá a riadiť dodávky"
 
 msgid "Missed `%s` parameter"
 msgstr "Chýba parameter `%s`"
@@ -199,21 +200,21 @@ msgid "Missed required parameter: `%s`"
 msgstr "Chýba povinný parameter: `%s`"
 
 msgid "Monitor and manage sessions for the test site"
-msgstr "Monitorovať a spravovať relácie pre testovacie miesto"
+msgstr "Sledovať a spravovať záznamy na testovacej stránke"
 
 msgid "Monitor only"
-msgstr "Iba monitor"
+msgstr "Iba monitoring"
 
 #, tao-public
 msgid "Move"
 msgstr "Presunúť"
 
 msgid "My Test sites"
-msgstr "Moje testovacie lokality"
+msgstr "Moje testovacie stránky"
 
 #, tao-public
 msgid "New class"
-msgstr "Nová trieda"
+msgstr "Nový priečinok"
 
 msgid "New eligible delivery added"
 msgstr "Pridaná nová oprávnená dodávka"
@@ -223,26 +224,26 @@ msgid "New Test Center"
 msgstr "Nové testovacie centrum"
 
 msgid "No authorization to revoke for these proctors :"
-msgstr "Pre týchto kontrolórov nie je autorizácia na zrušenie:"
+msgstr "Títo proktori nemajú oprávnenie zrušiť:"
 
 msgid "No Eligible Delivery yet"
-msgstr "Zatiaľ žiadne vhodné doručenie"
+msgstr "Zatiaľ žiadna oprávnená dodávka"
 
 msgid "No test site available"
-msgstr "Nie je k dispozícii žiadne testovacie miesto"
+msgstr "Žiadna testovacia stránka nie je k dispozícii"
 
 msgid "OK"
-msgstr "V poriadku"
+msgstr "OK"
 
 msgid "Partially authorized"
 msgstr "Čiastočne autorizované"
 
 msgid "Please run %s script to clean up orphan eligibilities"
-msgstr "Spustite skript %s na vyčistenie oprávnení pre používateľov nezaradených v hierarchii"
+msgstr "Spustite prosím skript %s na vyčistenie nezaradených oprávnení"
 
 #, tao-public
 msgid "Properties"
-msgstr "Nehnuteľnosti"
+msgstr "Vlastnosti"
 
 msgid "Readiness check"
 msgstr "Kontrola pripravenosti"
@@ -251,7 +252,7 @@ msgid "Readiness Check"
 msgstr "Kontrola pripravenosti"
 
 msgid "Readiness Check for test site %s"
-msgstr "Kontrola pripravenosti testovacieho miesta %s"
+msgstr "Kontrola pripravenosti testovacej stránky %s"
 
 msgid "Refresh"
 msgstr "Obnoviť"
@@ -266,7 +267,7 @@ msgid "Remove eligibility"
 msgstr "Odstrániť oprávnenosť"
 
 msgid "Remove proctor authorization"
-msgstr "Odstrániť autorizáciu administrátora"
+msgstr "Odstrániť autorizáciu proktora"
 
 msgid "Require authorization"
 msgstr "Vyžadovať autorizáciu"
@@ -281,10 +282,10 @@ msgid "Role is not allowed."
 msgstr "Rola nie je povolená."
 
 msgid "Session history"
-msgstr "História relácií"
+msgstr "História Záznamov"
 
 msgid "Sessions"
-msgstr "Relácie"
+msgstr "Záznamy"
 
 msgid "Something went wrong ..."
 msgstr "Niečo sa pokazilo..."
@@ -297,7 +298,7 @@ msgstr "Testovacie centrum `%s` neexistuje."
 
 #, tao-public
 msgid "Test center contains test taker and groups and are administer by a proctor"
-msgstr "Testovacie centrum obsahuje účastníkov testu a skupiny a je spravované dozorcom."
+msgstr "Testovacie centrum zahŕňa účastníkov testu a skupiny a je riadené proktorom."
 
 #, tao-public
 msgid "Test Center List"
@@ -311,19 +312,19 @@ msgid "Test Centers"
 msgstr "Testovacie centrá"
 
 msgid "Test site"
-msgstr "Testovacie miesto"
+msgstr "Testovacia stránka"
 
 msgid "Test sites"
-msgstr "Testovacie lokality"
+msgstr "Testovacie stránky"
 
 msgid "Test taker `%s` does not exist."
 msgstr "Účastník testu `%s` neexistuje."
 
 msgid "Testcenter Proctoring"
-msgstr "Dozorovanie testovacieho centra"
+msgstr "Dozor testovacieho centra"
 
 msgid "Testcenter Proctors"
-msgstr "Dozorcovia testovacieho centra"
+msgstr "Proktori testovacieho centra"
 
 msgid "The following delivery(ies) are already eligible : "
 msgstr "Nasledujúce dodávky sú už oprávnené: "
@@ -332,7 +333,7 @@ msgid "This delivery can be launched without authorization"
 msgstr "Túto dodávku je možné spustiť bez autorizácie"
 
 msgid "This delivery needs proctor authorization"
-msgstr "Táto dodávka vyžaduje autorizáciu administrátora"
+msgstr "Táto dodávka vyžaduje autorizáciu proktora"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Nepodarilo sa nahrať súbor %s : %s"
