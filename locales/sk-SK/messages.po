@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-03 11:59\n"
+"PO-Revision-Date: 2026-07-31 07:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk\n"
@@ -333,7 +333,7 @@ msgid "This delivery can be launched without authorization"
 msgstr "Túto dodávku je možné spustiť bez autorizácie"
 
 msgid "This delivery needs proctor authorization"
-msgstr "Táto dodávka vyžaduje autorizáciu proktora"
+msgstr "Táto dodávka vyžaduje autorizáciu IT administrátora"
 
 msgid "Unable to upload file %s : %s"
 msgstr "Nepodarilo sa nahrať súbor %s : %s"
