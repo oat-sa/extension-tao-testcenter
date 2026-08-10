@@ -1,30 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 07:27\n"
+"Project-Id-Version: TAO 2026.02 LTS\n"
+"PO-Revision-Date: 2026-02-03T14:44:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl_BE\n"
+"Language: en-US\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-open-source\n"
-"X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nl-BE\n"
-"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 689\n"
-"Language-Team: Dutch, Belgium\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr ""
 
 msgid "%s has been deleted"
-msgstr "%s is verwijderd"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr ""
@@ -62,7 +55,7 @@ msgstr ""
 msgid "Back to index"
 msgstr ""
 
-msgid "Can\\'t create eligibility. Please contact administrator."
+msgid "Can\'t create eligibility. Please contact administrator."
 msgstr ""
 
 msgid "cancel"
@@ -112,7 +105,7 @@ msgstr ""
 msgid "Eligibility already exists"
 msgstr ""
 
-msgid "Eligibility don\\'t need proctor authorization any more."
+msgid "Eligibility don\'t need proctor authorization any more."
 msgstr ""
 
 msgid "Eligibility needs proctor authorization"
@@ -168,13 +161,13 @@ msgid "Last updated on %2s"
 msgstr ""
 
 msgid "Loading"
-msgstr "Bezig met laden…"
+msgstr ""
 
 msgid "Login"
-msgstr "Aanmelden"
+msgstr ""
 
 msgid "Logout"
-msgstr "Afmelden"
+msgstr ""
 
 msgid "Main Menu"
 msgstr ""
@@ -249,19 +242,19 @@ msgid "Readiness check"
 msgstr ""
 
 msgid "Readiness Check"
-msgstr "Gereedheid check"
+msgstr ""
 
 msgid "Readiness Check for test site %s"
 msgstr ""
 
 msgid "Refresh"
-msgstr "Verversen"
+msgstr ""
 
 msgid "Refresh the page"
-msgstr "Pagina verversen"
+msgstr ""
 
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr ""
 
 msgid "Remove eligibility"
 msgstr ""
@@ -288,7 +281,7 @@ msgid "Sessions"
 msgstr ""
 
 msgid "Something went wrong ..."
-msgstr "Er ging iets verkeerd..."
+msgstr ""
 
 msgid "Status"
 msgstr ""
@@ -351,10 +344,11 @@ msgid "User with given role cannot be assigned to the test center."
 msgstr ""
 
 msgid "Workstation name"
-msgstr "Naam van werkstation"
+msgstr ""
 
 msgid "Workstation:"
-msgstr "Werkstation:"
+msgstr ""
 
 msgid "You must select at least one test center!"
 msgstr ""
+

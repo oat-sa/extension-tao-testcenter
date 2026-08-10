@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 07:27\n"
+"PO-Revision-Date: 2026-07-03 11:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl_BE\n"
+"Language: es_CR\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,16 +15,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-Language: es-CR\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
 "X-Crowdin-File-ID: 689\n"
-"Language-Team: Dutch, Belgium\n"
+"Language-Team: Spanish, Costa Rica\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr ""
 
 msgid "%s has been deleted"
-msgstr "%s is verwijderd"
+msgstr ""
 
 msgid "`%s` parameter must be an array"
 msgstr ""
@@ -168,13 +168,13 @@ msgid "Last updated on %2s"
 msgstr ""
 
 msgid "Loading"
-msgstr "Bezig met laden…"
+msgstr ""
 
 msgid "Login"
-msgstr "Aanmelden"
+msgstr ""
 
 msgid "Logout"
-msgstr "Afmelden"
+msgstr ""
 
 msgid "Main Menu"
 msgstr ""
@@ -249,19 +249,19 @@ msgid "Readiness check"
 msgstr ""
 
 msgid "Readiness Check"
-msgstr "Gereedheid check"
+msgstr ""
 
 msgid "Readiness Check for test site %s"
 msgstr ""
 
 msgid "Refresh"
-msgstr "Verversen"
+msgstr ""
 
 msgid "Refresh the page"
-msgstr "Pagina verversen"
+msgstr ""
 
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr ""
 
 msgid "Remove eligibility"
 msgstr ""
@@ -288,7 +288,7 @@ msgid "Sessions"
 msgstr ""
 
 msgid "Something went wrong ..."
-msgstr "Er ging iets verkeerd..."
+msgstr ""
 
 msgid "Status"
 msgstr ""
@@ -351,10 +351,11 @@ msgid "User with given role cannot be assigned to the test center."
 msgstr ""
 
 msgid "Workstation name"
-msgstr "Naam van werkstation"
+msgstr ""
 
 msgid "Workstation:"
-msgstr "Werkstation:"
+msgstr ""
 
 msgid "You must select at least one test center!"
 msgstr ""
+

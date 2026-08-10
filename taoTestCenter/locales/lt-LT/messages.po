@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-31 07:27\n"
+"PO-Revision-Date: 2026-07-03 11:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl_BE\n"
+"Language: lt\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: en-US\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,28 +12,28 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3);\n"
 "X-Crowdin-Project: tao-open-source\n"
 "X-Crowdin-Project-ID: 590867\n"
-"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-Language: lt\n"
 "X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
 "X-Crowdin-File-ID: 689\n"
-"Language-Team: Dutch, Belgium\n"
+"Language-Team: Lithuanian\n"
 
 msgid "%d eligibilities have been deleted"
 msgstr ""
 
 msgid "%s has been deleted"
-msgstr "%s is verwijderd"
+msgstr "%s buvo ištrintas"
 
 msgid "`%s` parameter must be an array"
 msgstr ""
 
 msgid "Actions"
-msgstr ""
+msgstr "Veiksmai"
 
 msgid "Add"
-msgstr ""
+msgstr "Pridėti"
 
 msgid "Add Eligibility"
 msgstr ""
@@ -66,10 +66,10 @@ msgid "Can\\'t create eligibility. Please contact administrator."
 msgstr ""
 
 msgid "cancel"
-msgstr ""
+msgstr "atšaukti"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr ""
@@ -85,7 +85,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr ""
+msgstr "Ištrinti"
 
 msgid "Delivery"
 msgstr ""
@@ -95,10 +95,10 @@ msgstr ""
 
 #, tao-public
 msgid "Duplicate"
-msgstr ""
+msgstr "Kurti kopiją"
 
 msgid "Edit"
-msgstr ""
+msgstr "Keisti"
 
 msgid "Edit eligibile test takers"
 msgstr ""
@@ -150,7 +150,7 @@ msgstr ""
 
 #, tao-public
 msgid "Import"
-msgstr ""
+msgstr "Importuoti"
 
 msgid "Import "
 msgstr ""
@@ -165,23 +165,23 @@ msgid "Last name"
 msgstr ""
 
 msgid "Last updated on %2s"
-msgstr ""
+msgstr "Paskutinis atnaujinimas buvo %2s"
 
 msgid "Loading"
-msgstr "Bezig met laden…"
+msgstr "Įkeliama"
 
 msgid "Login"
-msgstr "Aanmelden"
+msgstr "Prisijungimas"
 
 msgid "Logout"
-msgstr "Afmelden"
+msgstr "Atsijungti"
 
 msgid "Main Menu"
 msgstr ""
 
 #, tao-public
 msgid "Manage Schema"
-msgstr ""
+msgstr "Tvarkyti Schemą"
 
 #, tao-public
 msgid "Manage Test Center"
@@ -207,14 +207,14 @@ msgstr ""
 
 #, tao-public
 msgid "Move"
-msgstr ""
+msgstr "Perkelti"
 
 msgid "My Test sites"
 msgstr ""
 
 #, tao-public
 msgid "New class"
-msgstr ""
+msgstr "Nauja klasė"
 
 msgid "New eligible delivery added"
 msgstr ""
@@ -233,7 +233,7 @@ msgid "No test site available"
 msgstr ""
 
 msgid "OK"
-msgstr ""
+msgstr "Gerai"
 
 msgid "Partially authorized"
 msgstr ""
@@ -249,19 +249,19 @@ msgid "Readiness check"
 msgstr ""
 
 msgid "Readiness Check"
-msgstr "Gereedheid check"
+msgstr "Pasiruošimo Tikrinimas"
 
 msgid "Readiness Check for test site %s"
 msgstr ""
 
 msgid "Refresh"
-msgstr "Verversen"
+msgstr "Atnaujinti"
 
 msgid "Refresh the page"
-msgstr "Pagina verversen"
+msgstr "Atnaujinti puslapį"
 
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr "Ištrinti"
 
 msgid "Remove eligibility"
 msgstr ""
@@ -288,7 +288,7 @@ msgid "Sessions"
 msgstr ""
 
 msgid "Something went wrong ..."
-msgstr "Er ging iets verkeerd..."
+msgstr "Kažkas blogai įvyko..."
 
 msgid "Status"
 msgstr ""
@@ -336,7 +336,7 @@ msgid "This delivery needs proctor authorization"
 msgstr ""
 
 msgid "Unable to upload file %s : %s"
-msgstr ""
+msgstr "Nepavyko įkelti failo %s : %s"
 
 msgid "User `%s` does not exist."
 msgstr ""
@@ -351,10 +351,11 @@ msgid "User with given role cannot be assigned to the test center."
 msgstr ""
 
 msgid "Workstation name"
-msgstr "Naam van werkstation"
+msgstr "Darbo stoties pavadinimas"
 
 msgid "Workstation:"
-msgstr "Werkstation:"
+msgstr "Darbo stotis:"
 
 msgid "You must select at least one test center!"
 msgstr ""
+
