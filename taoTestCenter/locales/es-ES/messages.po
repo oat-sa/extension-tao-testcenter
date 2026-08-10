@@ -1,0 +1,361 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2026-07-03 11:58\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: es\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: /[oat-sa.extension-tao-testcenter] develop/locales/en-US/messages.po\n"
+"X-Crowdin-File-ID: 689\n"
+"Language-Team: Spanish\n"
+
+msgid "%d eligibilities have been deleted"
+msgstr "Se han eliminado las elegibilidades %d"
+
+msgid "%s has been deleted"
+msgstr "%s ha sido eliminado"
+
+msgid "`%s` parameter must be an array"
+msgstr "El parámetro%s` debe ser un array"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Add"
+msgstr "Adapatar a tamaño de pantalla"
+
+msgid "Add Eligibility"
+msgstr "Añadir elegibilidad"
+
+msgid "Add Test Takers"
+msgstr "Añadir Takers de Prueba"
+
+msgid "All Sessions"
+msgstr "Todas las sesiones"
+
+msgid "Assessment Activity Reporting"
+msgstr "Informe de actividad de la evaluación"
+
+msgid "At least one delivery need to be selected to create"
+msgstr "Debe seleccionar al menos un envío para crear"
+
+msgid "Authorize"
+msgstr "Autorizar"
+
+msgid "Authorized"
+msgstr "Autorizado"
+
+msgid "Available"
+msgstr "Disponible"
+
+msgid "Back to index"
+msgstr "Volver al índice"
+
+msgid "Can\\'t create eligibility. Please contact administrator."
+msgstr "No se puede crear la elegibilidad. Póngase en contacto con el administrador."
+
+msgid "cancel"
+msgstr "cancelar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "cancel the action"
+msgstr "cancelar la acción"
+
+msgid "Check the compatibility of the current workstation and see the results"
+msgstr "Comprobar la compatibilidad de la estación de trabajo actual y ver los resultados"
+
+msgid "Clean up orphan eligibilities"
+msgstr "Limpiar elegibilidades huérfanas"
+
+msgid "Continue"
+msgstr "Continuar"
+
+#, tao-public
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Delivery"
+msgstr "Entrega"
+
+msgid "Delivery `%s` does not exist."
+msgstr "Entrega `%s` no existe."
+
+#, tao-public
+msgid "Duplicate"
+msgstr "Duplicar"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Edit eligibile test takers"
+msgstr "Editar probadores elegibles"
+
+msgid "Edit Eligibility"
+msgstr "Editar elegibilidad"
+
+msgid "Eligibility `%s` does not exist."
+msgstr "La elegibilidad `%s` no existe."
+
+msgid "Eligibility already exists"
+msgstr "La elegibilidad ya existe"
+
+msgid "Eligibility don\\'t need proctor authorization any more."
+msgstr "La elegibilidad ya no necesita autorización del proctor."
+
+msgid "Eligibility needs proctor authorization"
+msgstr "La elegibilidad necesita autorización del proctor"
+
+msgid "Eligibility not found for provided search parameters."
+msgstr "No se ha encontrado elegibilidad para los parámetros de búsqueda proporcionados."
+
+msgid "Eligible Deliveries"
+msgstr "Entregas elegibles"
+
+msgid "Eligible delivery removed"
+msgstr "Entrega elegible eliminada"
+
+msgid "Eligible Test Takers"
+msgstr "Testores de prueba elegibles"
+
+msgid "Eligible test takers updated"
+msgstr "Realizadores de pruebas válidos actualizados"
+
+msgid "Enable proctor authorization"
+msgstr "Habilitar autorización de proctor"
+
+msgid "First name"
+msgstr "Nombre"
+
+msgid "for"
+msgstr "para"
+
+msgid "Go"
+msgstr "Ir"
+
+msgid "Go to"
+msgstr "Ir a"
+
+#, tao-public
+msgid "Import"
+msgstr "Importar"
+
+msgid "Import "
+msgstr "Importar "
+
+msgid "Import Eligibilities from csv file."
+msgstr "Importar elegibilidades desde archivo csv."
+
+msgid "Invalid files have been removed"
+msgstr "Los archivos no válidos han sido eliminados"
+
+msgid "Last name"
+msgstr "Apellido"
+
+msgid "Last updated on %2s"
+msgstr "Última actualización de %2s"
+
+msgid "Loading"
+msgstr "Cargando"
+
+msgid "Login"
+msgstr "Ingresar"
+
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+msgid "Main Menu"
+msgstr "Menú principal"
+
+#, tao-public
+msgid "Manage Schema"
+msgstr "Administrar esquema"
+
+#, tao-public
+msgid "Manage Test Center"
+msgstr "Administrar centro de pruebas"
+
+msgid "Manage Test Takers"
+msgstr "Administrar Takers de Prueba"
+
+msgid "Manage testcenters and administer deliveries"
+msgstr "Administrar centros de pruebas y administrar entregas"
+
+msgid "Missed `%s` parameter"
+msgstr "Falta el parámetro `%s`"
+
+msgid "Missed required parameter: `%s`"
+msgstr "Falta el parámetro requerido: `%s`"
+
+msgid "Monitor and manage sessions for the test site"
+msgstr "Seguimiento y gestión de sesiones para el sitio de pruebas"
+
+msgid "Monitor only"
+msgstr "Sólo seguimiento"
+
+#, tao-public
+msgid "Move"
+msgstr "Mover"
+
+msgid "My Test sites"
+msgstr "Mis sitios de prueba"
+
+#, tao-public
+msgid "New class"
+msgstr "Nueva clase"
+
+msgid "New eligible delivery added"
+msgstr "Nueva entrega elegible añadida"
+
+#, tao-public
+msgid "New Test Center"
+msgstr "Nuevo centro de pruebas"
+
+msgid "No authorization to revoke for these proctors :"
+msgstr "No hay autorización para revocar para estos proctores :"
+
+msgid "No Eligible Delivery yet"
+msgstr "No hay Entrega elegible aún"
+
+msgid "No test site available"
+msgstr "No hay sitio de prueba disponible"
+
+msgid "OK"
+msgstr "Ok"
+
+msgid "Partially authorized"
+msgstr "Parcialmente autorizado"
+
+msgid "Please run %s script to clean up orphan eligibilities"
+msgstr "Ejecute un script %s para limpiar las elegibilidades huérfanas"
+
+#, tao-public
+msgid "Properties"
+msgstr "Propiedades"
+
+msgid "Readiness check"
+msgstr "Comprobación de la preparación"
+
+msgid "Readiness Check"
+msgstr "Comprobación de la preparación"
+
+msgid "Readiness Check for test site %s"
+msgstr "Comprobación de la preparación para el sitio de prueba %s"
+
+msgid "Refresh"
+msgstr "Refrescar"
+
+msgid "Refresh the page"
+msgstr "Actualizar la página"
+
+msgid "Remove"
+msgstr "Eliminar"
+
+msgid "Remove eligibility"
+msgstr "Quitar elegibilidad"
+
+msgid "Remove proctor authorization"
+msgstr "Eliminar autorización del proctor"
+
+msgid "Require authorization"
+msgstr "Requiere autorización"
+
+msgid "Resource with `%s` uri not found"
+msgstr "Recurso con `%s` uri no encontrado"
+
+msgid "Revoke"
+msgstr "Revoke"
+
+msgid "Role is not allowed."
+msgstr "El rol no está permitido."
+
+msgid "Session history"
+msgstr "Historial de sesiones"
+
+msgid "Sessions"
+msgstr "Sesiones"
+
+msgid "Something went wrong ..."
+msgstr "Algo salió mal..."
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Test Center `%s` does not exist."
+msgstr "Centro de Pruebas `%s` no existe."
+
+#, tao-public
+msgid "Test center contains test taker and groups and are administer by a proctor"
+msgstr "El centro de pruebas contiene grupos y tomador de pruebas y son administrados por un proctor"
+
+#, tao-public
+msgid "Test Center List"
+msgstr "Lista de centros de prueba"
+
+msgid "Test centers"
+msgstr "Centros de pruebas"
+
+#, tao-public
+msgid "Test Centers"
+msgstr "Centros de pruebas"
+
+msgid "Test site"
+msgstr "Sitio de prueba"
+
+msgid "Test sites"
+msgstr "Sitios de prueba"
+
+msgid "Test taker `%s` does not exist."
+msgstr "Probador `%s` no existe."
+
+msgid "Testcenter Proctoring"
+msgstr "Proctorización de centro de prueba"
+
+msgid "Testcenter Proctors"
+msgstr "Proctores de centro de prueba"
+
+msgid "The following delivery(ies) are already eligible : "
+msgstr "Las siguientes entregas ya son elegibles: "
+
+msgid "This delivery can be launched without authorization"
+msgstr "Esta entrega puede ser lanzada sin autorización"
+
+msgid "This delivery needs proctor authorization"
+msgstr "Esta entrega necesita autorización del proctor"
+
+msgid "Unable to upload file %s : %s"
+msgstr "No se puede subir el archivo %s : %s"
+
+msgid "User `%s` does not exist."
+msgstr "Usuario `%s` no existe."
+
+msgid "User is not assigned to the test center with given role."
+msgstr "El usuario no está asignado al centro de pruebas con un rol determinado."
+
+msgid "User Role `%s` does not exist."
+msgstr "Rol de usuario `%s` no existe."
+
+msgid "User with given role cannot be assigned to the test center."
+msgstr "El usuario con un rol dado no puede ser asignado al centro de pruebas."
+
+msgid "Workstation name"
+msgstr "Nombre de la estación de trabajo"
+
+msgid "Workstation:"
+msgstr "Estación de trabajo:"
+
+msgid "You must select at least one test center!"
+msgstr "¡Debes seleccionar al menos un centro de prueba!"
+
