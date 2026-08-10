@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2026-07-03 11:59\n"
+"PO-Revision-Date: 2026-07-31 07:27\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl_BE\n"
@@ -24,7 +24,7 @@ msgid "%d eligibilities have been deleted"
 msgstr ""
 
 msgid "%s has been deleted"
-msgstr ""
+msgstr "%s is verwijderd"
 
 msgid "`%s` parameter must be an array"
 msgstr ""
@@ -358,4 +358,3 @@ msgstr "Werkstation:"
 
 msgid "You must select at least one test center!"
 msgstr ""
-
