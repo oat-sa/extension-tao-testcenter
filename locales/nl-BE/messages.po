@@ -358,4 +358,3 @@ msgstr "Werkstation:"
 
 msgid "You must select at least one test center!"
 msgstr ""
-
