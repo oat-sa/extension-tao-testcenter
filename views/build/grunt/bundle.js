@@ -31,6 +31,7 @@ module.exports = function(grunt) {
                     outputDir : 'loader',
                     paths: require('./paths'),
                     dependencies : ['taoProctoring'],
+                    babelPreTransform: { enabled: true },
                     bundles : [{
                         name : 'taoTestCenter',
                         default : true,
